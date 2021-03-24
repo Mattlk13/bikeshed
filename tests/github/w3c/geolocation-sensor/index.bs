@@ -19,7 +19,7 @@ Indent: 2
 Markup Shorthands: markdown on
 Inline Github Issues: true
 !Tests: <a href="https://github.com/web-platform-tests/wpt/tree/master/geolocation-sensor">web-platform-tests</a>
-!Polyfills: <a href="https://github.com/kenchris/sensor-polyfills/blob/master/src/geolocation-sensor.js">geolocation-sensor.js</a><br><a href="https://github.com/w3c/sensors/blob/master/polyfills/geolocation.js">geolocation.js</a>
+!Polyfills: <a href="https://github.com/kenchris/sensor-polyfills/blob/master/src/geolocation-sensor.js">geolocation-sensor.js</a><br><a href="https://github.com/w3c/sensors/blob/main/polyfills/geolocation.js">geolocation.js</a>
 Boilerplate: omit issues-index, omit conformance, omit feedback-header
 Ignored Vars: p, geo, key
 Default Biblio Status: current
@@ -143,10 +143,10 @@ The GeolocationSensor Interface {#geolocationsensor-interface}
 -------------------------------
 
 <pre class="idl">
-  [Constructor(optional GeolocationSensorOptions options = {}),
-   SecureContext,
+  [SecureContext,
    Exposed=(DedicatedWorker, Window)]
   interface GeolocationSensor : Sensor {
+    constructor(optional GeolocationSensorOptions options = {});
     static Promise&lt;GeolocationSensorReading&gt; read(optional ReadOptions readOptions = {});
     readonly attribute unrestricted double? latitude;
     readonly attribute unrestricted double? longitude;
@@ -175,7 +175,6 @@ The GeolocationSensor Interface {#geolocationsensor-interface}
     double? heading;
     double? speed;
   };
-
 </pre>
 
 <div class="note">
@@ -439,6 +438,11 @@ in a neighborhood they are passing by where the property fits the user's previou
 for example, 3 bedroom apartments with balcony.
 This is based on the assumption that the number of possible matches is high,
 that is, impossible to realize with geofences as the amount of required geofences would be too high.
+
+### Cultural spaces ### {#use-case-cultural-spaces}
+
+In cultural spaces like museums, festivals, exhibitions, etc., web applications can react to where the user is
+or what they are seeing to cue different experiences and content.
 
 ## Background—One-off geolocation fence alert ## {#use-cases-background-geofence}
 

@@ -5,106 +5,10 @@
   <title>Clipboard API and events</title>
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet">
   <link href="https://www.w3.org/TR/clipboard-apis/" rel="canonical">
-<style>/* style-md-lists */
-
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}</style>
-<style>/* style-selflinks */
-
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: gray;
-    color: white;
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: black;
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
-<style>/* style-counters */
-
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}</style>
-<style>/* style-var-click-highlighting */
-
-    var { cursor: pointer; }
-    var.selected0 { background-color: #F4D200; box-shadow: 0 0 0 2px #F4D200; }
-    var.selected1 { background-color: #FF87A2; box-shadow: 0 0 0 2px #FF87A2; }
-    var.selected2 { background-color: #96E885; box-shadow: 0 0 0 2px #96E885; }
-    var.selected3 { background-color: #3EEED2; box-shadow: 0 0 0 2px #3EEED2; }
-    var.selected4 { background-color: #EACFB6; box-shadow: 0 0 0 2px #EACFB6; }
-    var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
-    var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
-    </style>
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
-    color: #005a9c;
+    color: var(--a-normal-text);
     font-size: inherit;
     font-family: inherit;
 }
@@ -163,8 +67,150 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #707070;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #bbb;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
 <style>/* style-dfn-panel */
 
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
 .dfn-panel {
     position: absolute;
     z-index: 35;
@@ -176,14 +222,14 @@ pre .property::before, pre .property::after {
     overflow: auto;
     padding: 0.5em 0.75em;
     font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
     border: outset 0.2em;
 }
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
 .dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
+.dfn-panel a { color: var(--dfnpanel-text); }
 .dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
 .dfn-panel > b + b { margin-top: 0.25em; }
 .dfn-panel ul { padding: 0; }
@@ -200,11 +246,134 @@ pre .property::before, pre .property::after {
 
 .dfn-paneled { cursor: pointer; }
 </style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-mdn-anno */
+
+            @media (max-width: 767px) { .mdn-anno { opacity: .1 } }
+            .mdn-anno { font: 1em sans-serif; padding: 0.3em; position: absolute; z-index: 8; right: 0.3em; background: #EEE; color: black; box-shadow: 0 0 3px #999; overflow: hidden; border-collapse: initial; border-spacing: initial; min-width: 9em; max-width: min-content; white-space: nowrap; word-wrap: normal; hyphens: none}
+            .mdn-anno:not(.wrapped) { opacity: 1}
+            .mdn-anno:hover { z-index: 9 }
+            .mdn-anno.wrapped { min-width: 0 }
+            .mdn-anno.wrapped > :not(button) { display: none; }
+            .mdn-anno > .mdn-anno-btn { cursor: pointer; border: none; color: #000; background: transparent; margin: -8px; float: right; padding: 10px 8px 8px 8px; outline: none; }
+            .mdn-anno > .mdn-anno-btn > .less-than-two-engines-flag { color: red; padding-right: 2px; }
+            .mdn-anno > .mdn-anno-btn > .all-engines-flag { color: green; padding-right: 2px; }
+            .mdn-anno > .mdn-anno-btn > span { color: #fff; background-color: #000; font-weight: normal; font-family: zillaslab, Palatino, "Palatino Linotype", serif; padding: 2px 3px 0px 3px; line-height: 1.3em; vertical-align: top; }
+            .mdn-anno > .feature { margin-top: 20px; }
+            .mdn-anno > .feature:not(:first-of-type) { border-top: 1px solid #999; margin-top: 6px; padding-top: 2px; }
+            .mdn-anno > .feature > .less-than-two-engines-text { color: red }
+            .mdn-anno > .feature > .all-engines-text { color: green }
+            .mdn-anno > .feature > p { font-size: .75em; margin-top: 6px; margin-bottom: 0; }
+            .mdn-anno > .feature > p + p { margin-top: 3px; }
+            .mdn-anno > .feature > .support { display: block; font-size: 0.6em; margin: 0; padding: 0; margin-top: 2px }
+            .mdn-anno > .feature > .support + div { padding-top: 0.5em; }
+            .mdn-anno > .feature > .support > hr { display: block; border: none; border-top: 1px dotted #999; padding: 3px 0px 0px 0px; margin: 2px 3px 0px 3px; }
+            .mdn-anno > .feature > .support > hr::before { content: ""; }
+            .mdn-anno > .feature > .support > span { padding: 0.2em 0; display: block; display: table; }
+            .mdn-anno > .feature > .support > span.no { color: #CCCCCC; filter: grayscale(100%); }
+            .mdn-anno > .feature > .support > span.no::before { opacity: 0.5; }
+            .mdn-anno > .feature > .support > span:first-of-type { padding-top: 0.5em; }
+            .mdn-anno > .feature > .support > span > span { padding: 0 0.5em; display: table-cell; }
+            .mdn-anno > .feature > .support > span > span:first-child { width: 100%; }
+            .mdn-anno > .feature > .support > span > span:last-child { width: 100%; white-space: pre; padding: 0; }
+            .mdn-anno > .feature > .support > span::before { content: ' '; display: table-cell; min-width: 1.5em; height: 1.5em; background: no-repeat center center; background-size: contain; text-align: right; font-size: 0.75em; font-weight: bold; }
+            .mdn-anno > .feature > .support > .chrome_android::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+            .mdn-anno > .feature > .support > .firefox_android::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+            .mdn-anno > .feature > .support > .chrome::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+            .mdn-anno > .feature > .support > .edge_blink::before { background-image: url(https://resources.whatwg.org/browser-logos/edge.svg); }
+            .mdn-anno > .feature > .support > .edge::before { background-image: url(https://resources.whatwg.org/browser-logos/edge_legacy.svg); }
+            .mdn-anno > .feature > .support > .firefox::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+            .mdn-anno > .feature > .support > .ie::before { background-image: url(https://resources.whatwg.org/browser-logos/ie.png); }
+            .mdn-anno > .feature > .support > .safari_ios::before { background-image: url(https://resources.whatwg.org/browser-logos/safari-ios.svg); }
+            .mdn-anno > .feature > .support > .nodejs::before { background-image: url(https://nodejs.org/static/images/favicons/favicon.ico); }
+            .mdn-anno > .feature > .support > .opera_android::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
+            .mdn-anno > .feature > .support > .opera::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
+            .mdn-anno > .feature > .support > .safari::before { background-image: url(https://resources.whatwg.org/browser-logos/safari.png); }
+            .mdn-anno > .feature > .support > .samsunginternet_android::before { background-image: url(https://resources.whatwg.org/browser-logos/samsung.svg); }
+            .mdn-anno > .feature > .support > .webview_android::before { background-image: url(https://resources.whatwg.org/browser-logos/android-webview.png); }
+            .name-slug-mismatch { color: red }
+            .caniuse-status:hover { z-index: 9; }
+
+            /* dt, li, .issue, .note, and .example are "position: relative", so to put annotation at right margin, must move to right of containing block */
+            .h-entry:not(.status-LS) dt > .mdn-anno, .h-entry:not(.status-LS) li > .mdn-anno, .h-entry:not(.status-LS) .issue > .mdn-anno, .h-entry:not(.status-LS) .note > .mdn-anno, .h-entry:not(.status-LS) .example > .mdn-anno { right: -6.7em; }
+            .h-entry p + .mdn-anno { margin-top: 0; }
+            h2 + .mdn-anno.after { margin: -48px 0 0 0; }
+            h3 + .mdn-anno.after { margin: -46px 0 0 0; }
+            h4 + .mdn-anno.after { margin: -42px 0 0 0; }
+            h5 + .mdn-anno.after { margin: -40px 0 0 0; }
+            h6 + .mdn-anno.after { margin: -40px 0 0 0; }
+            </style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
 <style>/* style-syntax-highlighting */
-pre.idl.highlight { color: #708090; }
-.highlight:not(.idl) { background: hsl(24, 20%, 95%); }
+
+            pre.idl.highlight {
+                background: var(--borderedblock-bg, var(--def-bg));
+            }
+            
 code.highlight { padding: .1em; border-radius: .3em; }
 pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
 c-[a] { color: #990055 } /* Keyword.Declaration */
 c-[b] { color: #990055 } /* Keyword.Type */
 c-[c] { color: #708090 } /* Comment */
@@ -258,6 +427,207 @@ c-[vg] { color: #0077aa } /* Name.Variable.Global */
 c-[vi] { color: #0077aa } /* Name.Variable.Instance */
 c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </style>
+<style>/* style-var-click-highlighting */
+
+    var { cursor: pointer; }
+    var.selected0 { background-color: #F4D200; box-shadow: 0 0 0 2px #F4D200; }
+    var.selected1 { background-color: #FF87A2; box-shadow: 0 0 0 2px #FF87A2; }
+    var.selected2 { background-color: #96E885; box-shadow: 0 0 0 2px #96E885; }
+    var.selected3 { background-color: #3EEED2; box-shadow: 0 0 0 2px #3EEED2; }
+    var.selected4 { background-color: #EACFB6; box-shadow: 0 0 0 2px #EACFB6; }
+    var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
+    var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
+    </style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
+
+    c-[a] { color: #d33682 } /* Keyword.Declaration */
+    c-[b] { color: #d33682 } /* Keyword.Type */
+    c-[c] { color: #2aa198 } /* Comment */
+    c-[d] { color: #2aa198 } /* Comment.Multiline */
+    c-[e] { color: #268bd2 } /* Name.Attribute */
+    c-[f] { color: #b58900 } /* Name.Tag */
+    c-[g] { color: #cb4b16 } /* Name.Variable */
+    c-[k] { color: #d33682 } /* Keyword */
+    c-[l] { color: #657b83 } /* Literal */
+    c-[m] { color: #657b83 } /* Literal.Number */
+    c-[n] { color: #268bd2 } /* Name */
+    c-[o] { color: #657b83 } /* Operator */
+    c-[p] { color: #657b83 } /* Punctuation */
+    c-[s] { color: #6c71c4 } /* Literal.String */
+    c-[t] { color: #6c71c4 } /* Literal.String.Single */
+    c-[u] { color: #6c71c4 } /* Literal.String.Double */
+    c-[ch] { color: #2aa198 } /* Comment.Hashbang */
+    c-[cp] { color: #2aa198 } /* Comment.Preproc */
+    c-[cpf] { color: #2aa198 } /* Comment.PreprocFile */
+    c-[c1] { color: #2aa198 } /* Comment.Single */
+    c-[cs] { color: #2aa198 } /* Comment.Special */
+    c-[kc] { color: #d33682 } /* Keyword.Constant */
+    c-[kn] { color: #d33682 } /* Keyword.Namespace */
+    c-[kp] { color: #d33682 } /* Keyword.Pseudo */
+    c-[kr] { color: #d33682 } /* Keyword.Reserved */
+    c-[ld] { color: #657b83 } /* Literal.Date */
+    c-[nc] { color: #268bd2 } /* Name.Class */
+    c-[no] { color: #268bd2 } /* Name.Constant */
+    c-[nd] { color: #268bd2 } /* Name.Decorator */
+    c-[ni] { color: #268bd2 } /* Name.Entity */
+    c-[ne] { color: #268bd2 } /* Name.Exception */
+    c-[nf] { color: #268bd2 } /* Name.Function */
+    c-[nl] { color: #268bd2 } /* Name.Label */
+    c-[nn] { color: #268bd2 } /* Name.Namespace */
+    c-[py] { color: #268bd2 } /* Name.Property */
+    c-[ow] { color: #657b83 } /* Operator.Word */
+    c-[mb] { color: #657b83 } /* Literal.Number.Bin */
+    c-[mf] { color: #657b83 } /* Literal.Number.Float */
+    c-[mh] { color: #657b83 } /* Literal.Number.Hex */
+    c-[mi] { color: #657b83 } /* Literal.Number.Integer */
+    c-[mo] { color: #657b83 } /* Literal.Number.Oct */
+    c-[sa] { color: #6c71c4 } /* Literal.String.Affix */
+    c-[sb] { color: #6c71c4 } /* Literal.String.Backtick */
+    c-[sc] { color: #6c71c4 } /* Literal.String.Char */
+    c-[dl] { color: #6c71c4 } /* Literal.String.Delimiter */
+    c-[sd] { color: #6c71c4 } /* Literal.String.Doc */
+    c-[se] { color: #6c71c4 } /* Literal.String.Escape */
+    c-[sh] { color: #6c71c4 } /* Literal.String.Heredoc */
+    c-[si] { color: #6c71c4 } /* Literal.String.Interpol */
+    c-[sx] { color: #6c71c4 } /* Literal.String.Other */
+    c-[sr] { color: #6c71c4 } /* Literal.String.Regex */
+    c-[ss] { color: #6c71c4 } /* Literal.String.Symbol */
+    c-[fm] { color: #268bd2 } /* Name.Function.Magic */
+    c-[vc] { color: #cb4b16 } /* Name.Variable.Class */
+    c-[vg] { color: #cb4b16 } /* Name.Variable.Global */
+    c-[vi] { color: #cb4b16 } /* Name.Variable.Instance */
+    c-[vm] { color: #cb4b16 } /* Name.Variable.Magic */
+    c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
+}
+</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
@@ -270,7 +640,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <dt>Latest published version:
      <dd><a href="https://www.w3.org/TR/clipboard-apis/">https://www.w3.org/TR/clipboard-apis/</a>
      <dt>Previous Versions:
-     <dd><a href="https://www.w3.org/TR/2019/WD-clipboard-apis-20190530/" rel="prev">https://www.w3.org/TR/2019/WD-clipboard-apis-20190530/</a>
+     <dd><a href="https://www.w3.org/TR/2021/WD-clipboard-apis-20210203/" rel="prev">https://www.w3.org/TR/2021/WD-clipboard-apis-20210203/</a>
      <dt class="editor">Editors:
      <dd class="editor p-author h-card vcard" data-editor-id="59482"><a class="p-name fn u-email email" href="mailto:garykac@google.com">Gary Kacmarcik</a> (<span class="p-org org">Google</span>)
      <dd class="editor p-author h-card vcard" data-editor-id="78883"><a class="p-name fn u-email email" href="mailto:glyuk@microsoft.com">Grisha Lyukshin</a> (<span class="p-org org">Microsoft</span>)
@@ -304,8 +674,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <p> Publication as an Editors Draft does not imply endorsement by the <abbr title="World Wide Web Consortium">W3C</abbr> Membership. This is a draft document and may
     be updated, replaced or obsoleted by other documents at any time. It is inappropriate to cite
     this document as other than work in progress. </p>
-   <p> This document was produced by a group operating under the <a href="https://www.w3.org/Consortium/Patent-Policy/"><abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>. <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="https://www.w3.org/2004/01/pp-impl/114929/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group; that page also includes instructions for disclosing a patent. An individual who has actual knowledge of a patent which the individual believes contains <a href="https://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="https://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>. </p>
-   <p>This document is governed by the <a href="https://www.w3.org/2019/Process-20190301/" id="w3c_process_revision">1 March 2019 W3C Process Document</a>. </p>
+   <p> This document was produced by a group operating under the <a href="https://www.w3.org/Consortium/Patent-Policy-20200915/"><abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>. <abbr title="World Wide Web Consortium">W3C</abbr> maintains a <a href="https://www.w3.org/2004/01/pp-impl/114929/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group; that page also includes instructions for disclosing a patent. An individual who has actual knowledge of a patent which the individual believes contains <a href="https://www.w3.org/Consortium/Patent-Policy-20200915/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="https://www.w3.org/Consortium/Patent-Policy-20200915/#sec-Disclosure">section 6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>. </p>
+   <p>This document is governed by the <a href="https://www.w3.org/2020/Process-20200915/" id="w3c_process_revision">15 September 2020 W3C Process Document</a>. </p>
   </div>
   <div data-fill-with="at-risk"></div>
   <nav data-fill-with="table-of-contents" id="toc">
@@ -326,7 +696,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <ol class="toc">
       <li><a href="#clipboard-event-interfaces"><span class="secno">5.1</span> <span class="content">Clipboard event interfaces</span></a>
       <li>
-       <a href="#clipboard-event-definitions"><span class="secno">5.2</span> <span class="content"><span>Clipboard events</span></span></a>
+       <a href="#clipboard-event-definitions"><span class="secno">5.2</span> <span class="content">Clipboard events</span></a>
        <ol class="toc">
         <li><a href="#clipboard-event-clipboardchange"><span class="secno">5.2.1</span> <span class="content">The <span>clipboardchange</span> event</span></a>
         <li><a href="#clipboard-event-copy"><span class="secno">5.2.2</span> <span class="content">The <span>copy</span> event</span></a>
@@ -475,7 +845,7 @@ access to this API is controlled by a permission.</p>
     <li><strong>Mathematical information</strong> With content such as mathematics, simply copying rendered text and pasting
 			it into another application generally leads to most of the semantics being
 			lost. MathML often needs to be transformed to be copied as plain text, for
-			example to make sure "to the power of" is shown with the caret  "^" sign
+			example to make sure "to the power of" is shown with the caret "^" sign
 			in a formula plain-text input. The XML source could also be placed in the
 			clipboard with the appropriate transformation occurring at paste time. 
    </ul>
@@ -517,26 +887,75 @@ the clipboard.</p>
    </ul>
    <h2 class="heading settled" data-level="5" id="clipboard-events-and-interfaces"><span class="secno">5. </span><span class="content">Clipboard Events</span><a class="self-link" href="#clipboard-events-and-interfaces"></a></h2>
    <h3 class="heading settled" data-level="5.1" id="clipboard-event-interfaces"><span class="secno">5.1. </span><span class="content">Clipboard event interfaces</span><a class="self-link" href="#clipboard-event-interfaces"></a></h3>
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent" title="The ClipboardEvent interface represents events providing information related to modification of the clipboard, that is cut, copy, and paste events.">ClipboardEvent</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>22+</span></span><span class="safari yes"><span>Safari</span><span>Yes</span></span><span class="chrome yes"><span>Chrome</span><span>Yes</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>Yes</span></span><span class="edge_blink yes"><span>Edge</span><span>Yes</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>12+</span></span><span class="ie yes"><span>IE</span><span>4+</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>22+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>Yes</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>Yes</span></span><span class="webview_android yes"><span>Android WebView</span><span>Yes</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>Yes</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>Yes</span></span>
+     </div>
+    </div>
+   </div>
    <p>The ClipboardEvent interface extends the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#event" id="ref-for-event">Event</a></code> interface.</p>
    <div id="clipboardeventinit-idl">
-<pre class="idl highlight def" data-highlight="webidl"><c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-clipboardeventinit"><code><c- g>ClipboardEventInit</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#dictdef-eventinit" id="ref-for-dictdef-eventinit"><c- n>EventInit</c-></a> {
-  <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/dnd.html#datatransfer" id="ref-for-datatransfer①"><c- n>DataTransfer</c-></a>? <dfn class="idl-code" data-default="null" data-dfn-for="ClipboardEventInit" data-dfn-type="dict-member" data-export data-type="DataTransfer? " id="dom-clipboardeventinit-clipboarddata"><code><c- g>clipboardData</c-></code><a class="self-link" href="#dom-clipboardeventinit-clipboarddata"></a></dfn> = <c- b>null</c->;
+<pre class="idl highlight def" data-highlight="webidl"><c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-clipboardeventinit"><code><c- g>ClipboardEventInit</c-></code></dfn> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#dictdef-eventinit" id="ref-for-dictdef-eventinit"><c- n>EventInit</c-></a> {
+  <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/dnd.html#datatransfer" id="ref-for-datatransfer①"><c- n>DataTransfer</c-></a>? <dfn class="idl-code" data-default="null" data-dfn-for="ClipboardEventInit" data-dfn-type="dict-member" data-export data-type="DataTransfer? " id="dom-clipboardeventinit-clipboarddata"><code><c- g>clipboardData</c-></code><a class="self-link" href="#dom-clipboardeventinit-clipboarddata"></a></dfn> = <c- b>null</c->;
 };
 </pre>
     <dl>
-     <dt data-md><dfn data-dfn-for="ClipboardEventInit" data-dfn-type="dfn" data-noexport id="clipboardeventinit-clipboarddata">clipboardData<a class="self-link" href="#clipboardeventinit-clipboarddata"></a></dfn>
+     <dt data-md><dfn data-dfn-for="ClipboardEventInit" data-dfn-type="dfn" data-export id="clipboardeventinit-clipboarddata">clipboardData<a class="self-link" href="#clipboardeventinit-clipboarddata"></a></dfn>
      <dd data-md>
       <p>A <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/dnd.html#datatransfer" id="ref-for-datatransfer②">DataTransfer</a></code> object to hold data and meta data related to the event.</p>
     </dl>
    </div>
    <div id="clipboardevent-idl">
-<pre class="idl highlight def" data-highlight="webidl">[<dfn class="idl-code" data-dfn-for="ClipboardEvent" data-dfn-type="constructor" data-export data-lt="ClipboardEvent(type, eventInitDict)|ClipboardEvent(type)" id="dom-clipboardevent-clipboardevent"><code><c- g>Constructor</c-></code><a class="self-link" href="#dom-clipboardevent-clipboardevent"></a></dfn>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardEvent/ClipboardEvent(type, eventInitDict)" data-dfn-type="argument" data-export id="dom-clipboardevent-clipboardevent-type-eventinitdict-type"><code><c- g>type</c-></code><a class="self-link" href="#dom-clipboardevent-clipboardevent-type-eventinitdict-type"></a></dfn>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-clipboardeventinit" id="ref-for-dictdef-clipboardeventinit"><c- n>ClipboardEventInit</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardEvent/ClipboardEvent(type, eventInitDict)" data-dfn-type="argument" data-export id="dom-clipboardevent-clipboardevent-type-eventinitdict-eventinitdict"><code><c- g>eventInitDict</c-></code><a class="self-link" href="#dom-clipboardevent-clipboardevent-type-eventinitdict-eventinitdict"></a></dfn> = {}), <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
-<c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="clipboardevent"><code><c- g>ClipboardEvent</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①"><c- n>Event</c-></a> {
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/dnd.html#datatransfer" id="ref-for-datatransfer③"><c- n>DataTransfer</c-></a>? <dfn class="dfn-paneled idl-code" data-dfn-for="ClipboardEvent" data-dfn-type="attribute" data-export data-readonly data-type="DataTransfer?" id="dom-clipboardevent-clipboarddata"><code><c- g>clipboardData</c-></code></dfn>;
+    <div class="mdn-anno wrapped">
+     <button class="mdn-anno-btn"><span>MDN</span></button>
+     <div class="feature">
+      <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent/ClipboardEvent" title="The ClipboardEvent() constructor returns a newly created ClipboardEvent, representing an event providing information related to modification of the clipboard, that is cut, copy, and paste events.">ClipboardEvent/ClipboardEvent</a></p>
+      <div class="support">
+       <span class="firefox yes"><span>Firefox</span><span>22+</span></span><span class="safari no"><span>Safari</span><span>?</span></span><span class="chrome yes"><span>Chrome</span><span>58+</span></span>
+       <hr>
+       <span class="opera yes"><span>Opera</span><span>45+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+       <hr>
+       <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+       <hr>
+       <span class="firefox_android yes"><span>Firefox for Android</span><span>22+</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>58+</span></span><span class="webview_android yes"><span>Android WebView</span><span>58+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>7.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>43+</span></span>
+      </div>
+     </div>
+    </div>
+<pre class="idl highlight def" data-highlight="webidl">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="clipboardevent"><code><c- g>ClipboardEvent</c-></code></dfn> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①"><c- n>Event</c-></a> {
+  <dfn class="idl-code" data-dfn-for="ClipboardEvent" data-dfn-type="constructor" data-export data-lt="ClipboardEvent(type, eventInitDict)|constructor(type, eventInitDict)|ClipboardEvent(type)|constructor(type)" id="dom-clipboardevent-clipboardevent"><code><c- g>constructor</c-></code><a class="self-link" href="#dom-clipboardevent-clipboardevent"></a></dfn>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardEvent/ClipboardEvent(type, eventInitDict), ClipboardEvent/constructor(type, eventInitDict), ClipboardEvent/ClipboardEvent(type), ClipboardEvent/constructor(type)" data-dfn-type="argument" data-export id="dom-clipboardevent-clipboardevent-type-eventinitdict-type"><code><c- g>type</c-></code><a class="self-link" href="#dom-clipboardevent-clipboardevent-type-eventinitdict-type"></a></dfn>, <c- b>optional</c-> <a data-link-type="idl-name" href="#dictdef-clipboardeventinit" id="ref-for-dictdef-clipboardeventinit"><c- n>ClipboardEventInit</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardEvent/ClipboardEvent(type, eventInitDict), ClipboardEvent/constructor(type, eventInitDict), ClipboardEvent/ClipboardEvent(type), ClipboardEvent/constructor(type)" data-dfn-type="argument" data-export id="dom-clipboardevent-clipboardevent-type-eventinitdict-eventinitdict"><code><c- g>eventInitDict</c-></code><a class="self-link" href="#dom-clipboardevent-clipboardevent-type-eventinitdict-eventinitdict"></a></dfn> = {});
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/dnd.html#datatransfer" id="ref-for-datatransfer③"><c- n>DataTransfer</c-></a>? <dfn class="dfn-paneled idl-code" data-dfn-for="ClipboardEvent" data-dfn-type="attribute" data-export data-readonly data-type="DataTransfer?" id="dom-clipboardevent-clipboarddata"><code><c- g>clipboardData</c-></code></dfn>;
 };
 </pre>
     <dl>
-     <dt data-md><dfn data-dfn-for="ClipboardEvent" data-dfn-type="dfn" data-noexport id="clipboardevent-clipboarddata">clipboardData<a class="self-link" href="#clipboardevent-clipboarddata"></a></dfn>
+     <dt data-md>
+      <div class="mdn-anno wrapped">
+       <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+       <div class="feature">
+        <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/ClipboardEvent/clipboardData" title="The ClipboardEvent.clipboardData property holds a DataTransfer object, which can be used:">ClipboardEvent/clipboardData</a></p>
+        <p class="all-engines-text">In all current engines.</p>
+        <div class="support">
+         <span class="firefox yes"><span>Firefox</span><span>22+</span></span><span class="safari yes"><span>Safari</span><span>Yes</span></span><span class="chrome yes"><span>Chrome</span><span>Yes</span></span>
+         <hr>
+         <span class="opera yes"><span>Opera</span><span>Yes</span></span><span class="edge_blink yes"><span>Edge</span><span>Yes</span></span>
+         <hr>
+         <span class="edge yes"><span>Edge (Legacy)</span><span>12+</span></span><span class="ie yes"><span>IE</span><span>5+</span></span>
+         <hr>
+         <span class="firefox_android yes"><span>Firefox for Android</span><span>22+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>Yes</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>Yes</span></span><span class="webview_android yes"><span>Android WebView</span><span>Yes</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>Yes</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>Yes</span></span>
+        </div>
+       </div>
+      </div>
+      <p><dfn data-dfn-for="ClipboardEvent" data-dfn-type="dfn" data-export id="clipboardevent-clipboarddata">clipboardData<a class="self-link" href="#clipboardevent-clipboarddata"></a></dfn></p>
      <dd data-md>
       <p>The clipboardData attribute is an instance of the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/dnd.html#datatransfer" id="ref-for-datatransfer④">DataTransfer</a></code> interface which lets a script read and manipulate values on the system
 clipboard during user-initiated copy, cut and paste operations. The
@@ -558,7 +977,7 @@ document.dispatchEvent(pasteEvent);
    <p class="note" role="note"><span>Note:</span> Synthetic clipboard events will not actually modify the clipboard or
 		the document. In other words, while the script above will fire a paste event,
 		the data will not be pasted into the document.</p>
-   <h3 class="heading settled" data-level="5.2" id="clipboard-event-definitions"><span class="secno">5.2. </span><span class="content"><dfn data-dfn-type="dfn" data-noexport id="clipboard-events">Clipboard events<a class="self-link" href="#clipboard-events"></a></dfn></span><a class="self-link" href="#clipboard-event-definitions"></a></h3>
+   <h3 class="heading settled" data-level="5.2" id="clipboard-event-definitions"><span class="secno">5.2. </span><span class="content">Clipboard events</span><a class="self-link" href="#clipboard-event-definitions"></a></h3>
    <h4 class="heading settled" data-level="5.2.1" id="clipboard-event-clipboardchange"><span class="secno">5.2.1. </span><span class="content">The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="clipboardchange">clipboardchange</dfn> event</span><a class="self-link" href="#clipboard-event-clipboardchange"></a></h4>
    <p>The <a data-link-type="dfn" href="#clipboardchange" id="ref-for-clipboardchange①">clipboardchange</a> event fires whenever the contents of the <a data-link-type="dfn" href="#system-clipboard" id="ref-for-system-clipboard①">system clipboard</a> are changed. These changes could be due to any of the
 			following (non-exhaustive):</p>
@@ -574,6 +993,48 @@ document.dispatchEvent(pasteEvent);
    <p>Since synthetic <a data-link-type="dfn" href="#cut" id="ref-for-cut">cut</a> and <a data-link-type="dfn" href="#copy" id="ref-for-copy">copy</a> events do not update the <a data-link-type="dfn" href="#system-clipboard" id="ref-for-system-clipboard②">system clipboard</a>,
 			they will not trigger a "clipboardchange" event.</p>
    <h4 class="heading settled" data-level="5.2.2" id="clipboard-event-copy"><span class="secno">5.2.2. </span><span class="content">The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="copy">copy</dfn> event</span><a class="self-link" href="#clipboard-event-copy"></a></h4>
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/copy_event" title="The copy event fires when the user initiates a copy action through the browser&apos;s user interface.">Document/copy_event</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>Yes</span></span><span class="safari yes"><span>Safari</span><span>Yes</span></span><span class="chrome yes"><span>Chrome</span><span>1+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>15+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>18</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>Yes</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>18+</span></span><span class="webview_android yes"><span>Android WebView</span><span>1+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>14+</span></span>
+     </div>
+    </div>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/copy_event" title="The copy event fires when the user initiates a copy action through the browser&apos;s user interface.">Element/copy_event</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>Yes</span></span><span class="safari yes"><span>Safari</span><span>Yes</span></span><span class="chrome yes"><span>Chrome</span><span>1+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>15+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>18</span></span><span class="ie yes"><span>IE</span><span>Yes</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>Yes</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>Yes</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>18+</span></span><span class="webview_android yes"><span>Android WebView</span><span>1+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>14+</span></span>
+     </div>
+    </div>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/copy_event" title="The copy event fires when the user initiates a copy action through the browser&apos;s user interface.">Window/copy_event</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>Yes</span></span><span class="safari yes"><span>Safari</span><span>Yes</span></span><span class="chrome yes"><span>Chrome</span><span>1+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>15+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>18</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>Yes</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>18+</span></span><span class="webview_android yes"><span>Android WebView</span><span>1+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>14+</span></span>
+     </div>
+    </div>
+   </div>
    <p>When the user initiates a copy action, the user agent <a data-link-type="dfn" href="#fire-a-clipboard-event" id="ref-for-fire-a-clipboard-event">fires a clipboard event</a> named <a data-link-type="dfn" href="#copy" id="ref-for-copy①">copy</a>.</p>
    <p>If the event is not canceled, the currently selected
 			data will be copied to the <a data-link-type="dfn" href="#system-clipboard" id="ref-for-system-clipboard③">system clipboard</a>.
@@ -584,6 +1045,48 @@ document.dispatchEvent(pasteEvent);
    <p>A synthetic <a data-link-type="dfn" href="#copy" id="ref-for-copy③">copy</a> event can be manually constructed and dispatched, but it
 			will not affect the contents of the <a data-link-type="dfn" href="#system-clipboard" id="ref-for-system-clipboard④">system clipboard</a>.</p>
    <h4 class="heading settled" data-level="5.2.3" id="clipboard-event-cut"><span class="secno">5.2.3. </span><span class="content">The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="cut">cut</dfn> event</span><a class="self-link" href="#clipboard-event-cut"></a></h4>
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/cut_event" title="The cut event is fired when the user has initiated a &quot;cut&quot; action through the browser&apos;s user interface.">Document/cut_event</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>Yes</span></span><span class="safari yes"><span>Safari</span><span>Yes</span></span><span class="chrome yes"><span>Chrome</span><span>1+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>15+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>18</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>Yes</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>18+</span></span><span class="webview_android yes"><span>Android WebView</span><span>1+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>14+</span></span>
+     </div>
+    </div>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/cut_event" title="The cut event is fired when the user has initiated a &quot;cut&quot; action through the browser&apos;s user interface.">Element/cut_event</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>Yes</span></span><span class="safari yes"><span>Safari</span><span>Yes</span></span><span class="chrome yes"><span>Chrome</span><span>1+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>15+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>18</span></span><span class="ie yes"><span>IE</span><span>Yes</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>Yes</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>Yes</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>18+</span></span><span class="webview_android yes"><span>Android WebView</span><span>1+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>14+</span></span>
+     </div>
+    </div>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/cut_event" title="The cut event is fired when the user has initiated a &quot;cut&quot; action through the browser&apos;s user interface.">Window/cut_event</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>Yes</span></span><span class="safari yes"><span>Safari</span><span>Yes</span></span><span class="chrome yes"><span>Chrome</span><span>1+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>15+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>18</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>Yes</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>18+</span></span><span class="webview_android yes"><span>Android WebView</span><span>1+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>14+</span></span>
+     </div>
+    </div>
+   </div>
    <p>When the user initiates a cut action, the user agent <a data-link-type="dfn" href="#fire-a-clipboard-event" id="ref-for-fire-a-clipboard-event①">fires a clipboard event</a> named <a data-link-type="dfn" href="#cut" id="ref-for-cut①">cut</a>.</p>
    <p>In an <a data-link-type="dfn" href="#editable-context" id="ref-for-editable-context">editable context</a>, if the event is not
 			canceled the action will place the currently selected data on the <a data-link-type="dfn" href="#system-clipboard" id="ref-for-system-clipboard⑤">system clipboard</a> and remove the selection from the document.
@@ -598,6 +1101,48 @@ document.dispatchEvent(pasteEvent);
    <p>A synthetic <a data-link-type="dfn" href="#cut" id="ref-for-cut⑤">cut</a> event can be manually constructed and dispatched, but it
 			will not affect the contents of the document or of the <a data-link-type="dfn" href="#system-clipboard" id="ref-for-system-clipboard⑥">system clipboard</a>.</p>
    <h4 class="heading settled" data-level="5.2.4" id="clipboard-event-paste"><span class="secno">5.2.4. </span><span class="content">The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="paste">paste</dfn> event</span><a class="self-link" href="#clipboard-event-paste"></a></h4>
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/paste_event" title="The paste event is fired when the user has initiated a &quot;paste&quot; action through the browser&apos;s user interface.">Document/paste_event</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>Yes</span></span><span class="safari yes"><span>Safari</span><span>Yes</span></span><span class="chrome yes"><span>Chrome</span><span>1+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>15+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>12+</span></span><span class="ie yes"><span>IE</span><span>11</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>Yes</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>18+</span></span><span class="webview_android yes"><span>Android WebView</span><span>1+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>14+</span></span>
+     </div>
+    </div>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/paste_event" title="The paste event is fired when the user has initiated a &quot;paste&quot; action through the browser&apos;s user interface.">Element/paste_event</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>22+</span></span><span class="safari yes"><span>Safari</span><span>5+</span></span><span class="chrome yes"><span>Chrome</span><span>1+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>15+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>12+</span></span><span class="ie yes"><span>IE</span><span>11</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>22+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>4.2+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>18+</span></span><span class="webview_android yes"><span>Android WebView</span><span>1+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>14+</span></span>
+     </div>
+    </div>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/paste_event" title="The paste event is fired when the user has initiated a &quot;paste&quot; action through the browser&apos;s user interface.">Window/paste_event</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>Yes</span></span><span class="safari yes"><span>Safari</span><span>Yes</span></span><span class="chrome yes"><span>Chrome</span><span>1+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>15+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>12+</span></span><span class="ie yes"><span>IE</span><span>11</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>Yes</span></span><span class="safari_ios no"><span>iOS Safari</span><span>?</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>18+</span></span><span class="webview_android yes"><span>Android WebView</span><span>1+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>14+</span></span>
+     </div>
+    </div>
+   </div>
    <p>When a user initiates a paste action, the user agent <a data-link-type="dfn" href="#fire-a-clipboard-event" id="ref-for-fire-a-clipboard-event②">fires a clipboard event</a> named <a data-link-type="dfn" href="#paste" id="ref-for-paste">paste</a>. The event fires before any clipboard data is inserted
 			into the document.</p>
    <p>If the cursor is in an <a data-link-type="dfn" href="#editable-context" id="ref-for-editable-context②">editable context</a>, the paste action will
@@ -611,7 +1156,7 @@ document.dispatchEvent(pasteEvent);
    <p>A synthetic <a data-link-type="dfn" href="#paste" id="ref-for-paste③">paste</a> event can be manually constructed and dispatched, but it
 			will not affect the contents of the document.</p>
    <h3 class="heading settled" data-level="5.3" id="integration-with-other-scripts-and-events"><span class="secno">5.3. </span><span class="content">Integration with other scripts and events</span><a class="self-link" href="#integration-with-other-scripts-and-events"></a></h3>
-   <h4 class="heading settled" data-level="5.3.1" id="allow-modify-clipboard"><span class="secno">5.3.1. </span><span class="content">Event handlers that are <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="allowed-to-modify-the-clipboard">allowed to modify the clipboard</dfn></span><a class="self-link" href="#allow-modify-clipboard"></a></h4>
+   <h4 class="heading settled" data-level="5.3.1" id="allow-modify-clipboard"><span class="secno">5.3.1. </span><span class="content">Event handlers that are <dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="allowed-to-modify-the-clipboard">allowed to modify the clipboard</dfn></span><a class="self-link" href="#allow-modify-clipboard"></a></h4>
    <p>Event handlers may write to the clipboard if any of the following is
 			true:</p>
    <ul>
@@ -833,56 +1378,105 @@ document.addEventListener('paste', function(e) {
    <h2 class="heading settled" data-level="7" id="async-clipboard-api"><span class="secno">7. </span><span class="content">Asynchronous Clipboard API</span><a class="self-link" href="#async-clipboard-api"></a></h2>
    <h3 class="heading settled" data-level="7.1" id="navigator-interface"><span class="secno">7.1. </span><span class="content">Navigator Interface</span><a class="self-link" href="#navigator-interface"></a></h3>
 <pre class="idl highlight def" data-highlight="webidl"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/system-state.html#navigator" id="ref-for-navigator"><c- g>Navigator</c-></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext"><c- g>SecureContext</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#clipboard" id="ref-for-clipboard"><c- n>Clipboard</c-></a> <dfn class="idl-code" data-dfn-for="Navigator" data-dfn-type="attribute" data-export data-readonly data-type="Clipboard" id="dom-navigator-clipboard"><code><c- g>clipboard</c-></code><a class="self-link" href="#dom-navigator-clipboard"></a></dfn>;
+  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext"><c- g>SecureContext</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="#clipboard" id="ref-for-clipboard"><c- n>Clipboard</c-></a> <dfn class="idl-code" data-dfn-for="Navigator" data-dfn-type="attribute" data-export data-readonly data-type="Clipboard" id="dom-navigator-clipboard"><code><c- g>clipboard</c-></code><a class="self-link" href="#dom-navigator-clipboard"></a></dfn>;
 };
 </pre>
    <div id="navigator-idl">
     <div class="algorithm" data-algorithm="navigator-clipboard">
      <h4 class="heading settled" data-level="7.1.1" id="h-navigator-clipboard"><span class="secno">7.1.1. </span><span class="content"><dfn class="dfn-paneled" data-dfn-for="Navigator" data-dfn-type="dfn" data-noexport id="navigator-clipboard">clipboard</dfn></span><a class="self-link" href="#h-navigator-clipboard"></a></h4>
-      The <a data-link-type="dfn" href="#navigator-clipboard" id="ref-for-navigator-clipboard">clipboard</a> attribute must return the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/system-state.html#navigator" id="ref-for-navigator①">Navigator</a></code>'s <a data-link-type="dfn" href="#navigator-clipboard" id="ref-for-navigator-clipboard①">clipboard</a> object. 
+      The 
+     <div class="mdn-anno wrapped after">
+      <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Navigator/clipboard" title="The Clipboard API adds to the Navigator interface the read-only clipboard property, which returns the Clipboard object used to read and write the clipboard&apos;s contents.">Navigator/clipboard</a></p>
+       <p class="all-engines-text">In all current engines.</p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>63+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome yes"><span>Chrome</span><span>66+</span></span>
+        <hr>
+        <span class="opera yes"><span>Opera</span><span>53+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>63+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>66+</span></span><span class="webview_android yes"><span>Android WebView</span><span>66+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>9.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>47+</span></span>
+       </div>
+      </div>
+     </div>
+     <a data-link-type="dfn" href="#navigator-clipboard" id="ref-for-navigator-clipboard">clipboard</a> attribute must return the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/system-state.html#navigator" id="ref-for-navigator①">Navigator</a></code>'s <a data-link-type="dfn" href="#navigator-clipboard" id="ref-for-navigator-clipboard①">clipboard</a> object. 
     </div>
    </div>
    <h3 class="heading settled" data-level="7.2" id="clipboard-interface"><span class="secno">7.2. </span><span class="content">Clipboard Interface</span><a class="self-link" href="#clipboard-interface"></a></h3>
-<pre class="idl highlight def" data-highlight="webidl"><c- b>typedef</c-> <c- b>sequence</c->&lt;<a class="n" data-link-type="idl-name" href="#clipboarditem" id="ref-for-clipboarditem①"><c- n>ClipboardItem</c-></a>> <dfn class="dfn-paneled idl-code" data-dfn-type="typedef" data-export id="typedefdef-clipboarditems"><code><c- g>ClipboardItems</c-></code></dfn>;
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Clipboard" title="The Clipboard interface implements the Clipboard API, providing—if the user grants permission—both read and write access to the contents of the system clipboard.">Clipboard</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>63+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome yes"><span>Chrome</span><span>66+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>53+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>63+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>66+</span></span><span class="webview_android yes"><span>Android WebView</span><span>66+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>9.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>47+</span></span>
+     </div>
+    </div>
+   </div>
+<pre class="idl highlight def" data-highlight="webidl"><c- b>typedef</c-> <a data-link-type="dfn" href="https://heycam.github.io/webidl/#idl-sequence" id="ref-for-idl-sequence"><c- b>sequence</c-></a>&lt;<a data-link-type="idl-name" href="#clipboarditem" id="ref-for-clipboarditem①"><c- n>ClipboardItem</c-></a>> <dfn class="dfn-paneled idl-code" data-dfn-type="typedef" data-export id="typedefdef-clipboarditems"><code><c- g>ClipboardItems</c-></code></dfn>;
 
-[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext①"><c- g>SecureContext</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="clipboard"><code><c- g>Clipboard</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget"><c- n>EventTarget</c-></a> {
-  <c- b>Promise</c->&lt;<a class="n" data-link-type="idl-name" href="#typedefdef-clipboarditems" id="ref-for-typedefdef-clipboarditems"><c- n>ClipboardItems</c-></a>> <a class="idl-code" data-link-type="method" href="#dom-clipboard-read" id="ref-for-dom-clipboard-read①"><c- g>read</c-></a>();
-  <c- b>Promise</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①"><c- b>DOMString</c-></a>> <a class="idl-code" data-link-type="method" href="#dom-clipboard-readtext" id="ref-for-dom-clipboard-readtext"><c- g>readText</c-></a>();
-  <c- b>Promise</c->&lt;<c- b>void</c->> <a class="idl-code" data-link-type="method" href="#dom-clipboard-write" id="ref-for-dom-clipboard-write①"><c- g>write</c-></a>(<a class="n" data-link-type="idl-name" href="#typedefdef-clipboarditems" id="ref-for-typedefdef-clipboarditems①"><c- n>ClipboardItems</c-></a> <dfn class="idl-code" data-dfn-for="Clipboard/write(data)" data-dfn-type="argument" data-export id="dom-clipboard-write-data-data"><code><c- g>data</c-></code><a class="self-link" href="#dom-clipboard-write-data-data"></a></dfn>);
-  <c- b>Promise</c->&lt;<c- b>void</c->> <a class="idl-code" data-link-type="method" href="#dom-clipboard-writetext" id="ref-for-dom-clipboard-writetext"><c- g>writeText</c-></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString②"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="Clipboard/writeText(data)" data-dfn-type="argument" data-export id="dom-clipboard-writetext-data-data"><code><c- g>data</c-></code><a class="self-link" href="#dom-clipboard-writetext-data-data"></a></dfn>);
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext①"><c- g>SecureContext</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="clipboard"><code><c- g>Clipboard</c-></code></dfn> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget"><c- n>EventTarget</c-></a> {
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise" id="ref-for-idl-promise"><c- b>Promise</c-></a>&lt;<a data-link-type="idl-name" href="#typedefdef-clipboarditems" id="ref-for-typedefdef-clipboarditems"><c- n>ClipboardItems</c-></a>> <a class="idl-code" data-link-type="method" href="#dom-clipboard-read" id="ref-for-dom-clipboard-read①"><c- g>read</c-></a>();
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise" id="ref-for-idl-promise①"><c- b>Promise</c-></a>&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①"><c- b>DOMString</c-></a>> <a class="idl-code" data-link-type="method" href="#dom-clipboard-readtext" id="ref-for-dom-clipboard-readtext"><c- g>readText</c-></a>();
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise" id="ref-for-idl-promise②"><c- b>Promise</c-></a>&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-undefined" id="ref-for-idl-undefined"><c- b>undefined</c-></a>> <a class="idl-code" data-link-type="method" href="#dom-clipboard-write" id="ref-for-dom-clipboard-write①"><c- g>write</c-></a>(<a data-link-type="idl-name" href="#typedefdef-clipboarditems" id="ref-for-typedefdef-clipboarditems①"><c- n>ClipboardItems</c-></a> <dfn class="idl-code" data-dfn-for="Clipboard/write(data)" data-dfn-type="argument" data-export id="dom-clipboard-write-data-data"><code><c- g>data</c-></code><a class="self-link" href="#dom-clipboard-write-data-data"></a></dfn>);
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise" id="ref-for-idl-promise③"><c- b>Promise</c-></a>&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-undefined" id="ref-for-idl-undefined①"><c- b>undefined</c-></a>> <a class="idl-code" data-link-type="method" href="#dom-clipboard-writetext" id="ref-for-dom-clipboard-writetext"><c- g>writeText</c-></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString②"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="Clipboard/writeText(data)" data-dfn-type="argument" data-export id="dom-clipboard-writetext-data-data"><code><c- g>data</c-></code><a class="self-link" href="#dom-clipboard-writetext-data-data"></a></dfn>);
 };
 
-<c- b>typedef</c-> (<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③"><c- b>DOMString</c-></a> <c- b>or</c-> <a class="n" data-link-type="idl-name" href="https://w3c.github.io/FileAPI/#dfn-Blob" id="ref-for-dfn-Blob"><c- n>Blob</c-></a>) <dfn class="dfn-paneled idl-code" data-dfn-type="typedef" data-export id="typedefdef-clipboarditemdatatype"><code><c- g>ClipboardItemDataType</c-></code></dfn>;
-<c- b>typedef</c-> <c- b>Promise</c->&lt;<a class="n" data-link-type="idl-name" href="#typedefdef-clipboarditemdatatype" id="ref-for-typedefdef-clipboarditemdatatype"><c- n>ClipboardItemDataType</c-></a>> <dfn class="dfn-paneled idl-code" data-dfn-type="typedef" data-export id="typedefdef-clipboarditemdata"><code><c- g>ClipboardItemData</c-></code></dfn>;
+<c- b>typedef</c-> (<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③"><c- b>DOMString</c-></a> <c- b>or</c-> <a data-link-type="idl-name" href="https://w3c.github.io/FileAPI/#dfn-Blob" id="ref-for-dfn-Blob"><c- n>Blob</c-></a>) <dfn class="dfn-paneled idl-code" data-dfn-type="typedef" data-export id="typedefdef-clipboarditemdatatype"><code><c- g>ClipboardItemDataType</c-></code></dfn>;
+<c- b>typedef</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise" id="ref-for-idl-promise④"><c- b>Promise</c-></a>&lt;<a data-link-type="idl-name" href="#typedefdef-clipboarditemdatatype" id="ref-for-typedefdef-clipboarditemdatatype"><c- n>ClipboardItemDataType</c-></a>> <dfn class="dfn-paneled idl-code" data-dfn-type="typedef" data-export id="typedefdef-clipboarditemdata"><code><c- g>ClipboardItemData</c-></code></dfn>;
 
-<c- b>callback</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="callback" data-export id="callbackdef-clipboarditemdelayedcallback"><code><c- g>ClipboardItemDelayedCallback</c-></code></dfn> = <a class="n" data-link-type="idl-name" href="#typedefdef-clipboarditemdata" id="ref-for-typedefdef-clipboarditemdata"><c- n>ClipboardItemData</c-></a> ();
+<c- b>callback</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="callback" data-export id="callbackdef-clipboarditemdelayedcallback"><code><c- g>ClipboardItemDelayedCallback</c-></code></dfn> = <a data-link-type="idl-name" href="#typedefdef-clipboarditemdata" id="ref-for-typedefdef-clipboarditemdata"><c- n>ClipboardItemData</c-></a> ();
 
-[<dfn class="idl-code" data-dfn-for="ClipboardItem" data-dfn-type="constructor" data-export data-lt="ClipboardItem(items, options)|ClipboardItem(items)" id="dom-clipboarditem-clipboarditem"><code><c- g>Constructor</c-></code><a class="self-link" href="#dom-clipboarditem-clipboarditem"></a></dfn>(<c- b>record</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④"><c- b>DOMString</c-></a>, <a class="n" data-link-type="idl-name" href="#typedefdef-clipboarditemdata" id="ref-for-typedefdef-clipboarditemdata①"><c- n>ClipboardItemData</c-></a>> <dfn class="idl-code" data-dfn-for="ClipboardItem/ClipboardItem(items, options)" data-dfn-type="argument" data-export id="dom-clipboarditem-clipboarditem-items-options-items"><code><c- g>items</c-></code><a class="self-link" href="#dom-clipboarditem-clipboarditem-items-options-items"></a></dfn>,
-    <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-clipboarditemoptions" id="ref-for-dictdef-clipboarditemoptions"><c- n>ClipboardItemOptions</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardItem/ClipboardItem(items, options)" data-dfn-type="argument" data-export id="dom-clipboarditem-clipboarditem-items-options-options"><code><c- g>options</c-></code><a class="self-link" href="#dom-clipboarditem-clipboarditem-items-options-options"></a></dfn> = {}),
- <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="clipboarditem"><code><c- g>ClipboardItem</c-></code></dfn> {
-  <c- b>static</c-> <a class="n" data-link-type="idl-name" href="#clipboarditem" id="ref-for-clipboarditem②"><c- n>ClipboardItem</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardItem" data-dfn-type="method" data-export data-lt="createDelayed(items, options)|createDelayed(items)" id="dom-clipboarditem-createdelayed"><code><c- g>createDelayed</c-></code><a class="self-link" href="#dom-clipboarditem-createdelayed"></a></dfn>(
-      <c- b>record</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤"><c- b>DOMString</c-></a>, <a class="n" data-link-type="idl-name" href="#callbackdef-clipboarditemdelayedcallback" id="ref-for-callbackdef-clipboarditemdelayedcallback"><c- n>ClipboardItemDelayedCallback</c-></a>> <dfn class="idl-code" data-dfn-for="ClipboardItem/createDelayed(items, options), ClipboardItem/createDelayed(items)" data-dfn-type="argument" data-export id="dom-clipboarditem-createdelayed-items-options-items"><code><c- g>items</c-></code><a class="self-link" href="#dom-clipboarditem-createdelayed-items-options-items"></a></dfn>,
-      <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-clipboarditemoptions" id="ref-for-dictdef-clipboarditemoptions①"><c- n>ClipboardItemOptions</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardItem/createDelayed(items, options), ClipboardItem/createDelayed(items)" data-dfn-type="argument" data-export id="dom-clipboarditem-createdelayed-items-options-options"><code><c- g>options</c-></code><a class="self-link" href="#dom-clipboarditem-createdelayed-items-options-options"></a></dfn> = {});
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="clipboarditem"><code><c- g>ClipboardItem</c-></code></dfn> {
+  <dfn class="idl-code" data-dfn-for="ClipboardItem" data-dfn-type="constructor" data-export data-lt="ClipboardItem(items, options)|constructor(items, options)|ClipboardItem(items)|constructor(items)" id="dom-clipboarditem-clipboarditem"><code><c- g>constructor</c-></code><a class="self-link" href="#dom-clipboarditem-clipboarditem"></a></dfn>(<a data-link-type="dfn" href="https://heycam.github.io/webidl/#idl-record" id="ref-for-idl-record"><c- b>record</c-></a>&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④"><c- b>DOMString</c-></a>, <a data-link-type="idl-name" href="#typedefdef-clipboarditemdata" id="ref-for-typedefdef-clipboarditemdata①"><c- n>ClipboardItemData</c-></a>> <dfn class="idl-code" data-dfn-for="ClipboardItem/ClipboardItem(items, options), ClipboardItem/constructor(items, options), ClipboardItem/ClipboardItem(items), ClipboardItem/constructor(items)" data-dfn-type="argument" data-export id="dom-clipboarditem-clipboarditem-items-options-items"><code><c- g>items</c-></code><a class="self-link" href="#dom-clipboarditem-clipboarditem-items-options-items"></a></dfn>,
+    <c- b>optional</c-> <a data-link-type="idl-name" href="#dictdef-clipboarditemoptions" id="ref-for-dictdef-clipboarditemoptions"><c- n>ClipboardItemOptions</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardItem/ClipboardItem(items, options), ClipboardItem/constructor(items, options), ClipboardItem/ClipboardItem(items), ClipboardItem/constructor(items)" data-dfn-type="argument" data-export id="dom-clipboarditem-clipboarditem-items-options-options"><code><c- g>options</c-></code><a class="self-link" href="#dom-clipboarditem-clipboarditem-items-options-options"></a></dfn> = {});
+  <c- b>static</c-> <a data-link-type="idl-name" href="#clipboarditem" id="ref-for-clipboarditem②"><c- n>ClipboardItem</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardItem" data-dfn-type="method" data-export data-lt="createDelayed(items, options)|createDelayed(items)" id="dom-clipboarditem-createdelayed"><code><c- g>createDelayed</c-></code><a class="self-link" href="#dom-clipboarditem-createdelayed"></a></dfn>(
+      <a data-link-type="dfn" href="https://heycam.github.io/webidl/#idl-record" id="ref-for-idl-record①"><c- b>record</c-></a>&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤"><c- b>DOMString</c-></a>, <a data-link-type="idl-name" href="#callbackdef-clipboarditemdelayedcallback" id="ref-for-callbackdef-clipboarditemdelayedcallback"><c- n>ClipboardItemDelayedCallback</c-></a>> <dfn class="idl-code" data-dfn-for="ClipboardItem/createDelayed(items, options), ClipboardItem/createDelayed(items)" data-dfn-type="argument" data-export id="dom-clipboarditem-createdelayed-items-options-items"><code><c- g>items</c-></code><a class="self-link" href="#dom-clipboarditem-createdelayed-items-options-items"></a></dfn>,
+      <c- b>optional</c-> <a data-link-type="idl-name" href="#dictdef-clipboarditemoptions" id="ref-for-dictdef-clipboarditemoptions①"><c- n>ClipboardItemOptions</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardItem/createDelayed(items, options), ClipboardItem/createDelayed(items)" data-dfn-type="argument" data-export id="dom-clipboarditem-createdelayed-items-options-options"><code><c- g>options</c-></code><a class="self-link" href="#dom-clipboarditem-createdelayed-items-options-options"></a></dfn> = {});
 
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#enumdef-presentationstyle" id="ref-for-enumdef-presentationstyle"><c- n>PresentationStyle</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardItem" data-dfn-type="attribute" data-export data-readonly data-type="PresentationStyle" id="dom-clipboarditem-presentationstyle"><code><c- g>presentationStyle</c-></code><a class="self-link" href="#dom-clipboarditem-presentationstyle"></a></dfn>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="#enumdef-presentationstyle" id="ref-for-enumdef-presentationstyle"><c- n>PresentationStyle</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardItem" data-dfn-type="attribute" data-export data-readonly data-type="PresentationStyle" id="dom-clipboarditem-presentationstyle"><code><c- g>presentationStyle</c-></code><a class="self-link" href="#dom-clipboarditem-presentationstyle"></a></dfn>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long-long" id="ref-for-idl-long-long"><c- b>long</c-> <c- b>long</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardItem" data-dfn-type="attribute" data-export data-readonly data-type="long long" id="dom-clipboarditem-lastmodified"><code><c- g>lastModified</c-></code><a class="self-link" href="#dom-clipboarditem-lastmodified"></a></dfn>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean"><c- b>boolean</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardItem" data-dfn-type="attribute" data-export data-readonly data-type="boolean" id="dom-clipboarditem-delayed"><code><c- g>delayed</c-></code><a class="self-link" href="#dom-clipboarditem-delayed"></a></dfn>;
 
-  <c- b>readonly</c-> <c- b>attribute</c-> <c- b>FrozenArray</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥"><c- b>DOMString</c-></a>> <dfn class="idl-code" data-dfn-for="ClipboardItem" data-dfn-type="attribute" data-export data-readonly data-type="FrozenArray<DOMString>" id="dom-clipboarditem-types"><code><c- g>types</c-></code><a class="self-link" href="#dom-clipboarditem-types"></a></dfn>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-frozen-array" id="ref-for-idl-frozen-array"><c- b>FrozenArray</c-></a>&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥"><c- b>DOMString</c-></a>> <dfn class="idl-code" data-dfn-for="ClipboardItem" data-dfn-type="attribute" data-export data-readonly data-type="FrozenArray<DOMString>" id="dom-clipboarditem-types"><code><c- g>types</c-></code><a class="self-link" href="#dom-clipboarditem-types"></a></dfn>;
 
-  <c- b>Promise</c->&lt;<a class="n" data-link-type="idl-name" href="https://w3c.github.io/FileAPI/#dfn-Blob" id="ref-for-dfn-Blob①"><c- n>Blob</c-></a>> <dfn class="idl-code" data-dfn-for="ClipboardItem" data-dfn-type="method" data-export data-lt="getType(type)" id="dom-clipboarditem-gettype"><code><c- g>getType</c-></code><a class="self-link" href="#dom-clipboarditem-gettype"></a></dfn>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardItem/getType(type)" data-dfn-type="argument" data-export id="dom-clipboarditem-gettype-type-type"><code><c- g>type</c-></code><a class="self-link" href="#dom-clipboarditem-gettype-type-type"></a></dfn>);
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise" id="ref-for-idl-promise⑤"><c- b>Promise</c-></a>&lt;<a data-link-type="idl-name" href="https://w3c.github.io/FileAPI/#dfn-Blob" id="ref-for-dfn-Blob①"><c- n>Blob</c-></a>> <dfn class="idl-code" data-dfn-for="ClipboardItem" data-dfn-type="method" data-export data-lt="getType(type)" id="dom-clipboarditem-gettype"><code><c- g>getType</c-></code><a class="self-link" href="#dom-clipboarditem-gettype"></a></dfn>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="ClipboardItem/getType(type)" data-dfn-type="argument" data-export id="dom-clipboarditem-gettype-type-type"><code><c- g>type</c-></code><a class="self-link" href="#dom-clipboarditem-gettype-type-type"></a></dfn>);
 };
 
 <c- b>enum</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="enum" data-export id="enumdef-presentationstyle"><code><c- g>PresentationStyle</c-></code></dfn> { <dfn class="idl-code" data-dfn-for="PresentationStyle" data-dfn-type="enum-value" data-export id="dom-presentationstyle-unspecified"><code><c- s>"unspecified"</c-></code><a class="self-link" href="#dom-presentationstyle-unspecified"></a></dfn>, <dfn class="idl-code" data-dfn-for="PresentationStyle" data-dfn-type="enum-value" data-export id="dom-presentationstyle-inline"><code><c- s>"inline"</c-></code><a class="self-link" href="#dom-presentationstyle-inline"></a></dfn>, <dfn class="idl-code" data-dfn-for="PresentationStyle" data-dfn-type="enum-value" data-export id="dom-presentationstyle-attachment"><code><c- s>"attachment"</c-></code><a class="self-link" href="#dom-presentationstyle-attachment"></a></dfn> };
 
 <c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-clipboarditemoptions"><code><c- g>ClipboardItemOptions</c-></code></dfn> {
-  <a class="n" data-link-type="idl-name" href="#enumdef-presentationstyle" id="ref-for-enumdef-presentationstyle①"><c- n>PresentationStyle</c-></a> <dfn class="idl-code" data-default="&quot;unspecified&quot;" data-dfn-for="ClipboardItemOptions" data-dfn-type="dict-member" data-export data-type="PresentationStyle " id="dom-clipboarditemoptions-presentationstyle"><code><c- g>presentationStyle</c-></code><a class="self-link" href="#dom-clipboarditemoptions-presentationstyle"></a></dfn> = "unspecified";
+  <a data-link-type="idl-name" href="#enumdef-presentationstyle" id="ref-for-enumdef-presentationstyle①"><c- n>PresentationStyle</c-></a> <dfn class="idl-code" data-default="&quot;unspecified&quot;" data-dfn-for="ClipboardItemOptions" data-dfn-type="dict-member" data-export data-type="PresentationStyle " id="dom-clipboarditemoptions-presentationstyle"><code><c- g>presentationStyle</c-></code><a class="self-link" href="#dom-clipboarditemoptions-presentationstyle"></a></dfn> = "unspecified";
 };
 </pre>
    <div id="clipboard-idl">
     <div class="algorithm" data-algorithm="clipboard-read">
-     <h4 class="heading settled dfn-paneled idl-code" data-dfn-for="Clipboard" data-dfn-type="method" data-export data-level="7.2.1" data-lt="read()" id="dom-clipboard-read"><span class="secno">7.2.1. </span><span class="content">read()</span></h4>
-      The <code class="idl"><a data-link-type="idl" href="#dom-clipboard-read" id="ref-for-dom-clipboard-read②">read()</a></code> method must run these steps: 
+     <h4 class="heading settled dfn-paneled idl-code" data-dfn-for="Clipboard" data-dfn-type="method" data-export data-level="7.2.1" data-lt="read()" id="dom-clipboard-read"><span class="secno">7.2.1. </span><span class="content">read()</span><a class="self-link" href="#dom-clipboard-read" id="ref-for-dom-clipboard-read③"></a></h4>
+      The 
+     <div class="mdn-anno wrapped after">
+      <button class="mdn-anno-btn"><span>MDN</span></button>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/read" title="The read() method of the Clipboard interface requests a copy of the clipboard&apos;s contents, delivering the data to the returned Promise when the promise is resolved. Unlike readText(), the read() method can return arbitrary data, such as images. This method can also return text.">Clipboard/read</a></p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span title="Requires setting a user preference or runtime flag.">🔰 63+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome no"><span>Chrome</span><span>?</span></span>
+        <hr>
+        <span class="opera yes"><span>Opera</span><span>63+</span></span><span class="edge_blink no"><span>Edge</span><span>?</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span title="Requires setting a user preference or runtime flag.">🔰 63+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>?</span></span><span class="webview_android no"><span>Android WebView</span><span>?</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>12.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>54+</span></span>
+       </div>
+      </div>
+     </div>
+     <code class="idl"><a data-link-type="idl" href="#dom-clipboard-read" id="ref-for-dom-clipboard-read②">read()</a></code> method must run these steps: 
      <ol>
       <li data-md>
        <p>Let <var>p</var> be a new <a data-link-type="dfn" href="http://tc39.github.io/ecma262/#sec-promise-objects" id="ref-for-sec-promise-objects">Promise</a>.</p>
@@ -909,8 +1503,25 @@ const text = await (new Response(textBlob)).text();
 </pre>
     </div>
     <div class="algorithm" data-algorithm="clipboard-readtext">
-     <h4 class="heading settled dfn-paneled idl-code" data-dfn-for="Clipboard" data-dfn-type="method" data-export data-level="7.2.2" data-lt="readText()" id="dom-clipboard-readtext"><span class="secno">7.2.2. </span><span class="content">readText()</span></h4>
-      The <code class="idl"><a data-link-type="idl" href="#dom-clipboard-readtext" id="ref-for-dom-clipboard-readtext①">readText()</a></code> method must run these steps: 
+     <h4 class="heading settled dfn-paneled idl-code" data-dfn-for="Clipboard" data-dfn-type="method" data-export data-level="7.2.2" data-lt="readText()" id="dom-clipboard-readtext"><span class="secno">7.2.2. </span><span class="content">readText()</span><a class="self-link" href="#dom-clipboard-readtext" id="ref-for-dom-clipboard-readtext②"></a></h4>
+      The 
+     <div class="mdn-anno wrapped after">
+      <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/readText" title="The Clipboard interface&apos;s readText() method returns a Promise which resolves with a copy of the textual contents of the system clipboard.">Clipboard/readText</a></p>
+       <p class="all-engines-text">In all current engines.</p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>63+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome yes"><span>Chrome</span><span>66+</span></span>
+        <hr>
+        <span class="opera yes"><span>Opera</span><span>53+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>63+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>66+</span></span><span class="webview_android yes"><span>Android WebView</span><span>66+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>9.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>47+</span></span>
+       </div>
+      </div>
+     </div>
+     <code class="idl"><a data-link-type="idl" href="#dom-clipboard-readtext" id="ref-for-dom-clipboard-readtext①">readText()</a></code> method must run these steps: 
      <ol>
       <li data-md>
        <p>Let <var>p</var> be a new <a data-link-type="dfn" href="http://tc39.github.io/ecma262/#sec-promise-objects" id="ref-for-sec-promise-objects①">Promise</a>.</p>
@@ -944,8 +1555,25 @@ const text = await (new Response(textBlob)).text();
 </pre>
     </div>
     <div class="algorithm" data-algorithm="clipboard-write">
-     <h4 class="heading settled dfn-paneled idl-code" data-dfn-for="Clipboard" data-dfn-type="method" data-export data-level="7.2.3" data-lt="write(data)" id="dom-clipboard-write"><span class="secno">7.2.3. </span><span class="content">write(<var>data</var>)</span></h4>
-      The <code class="idl"><a data-link-type="idl" href="#dom-clipboard-write" id="ref-for-dom-clipboard-write②">write(data)</a></code> method must run these steps: 
+     <h4 class="heading settled dfn-paneled idl-code" data-dfn-for="Clipboard" data-dfn-type="method" data-export data-level="7.2.3" data-lt="write(data)" id="dom-clipboard-write"><span class="secno">7.2.3. </span><span class="content">write(<var>data</var>)</span><a class="self-link" href="#dom-clipboard-write" id="ref-for-dom-clipboard-write③"></a></h4>
+      The 
+     <div class="mdn-anno wrapped after">
+      <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/write" title="The Clipboard method write() writes arbitrary data, such as images, to the clipboard.">Clipboard/write</a></p>
+       <p class="all-engines-text">In all current engines.</p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span title="Requires setting a user preference or runtime flag.">🔰 63+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome yes"><span>Chrome</span><span>66+</span></span>
+        <hr>
+        <span class="opera yes"><span>Opera</span><span>63+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span title="Requires setting a user preference or runtime flag.">🔰 63+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>66+</span></span><span class="webview_android yes"><span>Android WebView</span><span>66+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>12.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>54+</span></span>
+       </div>
+      </div>
+     </div>
+     <code class="idl"><a data-link-type="idl" href="#dom-clipboard-write" id="ref-for-dom-clipboard-write②">write(data)</a></code> method must run these steps: 
      <ol>
       <li data-md>
        <p>Let <var>p</var> be a new <a data-link-type="dfn" href="http://tc39.github.io/ecma262/#sec-promise-objects" id="ref-for-sec-promise-objects②">Promise</a>.</p>
@@ -977,17 +1605,34 @@ const text = await (new Response(textBlob)).text();
        <p>Return <var>p</var>.</p>
      </ol>
      <div></div>
-<pre class="example javascript" id="example-57aa8a1b"><a class="self-link" href="#example-57aa8a1b"></a>var data = new Blob(["Text data"], {type : "text/plain"});
+<pre class="example javascript" id="example-11d38d55"><a class="self-link" href="#example-11d38d55"></a>var data = [new ClipboardItem({ "text/plain": new Blob(["Text data"], { type: "text/plain" }) })];
 navigator.clipboard.write(data).then(function() {
-  console.log(“Copied to clipboard successfully!”);
+  console.log("Copied to clipboard successfully!");
 }, function() {
-  console.error(“Unable to write to clipboard. :-(”);
+  console.error("Unable to write to clipboard. :-(");
 });
 </pre>
     </div>
     <div class="algorithm" data-algorithm="clipboard-writetext">
-     <h4 class="heading settled dfn-paneled idl-code" data-dfn-for="Clipboard" data-dfn-type="method" data-export data-level="7.2.4" data-lt="writeText(data)" id="dom-clipboard-writetext"><span class="secno">7.2.4. </span><span class="content">writeText(<var>data</var>)</span></h4>
-      The <code class="idl"><a data-link-type="idl" href="#dom-clipboard-writetext" id="ref-for-dom-clipboard-writetext①">writeText(data)</a></code> method must run these steps: 
+     <h4 class="heading settled dfn-paneled idl-code" data-dfn-for="Clipboard" data-dfn-type="method" data-export data-level="7.2.4" data-lt="writeText(data)" id="dom-clipboard-writetext"><span class="secno">7.2.4. </span><span class="content">writeText(<var>data</var>)</span><a class="self-link" href="#dom-clipboard-writetext" id="ref-for-dom-clipboard-writetext②"></a></h4>
+      The 
+     <div class="mdn-anno wrapped after">
+      <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Clipboard/writeText" title="The Clipboard interface&apos;s writeText() property writes the specified text string to the system clipboard. Text may be read back using either read() or readText().">Clipboard/writeText</a></p>
+       <p class="all-engines-text">In all current engines.</p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>63+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome yes"><span>Chrome</span><span>66+</span></span>
+        <hr>
+        <span class="opera yes"><span>Opera</span><span>53+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>63+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>66+</span></span><span class="webview_android yes"><span>Android WebView</span><span>66+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>9.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>47+</span></span>
+       </div>
+      </div>
+     </div>
+     <code class="idl"><a data-link-type="idl" href="#dom-clipboard-writetext" id="ref-for-dom-clipboard-writetext①">writeText(data)</a></code> method must run these steps: 
      <ol>
       <li data-md>
        <p>Let <var>p</var> be a new <a data-link-type="dfn" href="http://tc39.github.io/ecma262/#sec-promise-objects" id="ref-for-sec-promise-objects③">Promise</a>.</p>
@@ -1023,28 +1668,28 @@ representation: <a data-link-type="dfn" href="https://w3c.github.io/FileAPI/#dfn
    <h2 class="heading settled" data-level="8" id="clipboard-actions"><span class="secno">8. </span><span class="content">Clipboard Actions</span><a class="self-link" href="#clipboard-actions"></a></h2>
    <p>This section defines clipboard actions and the processing model
 	for event dispatch.</p>
-   <p>Each clipboard action has two flags called <em>script-triggered</em> and <em>script-may-access-clipboard</em>.</p>
-   <p>The <dfn data-dfn-type="dfn" data-noexport id="script-triggered">script-triggered<a class="self-link" href="#script-triggered"></a></dfn> flag is set if the action runs because
+   <p>Each clipboard action has two flags called <a data-link-type="dfn" href="#script-triggered" id="ref-for-script-triggered">script-triggered</a> and <a data-link-type="dfn" href="#script-may-access-clipboard" id="ref-for-script-may-access-clipboard">script-may-access-clipboard</a>.</p>
+   <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="script-triggered">script-triggered</dfn> flag is set if the action runs because
 	of a script, for example a <code>document.execCommand()</code> call.
 	Future scripting APIs that interact with the clipboard should also use
-	these actions, and the <em>script-triggered</em> flag must be set
+	these actions, and the <a data-link-type="dfn" href="#script-triggered" id="ref-for-script-triggered①">script-triggered</a> flag must be set
 	accordingly.</p>
    <div class="algorithm" data-algorithm="script-may-access-clipboard">
-    <p>The <dfn data-dfn-type="dfn" data-noexport id="script-may-access-clipboard">script-may-access-clipboard<a class="self-link" href="#script-may-access-clipboard"></a></dfn> flag is set as follows:</p>
+    <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="script-may-access-clipboard">script-may-access-clipboard</dfn> flag is set as follows:</p>
     <ol>
      <li data-md>
       <p>If action is <em>copy</em> or <em>cut</em> and the script thread
 is <a data-link-type="dfn" href="#allowed-to-modify-the-clipboard" id="ref-for-allowed-to-modify-the-clipboard">allowed to modify the clipboard</a>, then</p>
       <ol>
        <li data-md>
-        <p>Set the action’s <em>script-may-access-clipboard</em> flag</p>
+        <p>Set the action’s <a data-link-type="dfn" href="#script-may-access-clipboard" id="ref-for-script-may-access-clipboard①">script-may-access-clipboard</a> flag</p>
       </ol>
      <li data-md>
       <p>If action is <em>paste</em> and the script thread is <a data-link-type="dfn" href="#allowed-to-read-from-clipboard" id="ref-for-allowed-to-read-from-clipboard">allowed to
 read from clipboard</a>, then</p>
       <ol>
        <li data-md>
-        <p>Set the action’s <em>script-may-access-clipboard</em> flag.</p>
+        <p>Set the action’s <a data-link-type="dfn" href="#script-may-access-clipboard" id="ref-for-script-may-access-clipboard②">script-may-access-clipboard</a> flag.</p>
       </ol>
     </ol>
    </div>
@@ -1053,10 +1698,10 @@ read from clipboard</a>, then</p>
     <p>The copy action consists of the following steps:</p>
     <ol>
      <li data-md>
-      <p>If the <em>script-triggered</em> flag is set, then</p>
+      <p>If the <a data-link-type="dfn" href="#script-triggered" id="ref-for-script-triggered②">script-triggered</a> flag is set, then</p>
       <ol>
        <li data-md>
-        <p>If the <em>script-may-access-clipboard</em> flag is unset, then</p>
+        <p>If the <a data-link-type="dfn" href="#script-may-access-clipboard" id="ref-for-script-may-access-clipboard③">script-may-access-clipboard</a> flag is unset, then</p>
         <ol>
          <li data-md>
           <p>Return false from the copy action, terminate this algorithm</p>
@@ -1091,10 +1736,10 @@ a <em>clear-was-called</em> flag and a <em>types-to-clear</em> list.</p>
     <p>The cut action consists of the following steps:</p>
     <ol>
      <li data-md>
-      <p>If the <em>script-triggered</em> flag is set, then</p>
+      <p>If the <a data-link-type="dfn" href="#script-triggered" id="ref-for-script-triggered③">script-triggered</a> flag is set, then</p>
       <ol>
        <li data-md>
-        <p>If the <em>script-may-access-clipboard</em> flag is unset, then</p>
+        <p>If the <a data-link-type="dfn" href="#script-may-access-clipboard" id="ref-for-script-may-access-clipboard④">script-may-access-clipboard</a> flag is unset, then</p>
         <ol>
          <li data-md>
           <p>Return false from the cut action, terminate this algorithm</p>
@@ -1145,7 +1790,7 @@ a <em>clear-was-called</em> flag and a <em>types-to-clear</em> list.</p>
     </ol>
    </div>
    <h3 class="heading settled" data-level="8.3" id="paste-action"><span class="secno">8.3. </span><span class="content">The paste action</span><a class="self-link" href="#paste-action"></a></h3>
-   <p>For the paste action, the <em>script-may-access-clipboard</em> flag
+   <p>For the paste action, the <a data-link-type="dfn" href="#script-may-access-clipboard" id="ref-for-script-may-access-clipboard⑤">script-may-access-clipboard</a> flag
 		depends on an implementation-specific permission mechanism for
 		determining what sites or apps may read from the clipboard. When a
 		paste action is triggered by a script, the implementation must not
@@ -1157,10 +1802,10 @@ a <em>clear-was-called</em> flag and a <em>types-to-clear</em> list.</p>
     <p>The paste action consists of the following steps:</p>
     <ol>
      <li data-md>
-      <p>If the <em>script-triggered</em> flag is set, then</p>
+      <p>If the <a data-link-type="dfn" href="#script-triggered" id="ref-for-script-triggered④">script-triggered</a> flag is set, then</p>
       <ol>
        <li data-md>
-        <p>If <em>script-may-access-clipboard</em> is unset, then</p>
+        <p>If <a data-link-type="dfn" href="#script-may-access-clipboard" id="ref-for-script-may-access-clipboard⑥">script-may-access-clipboard</a> is unset, then</p>
         <ol>
          <li data-md>
           <p>Return false from the paste action, terminate this algorithm</p>
@@ -1201,7 +1846,7 @@ the modification, see <a href="#integration-with-other-scripts-and-events">§ 
    <h2 class="heading settled" data-level="9" id="clipboard-permissions"><span class="secno">9. </span><span class="content">Permissions API Integration</span><a class="self-link" href="#clipboard-permissions"></a></h2>
    <p>The <a data-link-type="biblio" href="#biblio-permissions">[permissions]</a> API provides a uniform way for websites to access <a data-link-type="dfn" href="https://w3c.github.io/permissions/#powerful-feature" id="ref-for-powerful-feature①">powerful feature</a>s like the clipboard. It allows websites to request permissions
 	from users and query which permissions they have.</p>
-   <p>For the clipboard, two separate permissions are defined: <dfn class="idl-code" data-dfn-for="PermissionName" data-dfn-type="enum-value" data-export id="dom-permissionname-clipboard-read"><code>"clipboard-read"</code><a class="self-link" href="#dom-permissionname-clipboard-read"></a></dfn> and <dfn class="idl-code" data-dfn-for="PermissionName" data-dfn-type="enum-value" data-export id="dom-permissionname-clipboard-write"><code>"clipboard-write"</code><a class="self-link" href="#dom-permissionname-clipboard-write"></a></dfn></p>
+   <p>For the clipboard, one permission is defined: <dfn class="idl-code" data-dfn-for="PermissionName" data-dfn-type="enum-value" data-export id="dom-permissionname-clipboard-write"><code>"clipboard-write"</code><a class="self-link" href="#dom-permissionname-clipboard-write"></a></dfn></p>
    <p class="note" role="note"><span>Note:</span> Clipboard permissions currently only apply to the Async Clipboard API.
 	Future versions of this specification may be updated to apply this permission
 	to other Clipboard interactions.</p>
@@ -1210,16 +1855,12 @@ the modification, see <a href="#integration-with-other-scripts-and-events">§ 
    <dl>
     <dt> <a data-link-type="dfn" href="https://w3c.github.io/permissions/#permission-descriptor-type" id="ref-for-permission-descriptor-type">permission descriptor type</a> 
     <dd>
-<pre class="idl highlight def"><c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-clipboardpermissiondescriptor"><code><c- g>ClipboardPermissionDescriptor</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://w3c.github.io/permissions/#dictdef-permissiondescriptor" id="ref-for-dictdef-permissiondescriptor"><c- n>PermissionDescriptor</c-></a> {
+<pre class="idl highlight def"><c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-clipboardpermissiondescriptor"><code><c- g>ClipboardPermissionDescriptor</c-></code></dfn> : <a data-link-type="idl-name" href="https://w3c.github.io/permissions/#dictdef-permissiondescriptor" id="ref-for-dictdef-permissiondescriptor"><c- n>PermissionDescriptor</c-></a> {
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①"><c- b>boolean</c-></a> <dfn class="idl-code" data-default="false" data-dfn-for="ClipboardPermissionDescriptor" data-dfn-type="dict-member" data-export data-type="boolean " id="dom-clipboardpermissiondescriptor-allowwithoutgesture"><code><c- g>allowWithoutGesture</c-></code><a class="self-link" href="#dom-clipboardpermissiondescriptor-allowwithoutgesture"></a></dfn> = <c- b>false</c->;
 };
 </pre>
     <p>There are 4 clipboard permissions:</p>
     <ul>
-     <li data-md>
-      <p>{ name: "clipboard-read", allowWithoutGesture: false }</p>
-     <li data-md>
-      <p>{ name: "clipboard-read", allowWithoutGesture: true }</p>
      <li data-md>
       <p>{ name: "clipboard-write", allowWithoutGesture: false }</p>
      <li data-md>
@@ -1228,50 +1869,19 @@ the modification, see <a href="#integration-with-other-scripts-and-events">§ 
     <p>With the following relationships:</p>
     <ul>
      <li data-md>
-      <p><code>{ "clipboard-read" + true }</code> is stronger than <code>{ "clipboard-read" + false }</code></p>
-     <li data-md>
       <p><code>{ "clipboard-write" + true }</code> is stronger than <code>{ "clipboard-write" + false }</code></p>
     </ul>
-    <p class="note" role="note"><span>Note:</span> "clipboard-read" and "clipboard-write" are two separate permissions with no
-	inherent strength relationship. However, user agents MAY choose to impose such a
-	strength ordering on these permissions, for example by making the "clipboard-read"
-	permission act stronger than the "clipboard-write" permission. Doing this would
-	effectively turn the "clipboad-read" permission into a way to provide full
-	read/write access to the clipboard since granting (or denying) "clipboard-read" would
-	also grant (deny) "clipboard-write" access.</p>
     <p>While user agents MUST support the <code class="idl"><a data-link-type="idl" href="#dictdef-clipboardpermissiondescriptor" id="ref-for-dictdef-clipboardpermissiondescriptor">ClipboardPermissionDescriptor</a></code> as described
 	in this specification, they, of course, retain complete control over the default
 	settings and how (or if) they are exposed to the user.</p>
-    <div class="example" id="example-3f9d3e28">
-     <a class="self-link" href="#example-3f9d3e28"></a> A user agent that wants to have separate user-settable read and write controls over the clipboad
+    <div class="example" id="example-88786e0d">
+     <a class="self-link" href="#example-88786e0d"></a> A user agent that wants to have separate user-settable write controls over the clipboard
 		and always require a user gesture would handle each descriptor as follows: 
      <ul>
       <li data-md>
-       <p><code class="perm">{ "clipboard-read" + false }</code> is exposed for user control</p>
-      <li data-md>
-       <p><code class="perm">{ "clipboard-read" + true }</code> is always <a data-link-type="dfn" href="https://w3c.github.io/permissions/#dom-permissionstate-denied" id="ref-for-dom-permissionstate-denied">denied</a></p>
-      <li data-md>
        <p><code class="perm">{ "clipboard-write" + false }</code> is exposed for user control</p>
       <li data-md>
-       <p><code class="perm">{ "clipboard-write" + true }</code> is always <a data-link-type="dfn" href="https://w3c.github.io/permissions/#dom-permissionstate-denied" id="ref-for-dom-permissionstate-denied①">denied</a></p>
-     </ul>
-    </div>
-    <div class="example" id="example-2d4efd3e">
-     <a class="self-link" href="#example-2d4efd3e"></a> A user agent that wants to automatically grant "write" access (with a gesture),
-		but have a single user-settable permission that controls full gesture-less access would
-		define "clipboard-read" as being stronger than "clipboard-write" and then handle
-		each descriptor as follows: 
-     <ul>
-      <li data-md>
-       <p><code class="perm">{ "clipboard-read" + false }</code> is inherited from <code class="perm">{ "clipboard-read" + true }</code></p>
-      <li data-md>
-       <p><code class="perm">{ "clipboard-read" + true }</code> is exposed for user control</p>
-      <li data-md>
-       <p><code class="perm">{ "clipboard-write" + false }</code> is inherited from <code class="perm">{ "clipboard-write" + true }</code></p>
-      <li data-md>
-       <p><code class="perm">{ "clipboard-write" + true }</code> is <a data-link-type="dfn" href="https://w3c.github.io/permissions/#dom-permissionstate-granted" id="ref-for-dom-permissionstate-granted">granted</a> by default, but
-may be overridden by <code class="perm">{ "clipboard-read" + true }</code> because
-"read" is stronger than "write".</p>
+       <p><code class="perm">{ "clipboard-write" + true }</code> is always <a data-link-type="dfn" href="https://w3c.github.io/permissions/#dom-permissionstate-denied" id="ref-for-dom-permissionstate-denied">denied</a></p>
      </ul>
     </div>
     <h3 class="heading settled" data-level="9.1" id="read-permission"><span class="secno">9.1. </span><span class="content">Clipboard read permission</span><a class="self-link" href="#read-permission"></a></h3>
@@ -1279,28 +1889,17 @@ may be overridden by <code class="perm">{ "clipboard-read" + true }</code> becau
      <h4 class="heading settled" data-level="9.1.1" id="h-clipboard-read-permission"><span class="secno">9.1.1. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="check-clipboard-read-permission">check clipboard read permission</dfn></span><a class="self-link" href="#h-clipboard-read-permission"></a></h4>
      <ol>
       <li data-md>
-       <p>Let <var>readWithoutGesture</var> be the <a data-link-type="dfn" href="https://w3c.github.io/permissions/#permission-state" id="ref-for-permission-state">permission state</a> of the <code>{ name: "clipboard-read", allowWithoutGesture: true }</code> permission.</p>
-      <li data-md>
-       <p>Let <var>hasGesture</var> be true if the current script is not running as a result of
-direct user action, false otherwise.</p>
-      <li data-md>
-       <p>If <var>readWithoutGesture</var> is <a data-link-type="dfn" href="https://w3c.github.io/permissions/#dom-permissionstate-granted" id="ref-for-dom-permissionstate-granted①">granted</a>, then return true.</p>
+       <p>Let <var>hasGesture</var> be true if the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global">relevant global object</a> of <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this">this</a> has <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="ref-for-transient-activation">transient activation</a>, false otherwise.</p>
       <li data-md>
        <p>If <var>hasGesture</var> then,</p>
        <ol>
         <li data-md>
-         <p>Let <var>systemPaste</var> be true if the current script is running as a result of user
+         <p>Return true if the current script is running as a result of user
 interaction with a "Paste" element created by the user agent or operating
 system.</p>
-        <li data-md>
-         <p>If <var>systemPaste</var> is true, then return true.</p>
-        <li data-md>
-         <p>Return the result of <a data-link-type="dfn" href="https://w3c.github.io/permissions/#request-permission-to-use" id="ref-for-request-permission-to-use">request permission to use</a> the <code>{ name: "clipboard-read", allowWithoutGesture: false }</code> permission.</p>
-         <p class="note" role="note"><span>Note:</span> User agents may choose to request a stronger permission that
-will implicitly update this permission.</p>
        </ol>
       <li data-md>
-       <p>Return the result of <a data-link-type="dfn" href="https://w3c.github.io/permissions/#request-permission-to-use" id="ref-for-request-permission-to-use①">request permission to use</a> the <code>{ name: "clipboard-read", allowWithoutGesture: true }</code> permission.</p>
+       <p>Return false.</p>
      </ol>
     </div>
     <h3 class="heading settled" data-level="9.2" id="write-permission"><span class="secno">9.2. </span><span class="content">Clipboard write permission</span><a class="self-link" href="#write-permission"></a></h3>
@@ -1308,12 +1907,11 @@ will implicitly update this permission.</p>
      <h4 class="heading settled" data-level="9.2.1" id="h-clipboard-write-permission"><span class="secno">9.2.1. </span><span class="content"><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="check-clipboard-write-permission">check clipboard write permission</dfn></span><a class="self-link" href="#h-clipboard-write-permission"></a></h4>
      <ol>
       <li data-md>
-       <p>Let <var>writeWithoutGesture</var> be the <a data-link-type="dfn" href="https://w3c.github.io/permissions/#permission-state" id="ref-for-permission-state①">permission state</a> of the <code>{ name: "clipboard-write", allowWithoutGesture: true }</code> permission.</p>
+       <p>Let <var>writeWithoutGesture</var> be the <a data-link-type="dfn" href="https://w3c.github.io/permissions/#permission-state" id="ref-for-permission-state">permission state</a> of the <code>{ name: "clipboard-write", allowWithoutGesture: true }</code> permission.</p>
       <li data-md>
-       <p>Let <var>hasGesture</var> be true if the current script is not running as a result of
-direct user action, false otherwise.</p>
+       <p>If <var>writeWithoutGesture</var> is <a data-link-type="dfn" href="https://w3c.github.io/permissions/#dom-permissionstate-granted" id="ref-for-dom-permissionstate-granted">granted</a>, then return true.</p>
       <li data-md>
-       <p>If <var>writeWithoutGesture</var> is <a data-link-type="dfn" href="https://w3c.github.io/permissions/#dom-permissionstate-granted" id="ref-for-dom-permissionstate-granted②">granted</a>, then return true.</p>
+       <p>Let <var>hasGesture</var> be true if the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global①">relevant global object</a> of <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this①">this</a> has <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="ref-for-transient-activation①">transient activation</a>, false otherwise.</p>
       <li data-md>
        <p>If <var>hasGesture</var> then,</p>
        <ol>
@@ -1324,12 +1922,12 @@ system.</p>
         <li data-md>
          <p>If <var>systemCopy</var> is true, then return true.</p>
         <li data-md>
-         <p>Return the result of <a data-link-type="dfn" href="https://w3c.github.io/permissions/#request-permission-to-use" id="ref-for-request-permission-to-use②">request permission to use</a> the <code>{ name: "clipboard-write", allowWithoutGesture: false }</code> permission.</p>
+         <p>Return the result of <a data-link-type="dfn" href="https://w3c.github.io/permissions/#request-permission-to-use" id="ref-for-request-permission-to-use">request permission to use</a> the <code>{ name: "clipboard-write", allowWithoutGesture: false }</code> permission.</p>
          <p class="note" role="note"><span>Note:</span> User agents may choose to request a stronger permission that
 will implicitly update this permission.</p>
        </ol>
       <li data-md>
-       <p>Return the result of <a data-link-type="dfn" href="https://w3c.github.io/permissions/#request-permission-to-use" id="ref-for-request-permission-to-use③">request permission to use</a> the <code>{ name: "clipboard-write", allowWithoutGesture: true }</code> permission.</p>
+       <p>Return the result of <a data-link-type="dfn" href="https://w3c.github.io/permissions/#request-permission-to-use" id="ref-for-request-permission-to-use①">request permission to use</a> the <code>{ name: "clipboard-write", allowWithoutGesture: true }</code> permission.</p>
      </ol>
     </div>
     <h2 class="heading settled" data-level="10" id="security"><span class="secno">10. </span><span class="content">Security Considerations</span><a class="self-link" href="#security"></a></h2>
@@ -1396,7 +1994,7 @@ did not intend to expose.</p>
     <p>Some implementations mitigate the risks associated with pasting rich
 		text by stripping potentially malicious content such as SCRIPT elements
 		and javascript: links by default when pasting rich text, but allow a
-		paste event handler to retrieve and process  the original, un-sanitized
+		paste event handler to retrieve and process the original, un-sanitized
 		data.</p>
     <h3 class="heading settled" data-level="10.2" id="general-security-policies"><span class="secno">10.2. </span><span class="content">General security policies</span><a class="self-link" href="#general-security-policies"></a></h3>
     <p>The implementation <em>must not</em> download referenced online
@@ -1489,13 +2087,16 @@ has configured it to do so).</p>
 	Shawn Carnell,
 	Daniel Cheng,
 	Daniel Dardailler,
+	Domenic Denicola,
 	Al Gilman,
 	James Graham,
 	James Greene,
 	Ian Hickson,
+	Darwin Huang,
 	Lachlan Hunt,
 	Philip Jägenstedt,
 	Anne van Kesteren,
+	Marijn Kruisselbrink,
 	Aaron Leventhal,
 	Jim Ley,
 	Paul Libbrecht,
@@ -1925,7 +2526,6 @@ HTML code.</p>
     </ul>
    <li><a href="#clipboardevent">ClipboardEvent</a><span>, in §5.1</span>
    <li><a href="#dictdef-clipboardeventinit">ClipboardEventInit</a><span>, in §5.1</span>
-   <li><a href="#clipboard-events">Clipboard events</a><span>, in §5.2</span>
    <li><a href="#dom-clipboardevent-clipboardevent">ClipboardEvent(type)</a><span>, in §5.1</span>
    <li><a href="#dom-clipboardevent-clipboardevent">ClipboardEvent(type, eventInitDict)</a><span>, in §5.1</span>
    <li><a href="#clipboarditem">ClipboardItem</a><span>, in §7.2</span>
@@ -1937,8 +2537,11 @@ HTML code.</p>
    <li><a href="#dictdef-clipboarditemoptions">ClipboardItemOptions</a><span>, in §7.2</span>
    <li><a href="#typedefdef-clipboarditems">ClipboardItems</a><span>, in §7.2</span>
    <li><a href="#dictdef-clipboardpermissiondescriptor">ClipboardPermissionDescriptor</a><span>, in §9</span>
-   <li><a href="#dom-permissionname-clipboard-read">"clipboard-read"</a><span>, in §9</span>
    <li><a href="#dom-permissionname-clipboard-write">"clipboard-write"</a><span>, in §9</span>
+   <li><a href="#dom-clipboarditem-clipboarditem">constructor(items)</a><span>, in §7.2</span>
+   <li><a href="#dom-clipboarditem-clipboarditem">constructor(items, options)</a><span>, in §7.2</span>
+   <li><a href="#dom-clipboardevent-clipboardevent">constructor(type)</a><span>, in §5.1</span>
+   <li><a href="#dom-clipboardevent-clipboardevent">constructor(type, eventInitDict)</a><span>, in §5.1</span>
    <li><a href="#copy">copy</a><span>, in §5.2.2</span>
    <li><a href="#dom-clipboarditem-createdelayed">createDelayed(items)</a><span>, in §7.2</span>
    <li><a href="#dom-clipboarditem-createdelayed">createDelayed(items, options)</a><span>, in §7.2</span>
@@ -2133,12 +2736,26 @@ HTML code.</p>
     <li><a href="#ref-for-dom-datatransfer-items⑧">process an HTML paste event</a> <a href="#ref-for-dom-datatransfer-items⑨">(2)</a> <a href="#ref-for-dom-datatransfer-items①⓪">(3)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-relevant-global">
+   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global">https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-relevant-global">9.1.1. check clipboard read permission</a>
+    <li><a href="#ref-for-concept-relevant-global①">9.2.1. check clipboard write permission</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-dom-datatransfer-setdata">
    <a href="https://html.spec.whatwg.org/multipage/dnd.html#dom-datatransfer-setdata">https://html.spec.whatwg.org/multipage/dnd.html#dom-datatransfer-setdata</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-datatransfer-setdata">6.3. Overriding the paste event</a>
     <li><a href="#ref-for-dom-datatransfer-setdata①">write content to the clipboard</a>
     <li><a href="#ref-for-dom-datatransfer-setdata②">fire a clipboard event</a> <a href="#ref-for-dom-datatransfer-setdata③">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-transient-activation">
+   <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation">https://html.spec.whatwg.org/multipage/interaction.html#transient-activation</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-transient-activation">9.1.1. check clipboard read permission</a>
+    <li><a href="#ref-for-transient-activation①">9.2.1. check clipboard write permission</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dom-datatransfer-types">
@@ -2162,8 +2779,7 @@ HTML code.</p>
   <aside class="dfn-panel" data-for="term-for-permission-state">
    <a href="https://w3c.github.io/permissions/#permission-state">https://w3c.github.io/permissions/#permission-state</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-permission-state">9.1.1. check clipboard read permission</a>
-    <li><a href="#ref-for-permission-state①">9.2.1. check clipboard write permission</a>
+    <li><a href="#ref-for-permission-state">9.2.1. check clipboard write permission</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-powerful-feature">
@@ -2176,8 +2792,7 @@ HTML code.</p>
   <aside class="dfn-panel" data-for="term-for-request-permission-to-use">
    <a href="https://w3c.github.io/permissions/#request-permission-to-use">https://w3c.github.io/permissions/#request-permission-to-use</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-request-permission-to-use">9.1.1. check clipboard read permission</a> <a href="#ref-for-request-permission-to-use①">(2)</a>
-    <li><a href="#ref-for-request-permission-to-use②">9.2.1. check clipboard write permission</a> <a href="#ref-for-request-permission-to-use③">(2)</a>
+    <li><a href="#ref-for-request-permission-to-use">9.2.1. check clipboard write permission</a> <a href="#ref-for-request-permission-to-use①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-DOMString">
@@ -2192,6 +2807,18 @@ HTML code.</p>
    <ul>
     <li><a href="#ref-for-Exposed">5.1. Clipboard event interfaces</a>
     <li><a href="#ref-for-Exposed①">7.2. Clipboard Interface</a> <a href="#ref-for-Exposed②">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-idl-frozen-array">
+   <a href="https://heycam.github.io/webidl/#idl-frozen-array">https://heycam.github.io/webidl/#idl-frozen-array</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-idl-frozen-array">7.2. Clipboard Interface</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-idl-promise">
+   <a href="https://heycam.github.io/webidl/#idl-promise">https://heycam.github.io/webidl/#idl-promise</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-idl-promise">7.2. Clipboard Interface</a> <a href="#ref-for-idl-promise①">(2)</a> <a href="#ref-for-idl-promise②">(3)</a> <a href="#ref-for-idl-promise③">(4)</a> <a href="#ref-for-idl-promise④">(5)</a> <a href="#ref-for-idl-promise⑤">(6)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-SameObject">
@@ -2220,66 +2847,99 @@ HTML code.</p>
     <li><a href="#ref-for-idl-long-long">7.2. Clipboard Interface</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-idl-record">
+   <a href="https://heycam.github.io/webidl/#idl-record">https://heycam.github.io/webidl/#idl-record</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-idl-record">7.2. Clipboard Interface</a> <a href="#ref-for-idl-record①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-idl-sequence">
+   <a href="https://heycam.github.io/webidl/#idl-sequence">https://heycam.github.io/webidl/#idl-sequence</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-idl-sequence">7.2. Clipboard Interface</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-this">
+   <a href="https://heycam.github.io/webidl/#this">https://heycam.github.io/webidl/#this</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-this">9.1.1. check clipboard read permission</a>
+    <li><a href="#ref-for-this①">9.2.1. check clipboard write permission</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-idl-undefined">
+   <a href="https://heycam.github.io/webidl/#idl-undefined">https://heycam.github.io/webidl/#idl-undefined</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-idl-undefined">7.2. Clipboard Interface</a> <a href="#ref-for-idl-undefined①">(2)</a>
+   </ul>
+  </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
    <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-event" style="color:initial">Event</span>
-     <li><span class="dfn-paneled" id="term-for-dictdef-eventinit" style="color:initial">EventInit</span>
-     <li><span class="dfn-paneled" id="term-for-eventtarget" style="color:initial">EventTarget</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-composed" style="color:initial">composed</span>
-     <li><span class="dfn-paneled" id="term-for-concept-cd-data" style="color:initial">data</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-istrusted" style="color:initial">isTrusted</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-preventdefault" style="color:initial">preventDefault()</span>
+     <li><span class="dfn-paneled" id="term-for-event">Event</span>
+     <li><span class="dfn-paneled" id="term-for-dictdef-eventinit">EventInit</span>
+     <li><span class="dfn-paneled" id="term-for-eventtarget">EventTarget</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-composed">composed</span>
+     <li><span class="dfn-paneled" id="term-for-concept-cd-data">data</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-istrusted">isTrusted</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-preventdefault">preventDefault()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[ECMASCRIPT]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-sec-promise-objects" style="color:initial">promise</span>
+     <li><span class="dfn-paneled" id="term-for-sec-promise-objects">promise</span>
     </ul>
    <li>
     <a data-link-type="biblio">[FileAPI]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dfn-Blob" style="color:initial">Blob</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-file" style="color:initial">File</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-lastModified" style="color:initial">lastModified</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-name" style="color:initial">name</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-Blob">Blob</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-file">File</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-lastModified">lastModified</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-name">name</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-datatransfer" style="color:initial">DataTransfer</span>
-     <li><span class="dfn-paneled" id="term-for-datatransferitem" style="color:initial">DataTransferItem</span>
-     <li><span class="dfn-paneled" id="term-for-datatransferitemlist" style="color:initial">DataTransferItemList</span>
-     <li><span class="dfn-paneled" id="term-for-navigator" style="color:initial">Navigator</span>
-     <li><span class="dfn-paneled" id="term-for-dom-datatransferitemlist-clear" style="color:initial">clear()</span>
-     <li><span class="dfn-paneled" id="term-for-dom-datatransfer-cleardata" style="color:initial">clearData()</span>
-     <li><span class="dfn-paneled" id="term-for-dom-datatransfer-files" style="color:initial">files</span>
-     <li><span class="dfn-paneled" id="term-for-dom-datatransfer-getdata" style="color:initial">getData(format)</span>
-     <li><span class="dfn-paneled" id="term-for-in-parallel" style="color:initial">in parallel</span>
-     <li><span class="dfn-paneled" id="term-for-dom-datatransfer-items" style="color:initial">items</span>
-     <li><span class="dfn-paneled" id="term-for-dom-datatransfer-setdata" style="color:initial">setData(format, data)</span>
-     <li><span class="dfn-paneled" id="term-for-dom-datatransfer-types" style="color:initial">types</span>
+     <li><span class="dfn-paneled" id="term-for-datatransfer">DataTransfer</span>
+     <li><span class="dfn-paneled" id="term-for-datatransferitem">DataTransferItem</span>
+     <li><span class="dfn-paneled" id="term-for-datatransferitemlist">DataTransferItemList</span>
+     <li><span class="dfn-paneled" id="term-for-navigator">Navigator</span>
+     <li><span class="dfn-paneled" id="term-for-dom-datatransferitemlist-clear">clear()</span>
+     <li><span class="dfn-paneled" id="term-for-dom-datatransfer-cleardata">clearData()</span>
+     <li><span class="dfn-paneled" id="term-for-dom-datatransfer-files">files</span>
+     <li><span class="dfn-paneled" id="term-for-dom-datatransfer-getdata">getData(format)</span>
+     <li><span class="dfn-paneled" id="term-for-in-parallel">in parallel</span>
+     <li><span class="dfn-paneled" id="term-for-dom-datatransfer-items">items</span>
+     <li><span class="dfn-paneled" id="term-for-concept-relevant-global">relevant global object</span>
+     <li><span class="dfn-paneled" id="term-for-dom-datatransfer-setdata">setData(format, data)</span>
+     <li><span class="dfn-paneled" id="term-for-transient-activation">transient activation</span>
+     <li><span class="dfn-paneled" id="term-for-dom-datatransfer-types">types</span>
     </ul>
    <li>
     <a data-link-type="biblio">[permissions]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dictdef-permissiondescriptor" style="color:initial">PermissionDescriptor</span>
-     <li><span class="dfn-paneled" id="term-for-permission-descriptor-type" style="color:initial">permission descriptor type</span>
-     <li><span class="dfn-paneled" id="term-for-permission-state" style="color:initial">permission state</span>
-     <li><span class="dfn-paneled" id="term-for-powerful-feature" style="color:initial">powerful feature</span>
-     <li><span class="dfn-paneled" id="term-for-request-permission-to-use" style="color:initial">request permission to use</span>
+     <li><span class="dfn-paneled" id="term-for-dictdef-permissiondescriptor">PermissionDescriptor</span>
+     <li><span class="dfn-paneled" id="term-for-permission-descriptor-type">permission descriptor type</span>
+     <li><span class="dfn-paneled" id="term-for-permission-state">permission state</span>
+     <li><span class="dfn-paneled" id="term-for-powerful-feature">powerful feature</span>
+     <li><span class="dfn-paneled" id="term-for-request-permission-to-use">request permission to use</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-idl-DOMString" style="color:initial">DOMString</span>
-     <li><span class="dfn-paneled" id="term-for-Exposed" style="color:initial">Exposed</span>
-     <li><span class="dfn-paneled" id="term-for-SameObject" style="color:initial">SameObject</span>
-     <li><span class="dfn-paneled" id="term-for-SecureContext" style="color:initial">SecureContext</span>
-     <li><span class="dfn-paneled" id="term-for-idl-boolean" style="color:initial">boolean</span>
-     <li><span class="dfn-paneled" id="term-for-idl-long-long" style="color:initial">long long</span>
+     <li><span class="dfn-paneled" id="term-for-idl-DOMString">DOMString</span>
+     <li><span class="dfn-paneled" id="term-for-Exposed">Exposed</span>
+     <li><span class="dfn-paneled" id="term-for-idl-frozen-array">FrozenArray</span>
+     <li><span class="dfn-paneled" id="term-for-idl-promise">Promise</span>
+     <li><span class="dfn-paneled" id="term-for-SameObject">SameObject</span>
+     <li><span class="dfn-paneled" id="term-for-SecureContext">SecureContext</span>
+     <li><span class="dfn-paneled" id="term-for-idl-boolean">boolean</span>
+     <li><span class="dfn-paneled" id="term-for-idl-long-long">long long</span>
+     <li><span class="dfn-paneled" id="term-for-idl-record">record</span>
+     <li><span class="dfn-paneled" id="term-for-idl-sequence">sequence</span>
+     <li><span class="dfn-paneled" id="term-for-this">this</span>
+     <li><span class="dfn-paneled" id="term-for-idl-undefined">undefined</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -2288,13 +2948,13 @@ HTML code.</p>
    <dt id="biblio-dom">[DOM]
    <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/">DOM Standard</a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
    <dt id="biblio-ecmascript">[ECMASCRIPT]
-   <dd><a href="https://tc39.github.io/ecma262/">ECMAScript Language Specification</a>. URL: <a href="https://tc39.github.io/ecma262/">https://tc39.github.io/ecma262/</a>
+   <dd><a href="https://tc39.es/ecma262/">ECMAScript Language Specification</a>. URL: <a href="https://tc39.es/ecma262/">https://tc39.es/ecma262/</a>
    <dt id="biblio-fileapi">[FileAPI]
-   <dd>Marijn Kruisselbrink; Arun Ranganathan. <a href="https://www.w3.org/TR/FileAPI/">File API</a>. 31 May 2019. WD. URL: <a href="https://www.w3.org/TR/FileAPI/">https://www.w3.org/TR/FileAPI/</a>
+   <dd>Marijn Kruisselbrink; Arun Ranganathan. <a href="https://www.w3.org/TR/FileAPI/">File API</a>. 11 September 2019. WD. URL: <a href="https://www.w3.org/TR/FileAPI/">https://www.w3.org/TR/FileAPI/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-permissions">[PERMISSIONS]
-   <dd>Mounir Lamouri; Marcos Caceres; Jeffrey Yasskin. <a href="https://www.w3.org/TR/permissions/">Permissions</a>. 25 September 2017. WD. URL: <a href="https://www.w3.org/TR/permissions/">https://www.w3.org/TR/permissions/</a>
+   <dd>Mounir Lamouri; Marcos Caceres; Jeffrey Yasskin. <a href="https://www.w3.org/TR/permissions/">Permissions</a>. 20 July 2020. WD. URL: <a href="https://www.w3.org/TR/permissions/">https://www.w3.org/TR/permissions/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-rfc2392">[RFC2392]
@@ -2312,57 +2972,58 @@ HTML code.</p>
    <dd>Erik Dahlström; et al. <a href="https://www.w3.org/TR/SVG11/">Scalable Vector Graphics (SVG) 1.1 (Second Edition)</a>. 16 August 2011. REC. URL: <a href="https://www.w3.org/TR/SVG11/">https://www.w3.org/TR/SVG11/</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
-<pre class="idl highlight def"><c- b>dictionary</c-> <a href="#dictdef-clipboardeventinit"><code><c- g>ClipboardEventInit</c-></code></a> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#dictdef-eventinit" id="ref-for-dictdef-eventinit①"><c- n>EventInit</c-></a> {
-  <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/dnd.html#datatransfer" id="ref-for-datatransfer①④"><c- n>DataTransfer</c-></a>? <a data-default="null" data-type="DataTransfer? " href="#dom-clipboardeventinit-clipboarddata"><code><c- g>clipboardData</c-></code></a> = <c- b>null</c->;
+<pre class="idl highlight def"><c- b>dictionary</c-> <a href="#dictdef-clipboardeventinit"><code><c- g>ClipboardEventInit</c-></code></a> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#dictdef-eventinit"><c- n>EventInit</c-></a> {
+  <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/dnd.html#datatransfer"><c- n>DataTransfer</c-></a>? <a data-default="null" data-type="DataTransfer? " href="#dom-clipboardeventinit-clipboarddata"><code><c- g>clipboardData</c-></code></a> = <c- b>null</c->;
 };
 
-[<a href="#dom-clipboardevent-clipboardevent"><code><c- g>Constructor</c-></code></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑧"><c- b>DOMString</c-></a> <a href="#dom-clipboardevent-clipboardevent-type-eventinitdict-type"><code><c- g>type</c-></code></a>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-clipboardeventinit" id="ref-for-dictdef-clipboardeventinit①"><c- n>ClipboardEventInit</c-></a> <a href="#dom-clipboardevent-clipboardevent-type-eventinitdict-eventinitdict"><code><c- g>eventInitDict</c-></code></a> = {}), <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed③"><c- g>Exposed</c-></a>=<c- n>Window</c->]
-<c- b>interface</c-> <a href="#clipboardevent"><code><c- g>ClipboardEvent</c-></code></a> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①①"><c- n>Event</c-></a> {
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/dnd.html#datatransfer" id="ref-for-datatransfer③①"><c- n>DataTransfer</c-></a>? <a data-readonly data-type="DataTransfer?" href="#dom-clipboardevent-clipboarddata"><code><c- g>clipboardData</c-></code></a>;
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<c- b>interface</c-> <a href="#clipboardevent"><code><c- g>ClipboardEvent</c-></code></a> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#event"><c- n>Event</c-></a> {
+  <a href="#dom-clipboardevent-clipboardevent"><code><c- g>constructor</c-></code></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString"><c- b>DOMString</c-></a> <a href="#dom-clipboardevent-clipboardevent-type-eventinitdict-type"><code><c- g>type</c-></code></a>, <c- b>optional</c-> <a data-link-type="idl-name" href="#dictdef-clipboardeventinit"><c- n>ClipboardEventInit</c-></a> <a href="#dom-clipboardevent-clipboardevent-type-eventinitdict-eventinitdict"><code><c- g>eventInitDict</c-></code></a> = {});
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/dnd.html#datatransfer"><c- n>DataTransfer</c-></a>? <a data-readonly data-type="DataTransfer?" href="#dom-clipboardevent-clipboarddata"><code><c- g>clipboardData</c-></code></a>;
 };
 
-<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/system-state.html#navigator" id="ref-for-navigator②"><c- g>Navigator</c-></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext②"><c- g>SecureContext</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject①"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#clipboard" id="ref-for-clipboard①"><c- n>Clipboard</c-></a> <a data-readonly data-type="Clipboard" href="#dom-navigator-clipboard"><code><c- g>clipboard</c-></code></a>;
+<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/system-state.html#navigator"><c- g>Navigator</c-></a> {
+  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext"><c- g>SecureContext</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="#clipboard"><c- n>Clipboard</c-></a> <a data-readonly data-type="Clipboard" href="#dom-navigator-clipboard"><code><c- g>clipboard</c-></code></a>;
 };
 
-<c- b>typedef</c-> <c- b>sequence</c->&lt;<a class="n" data-link-type="idl-name" href="#clipboarditem" id="ref-for-clipboarditem①①"><c- n>ClipboardItem</c-></a>> <a href="#typedefdef-clipboarditems"><code><c- g>ClipboardItems</c-></code></a>;
+<c- b>typedef</c-> <a data-link-type="dfn" href="https://heycam.github.io/webidl/#idl-sequence"><c- b>sequence</c-></a>&lt;<a data-link-type="idl-name" href="#clipboarditem"><c- n>ClipboardItem</c-></a>> <a href="#typedefdef-clipboarditems"><code><c- g>ClipboardItems</c-></code></a>;
 
-[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext" id="ref-for-SecureContext①①"><c- g>SecureContext</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①①"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <a href="#clipboard"><code><c- g>Clipboard</c-></code></a> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①"><c- n>EventTarget</c-></a> {
-  <c- b>Promise</c->&lt;<a class="n" data-link-type="idl-name" href="#typedefdef-clipboarditems" id="ref-for-typedefdef-clipboarditems②"><c- n>ClipboardItems</c-></a>> <a class="idl-code" data-link-type="method" href="#dom-clipboard-read" id="ref-for-dom-clipboard-read①①"><c- g>read</c-></a>();
-  <c- b>Promise</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①①"><c- b>DOMString</c-></a>> <a class="idl-code" data-link-type="method" href="#dom-clipboard-readtext" id="ref-for-dom-clipboard-readtext②"><c- g>readText</c-></a>();
-  <c- b>Promise</c->&lt;<c- b>void</c->> <a class="idl-code" data-link-type="method" href="#dom-clipboard-write" id="ref-for-dom-clipboard-write①①"><c- g>write</c-></a>(<a class="n" data-link-type="idl-name" href="#typedefdef-clipboarditems" id="ref-for-typedefdef-clipboarditems①①"><c- n>ClipboardItems</c-></a> <a href="#dom-clipboard-write-data-data"><code><c- g>data</c-></code></a>);
-  <c- b>Promise</c->&lt;<c- b>void</c->> <a class="idl-code" data-link-type="method" href="#dom-clipboard-writetext" id="ref-for-dom-clipboard-writetext②"><c- g>writeText</c-></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString②①"><c- b>DOMString</c-></a> <a href="#dom-clipboard-writetext-data-data"><code><c- g>data</c-></code></a>);
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SecureContext"><c- g>SecureContext</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <a href="#clipboard"><code><c- g>Clipboard</c-></code></a> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#eventtarget"><c- n>EventTarget</c-></a> {
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise"><c- b>Promise</c-></a>&lt;<a data-link-type="idl-name" href="#typedefdef-clipboarditems"><c- n>ClipboardItems</c-></a>> <a class="idl-code" data-link-type="method" href="#dom-clipboard-read"><c- g>read</c-></a>();
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise"><c- b>Promise</c-></a>&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString"><c- b>DOMString</c-></a>> <a class="idl-code" data-link-type="method" href="#dom-clipboard-readtext"><c- g>readText</c-></a>();
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise"><c- b>Promise</c-></a>&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-undefined"><c- b>undefined</c-></a>> <a class="idl-code" data-link-type="method" href="#dom-clipboard-write"><c- g>write</c-></a>(<a data-link-type="idl-name" href="#typedefdef-clipboarditems"><c- n>ClipboardItems</c-></a> <a href="#dom-clipboard-write-data-data"><code><c- g>data</c-></code></a>);
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise"><c- b>Promise</c-></a>&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-undefined"><c- b>undefined</c-></a>> <a class="idl-code" data-link-type="method" href="#dom-clipboard-writetext"><c- g>writeText</c-></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString"><c- b>DOMString</c-></a> <a href="#dom-clipboard-writetext-data-data"><code><c- g>data</c-></code></a>);
 };
 
-<c- b>typedef</c-> (<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString③①"><c- b>DOMString</c-></a> <c- b>or</c-> <a class="n" data-link-type="idl-name" href="https://w3c.github.io/FileAPI/#dfn-Blob" id="ref-for-dfn-Blob⑤"><c- n>Blob</c-></a>) <a href="#typedefdef-clipboarditemdatatype"><code><c- g>ClipboardItemDataType</c-></code></a>;
-<c- b>typedef</c-> <c- b>Promise</c->&lt;<a class="n" data-link-type="idl-name" href="#typedefdef-clipboarditemdatatype" id="ref-for-typedefdef-clipboarditemdatatype①"><c- n>ClipboardItemDataType</c-></a>> <a href="#typedefdef-clipboarditemdata"><code><c- g>ClipboardItemData</c-></code></a>;
+<c- b>typedef</c-> (<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString"><c- b>DOMString</c-></a> <c- b>or</c-> <a data-link-type="idl-name" href="https://w3c.github.io/FileAPI/#dfn-Blob"><c- n>Blob</c-></a>) <a href="#typedefdef-clipboarditemdatatype"><code><c- g>ClipboardItemDataType</c-></code></a>;
+<c- b>typedef</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise"><c- b>Promise</c-></a>&lt;<a data-link-type="idl-name" href="#typedefdef-clipboarditemdatatype"><c- n>ClipboardItemDataType</c-></a>> <a href="#typedefdef-clipboarditemdata"><code><c- g>ClipboardItemData</c-></code></a>;
 
-<c- b>callback</c-> <a href="#callbackdef-clipboarditemdelayedcallback"><code><c- g>ClipboardItemDelayedCallback</c-></code></a> = <a class="n" data-link-type="idl-name" href="#typedefdef-clipboarditemdata" id="ref-for-typedefdef-clipboarditemdata②"><c- n>ClipboardItemData</c-></a> ();
+<c- b>callback</c-> <a href="#callbackdef-clipboarditemdelayedcallback"><code><c- g>ClipboardItemDelayedCallback</c-></code></a> = <a data-link-type="idl-name" href="#typedefdef-clipboarditemdata"><c- n>ClipboardItemData</c-></a> ();
 
-[<a href="#dom-clipboarditem-clipboarditem"><code><c- g>Constructor</c-></code></a>(<c- b>record</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString④①"><c- b>DOMString</c-></a>, <a class="n" data-link-type="idl-name" href="#typedefdef-clipboarditemdata" id="ref-for-typedefdef-clipboarditemdata①①"><c- n>ClipboardItemData</c-></a>> <a href="#dom-clipboarditem-clipboarditem-items-options-items"><code><c- g>items</c-></code></a>,
-    <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-clipboarditemoptions" id="ref-for-dictdef-clipboarditemoptions②"><c- n>ClipboardItemOptions</c-></a> <a href="#dom-clipboarditem-clipboarditem-items-options-options"><code><c- g>options</c-></code></a> = {}),
- <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②①"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <a href="#clipboarditem"><code><c- g>ClipboardItem</c-></code></a> {
-  <c- b>static</c-> <a class="n" data-link-type="idl-name" href="#clipboarditem" id="ref-for-clipboarditem②①"><c- n>ClipboardItem</c-></a> <a href="#dom-clipboarditem-createdelayed"><code><c- g>createDelayed</c-></code></a>(
-      <c- b>record</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑤①"><c- b>DOMString</c-></a>, <a class="n" data-link-type="idl-name" href="#callbackdef-clipboarditemdelayedcallback" id="ref-for-callbackdef-clipboarditemdelayedcallback①"><c- n>ClipboardItemDelayedCallback</c-></a>> <a href="#dom-clipboarditem-createdelayed-items-options-items"><code><c- g>items</c-></code></a>,
-      <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-clipboarditemoptions" id="ref-for-dictdef-clipboarditemoptions①①"><c- n>ClipboardItemOptions</c-></a> <a href="#dom-clipboarditem-createdelayed-items-options-options"><code><c- g>options</c-></code></a> = {});
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->] <c- b>interface</c-> <a href="#clipboarditem"><code><c- g>ClipboardItem</c-></code></a> {
+  <a href="#dom-clipboarditem-clipboarditem"><code><c- g>constructor</c-></code></a>(<a data-link-type="dfn" href="https://heycam.github.io/webidl/#idl-record"><c- b>record</c-></a>&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString"><c- b>DOMString</c-></a>, <a data-link-type="idl-name" href="#typedefdef-clipboarditemdata"><c- n>ClipboardItemData</c-></a>> <a href="#dom-clipboarditem-clipboarditem-items-options-items"><code><c- g>items</c-></code></a>,
+    <c- b>optional</c-> <a data-link-type="idl-name" href="#dictdef-clipboarditemoptions"><c- n>ClipboardItemOptions</c-></a> <a href="#dom-clipboarditem-clipboarditem-items-options-options"><code><c- g>options</c-></code></a> = {});
+  <c- b>static</c-> <a data-link-type="idl-name" href="#clipboarditem"><c- n>ClipboardItem</c-></a> <a href="#dom-clipboarditem-createdelayed"><code><c- g>createDelayed</c-></code></a>(
+      <a data-link-type="dfn" href="https://heycam.github.io/webidl/#idl-record"><c- b>record</c-></a>&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString"><c- b>DOMString</c-></a>, <a data-link-type="idl-name" href="#callbackdef-clipboarditemdelayedcallback"><c- n>ClipboardItemDelayedCallback</c-></a>> <a href="#dom-clipboarditem-createdelayed-items-options-items"><code><c- g>items</c-></code></a>,
+      <c- b>optional</c-> <a data-link-type="idl-name" href="#dictdef-clipboarditemoptions"><c- n>ClipboardItemOptions</c-></a> <a href="#dom-clipboarditem-createdelayed-items-options-options"><code><c- g>options</c-></code></a> = {});
 
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#enumdef-presentationstyle" id="ref-for-enumdef-presentationstyle②"><c- n>PresentationStyle</c-></a> <a data-readonly data-type="PresentationStyle" href="#dom-clipboarditem-presentationstyle"><code><c- g>presentationStyle</c-></code></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long-long" id="ref-for-idl-long-long①"><c- b>long</c-> <c- b>long</c-></a> <a data-readonly data-type="long long" href="#dom-clipboarditem-lastmodified"><code><c- g>lastModified</c-></code></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean②"><c- b>boolean</c-></a> <a data-readonly data-type="boolean" href="#dom-clipboarditem-delayed"><code><c- g>delayed</c-></code></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="#enumdef-presentationstyle"><c- n>PresentationStyle</c-></a> <a data-readonly data-type="PresentationStyle" href="#dom-clipboarditem-presentationstyle"><code><c- g>presentationStyle</c-></code></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long-long"><c- b>long</c-> <c- b>long</c-></a> <a data-readonly data-type="long long" href="#dom-clipboarditem-lastmodified"><code><c- g>lastModified</c-></code></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a data-readonly data-type="boolean" href="#dom-clipboarditem-delayed"><code><c- g>delayed</c-></code></a>;
 
-  <c- b>readonly</c-> <c- b>attribute</c-> <c- b>FrozenArray</c->&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑥①"><c- b>DOMString</c-></a>> <a data-readonly data-type="FrozenArray<DOMString>" href="#dom-clipboarditem-types"><code><c- g>types</c-></code></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-frozen-array"><c- b>FrozenArray</c-></a>&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString"><c- b>DOMString</c-></a>> <a data-readonly data-type="FrozenArray<DOMString>" href="#dom-clipboarditem-types"><code><c- g>types</c-></code></a>;
 
-  <c- b>Promise</c->&lt;<a class="n" data-link-type="idl-name" href="https://w3c.github.io/FileAPI/#dfn-Blob" id="ref-for-dfn-Blob①①"><c- n>Blob</c-></a>> <a href="#dom-clipboarditem-gettype"><code><c- g>getType</c-></code></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString⑦①"><c- b>DOMString</c-></a> <a href="#dom-clipboarditem-gettype-type-type"><code><c- g>type</c-></code></a>);
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise"><c- b>Promise</c-></a>&lt;<a data-link-type="idl-name" href="https://w3c.github.io/FileAPI/#dfn-Blob"><c- n>Blob</c-></a>> <a href="#dom-clipboarditem-gettype"><code><c- g>getType</c-></code></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString"><c- b>DOMString</c-></a> <a href="#dom-clipboarditem-gettype-type-type"><code><c- g>type</c-></code></a>);
 };
 
 <c- b>enum</c-> <a href="#enumdef-presentationstyle"><code><c- g>PresentationStyle</c-></code></a> { <a href="#dom-presentationstyle-unspecified"><code><c- s>"unspecified"</c-></code></a>, <a href="#dom-presentationstyle-inline"><code><c- s>"inline"</c-></code></a>, <a href="#dom-presentationstyle-attachment"><code><c- s>"attachment"</c-></code></a> };
 
 <c- b>dictionary</c-> <a href="#dictdef-clipboarditemoptions"><code><c- g>ClipboardItemOptions</c-></code></a> {
-  <a class="n" data-link-type="idl-name" href="#enumdef-presentationstyle" id="ref-for-enumdef-presentationstyle①①"><c- n>PresentationStyle</c-></a> <a data-default="&quot;unspecified&quot;" data-type="PresentationStyle " href="#dom-clipboarditemoptions-presentationstyle"><code><c- g>presentationStyle</c-></code></a> = "unspecified";
+  <a data-link-type="idl-name" href="#enumdef-presentationstyle"><c- n>PresentationStyle</c-></a> <a data-default="&quot;unspecified&quot;" data-type="PresentationStyle " href="#dom-clipboarditemoptions-presentationstyle"><code><c- g>presentationStyle</c-></code></a> = "unspecified";
 };
 
-<c- b>dictionary</c-> <a href="#dictdef-clipboardpermissiondescriptor"><code><c- g>ClipboardPermissionDescriptor</c-></code></a> : <a class="n" data-link-type="idl-name" href="https://w3c.github.io/permissions/#dictdef-permissiondescriptor" id="ref-for-dictdef-permissiondescriptor①"><c- n>PermissionDescriptor</c-></a> {
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①①"><c- b>boolean</c-></a> <a data-default="false" data-type="boolean " href="#dom-clipboardpermissiondescriptor-allowwithoutgesture"><code><c- g>allowWithoutGesture</c-></code></a> = <c- b>false</c->;
+<c- b>dictionary</c-> <a href="#dictdef-clipboardpermissiondescriptor"><code><c- g>ClipboardPermissionDescriptor</c-></code></a> : <a data-link-type="idl-name" href="https://w3c.github.io/permissions/#dictdef-permissiondescriptor"><c- n>PermissionDescriptor</c-></a> {
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a data-default="false" data-type="boolean " href="#dom-clipboardpermissiondescriptor-allowwithoutgesture"><code><c- g>allowWithoutGesture</c-></code></a> = <c- b>false</c->;
 };
 
 </pre>
@@ -2557,14 +3218,14 @@ required, and because it’s hard to test in a cross-platform way.<a href="#issu
    <ul>
     <li><a href="#ref-for-dom-clipboard-read">2.2. Remote Clipboard Synchronization</a>
     <li><a href="#ref-for-dom-clipboard-read①">7.2. Clipboard Interface</a>
-    <li><a href="#ref-for-dom-clipboard-read②">7.2.1. read()</a>
+    <li><a href="#ref-for-dom-clipboard-read">7.2.1. read()</a> <a href="#ref-for-dom-clipboard-read②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-clipboard-readtext">
    <b><a href="#dom-clipboard-readtext">#dom-clipboard-readtext</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-clipboard-readtext">7.2. Clipboard Interface</a>
-    <li><a href="#ref-for-dom-clipboard-readtext①">7.2.2. readText()</a>
+    <li><a href="#ref-for-dom-clipboard-readtext">7.2.2. readText()</a> <a href="#ref-for-dom-clipboard-readtext①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-clipboard-write">
@@ -2572,14 +3233,32 @@ required, and because it’s hard to test in a cross-platform way.<a href="#issu
    <ul>
     <li><a href="#ref-for-dom-clipboard-write">2.2. Remote Clipboard Synchronization</a>
     <li><a href="#ref-for-dom-clipboard-write①">7.2. Clipboard Interface</a>
-    <li><a href="#ref-for-dom-clipboard-write②">7.2.3. write(data)</a>
+    <li><a href="#ref-for-dom-clipboard-write">7.2.3. write(data)</a> <a href="#ref-for-dom-clipboard-write②">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-clipboard-writetext">
    <b><a href="#dom-clipboard-writetext">#dom-clipboard-writetext</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-clipboard-writetext">7.2. Clipboard Interface</a>
-    <li><a href="#ref-for-dom-clipboard-writetext①">7.2.4. writeText(data)</a>
+    <li><a href="#ref-for-dom-clipboard-writetext">7.2.4. writeText(data)</a> <a href="#ref-for-dom-clipboard-writetext①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="script-triggered">
+   <b><a href="#script-triggered">#script-triggered</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-script-triggered">8. Clipboard Actions</a> <a href="#ref-for-script-triggered①">(2)</a>
+    <li><a href="#ref-for-script-triggered②">8.1. The copy action</a>
+    <li><a href="#ref-for-script-triggered③">8.2. The cut action</a>
+    <li><a href="#ref-for-script-triggered④">8.3. The paste action</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="script-may-access-clipboard">
+   <b><a href="#script-may-access-clipboard">#script-may-access-clipboard</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-script-may-access-clipboard">8. Clipboard Actions</a> <a href="#ref-for-script-may-access-clipboard①">(2)</a> <a href="#ref-for-script-may-access-clipboard②">(3)</a>
+    <li><a href="#ref-for-script-may-access-clipboard③">8.1. The copy action</a>
+    <li><a href="#ref-for-script-may-access-clipboard④">8.2. The cut action</a>
+    <li><a href="#ref-for-script-may-access-clipboard⑤">8.3. The paste action</a> <a href="#ref-for-script-may-access-clipboard⑥">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dictdef-clipboardpermissiondescriptor">
@@ -2626,90 +3305,6 @@ required, and because it’s hard to test in a cross-platform way.<a href="#issu
     <li><a href="#ref-for-process-an-html-paste-event">fire a clipboard event</a>
    </ul>
   </aside>
-<script>/* script-var-click-highlighting */
-
-    document.addEventListener("click", e=>{
-        if(e.target.nodeName == "VAR") {
-            highlightSameAlgoVars(e.target);
-        }
-    });
-    {
-        const indexCounts = new Map();
-        const indexNames = new Map();
-        function highlightSameAlgoVars(v) {
-            // Find the algorithm container.
-            let algoContainer = null;
-            let searchEl = v;
-            while(algoContainer == null && searchEl != document.body) {
-                searchEl = searchEl.parentNode;
-                if(searchEl.hasAttribute("data-algorithm")) {
-                    algoContainer = searchEl;
-                }
-            }
-
-            // Not highlighting document-global vars,
-            // too likely to be unrelated.
-            if(algoContainer == null) return;
-
-            const algoName = algoContainer.getAttribute("data-algorithm");
-            const varName = getVarName(v);
-            const addClass = !v.classList.contains("selected");
-            let highlightClass = null;
-            if(addClass) {
-                const index = chooseHighlightIndex(algoName, varName);
-                indexCounts.get(algoName)[index] += 1;
-                indexNames.set(algoName+"///"+varName, index);
-                highlightClass = nameFromIndex(index);
-            } else {
-                const index = previousHighlightIndex(algoName, varName);
-                indexCounts.get(algoName)[index] -= 1;
-                highlightClass = nameFromIndex(index);
-            }
-
-            // Find all same-name vars, and toggle their class appropriately.
-            for(const el of algoContainer.querySelectorAll("var")) {
-                if(getVarName(el) == varName) {
-                    el.classList.toggle("selected", addClass);
-                    el.classList.toggle(highlightClass, addClass);
-                }
-            }
-        }
-        function getVarName(el) {
-            return el.textContent.replace(/(\s| )+/, " ").trim();
-        }
-        function chooseHighlightIndex(algoName, varName) {
-            let indexes = null;
-            if(indexCounts.has(algoName)) {
-                indexes = indexCounts.get(algoName);
-            } else {
-                // 7 classes right now
-                indexes = [0,0,0,0,0,0,0];
-                indexCounts.set(algoName, indexes);
-            }
-
-            // If the element was recently unclicked,
-            // *and* that color is still unclaimed,
-            // give it back the same color.
-            const lastIndex = previousHighlightIndex(algoName, varName);
-            if(indexes[lastIndex] === 0) return lastIndex;
-
-            // Find the earliest index with the lowest count.
-            const minCount = Math.min.apply(null, indexes);
-            let index = null;
-            for(var i = 0; i < indexes.length; i++) {
-                if(indexes[i] == minCount) {
-                    return i;
-                }
-            }
-        }
-        function previousHighlightIndex(algoName, varName) {
-            return indexNames.get(algoName+"///"+varName);
-        }
-        function nameFromIndex(index) {
-            return "selected" + index;
-        }
-    }
-    </script>
 <script>/* script-dfn-panel */
 
 document.body.addEventListener("click", function(e) {
@@ -2766,3 +3361,95 @@ document.body.addEventListener("click", function(e) {
 
 });
 </script>
+<script>/* script-mdn-anno */
+
+            document.body.addEventListener("click", (e) => {
+                if(e.target.closest(".mdn-anno-btn")) {
+                    e.target.closest(".mdn-anno").classList.toggle("wrapped");
+                }
+            });
+            </script>
+<script>/* script-var-click-highlighting */
+
+    document.addEventListener("click", e=>{
+        if(e.target.nodeName == "VAR") {
+            highlightSameAlgoVars(e.target);
+        }
+    });
+    {
+        const indexCounts = new Map();
+        const indexNames = new Map();
+        function highlightSameAlgoVars(v) {
+            // Find the algorithm container.
+            let algoContainer = null;
+            let searchEl = v;
+            while(algoContainer == null && searchEl != document.body) {
+                searchEl = searchEl.parentNode;
+                if(searchEl.hasAttribute("data-algorithm")) {
+                    algoContainer = searchEl;
+                }
+            }
+
+            // Not highlighting document-global vars,
+            // too likely to be unrelated.
+            if(algoContainer == null) return;
+
+            const algoName = algoContainer.getAttribute("data-algorithm");
+            const varName = getVarName(v);
+            const addClass = !v.classList.contains("selected");
+            let highlightClass = null;
+            if(addClass) {
+                const index = chooseHighlightIndex(algoName, varName);
+                indexCounts.get(algoName)[index] += 1;
+                indexNames.set(algoName+"///"+varName, index);
+                highlightClass = nameFromIndex(index);
+            } else {
+                const index = previousHighlightIndex(algoName, varName);
+                indexCounts.get(algoName)[index] -= 1;
+                highlightClass = nameFromIndex(index);
+            }
+
+            // Find all same-name vars, and toggle their class appropriately.
+            for(const el of algoContainer.querySelectorAll("var")) {
+                if(getVarName(el) == varName) {
+                    el.classList.toggle("selected", addClass);
+                    el.classList.toggle(highlightClass, addClass);
+                }
+            }
+        }
+        function getVarName(el) {
+            return el.textContent.replace(/(\s|\xa0)+/, " ").trim();
+        }
+        function chooseHighlightIndex(algoName, varName) {
+            let indexes = null;
+            if(indexCounts.has(algoName)) {
+                indexes = indexCounts.get(algoName);
+            } else {
+                // 7 classes right now
+                indexes = [0,0,0,0,0,0,0];
+                indexCounts.set(algoName, indexes);
+            }
+
+            // If the element was recently unclicked,
+            // *and* that color is still unclaimed,
+            // give it back the same color.
+            const lastIndex = previousHighlightIndex(algoName, varName);
+            if(indexes[lastIndex] === 0) return lastIndex;
+
+            // Find the earliest index with the lowest count.
+            const minCount = Math.min.apply(null, indexes);
+            let index = null;
+            for(var i = 0; i < indexes.length; i++) {
+                if(indexes[i] == minCount) {
+                    return i;
+                }
+            }
+        }
+        function previousHighlightIndex(algoName, varName) {
+            return indexNames.get(algoName+"///"+varName);
+        }
+        function nameFromIndex(index) {
+            return "selected" + index;
+        }
+    }
+    </script>

@@ -1,11 +1,10 @@
-from collections import OrderedDict, Callable
+from collections import OrderedDict
 
 
 class DefaultOrderedDict(OrderedDict):
     def __init__(self, default_factory=None, *a, **kw):
-        if (default_factory is not None and
-                not isinstance(default_factory, Callable)):
-            raise TypeError('first argument must be callable')
+        if default_factory is not None and not callable(default_factory):
+            raise TypeError("first argument must be callable")
         OrderedDict.__init__(self, *a, **kw)
         self.default_factory = default_factory
 
@@ -25,8 +24,8 @@ class DefaultOrderedDict(OrderedDict):
         if self.default_factory is None:
             args = tuple()
         else:
-            args = self.default_factory,
-        return type(self), args, None, None, self.items()
+            args = (self.default_factory,)
+        return type(self), args, None, None, list(self.items())
 
     def copy(self):
         return self.__copy__()
@@ -36,9 +35,11 @@ class DefaultOrderedDict(OrderedDict):
 
     def __deepcopy__(self, memo):
         import copy
-        return type(self)(self.default_factory,
-                          copy.deepcopy(self.items()))
+
+        return type(self)(self.default_factory, copy.deepcopy(list(self.items())))
 
     def __repr__(self):
-        return 'OrderedDefaultDict(%s, %s)' % (self.default_factory,
-                                               OrderedDict.__repr__(self))
+        return "OrderedDefaultDict({}, {})".format(
+            self.default_factory,
+            OrderedDict.__repr__(self),
+        )

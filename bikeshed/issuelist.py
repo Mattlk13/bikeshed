@@ -1,36 +1,24 @@
-# -*- coding: utf-8 -*-
-from __future__ import division, unicode_literals
 import glob
-import io
 import re
 import sys
+
 from .messages import *
 
 statusStyle = {
-    'accepted'  : 'a',
-    'retracted' : 'a',
-    'rejected'  : 'r',
-    'objection' : 'fo',
-    'deferred'  : 'd',
-    'invalid'   : 'oi',
-    'outofscope': 'oi',
+    "accepted": "a",
+    "retracted": "a",
+    "rejected": "r",
+    "objection": "fo",
+    "deferred": "d",
+    "invalid": "oi",
+    "outofscope": "oi",
 }
 
 
 def printIssueList(infilename=None, outfilename=None):
     if infilename is None:
-        if glob.glob("issues*.txt"):
-            # Look for digits in the filename, and use the one with the largest number if it's unique.
-            def extractNumber(filename):
-                number = re.sub("\D", "", filename)
-                return number if number else None
-            filenames = [(extractNumber(fn), fn) for fn in glob.glob("issues*.txt") if extractNumber(fn) is not None]
-            filenames.sort(reverse=True)
-            if len(filenames) > 1 and filenames[0][0] == filenames[1][0]:
-                die("Can't tell which issues-list file is the most recent. Explicitly pass a filename.")
-                return
-            infilename = filenames[0][1]
-        else:
+        infilename = findIssuesFile()
+        if infilename is None:
             printHelpMessage()
             return
     if infilename == "-":
@@ -38,13 +26,13 @@ def printIssueList(infilename=None, outfilename=None):
     else:
         for suffix in [".txt", "txt", ""]:
             try:
-                infile = io.open(infilename + suffix, 'r', encoding="utf-8")
+                infile = open(infilename + suffix, encoding="utf-8")
                 infilename += suffix
                 break
-            except Exception as e:
+            except Exception:
                 pass
         else:
-            die("Couldn't read from the infile:\n  {0}", str(e))
+            die("Couldn't read from the infile(s)")
             return
 
     lines = infile.readlines()
@@ -61,7 +49,7 @@ def printIssueList(infilename=None, outfilename=None):
         outfile = sys.stdout
     else:
         try:
-            outfile = io.open(outfilename, 'w', encoding="utf-8")
+            outfile = open(outfilename, "w", encoding="utf-8")
         except Exception as e:
             die("Couldn't write to outfile:\n{0}", str(e))
             return
@@ -72,6 +60,38 @@ def printIssueList(infilename=None, outfilename=None):
     printScript(outfile)
 
 
+def findIssuesFile():
+    # Look for digits in the filename, and use the one with the largest number if it's unique.
+    def extractNumber(filename):
+        number = re.sub(r"\D", "", filename)
+        return number if number else None
+
+    possibleFiles = [*glob.glob("issues*.txt"), *glob.glob("*.bsi")]
+    if len(possibleFiles) == 0:
+        die(
+            "Can't find an 'issues*.txt' or '*.bsi' file in this folder. Explicitly pass a filename."
+        )
+        return
+    if len(possibleFiles) == 1:
+        return possibleFiles[0]
+
+    # If there are more than one, assume they contain either an index or a YYYYMMDD date,
+    # and select the largest such value.
+    possibleFiles = [
+        (extractNumber(fn), fn) for fn in possibleFiles if extractNumber(fn) is not None
+    ]
+    if len(possibleFiles) == 1:
+        return possibleFiles[0][1]
+
+    possibleFiles.sort(reverse=True)
+    if len(possibleFiles) == 0 or possibleFiles[0][0] == possibleFiles[1][0]:
+        die(
+            "Can't tell which issues-list file is the most recent. Explicitly pass a filename."
+        )
+        return
+    return possibleFiles[0][1]
+
+
 def extractHeaderInfo(lines, infilename):
     title = None
     url = None
@@ -80,7 +100,7 @@ def extractHeaderInfo(lines, infilename):
     date = None
     cdate = None
     for line in lines:
-        match = re.match("(Draft|Title|Status|Date|ED):\s*(.*)", line)
+        match = re.match(r"(Draft|Title|Status|Date|ED):\s*(.*)", line)
         if match:
             if match.group(1) == "Draft":
                 url = match.group(2)
@@ -91,8 +111,11 @@ def extractHeaderInfo(lines, infilename):
             elif match.group(1) == "Date":
                 date = match.group(2).rstrip()
                 cdate = date
-                if not re.match("(\d{4})-(\d\d)-(\d\d)$", date):
-                    die("Incorrect Date format. Expected YYYY-MM-DD, but got:\n{0}", date)
+                if not re.match(r"(\d{4})-(\d\d)-(\d\d)$", date):
+                    die(
+                        "Incorrect Date format. Expected YYYY-MM-DD, but got:\n{0}",
+                        date,
+                    )
             elif match.group(1) == "ED":
                 ed = match.group(2).rstrip()
     if url is None:
@@ -102,7 +125,7 @@ def extractHeaderInfo(lines, infilename):
         die("Missing 'Title' metadata.")
         return
 
-    match = re.search("([A-Z]{2,})-([a-z0-9-]+)-(\d{8})", url)
+    match = re.search(r"([A-Z]{2,})-([a-z0-9-]+)-(\d{8})", url)
     if match:
         if status is None:
             # Auto-detect from the URL and filename.
@@ -111,12 +134,15 @@ def extractHeaderInfo(lines, infilename):
                 status = "LCWD"
         if ed is None:
             shortname = match.group(2)
-            ed = "http://dev.w3.org/csswg/{}/".format(shortname)
+            ed = f"http://dev.w3.org/csswg/{shortname}/"
         if date is None:
             cdate = match.group(3)
-            date = "{0}-{1}-{2}".format(*re.match("(\d{4})(\d\d)(\d\d)", cdate).groups())
+            date = "{}-{}-{}".format(*re.match(r"(\d{4})(\d\d)(\d\d)", cdate).groups())
     else:
-        warn("Autodetection of Shortname, Date, and Status failed; draft url does not match the format /status-shortname-date/. Got:\n{0}", url)
+        warn(
+            "Autodetection of Shortname, Date, and Status failed; draft url does not match the format /status-shortname-date/. Got:\n{0}",
+            url,
+        )
 
     if date is None:
         die("Missing 'Date' metadata.")
@@ -129,17 +155,18 @@ def extractHeaderInfo(lines, infilename):
         return
 
     return {
-        'title': title,
-        'date': date,
-        'cdate': cdate,
-        'ed': ed,
-        'status': status,
-        'url': url
+        "title": title,
+        "date": date,
+        "cdate": cdate,
+        "ed": ed,
+        "status": status,
+        "url": url,
     }
 
 
 def printHelpMessage():
-        say('''Draft:    http://www.w3.org/TR/2013/WD-css-foo-3-20130103/ (Mandatory)
+    say(
+        """Draft:    http://www.w3.org/TR/2013/WD-css-foo-3-20130103/ (Mandatory)
 Title:    CSS Foo Level 3 (Mandatory)
 Date:     YYYY-MM-DD (Optional if can be autodetected from the Draft's URL)
 Status:   CR/FPWD/LCWD/LS/Version/… (Optional if can be autodetected from the Draft's URL)
@@ -157,11 +184,13 @@ Verified: [url]
 Resolved: Editorial/Bugfix (for obvious fixes)/Editors' discretion/[url to minutes]
 ----
 Issue 2.
-...''')
+..."""
+    )
 
 
 def printHeader(outfile, headerInfo):
-    outfile.write('''<!DOCTYPE html>
+    outfile.write(
+        """<!DOCTYPE html>
 <meta charset="utf-8">
 <title>{title} Disposition of Comments for {date} {status}</title>
 <style>
@@ -194,12 +223,15 @@ def printHeader(outfile, headerInfo):
 <p>An issue can be closed as <code>Accepted</code>, <code>OutOfScope</code>,
 <code>Invalid</code>, <code>Rejected</code>, or <code>Retracted</code>.
 <code>Verified</code> indicates commentor's acceptance of the response.</p>
-        '''.format(**headerInfo))
+        """.format(
+            **headerInfo
+        )
+    )
 
 
 def printIssues(outfile, lines):
-    text = ''.join(lines)
-    issues = text.split('----\n')[1:]
+    text = "".join(lines)
+    issues = text.split("----\n")[1:]
     for issue in issues:
         issue = issue.strip().replace("&", "&amp;").replace("<", "&lt;")
         if issue == "":
@@ -216,18 +248,22 @@ def printIssues(outfile, lines):
 
         # Color coding
         if re.search(r"\nVerified:\s*\S+", issue):
-            code = 'a'
+            code = "a"
         elif re.search(r"\n(Closed|Open):\s+\S+", issue):
             match = re.search(r"\n(Closed|Open):\s+(\S+)", issue)
             code = match.group(2)
             if code.lower() in statusStyle:
                 code = statusStyle[code.lower()]
             else:
-                code = ''
+                code = ""
                 if match.group(1) == "Closed":
-                    warn("Unknown status value found for issue #{num}: “{code}”", code=code, num=index)
+                    warn(
+                        "Unknown status value found for issue #{num}: “{code}”",
+                        code=code,
+                        num=index,
+                    )
         else:
-            code = ''
+            code = ""
         if re.search(r"\nOpen", issue):
             code += " open"
 
@@ -235,13 +271,14 @@ def printIssues(outfile, lines):
         issue = re.sub(r"((http|https):\S+)", r"<a href='\1'>\1</a>", issue)
 
         # And print it
-        outfile.write("<pre class='{0}' id='issue-{1}'>\n".format(code, index))
+        outfile.write(f"<pre class='{code}' id='issue-{index}'>\n")
         outfile.write(issue)
         outfile.write("</pre>\n")
 
 
 def printScript(outfile):
-    outfile.write('''<script>
+    outfile.write(
+        """<script>
 (function () {
     var sheet = document.styleSheets[0];
     function addCheckbox(className) {
@@ -272,4 +309,5 @@ def printScript(outfile):
     ['a', 'd', 'fo', 'oi', 'r', 'open'].forEach(addCheckbox);
 }());
 </script>
-''')
+"""
+    )

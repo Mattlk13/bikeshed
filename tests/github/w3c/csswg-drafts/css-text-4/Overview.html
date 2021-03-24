@@ -8,11 +8,7 @@
   <meta content="This module defines properties for text manipulation and specifies their processing model. It covers line breaking, justification and alignment, white space handling, and text transformation." name="abstract">
   <link href="../default.css" rel="stylesheet" type="text/css">
   <link href="../csslogo.ico" rel="shortcut icon" type="image/x-icon">
-<style>
-  body {
-    background: url("https://www.w3.org/StyleSheets/TR/logo-ED") top left no-repeat;
-  }
-  </style>
+  <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <link href="https://www.w3.org/TR/css-text-4/" rel="canonical">
 <style>
 		#wakachigaki samp
@@ -50,95 +46,10 @@
 			.quarter { font-size: 25%; }
 			samp[lang="ja"] { font-family: "MS Gothic", "Osaka-Mono", monospace }
 		</style>
-<style>/* style-md-lists */
-
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}</style>
-<style>/* style-selflinks */
-
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: gray;
-    color: white;
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: black;
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
-<style>/* style-counters */
-
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}</style>
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
-    color: #005a9c;
+    color: var(--a-normal-text);
     font-size: inherit;
     font-family: inherit;
 }
@@ -197,8 +108,150 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #707070;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #bbb;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
 <style>/* style-dfn-panel */
 
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
 .dfn-panel {
     position: absolute;
     z-index: 35;
@@ -210,14 +263,14 @@ pre .property::before, pre .property::after {
     overflow: auto;
     padding: 0.5em 0.75em;
     font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
     border: outset 0.2em;
 }
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
 .dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
+.dfn-panel a { color: var(--dfnpanel-text); }
 .dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
 .dfn-panel > b + b { margin-top: 0.25em; }
 .dfn-panel ul { padding: 0; }
@@ -234,11 +287,130 @@ pre .property::before, pre .property::after {
 
 .dfn-paneled { cursor: pointer; }
 </style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-mdn-anno */
+
+            @media (max-width: 767px) { .mdn-anno { opacity: .1 } }
+            .mdn-anno { font: 1em sans-serif; padding: 0.3em; position: absolute; z-index: 8; right: 0.3em; background: #EEE; color: black; box-shadow: 0 0 3px #999; overflow: hidden; border-collapse: initial; border-spacing: initial; min-width: 9em; max-width: min-content; white-space: nowrap; word-wrap: normal; hyphens: none}
+            .mdn-anno:not(.wrapped) { opacity: 1}
+            .mdn-anno:hover { z-index: 9 }
+            .mdn-anno.wrapped { min-width: 0 }
+            .mdn-anno.wrapped > :not(button) { display: none; }
+            .mdn-anno > .mdn-anno-btn { cursor: pointer; border: none; color: #000; background: transparent; margin: -8px; float: right; padding: 10px 8px 8px 8px; outline: none; }
+            .mdn-anno > .mdn-anno-btn > .less-than-two-engines-flag { color: red; padding-right: 2px; }
+            .mdn-anno > .mdn-anno-btn > .all-engines-flag { color: green; padding-right: 2px; }
+            .mdn-anno > .mdn-anno-btn > span { color: #fff; background-color: #000; font-weight: normal; font-family: zillaslab, Palatino, "Palatino Linotype", serif; padding: 2px 3px 0px 3px; line-height: 1.3em; vertical-align: top; }
+            .mdn-anno > .feature { margin-top: 20px; }
+            .mdn-anno > .feature:not(:first-of-type) { border-top: 1px solid #999; margin-top: 6px; padding-top: 2px; }
+            .mdn-anno > .feature > .less-than-two-engines-text { color: red }
+            .mdn-anno > .feature > .all-engines-text { color: green }
+            .mdn-anno > .feature > p { font-size: .75em; margin-top: 6px; margin-bottom: 0; }
+            .mdn-anno > .feature > p + p { margin-top: 3px; }
+            .mdn-anno > .feature > .support { display: block; font-size: 0.6em; margin: 0; padding: 0; margin-top: 2px }
+            .mdn-anno > .feature > .support + div { padding-top: 0.5em; }
+            .mdn-anno > .feature > .support > hr { display: block; border: none; border-top: 1px dotted #999; padding: 3px 0px 0px 0px; margin: 2px 3px 0px 3px; }
+            .mdn-anno > .feature > .support > hr::before { content: ""; }
+            .mdn-anno > .feature > .support > span { padding: 0.2em 0; display: block; display: table; }
+            .mdn-anno > .feature > .support > span.no { color: #CCCCCC; filter: grayscale(100%); }
+            .mdn-anno > .feature > .support > span.no::before { opacity: 0.5; }
+            .mdn-anno > .feature > .support > span:first-of-type { padding-top: 0.5em; }
+            .mdn-anno > .feature > .support > span > span { padding: 0 0.5em; display: table-cell; }
+            .mdn-anno > .feature > .support > span > span:first-child { width: 100%; }
+            .mdn-anno > .feature > .support > span > span:last-child { width: 100%; white-space: pre; padding: 0; }
+            .mdn-anno > .feature > .support > span::before { content: ' '; display: table-cell; min-width: 1.5em; height: 1.5em; background: no-repeat center center; background-size: contain; text-align: right; font-size: 0.75em; font-weight: bold; }
+            .mdn-anno > .feature > .support > .chrome_android::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+            .mdn-anno > .feature > .support > .firefox_android::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+            .mdn-anno > .feature > .support > .chrome::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+            .mdn-anno > .feature > .support > .edge_blink::before { background-image: url(https://resources.whatwg.org/browser-logos/edge.svg); }
+            .mdn-anno > .feature > .support > .edge::before { background-image: url(https://resources.whatwg.org/browser-logos/edge_legacy.svg); }
+            .mdn-anno > .feature > .support > .firefox::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+            .mdn-anno > .feature > .support > .ie::before { background-image: url(https://resources.whatwg.org/browser-logos/ie.png); }
+            .mdn-anno > .feature > .support > .safari_ios::before { background-image: url(https://resources.whatwg.org/browser-logos/safari-ios.svg); }
+            .mdn-anno > .feature > .support > .nodejs::before { background-image: url(https://nodejs.org/static/images/favicons/favicon.ico); }
+            .mdn-anno > .feature > .support > .opera_android::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
+            .mdn-anno > .feature > .support > .opera::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
+            .mdn-anno > .feature > .support > .safari::before { background-image: url(https://resources.whatwg.org/browser-logos/safari.png); }
+            .mdn-anno > .feature > .support > .samsunginternet_android::before { background-image: url(https://resources.whatwg.org/browser-logos/samsung.svg); }
+            .mdn-anno > .feature > .support > .webview_android::before { background-image: url(https://resources.whatwg.org/browser-logos/android-webview.png); }
+            .name-slug-mismatch { color: red }
+            .caniuse-status:hover { z-index: 9; }
+
+            /* dt, li, .issue, .note, and .example are "position: relative", so to put annotation at right margin, must move to right of containing block */
+            .h-entry:not(.status-LS) dt > .mdn-anno, .h-entry:not(.status-LS) li > .mdn-anno, .h-entry:not(.status-LS) .issue > .mdn-anno, .h-entry:not(.status-LS) .note > .mdn-anno, .h-entry:not(.status-LS) .example > .mdn-anno { right: -6.7em; }
+            .h-entry p + .mdn-anno { margin-top: 0; }
+            h2 + .mdn-anno.after { margin: -48px 0 0 0; }
+            h3 + .mdn-anno.after { margin: -46px 0 0 0; }
+            h4 + .mdn-anno.after { margin: -42px 0 0 0; }
+            h5 + .mdn-anno.after { margin: -40px 0 0 0; }
+            h6 + .mdn-anno.after { margin: -40px 0 0 0; }
+            </style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
 <style>/* style-syntax-highlighting */
 
-.highlight:not(.idl) { background: hsl(24, 20%, 95%); }
 code.highlight { padding: .1em; border-radius: .3em; }
 pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
 c-[a] { color: #990055 } /* Keyword.Declaration */
 c-[b] { color: #990055 } /* Keyword.Type */
 c-[c] { color: #708090 } /* Comment */
@@ -292,6 +464,240 @@ c-[vg] { color: #0077aa } /* Name.Variable.Global */
 c-[vi] { color: #0077aa } /* Name.Variable.Instance */
 c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </style>
+<style>/* style-wpt */
+
+:root {
+    --wpt-border: hsl(290, 70%, 60%);
+    --wpt-bg: hsl(290, 70%, 95%);
+    --wpt-text: var(--text);
+    --wptheading-text: hsl(290, 70%, 30%);
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --wpt-border: hsl(290, 70%, 30%);
+        --wpt-bg: var(--borderedblock-bg);
+        --wpt-text: var(--text);
+        --wptheading-text: hsl(290, 70%, 60%);
+    }
+}
+.wpt-tests-block {
+    list-style: none;
+    border-left: .5em solid var(--wpt-border);
+    background: var(--wpt-bg);
+    color: var(--wpt-text);
+    margin: 1em auto;
+    padding: .5em;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    grid-column-gap: .5em;
+}
+.wpt-tests-block::before {
+    content: "Tests";
+    grid-column: 1/-1;
+    color: var(--wptheading-text);
+    text-transform: uppercase;
+}
+.wpt-test {
+    display: contents;
+}
+.wpt-test > a {
+    text-decoration: underline;
+    border: none;
+}
+.wpt-test > .wpt-name { grid-column: 1; }
+.wpt-test > .wpt-live { grid-column: 2; }
+.wpt-test > .wpt-source { grid-column: 3; }
+</style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
+
+    c-[a] { color: #d33682 } /* Keyword.Declaration */
+    c-[b] { color: #d33682 } /* Keyword.Type */
+    c-[c] { color: #2aa198 } /* Comment */
+    c-[d] { color: #2aa198 } /* Comment.Multiline */
+    c-[e] { color: #268bd2 } /* Name.Attribute */
+    c-[f] { color: #b58900 } /* Name.Tag */
+    c-[g] { color: #cb4b16 } /* Name.Variable */
+    c-[k] { color: #d33682 } /* Keyword */
+    c-[l] { color: #657b83 } /* Literal */
+    c-[m] { color: #657b83 } /* Literal.Number */
+    c-[n] { color: #268bd2 } /* Name */
+    c-[o] { color: #657b83 } /* Operator */
+    c-[p] { color: #657b83 } /* Punctuation */
+    c-[s] { color: #6c71c4 } /* Literal.String */
+    c-[t] { color: #6c71c4 } /* Literal.String.Single */
+    c-[u] { color: #6c71c4 } /* Literal.String.Double */
+    c-[ch] { color: #2aa198 } /* Comment.Hashbang */
+    c-[cp] { color: #2aa198 } /* Comment.Preproc */
+    c-[cpf] { color: #2aa198 } /* Comment.PreprocFile */
+    c-[c1] { color: #2aa198 } /* Comment.Single */
+    c-[cs] { color: #2aa198 } /* Comment.Special */
+    c-[kc] { color: #d33682 } /* Keyword.Constant */
+    c-[kn] { color: #d33682 } /* Keyword.Namespace */
+    c-[kp] { color: #d33682 } /* Keyword.Pseudo */
+    c-[kr] { color: #d33682 } /* Keyword.Reserved */
+    c-[ld] { color: #657b83 } /* Literal.Date */
+    c-[nc] { color: #268bd2 } /* Name.Class */
+    c-[no] { color: #268bd2 } /* Name.Constant */
+    c-[nd] { color: #268bd2 } /* Name.Decorator */
+    c-[ni] { color: #268bd2 } /* Name.Entity */
+    c-[ne] { color: #268bd2 } /* Name.Exception */
+    c-[nf] { color: #268bd2 } /* Name.Function */
+    c-[nl] { color: #268bd2 } /* Name.Label */
+    c-[nn] { color: #268bd2 } /* Name.Namespace */
+    c-[py] { color: #268bd2 } /* Name.Property */
+    c-[ow] { color: #657b83 } /* Operator.Word */
+    c-[mb] { color: #657b83 } /* Literal.Number.Bin */
+    c-[mf] { color: #657b83 } /* Literal.Number.Float */
+    c-[mh] { color: #657b83 } /* Literal.Number.Hex */
+    c-[mi] { color: #657b83 } /* Literal.Number.Integer */
+    c-[mo] { color: #657b83 } /* Literal.Number.Oct */
+    c-[sa] { color: #6c71c4 } /* Literal.String.Affix */
+    c-[sb] { color: #6c71c4 } /* Literal.String.Backtick */
+    c-[sc] { color: #6c71c4 } /* Literal.String.Char */
+    c-[dl] { color: #6c71c4 } /* Literal.String.Delimiter */
+    c-[sd] { color: #6c71c4 } /* Literal.String.Doc */
+    c-[se] { color: #6c71c4 } /* Literal.String.Escape */
+    c-[sh] { color: #6c71c4 } /* Literal.String.Heredoc */
+    c-[si] { color: #6c71c4 } /* Literal.String.Interpol */
+    c-[sx] { color: #6c71c4 } /* Literal.String.Other */
+    c-[sr] { color: #6c71c4 } /* Literal.String.Regex */
+    c-[ss] { color: #6c71c4 } /* Literal.String.Symbol */
+    c-[fm] { color: #268bd2 } /* Name.Function.Magic */
+    c-[vc] { color: #cb4b16 } /* Name.Variable.Class */
+    c-[vg] { color: #cb4b16 } /* Name.Variable.Global */
+    c-[vi] { color: #cb4b16 } /* Name.Variable.Instance */
+    c-[vm] { color: #cb4b16 } /* Name.Variable.Magic */
+    c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
+}
+</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
@@ -306,7 +712,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <dt>Latest published version:
       <dd><a href="https://www.w3.org/TR/css-text-4/">https://www.w3.org/TR/css-text-4/</a>
       <dt>Previous Versions:
-      <dd><a href="https://www.w3.org/TR/2015/WD-css-text-4-20150922/" rel="prev">https://www.w3.org/TR/2015/WD-css-text-4-20150922/</a>
+      <dd><a href="https://www.w3.org/TR/2019/WD-css-text-4-20191113/" rel="prev">https://www.w3.org/TR/2019/WD-css-text-4-20191113/</a>
+      <dt>Issue Tracking:
+      <dd><a href="https://github.com/w3c/csswg-drafts/labels/css-text-4">CSSWG Issues Repository</a>
       <dt class="editor">Editors:
       <dd class="editor p-author h-card vcard" data-editor-id="35400"><a class="p-name fn u-url url" href="http://fantasai.inkedblade.net/contact">Elika J. Etemad / fantasai</a> (<span class="p-org org">Invited Expert</span>)
       <dd class="editor p-author h-card vcard" data-editor-id="45369"><a class="p-name fn u-email email" href="mailto:kojiishi@gmail.com">Koji Ishii</a> (<span class="p-org org">Google</span>)
@@ -314,13 +722,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <dd class="editor p-author h-card vcard" data-editor-id="43241"><a class="p-name fn u-url url" href="https://florian.rivoal.net">Florian Rivoal</a> (<span class="p-org org">Invited Expert</span>)
       <dt>Suggest an Edit for this Spec:
       <dd><a href="https://github.com/w3c/csswg-drafts/blob/master/css-text-4/Overview.bs">GitHub Editor</a>
-      <dt>Issue Tracking:
-      <dd><a href="https://github.com/w3c/csswg-drafts/labels/css-text-4">GitHub Issues</a>
      </dl>
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -336,19 +742,13 @@ on screen, on paper, etc.
 	It is provided for discussion only and may change at any moment.
 	Its publication here does not imply endorsement of its contents by W3C.
 	Don’t cite this document other than as work in progress. </p>
-   <p> <a href="https://github.com/w3c/csswg-drafts/issues">GitHub Issues</a> are preferred for discussion of this specification.
-	When filing an issue, please put the text “css-text” in the title,
-	preferably like this:
-	“[css-text] <i data-lt>…summary of comment…</i>”.
-	All issues and comments are <a href="https://lists.w3.org/Archives/Public/public-css-archive/">archived</a>,
-	and there is also a <a href="https://lists.w3.org/Archives/Public/www-style/">historical archive</a>. </p>
-   <p> This document was produced by the <a href="https://www.w3.org/Style/CSS/">CSS Working Group</a>. </p>
-   <p> This document was produced by a group operating under
-	the <a href="https://www.w3.org/Consortium/Patent-Policy/">W3C Patent Policy</a>.
-	W3C maintains a <a href="https://www.w3.org/2004/01/pp-impl/32061/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group;
-	that page also includes instructions for disclosing a patent.
-	An individual who has actual knowledge of a patent which the individual believes contains <a href="https://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="https://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the W3C Patent Policy</a>. </p>
-   <p> This document is governed by the <a href="https://www.w3.org/2019/Process-20190301/" id="w3c_process_revision">1 March 2019 W3C Process Document</a>. </p>
+   <p>Please send feedback
+	by <a href="https://github.com/w3c/csswg-drafts/issues">filing issues in GitHub</a> (preferred),
+	including the spec code “css-text” in the title, like this:
+	“[css-text] <i>…summary of comment…</i>”.
+	All issues and comments are <a href="https://lists.w3.org/Archives/Public/public-css-archive/">archived</a>.
+	Alternately, feedback can be sent to the (<a href="https://lists.w3.org/Archives/Public/www-style/">archived</a>) public mailing list <a href="mailto:www-style@w3.org?Subject=%5Bcss-text%5D%20PUT%20SUBJECT%20HERE">www-style@w3.org</a>. </p>
+   <p>This document is governed by the <a href="https://www.w3.org/2020/Process-20200915/" id="w3c_process_revision">15 September 2020 W3C Process Document</a>. </p>
    <p></p>
   </div>
   <div data-fill-with="at-risk"></div>
@@ -418,17 +818,16 @@ on screen, on paper, etc.
     <li><a href="#acknowledgements"><span class="secno"></span> <span class="content"> Acknowledgements</span></a>
     <li><a href="#changes"><span class="secno"></span> <span class="content"> Changes</span></a>
     <li>
-     <a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
+     <a href="#w3c-conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
      <ol class="toc">
-      <li><a href="#document-conventions"><span class="secno"></span> <span class="content"> Document conventions</span></a>
-      <li><a href="#conform-classes"><span class="secno"></span> <span class="content"> Conformance classes</span></a>
+      <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content"> Document conventions</span></a>
+      <li><a href="#w3c-conformance-classes"><span class="secno"></span> <span class="content"> Conformance classes</span></a>
       <li>
-       <a href="#conform-responsible"><span class="secno"></span> <span class="content"> Requirements for Responsible Implementation of CSS</span></a>
+       <a href="#w3c-partial"><span class="secno"></span> <span class="content"> Partial implementations</span></a>
        <ol class="toc">
-        <li><a href="#conform-partial"><span class="secno"></span> <span class="content"> Partial Implementations</span></a>
-        <li><a href="#conform-future-proofing"><span class="secno"></span> <span class="content"> Implementations of Unstable and Proprietary Features</span></a>
-        <li><a href="#conform-testing"><span class="secno"></span> <span class="content"> Implementations of CR-level Features</span></a>
+        <li><a href="#w3c-conform-future-proofing"><span class="secno"></span> <span class="content"> Implementations of Unstable and Proprietary Features</span></a>
        </ol>
+      <li><a href="#w3c-testing"><span class="secno"></span> <span class="content"> Non-experimental implementations</span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -450,7 +849,7 @@ on screen, on paper, etc.
    <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content"> Introduction</span><a class="self-link" href="#intro"></a></h2>
    <p class="issue" id="issue-e782977b"><a class="self-link" href="#issue-e782977b"></a> Add final level 3 content</p>
    <h2 class="heading settled" data-level="2" id="transforming"><span class="secno">2. </span><span class="content"> Transforming Text</span><a class="self-link" href="#transforming"></a></h2>
-   <h3 class="heading settled" data-level="2.1" id="text-transform-property"><span class="secno">2.1. </span><span class="content"> Case Transforms: the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-text-3/#propdef-text-transform" id="ref-for-propdef-text-transform">text-transform</a> property</span><span id="text-transform caps-prop"></span><a class="self-link" href="#text-transform-property"></a></h3>
+   <h3 class="heading settled" data-level="2.1" id="text-transform-property"><span class="secno">2.1. </span><span class="content"> Case Transforms: the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-text-3/#propdef-text-transform" id="ref-for-propdef-text-transform">text-transform</a> property</span><span id="text-transform"></span><span id="caps-prop"></span><a class="self-link" href="#text-transform-property"></a></h3>
    <p class="issue" id="issue-e782977b①"><a class="self-link" href="#issue-e782977b①"></a> Add final level 3 content</p>
    <h3 class="heading settled" data-level="2.2" id="word-boundaries"><span class="secno">2.2. </span><span class="content"> Word Boundaries</span><a class="self-link" href="#word-boundaries"></a></h3>
    <p>In a number of languages and writing system,
@@ -480,28 +879,28 @@ on screen, on paper, etc.
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-word-boundary-detection">word-boundary-detection</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">normal <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one">|</a> manual <span id="ref-for-comb-one①">|</span> auto(<a class="production css" data-link-type="type" href="#typedef-word-boundary-detection-lang" id="ref-for-typedef-word-boundary-detection-lang">&lt;lang></a>) 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>normal 
      <tr>
       <th>Applies to:
-      <td><a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box">inline boxes</a> 
+      <td>text 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>N/A 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>as specified (However, see special provision for unsupported <a class="production css" data-link-type="type" href="#typedef-word-boundary-detection-lang" id="ref-for-typedef-word-boundary-detection-lang①">&lt;lang></a>) 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <p>This property allows the author to decide
@@ -547,9 +946,9 @@ on screen, on paper, etc.
 			if the <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#content-language" id="ref-for-content-language">content language</a> is known,
 			the User Agent should use this information
 			to tailor its analysis.</p>
-     <p>In order to avoid overflow,
+     <p>In order to avoid unexpected overflow,
 			if the User Agent is unable to perform this analysis
-			for any subset of the characters with class SA—<wbr>for example due to lacking a dictionary for certain languages—<wbr>there must be a <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#soft-wrap-opportunity" id="ref-for-soft-wrap-opportunity③">soft wrap opportunity</a> between pairs of characters in that subset.</p>
+			for any subset of the characters with class SA—<wbr>for example due to lacking a dictionary for certain languages—<wbr>there must be a <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#soft-wrap-opportunity" id="ref-for-soft-wrap-opportunity③">soft wrap opportunity</a> between pairs of <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-letter-unit" id="ref-for-typographic-letter-unit">typographic letter units</a> in that subset.</p>
      <p class="note" role="note"><span>Note:</span> This <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#soft-wrap-opportunity" id="ref-for-soft-wrap-opportunity④">soft wrap opportunity</a> is not
 			a <a data-link-type="dfn" href="#virtual-word-boundary" id="ref-for-virtual-word-boundary⑥">virtual word boundary</a>,
 			and is ignored by <a class="property" data-link-type="propdesc" href="#propdef-word-boundary-expansion" id="ref-for-propdef-word-boundary-expansion①">word-boundary-expansion</a>.</p>
@@ -570,10 +969,10 @@ on screen, on paper, etc.
 			If the UA does not support word-boundary detection
 			for <em>all</em> languages represented by the specified range,
 			that specified value is invalid
-			(and will cause the declaration to be ingored).</p>
+			(and will cause the declaration to be ignored).</p>
      <p class="note" role="note"><span>Note:</span> Wildcards <em>in the language subtag</em> would imply
 			support for detecting word boundaries in an undefined and effectively unlimited set of languages.
-			As this this is not possible,
+			As this is not possible,
 			wildcards in the language subtag always result in the declaration
 			being treated as invalid.</p>
      <p class="note" role="note"><span>Note:</span> Whether a word boundary detection system designed for one language
@@ -590,15 +989,14 @@ on screen, on paper, etc.
 			as represented in BCP 47 syntax <a data-link-type="biblio" href="#biblio-bcp47">[BCP47]</a>,
 			does <em>not</em> match the language range described by the computed value’s <a class="production css" data-link-type="type" href="#typedef-word-boundary-detection-lang" id="ref-for-typedef-word-boundary-detection-lang④">&lt;lang></a> in an extended filtering operation
 			per <a data-link-type="biblio" href="#biblio-rfc4647">[RFC4647]</a> <cite>Matching of Language Tags</cite> (section 3.3.2)
-			with both the <span id="ref-for-content-language②">content language</span> and <span class="production" id="ref-for-typedef-word-boundary-detection-lang⑤">&lt;lang></span> <i>canonicalized</i> and converted to <i>extlang form</i> as per section 4.5 of <a data-link-type="biblio" href="#biblio-rfc5646">[RFC5646]</a>,
-			then the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-4/#used-value" id="ref-for-used-value">used value</a> is <a class="css" data-link-type="maybe" href="#valdef-word-boundary-detection-normal" id="ref-for-valdef-word-boundary-detection-normal">normal</a>,
+			with both the <span id="ref-for-content-language②">content language</span> and <span class="production" id="ref-for-typedef-word-boundary-detection-lang⑤">&lt;lang></span> then the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#used-value" id="ref-for-used-value">used value</a> is <a class="css" data-link-type="maybe" href="#valdef-word-boundary-detection-normal" id="ref-for-valdef-word-boundary-detection-normal">normal</a>,
 			and this property has no effect on this element.
 			Otherwise,
 			the User Agent must insert a <a data-link-type="dfn" href="#virtual-word-boundary" id="ref-for-virtual-word-boundary⑧">virtual word boundary</a> at each detected word boundary
 			within the <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#text-run" id="ref-for-text-run">text run</a> children of this element.
 			Within the constraints set by this specification,
 			the specific algorithm used is UA-dependent.</p>
-     <p class="note" role="note"><span>Note:</span> This is the same matching logic as the one used for the <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/selectors-4/#lang-pseudo" id="ref-for-lang-pseudo">:lang()</a> selector.</p>
+     <p class="note" role="note"><span>Note:</span> This is the same matching logic as the one used for the <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css2/#selectordef-lang" id="ref-for-selectordef-lang">:lang()</a> selector.</p>
    </dl>
    <div class="example" id="example-df7df100">
     <a class="self-link" href="#example-df7df100"></a> If a User Agent has a word-boundary detection system for Cantonese
@@ -624,17 +1022,35 @@ on screen, on paper, etc.
 		this change is not applied,
 		as <span class="css" id="ref-for-propdef-word-break②">word-break: keep-all</span> could remove all line breaking opportunities from the element,
 		and risk causing overflow.</p>
-<pre><code class="lang-css highlight"><c- n>@supports</c-> <c- p>(</c->word-boundary-detection<c- f>: auto(ja)) </c-><c- p>{</c->
-  <c- k>h1</c-><c- p>:</c-><c- nf>lang</c-><c- p>(</c->ja<c- p>)</c-> {
-    word-boundary-detection: auto(ja);
-    word-break: keep-all;
-  }
-}
+<pre><code class="lang-css highlight"><c- n>@supports</c-> <c- p>(</c->word-boundary-detection: <c- nf>auto</c-><c- p>(</c->ja<c- p>))</c-> <c- p>{</c->
+  <c- k>h1</c-><c- p>:</c-><c- nf>lang</c-><c- p>(</c->ja<c- p>)</c-> <c- p>{</c->
+    <c- k>word-boundary-detection</c-><c- p>:</c-> <c- nf>auto</c-><c- p>(</c->ja<c- p>);</c->
+    <c- k>word-break</c-><c- p>:</c-> keep-all<c- p>;</c->
+  <c- p>}</c->
+<c- p>}</c->
 </code></pre>
    </div>
-   <p><a data-link-type="dfn" href="#virtual-word-boundary" id="ref-for-virtual-word-boundary⑨">Virtual word boundary</a> insertion happens before <a href="https://www.w3.org/TR/css-text-3/#white-space-phase-1">CSS Text Module Level 3 §white-space-phase-1</a> and before <a href="#word-boundary-expansion">§ 2.2.2 Makig Word Boundaries Visible: the word-boundary-expansion property</a>.
+   <p>User Agents may activate
+	language-specific content analysis
+	in response to user preferences.
+	User Agents with this behavior must do this
+	by setting the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#declared-value" id="ref-for-declared-value">declared value</a> of <a class="property" data-link-type="propdesc" href="#propdef-word-boundary-detection" id="ref-for-propdef-word-boundary-detection①">word-boundary-detection</a> to ''word-boundary-detection/auto(<a class="production css" data-link-type="type" href="#typedef-word-boundary-detection-lang" id="ref-for-typedef-word-boundary-detection-lang⑥">&lt;lang></a>)''
+	in the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#cascade-origin-user" id="ref-for-cascade-origin-user">User Origin</a>.
+	User Agents that do not support the <span id="ref-for-cascade-origin-user①">User Origin</span> may use the <a data-link-type="dfn">User Agent Origin</a> instead.</p>
+   <div class="advisement">
+     Manual analysis of the content can be more reliable than UA heuristics.
+		For best results, authors who can perform this analysis are encouraged to markup their documents
+		using <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-wbr-element" id="ref-for-the-wbr-element②">wbr</a></code> or U+200B
+		to exhaustively indicate word boundaries. 
+    <p>Authors who prepare their content in this manner
+		should not rely on the initial value, and
+		should explicitly specify <a class="css" data-link-type="propdesc" href="#propdef-word-boundary-detection" id="ref-for-propdef-word-boundary-detection②">word-boundary-detection: manual</a> on the relevant parts of the content,
+		in order to override a potential ''word-boundary-detection: auto(<a class="production css" data-link-type="type" href="#typedef-word-boundary-detection-lang" id="ref-for-typedef-word-boundary-detection-lang⑦">&lt;lang></a>)''
+		in the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#cascade-origin-user" id="ref-for-cascade-origin-user②">User Origin</a> or <a data-link-type="dfn">User Agent Origin</a>.</p>
+   </div>
+   <p><a data-link-type="dfn" href="#virtual-word-boundary" id="ref-for-virtual-word-boundary⑨">Virtual word boundary</a> insertion happens before <a href="https://www.w3.org/TR/css-text-3/#white-space-phase-1">CSS Text 3 §4.1.1 Phase I: Collapsing and Transformation</a> and before <a href="#word-boundary-expansion">§ 2.2.2 Makig Word Boundaries Visible: the word-boundary-expansion property</a>.
 	Later operations
-	(including <a href="https://www.w3.org/TR/css-text-3/#white-space-rules">CSS Text Module Level 3 §white-space-rules</a>, <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#line-breaking-process" id="ref-for-line-breaking-process">line breaking</a>, and <a data-link-type="dfn" href="https://drafts.csswg.org/css-sizing-3/#intrinsic-sizing" id="ref-for-intrinsic-sizing">intrinsic sizing</a>)
+	(including <a href="https://www.w3.org/TR/css-text-3/#white-space-rules">CSS Text 3 §4.1 The White Space Processing Rules</a>, <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#line-breaking-process" id="ref-for-line-breaking-process">line breaking</a>, and <a data-link-type="dfn" href="https://drafts.csswg.org/css-sizing-3/#intrinsic-sizing" id="ref-for-intrinsic-sizing">intrinsic sizing</a>)
 	must take the presence of the <span id="ref-for-virtual-word-boundary①⓪">virtual word boundary</span> into account. <a data-link-type="dfn" href="https://drafts.csswg.org/selectors-4/#selector" id="ref-for-selector">Selectors</a> are not affected.</p>
    <p>Inline box boundaries
 	and out-of-flow elements must be ignored
@@ -643,8 +1059,8 @@ on screen, on paper, etc.
 	one or more inline box boundaries,
 	the <a data-link-type="dfn" href="#virtual-word-boundary" id="ref-for-virtual-word-boundary①①">virtual word boundary</a> must be inserted
 	in the outermost element that participates in this inline box boundary.</p>
-   <div class="example" id="example-9e95aafa">
-    <a class="self-link" href="#example-9e95aafa"></a> In the following example,
+   <div class="example" id="example-6300ba62">
+    <a class="self-link" href="#example-6300ba62"></a> In the following example,
 		the red “<code><span style="color:red">|</span></code>” indicates
 		reasonable positions for a User Agent to insert virtual word boundaries: 
 <pre><code class="highlight">กรุงเทพ<span style="color:red">|</span>คือ<span style="color:red">|</span>สวยงาม</code></pre>
@@ -653,7 +1069,7 @@ on screen, on paper, etc.
 <pre><code class="highlight">กรุงเทพ<span style="color:red">|</span>คือ<span style="color:red">|</span><c- p>&lt;</c-><c- f>em</c-><c- p>></c->สวยงาม<c- p>&lt;/</c-><c- f>em</c-><c- p>></c-></code></pre>
     <p>The following example shows <em>incorrect</em> positions:</p>
 <pre><code class="highlight">กรุงเทพ<span style="color:red">|</span>คือ<c- p>&lt;</c-><c- f>em</c-><c- p>></c-><span style="color:red">|</span>สวยงาม<c- p>&lt;/</c-><c- f>em</c-><c- p>></c-></code></pre>
-    <p>The following shows the correct positions in a more contrieved situation:</p>
+    <p>The following shows the correct positions in a more contrived situation:</p>
 <pre><code class="highlight">กรุงเทพ<span style="color:red">|</span><c- p>&lt;</c-><c- f>b</c-><c- p>>&lt;</c-><c- f>u</c-><c- p>></c->คือ<c- p>&lt;/</c-><c- f>u</c-><c- p>></c-><span style="color:red">|</span><c- p>&lt;</c-><c- f>em</c-><c- p>></c->สวยงาม<c- p>&lt;/</c-><c- f>em</c-><c- p>>&lt;/</c-><c- f>b</c-><c- p>></c-></code></pre>
    </div>
    <p>The User Agent may tailor its word boundary detection algorithm
@@ -661,23 +1077,23 @@ on screen, on paper, etc.
    <p>The User Agent must not insert a <a data-link-type="dfn" href="#virtual-word-boundary" id="ref-for-virtual-word-boundary①②">virtual word boundary</a>:</p>
    <ul>
     <li> at the beginning or end of any box
-			(including <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box①">inline boxes</a>)
-			whose parent box has a <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-4/#used-value" id="ref-for-used-value①">used value</a> of <a class="css" data-link-type="maybe" href="#valdef-word-boundary-detection-manual" id="ref-for-valdef-word-boundary-detection-manual①">manual</a>. 
+			(including <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box">inline boxes</a>)
+			whose parent box has a <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#used-value" id="ref-for-used-value①">used value</a> of <a class="css" data-link-type="maybe" href="#valdef-word-boundary-detection-manual" id="ref-for-valdef-word-boundary-detection-manual①">manual</a>. 
     <li>
       immediately adjacent to a <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#word-separator" id="ref-for-word-separator">word-separator character</a>,
-			or an <a data-link-type="dfn">other space separator</a>,
+			or an <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#other-space-separators" id="ref-for-other-space-separators">other space separator</a>,
 			or a ZERO WIDTH SPACE (U+200B) character. 
      <p class="note" role="note"><span>Note:</span> This implies that for languages such as English
 			where words are separated by spaces or other separating characters, <a class="css" data-link-type="maybe" href="#valdef-word-boundary-detection-auto-lang" id="ref-for-valdef-word-boundary-detection-auto-lang">auto()</a> has no effect.</p>
     <li> between characters that compose a single <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-character-unit" id="ref-for-typographic-character-unit②">typographic character unit</a>. 
-    <li> between a <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-letter-unit" id="ref-for-typographic-letter-unit">typographic letter unit</a> and a subsequent <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-character-unit" id="ref-for-typographic-character-unit③">typographic character unit</a> from the <a data-link-type="biblio" href="#biblio-uax14">[UAX14]</a> CL, CP, IS, or EX line break classes, 
-    <li> between a <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-letter-unit" id="ref-for-typographic-letter-unit①">typographic letter unit</a> and a preceeding <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-character-unit" id="ref-for-typographic-character-unit④">typographic character unit</a> from the <a data-link-type="biblio" href="#biblio-uax14">[UAX14]</a> OP line break class, 
-    <li> between a <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-letter-unit" id="ref-for-typographic-letter-unit②">typographic letter unit</a> and an adjacent <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-character-unit" id="ref-for-typographic-character-unit⑤">typographic character unit</a> from the <a data-link-type="biblio" href="#biblio-uax14">[UAX14]</a> GL, WJ, or ZWJ line break classes. 
+    <li> between a <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-letter-unit" id="ref-for-typographic-letter-unit①">typographic letter unit</a> and a subsequent <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-character-unit" id="ref-for-typographic-character-unit③">typographic character unit</a> from the <a data-link-type="biblio" href="#biblio-uax14">[UAX14]</a> CL, CP, IS, or EX line break classes, 
+    <li> between a <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-letter-unit" id="ref-for-typographic-letter-unit②">typographic letter unit</a> and a preceding <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-character-unit" id="ref-for-typographic-character-unit④">typographic character unit</a> from the <a data-link-type="biblio" href="#biblio-uax14">[UAX14]</a> OP line break class, 
+    <li> between a <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-letter-unit" id="ref-for-typographic-letter-unit③">typographic letter unit</a> and an adjacent <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-character-unit" id="ref-for-typographic-character-unit⑤">typographic character unit</a> from the <a data-link-type="biblio" href="#biblio-uax14">[UAX14]</a> GL, WJ, or ZWJ line break classes. 
    </ul>
    <p>The User Agent should not insert a <a data-link-type="dfn" href="#virtual-word-boundary" id="ref-for-virtual-word-boundary①③">virtual word boundary</a>:</p>
    <ul>
-    <li> between a <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-letter-unit" id="ref-for-typographic-letter-unit③">typographic letter unit</a> and a subsequent <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-character-unit" id="ref-for-typographic-character-unit⑥">typographic character unit</a> from the <a data-link-type="biblio" href="#biblio-uax14">[UAX14]</a> PO, NS line break classes, 
-    <li> between a <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-letter-unit" id="ref-for-typographic-letter-unit④">typographic letter unit</a> and a preceeding <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-character-unit" id="ref-for-typographic-character-unit⑦">typographic character unit</a> from the <a data-link-type="biblio" href="#biblio-uax14">[UAX14]</a> PR line break class, 
+    <li> between a <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-letter-unit" id="ref-for-typographic-letter-unit④">typographic letter unit</a> and a subsequent <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-character-unit" id="ref-for-typographic-character-unit⑥">typographic character unit</a> from the <a data-link-type="biblio" href="#biblio-uax14">[UAX14]</a> PO, NS line break classes, 
+    <li> between a <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-letter-unit" id="ref-for-typographic-letter-unit⑤">typographic letter unit</a> and a preceding <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-character-unit" id="ref-for-typographic-character-unit⑦">typographic character unit</a> from the <a data-link-type="biblio" href="#biblio-uax14">[UAX14]</a> PR line break class, 
    </ul>
    <h4 class="heading settled" data-level="2.2.2" id="word-boundary-expansion"><span class="secno">2.2.2. </span><span class="content"> Makig Word Boundaries Visible: the <a class="property" data-link-type="propdesc" href="#propdef-word-boundary-expansion" id="ref-for-propdef-word-boundary-expansion②">word-boundary-expansion</a> property</span><a class="self-link" href="#word-boundary-expansion"></a></h4>
    <table class="def propdef" data-link-for-hint="word-boundary-expansion">
@@ -686,28 +1102,28 @@ on screen, on paper, etc.
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-word-boundary-expansion">word-boundary-expansion</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">none <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one②">|</a> space <span id="ref-for-comb-one③">|</span> ideographic-space 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>none 
      <tr>
       <th>Applies to:
-      <td><a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box②">inline boxes</a> 
+      <td>text 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>N/A 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>as specified 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <p class="issue" id="issue-217111e5"><a class="self-link" href="#issue-217111e5"></a> This name is quite long, we may want to find a better one.
@@ -719,7 +1135,7 @@ on screen, on paper, etc.
 	into an ordinary SPACE (U+0020).</p>
    <p>This property allows transforming certain word-separating characters
 	into other word-separating characters,
-	to accomodate variant typesetting styles.</p>
+	to accommodate variant typesetting styles.</p>
    <dl>
     <dt><dfn class="css" data-dfn-for="word-boundary-expansion" data-dfn-type="value" data-export id="valdef-word-boundary-expansion-none">none<a class="self-link" href="#valdef-word-boundary-expansion-none"></a></dfn> 
     <dd>This property has no effect. 
@@ -735,13 +1151,13 @@ on screen, on paper, etc.
    <p>The User Agent must not replace
 	instances of U+200B immediately preceding or following
 	a <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#forced-line-break" id="ref-for-forced-line-break">forced line break</a> (ignoring any intervening inline box boundaries,
-	and associated <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-box-3/#propdef-margin" id="ref-for-propdef-margin">margin</a>/<a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-backgrounds-3/#propdef-border" id="ref-for-propdef-border">border</a>/<a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-box-3/#propdef-padding" id="ref-for-propdef-padding">padding</a>).</p>
-   <p>Instances of <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-wbr-element" id="ref-for-the-wbr-element②">wbr</a></code> are considered equivalent to U+200B,
+	and associated <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-box-4/#propdef-margin" id="ref-for-propdef-margin">margin</a>/<a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-backgrounds-3/#propdef-border" id="ref-for-propdef-border">border</a>/<a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-box-4/#propdef-padding" id="ref-for-propdef-padding">padding</a>).</p>
+   <p>Instances of <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-wbr-element" id="ref-for-the-wbr-element③">wbr</a></code> are considered equivalent to U+200B,
 	and are also replaced,
-	as are <a data-link-type="dfn" href="#virtual-word-boundary" id="ref-for-virtual-word-boundary①④">virtual word boundaries</a> inserted by <a class="property" data-link-type="propdesc" href="#propdef-word-boundary-detection" id="ref-for-propdef-word-boundary-detection①">word-boundary-detection</a>.</p>
+	as are <a data-link-type="dfn" href="#virtual-word-boundary" id="ref-for-virtual-word-boundary①④">virtual word boundaries</a> inserted by <a class="property" data-link-type="propdesc" href="#propdef-word-boundary-detection" id="ref-for-propdef-word-boundary-detection③">word-boundary-detection</a>.</p>
    <p>Unlike <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-text-3/#propdef-text-transform" id="ref-for-propdef-text-transform①">text-transform</a>,
-	this substitution happens before <a href="https://www.w3.org/TR/css-text-3/#white-space-phase-1">CSS Text Module Level 3 §white-space-phase-1</a> so that later operations that depend on the characters in the content
-	(including <a href="https://www.w3.org/TR/css-text-3/#white-space-rules">CSS Text Module Level 3 §white-space-rules</a>, <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#line-breaking-process" id="ref-for-line-breaking-process①">line breaking</a>, and <a data-link-type="dfn" href="https://drafts.csswg.org/css-sizing-3/#intrinsic-sizing" id="ref-for-intrinsic-sizing①">intrinsic sizing</a>)
+	this substitution happens before <a href="https://www.w3.org/TR/css-text-3/#white-space-phase-1">CSS Text 3 §4.1.1 Phase I: Collapsing and Transformation</a> so that later operations that depend on the characters in the content
+	(including <a href="https://www.w3.org/TR/css-text-3/#white-space-rules">CSS Text 3 §4.1 The White Space Processing Rules</a>, <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#line-breaking-process" id="ref-for-line-breaking-process①">line breaking</a>, and <a data-link-type="dfn" href="https://drafts.csswg.org/css-sizing-3/#intrinsic-sizing" id="ref-for-intrinsic-sizing①">intrinsic sizing</a>)
 	use that character instead of the original U+200B.</p>
    <p>Like <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-text-3/#propdef-text-transform" id="ref-for-propdef-text-transform②">text-transform</a>, this property transforms text for styling purposes.
 	It has no effect on the underlying content,
@@ -753,7 +1169,7 @@ on screen, on paper, etc.
 	rather than additional values to <span class="property" id="ref-for-propdef-text-transform④">text-transform</span> because: 
     <ul>
      <li data-md>
-      <p>This property needs to take effect before <a href="https://www.w3.org/TR/css-text-3/#white-space-rules">CSS Text Module Level 3 §white-space-rules</a>,
+      <p>This property needs to take effect before <a href="https://www.w3.org/TR/css-text-3/#white-space-rules">CSS Text 3 §4.1 The White Space Processing Rules</a>,
 but <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-text-3/#propdef-text-transform" id="ref-for-propdef-text-transform⑤">text-transform</a> happens after that.
 This is needed so that the spaces inserted by this property
 behave as normal spaces for text layout purposes,
@@ -776,7 +1192,7 @@ making it desirable for these two properties to cascade separately.</p>
     <p><samp lang="ja"> むかしむかし、あるところに、おじいさんとおばあさんがすんでいました。 </samp></p>
     <hr>
     <p>Phrase-based spacing can be achieved with the following css:</p>
-<pre><code class="highlight"><c- f>p </c-><c- p>{</c->
+<pre><code class="highlight">p <c- p>{</c->
   <c- k>word-boundary-expansion</c-><c- p>:</c-> ideographic-space<c- p>;</c->
 <c- p>}</c->
 </code></pre>
@@ -784,7 +1200,7 @@ making it desirable for these two properties to cascade separately.</p>
     <hr>
     <p>Another common variant additionally restricts the allowable line breaks to these phrase boundaries.
 		Using the same markup, this is easily achieved with the following css:</p>
-<pre><code class="highlight"><c- f>p </c-><c- p>{</c->
+<pre><code class="highlight">p <c- p>{</c->
   <c- k>word-break</c-><c- p>:</c-> keep-all<c- p>;</c->
   <c- k>word-boundary-expansion</c-><c- p>:</c-> ideographic-space<c- p>;</c->
 <c- p>}</c->
@@ -794,9 +1210,9 @@ making it desirable for these two properties to cascade separately.</p>
    <div class="example" id="classes">
     <a class="self-link" href="#classes"></a> 
     <p>In addition to making the source code more readable,
-		using <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-wbr-element" id="ref-for-the-wbr-element③">wbr</a></code> rather than U+200B in the markup
+		using <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-wbr-element" id="ref-for-the-wbr-element④">wbr</a></code> rather than U+200B in the markup
 		also allow authors to classify the delimiters into different groups.</p>
-    <p>In the following example, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-wbr-element" id="ref-for-the-wbr-element④">wbr</a></code> elements are either
+    <p>In the following example, <code><a data-link-type="element" href="https://html.spec.whatwg.org/multipage/text-level-semantics.html#the-wbr-element" id="ref-for-the-wbr-element⑤">wbr</a></code> elements are either
 		unmarked when they delimit a word,
 		or marked with class <code>p</code> when they also delimit a phrase.</p>
 <pre><code class="highlight"><c- p>&lt;</c-><c- f>p</c-><c- p>></c->らいしゅう<c- p>&lt;</c-><c- f>wbr</c-><c- p>></c->の<c- p>&lt;</c-><c- f>wbr</c-><c- p>></c->じゅぎょう<c- p>&lt;</c-><c- f>wbr</c-><c- p>></c->に<c- p>&lt;</c-><c- f>wbr</c-> <c- e>class</c-><c- o>=</c-><c- s>p</c->
@@ -816,7 +1232,7 @@ making it desirable for these two properties to cascade separately.</p>
     <hr>
     <figure>
      <figcaption>Phrase spacing</figcaption>
-<pre><code class="highlight"><c- f>p wbr.p </c-><c- p>{</c->
+<pre><code class="highlight">p wbr.p <c- p>{</c->
   <c- k>word-boundary-expansion</c-><c- p>:</c-> ideographic-space<c- p>;</c->
 <c- p>}</c->
 </code></pre>
@@ -825,7 +1241,7 @@ making it desirable for these two properties to cascade separately.</p>
     <hr>
     <figure>
      <figcaption>Word spacing</figcaption>
-<pre><code class="highlight"><c- f>p wbr </c-><c- p>{</c->
+<pre><code class="highlight">p wbr <c- p>{</c->
   <c- k>word-boundary-expansion</c-><c- p>:</c-> ideographic-space<c- p>;</c->
 <c- p>}</c->
 </code></pre>
@@ -834,10 +1250,10 @@ making it desirable for these two properties to cascade separately.</p>
     <hr>
     <figure>
      <figcaption>Phrase spacing, word wrapping</figcaption>
-<pre><code class="highlight"><c- f>p </c-><c- p>{</c->
+<pre><code class="highlight">p <c- p>{</c->
   <c- k>word-break</c-><c- p>:</c-> keep-all<c- p>;</c->
 <c- p>}</c->
-<c- f>p wbr.p </c-><c- p>{</c->
+p wbr.p <c- p>{</c->
   <c- k>word-boundary-expansion</c-><c- p>:</c-> ideographic-space<c- p>;</c->
 <c- p>}</c->
 </code></pre>
@@ -846,10 +1262,10 @@ making it desirable for these two properties to cascade separately.</p>
     <hr>
     <figure>
      <figcaption>Word spacing and wrapping</figcaption>
-<pre><code class="highlight"><c- f>p </c-><c- p>{</c->
+<pre><code class="highlight">p <c- p>{</c->
   <c- k>word-break</c-><c- p>:</c-> keep-all<c- p>;</c->
 <c- p>}</c->
-<c- f>p wbr </c-><c- p>{</c->
+p wbr <c- p>{</c->
   <c- k>word-boundary-expansion</c-><c- p>:</c-> ideographic-space<c- p>;</c->
 <c- p>}</c->
 </code></pre>
@@ -866,32 +1282,31 @@ making it desirable for these two properties to cascade separately.</p>
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-text-space-collapse">text-space-collapse</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">collapse <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one④">|</a> discard <span id="ref-for-comb-one⑤">|</span> preserve <span id="ref-for-comb-one⑥">|</span> preserve-breaks <span id="ref-for-comb-one⑦">|</span> preserve-spaces 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>collapse 
      <tr>
       <th>Applies to:
-      <td><a href="https://drafts.csswg.org/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
+      <td>text 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>n/a 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
-   <p>This property declares whether and how <a href="#white-space-processing">white space</a> inside the element
-	is collapsed.
+   <p>This property declares whether and how <a href="#white-space-processing">white space</a> is collapsed.
 	Values have the following meanings,
 	which must be interpreted according to the white space processing rules:</p>
    <dl>
@@ -935,28 +1350,28 @@ m|mi, m|mn, m|mo, m|ms, m|mtext {
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-text-space-trim">text-space-trim</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">none <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one⑧">|</a> trim-inner <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-any" id="ref-for-comb-any">||</a> discard-before <span id="ref-for-comb-any①">||</span> discard-after 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>none 
      <tr>
       <th>Applies to:
-      <td><a href="https://drafts.csswg.org/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
+      <td><a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box①">inline boxes</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>n/a 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword(s) 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <p>This property allows authors to specify trimming behavior
@@ -999,28 +1414,28 @@ dt + dt:before { content: ", "; text-space-trim: discard-before; }
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-text-wrap">text-wrap</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">wrap <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one⑨">|</a> nowrap <span id="ref-for-comb-one①⓪">|</span> balance <span id="ref-for-comb-one①①">|</span> stable <span id="ref-for-comb-one①②">|</span> pretty 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>wrap 
      <tr>
       <th>Applies to:
-      <td><a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box③">inline boxes</a> and <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#block-container" id="ref-for-block-container">block containers</a> 
+      <td>text and <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#block-container" id="ref-for-block-container">block containers</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>n/a 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <p>This property specifies the mode for text wrapping.
@@ -1045,7 +1460,7 @@ dt + dt:before { content: ", "; text-space-trim: discard-before; }
 			content that does not fit within the block container overflows it. 
     <dt><dfn class="dfn-paneled css" data-dfn-for="text-wrap" data-dfn-type="value" data-export id="valdef-text-wrap-balance">balance</dfn> 
     <dd>
-      Same as <a class="css" data-link-type="maybe" href="#valdef-text-wrap-wrap" id="ref-for-valdef-text-wrap-wrap">wrap</a> for <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box④">inline boxes</a>.
+      Same as <a class="css" data-link-type="maybe" href="#valdef-text-wrap-wrap" id="ref-for-valdef-text-wrap-wrap">wrap</a> for <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box②">inline boxes</a>.
 			For <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#block-container" id="ref-for-block-container①">block containers</a> that
 			establish an <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-formatting-context" id="ref-for-inline-formatting-context">inline formatting context</a>,
 			line breaks are chosen to balance
@@ -1122,28 +1537,28 @@ dt + dt:before { content: ", "; text-space-trim: discard-before; }
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-wrap-before">wrap-before</dfn>, <dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-wrap-after">wrap-after</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">auto <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①③">|</a> avoid <span id="ref-for-comb-one①④">|</span> avoid-line <span id="ref-for-comb-one①⑤">|</span> avoid-flex <span id="ref-for-comb-one①⑥">|</span> line <span id="ref-for-comb-one①⑦">|</span> flex 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>auto 
      <tr>
       <th>Applies to:
       <td><a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-level" id="ref-for-inline-level">inline-level</a> boxes and <a data-link-type="dfn" href="https://drafts.csswg.org/css-flexbox-1/#flex-item" id="ref-for-flex-item">flex items</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>n/a 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <p>These properties specify modifications to break opportunities
@@ -1175,7 +1590,7 @@ dt + dt:before { content: ", "; text-space-trim: discard-before; }
 			if the box is a <a data-link-type="dfn" href="https://drafts.csswg.org/css-flexbox-1/#flex-item" id="ref-for-flex-item①">flex item</a> in a <a data-link-type="dfn" href="https://drafts.csswg.org/css-flexbox-1/#multi-line-flex-container" id="ref-for-multi-line-flex-container">multi-line flex container</a>. 
    </dl>
    <p>Forced line breaks on <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-level" id="ref-for-inline-level②">inline-level</a> boxes propagate upward
-	through any parent <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box⑤">inline boxes</a> the same way forced breaks on <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#block-level" id="ref-for-block-level">block-level</a> boxes propagate upward
+	through any parent <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box③">inline boxes</a> the same way forced breaks on <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#block-level" id="ref-for-block-level">block-level</a> boxes propagate upward
 	through any parent <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#block-box" id="ref-for-block-box">block boxes</a> in the same <a data-link-type="dfn" href="https://drafts.csswg.org/css-break-4/#fragmentation-context" id="ref-for-fragmentation-context">fragmentation context</a>. <a data-link-type="biblio" href="#biblio-css3-break">[CSS3-BREAK]</a></p>
    <h3 class="heading settled" data-level="5.3" id="wrap-inside"><span class="secno">5.3. </span><span class="content"> Line breaks within boxes: the <a class="property" data-link-type="propdesc" href="#propdef-wrap-inside" id="ref-for-propdef-wrap-inside①">wrap-inside</a> property</span><a class="self-link" href="#wrap-inside"></a></h3>
    <table class="def propdef" data-link-for-hint="wrap-inside">
@@ -1184,28 +1599,28 @@ dt + dt:before { content: ", "; text-space-trim: discard-before; }
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-wrap-inside">wrap-inside</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">auto <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①⑧">|</a> avoid 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>auto 
      <tr>
       <th>Applies to:
-      <td><a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box⑥">inline boxes</a> 
+      <td><a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box④">inline boxes</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>n/a 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <dl>
@@ -1267,7 +1682,7 @@ Berlin, Germany
      <li>At least X characters. 
      <li>Percentage-based. 
     </ul>
-    <p>Suggestion for value space is ''match-indent | <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" id="ref-for-length-value" title="Expands to: em | vb | ch | cm | vh | vi | in | ex | vw | ic | pt | px | lh | pc | rem | rlh | vmax | advance measure | vmin | mm | cap | q">&lt;length></a> | <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#percentage-value" id="ref-for-percentage-value">&lt;percentage></a>''
+    <p>Suggestion for value space is ''match-indent | <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" id="ref-for-length-value" title="Expands to: advance measure | cap | ch | cm | em | ex | ic | in | lh | mm | pc | pt | px | q | rem | rlh | vb | vh | vi | vmax | vmin | vw">&lt;length></a> | <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#percentage-value" id="ref-for-percentage-value">&lt;percentage></a>''
 		(with <span class="css">Xch</span> given as an example to make that use case clear).
 		Alternately <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#integer-value" id="ref-for-integer-value">&lt;integer></a> could actually count the characters.</p>
     <p>It’s unclear how this would interact with text balancing (above);
@@ -1283,25 +1698,25 @@ Berlin, Germany
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-white-space">white-space</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">normal <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①⑨">|</a> pre <span id="ref-for-comb-one②⓪">|</span> nowrap <span id="ref-for-comb-one②①">|</span> pre-wrap <span id="ref-for-comb-one②②">|</span> pre-line 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>auto 
      <tr>
       <th>Applies to:
-      <td><a href="https://drafts.csswg.org/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
+      <td>See individual properties 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>n/a 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>see individual properties 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
      <tr>
       <th>Canonical order:
@@ -1357,42 +1772,42 @@ Berlin, Germany
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-hyphenate-character">hyphenate-character</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">auto <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one②③">|</a> <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#string-value" id="ref-for-string-value①">&lt;string></a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>auto 
      <tr>
       <th>Applies to:
-      <td><a href="https://drafts.csswg.org/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
+      <td>text 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>n/a 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <p>This property specifies the string that is shown
 	between parts of hyphenated words.
 	Values have the following meanings:</p>
    <dl>
-    <dt><dfn class="css" data-dfn-for="hyphenate-character" data-dfn-type="value" data-export id="valdef-hyphenate-character-auto">auto<a class="self-link" href="#valdef-hyphenate-character-auto"></a></dfn> 
+    <dt><dfn class="dfn-paneled css" data-dfn-for="hyphenate-character" data-dfn-type="value" data-export id="valdef-hyphenate-character-auto">auto</dfn> 
     <dd> Specifies that the user agent should find an appropriate string
 			based on the <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#content-language" id="ref-for-content-language③">content language</a>’s typographic conventions,
 			possibly from the same source as the hyphenation dictionary. 
     <dt><dfn class="css" data-dfn-for="hyphenate-character" data-dfn-type="value" data-export id="valdef-hyphenate-character-string"><a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#string-value" id="ref-for-string-value②">&lt;string></a><a class="self-link" href="#valdef-hyphenate-character-string"></a></dfn> 
     <dd> Specifies the string that appears
 			at the end of the line before a hyphenation break.
-			The UA <em>may</em> truncate the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-4/#used-value" id="ref-for-used-value②">used value</a> to a limited number of <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-character-unit" id="ref-for-typographic-character-unit⑧">typographic character units</a>.
+			The UA <em>may</em> truncate the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#used-value" id="ref-for-used-value②">used value</a> to a limited number of <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-character-unit" id="ref-for-typographic-character-unit⑧">typographic character units</a>.
 			(It must not truncate only part of a <span id="ref-for-typographic-character-unit⑨">typographic character unit</span>.) 
    </dl>
    <div class="example" id="example-5c34ac48">
@@ -1413,28 +1828,28 @@ Berlin, Germany
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-hyphenate-limit-zone">hyphenate-limit-zone</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod"><a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#typedef-length-percentage" id="ref-for-typedef-length-percentage">&lt;length-percentage></a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>0 
      <tr>
       <th>Applies to:
-      <td>block containers 
+      <td><a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#block-container" id="ref-for-block-container④">block containers</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>refers to length of the line box 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>computed <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#typedef-length-percentage" id="ref-for-typedef-length-percentage①">&lt;length-percentage></a> value 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>by computed value type 
    </table>
    <p class="issue" id="issue-9a19edc4"><a class="self-link" href="#issue-9a19edc4"></a>Is <a class="property" data-link-type="propdesc" href="#propdef-hyphenate-limit-zone" id="ref-for-propdef-hyphenate-limit-zone①">hyphenate-limit-zone</a> a good name? Comments/suggestions? </p>
@@ -1449,28 +1864,28 @@ Berlin, Germany
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-hyphenate-limit-chars">hyphenate-limit-chars</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">[ auto <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one②④">|</a> <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#integer-value" id="ref-for-integer-value①">&lt;integer></a> ]<a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-num-range" id="ref-for-mult-num-range">{1,3}</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>auto 
      <tr>
       <th>Applies to:
-      <td><a href="https://drafts.csswg.org/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
+      <td>text 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>n/a 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>three values, each either the <a class="css" data-link-type="maybe" href="#valdef-hyphenate-limit-chars-auto" id="ref-for-valdef-hyphenate-limit-chars-auto">auto</a> keyword or an integer 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>by computed value type 
    </table>
    <p>This property specifies the minimum number of characters
@@ -1510,28 +1925,28 @@ Berlin, Germany
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-hyphenate-limit-lines">hyphenate-limit-lines</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">no-limit <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one②⑤">|</a> <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#integer-value" id="ref-for-integer-value②">&lt;integer></a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>no-limit 
      <tr>
       <th>Applies to:
       <td>block containers 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>n/a 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword or integer 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>by computed value type 
    </table>
    <p>This property indicates the maximum number of
@@ -1547,28 +1962,28 @@ Berlin, Germany
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-hyphenate-limit-last">hyphenate-limit-last</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">none <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one②⑥">|</a> always <span id="ref-for-comb-one②⑦">|</span> column <span id="ref-for-comb-one②⑧">|</span> page <span id="ref-for-comb-one②⑨">|</span> spread 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>none 
      <tr>
       <th>Applies to:
-      <td>block containers 
+      <td><a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#block-container" id="ref-for-block-container⑤">block containers</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>n/a 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <p>This property indicates hyphenation behavior at the end
@@ -1616,6 +2031,22 @@ Antarctica.
 </pre>
    </div>
    <h2 class="heading settled" data-level="9" id="alignment"><span class="secno">9. </span><span class="content"> Alignment and Justification</span><a class="self-link" href="#alignment"></a></h2>
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/text-align" title="The text-align CSS property sets the horizontal alignment of a block element or table-cell box. This means it works like vertical-align but in the horizontal direction.">text-align</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>1+</span></span><span class="safari yes"><span>Safari</span><span>1+</span></span><span class="chrome yes"><span>Chrome</span><span>1+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>3.5+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>12+</span></span><span class="ie yes"><span>IE</span><span>3+</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>4+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>1+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>18+</span></span><span class="webview_android yes"><span>Android WebView</span><span>37+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>10.1+</span></span>
+     </div>
+    </div>
+   </div>
    <h3 class="heading settled" data-level="9.1" id="text-align-property"><span class="secno">9.1. </span><span class="content"> Text Alignment: the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-text-3/#propdef-text-align" id="ref-for-propdef-text-align">text-align</a> shorthand</span><a class="self-link" href="#text-align-property"></a></h3>
    <p class="issue" id="issue-e782977b④"><a class="self-link" href="#issue-e782977b④"></a> Add final level 3 content</p>
    <p>Add this value to <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-text-3/#propdef-text-align" id="ref-for-propdef-text-align①">text-align</a></p>
@@ -1796,28 +2227,28 @@ Antarctica.
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-text-group-align">text-group-align</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">none <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one③⓪">|</a> start <span id="ref-for-comb-one③①">|</span> end <span id="ref-for-comb-one③②">|</span> left <span id="ref-for-comb-one③③">|</span> right <span id="ref-for-comb-one③④">|</span> center 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>none 
      <tr>
       <th>Applies to:
-      <td><a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#block-container" id="ref-for-block-container④">block containers</a> 
+      <td><a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#block-container" id="ref-for-block-container⑥">block containers</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>N/A 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <p>This property aligns the contents of the line boxes as a group
@@ -1870,41 +2301,41 @@ Antarctica.
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-line-padding">line-padding</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
-      <td class="prod"><a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" id="ref-for-length-value①" title="Expands to: em | vb | ch | cm | vh | vi | in | ex | vw | ic | pt | px | lh | pc | rem | rlh | vmax | advance measure | vmin | mm | cap | q">&lt;length></a> 
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
+      <td class="prod"><a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" id="ref-for-length-value①" title="Expands to: advance measure | cap | ch | cm | em | ex | ic | in | lh | mm | pc | pt | px | q | rem | rlh | vb | vh | vi | vmax | vmin | vw">&lt;length></a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>0 
      <tr>
       <th>Applies to:
-      <td><a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box⑦">inline boxes</a> 
+      <td><a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box⑤">inline boxes</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>N/A 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>absolute length 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>by computed value type 
    </table>
    <p>Whereas <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-text-3/#propdef-letter-spacing" id="ref-for-propdef-letter-spacing">letter-spacing</a> adjusts spacing
-	between <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-letter-unit" id="ref-for-typographic-letter-unit⑤">typographic letter units</a> and does not apply at the start or end of a line,
+	between <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#typographic-letter-unit" id="ref-for-typographic-letter-unit⑥">typographic letter units</a> and does not apply at the start or end of a line,
 	this property adjusts spacing only at the start/end of a line.
 	The extra spacing is applied only
-	by the <em>innermost</em> <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box⑧">inline box</a> at the start/end of the line box,
-	and is inserted between that <span id="ref-for-inline-box⑨">inline box</span>’s content edge
+	by the <em>innermost</em> <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-box" id="ref-for-inline-box⑥">inline box</a> at the start/end of the line box,
+	and is inserted between that <span id="ref-for-inline-box⑦">inline box</span>’s content edge
 	and the adjacent <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-level" id="ref-for-inline-level③">inline-level</a> content
 	(text run <em>or</em> <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#atomic-inline" id="ref-for-atomic-inline">atomic inline</a>).
 	This extra space is not a <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#justification-opportunity" id="ref-for-justification-opportunity">justification opportunity</a>.</p>
-   <div class="example" id="example-270dc7c8">
-    <a class="self-link" href="#example-270dc7c8"></a> Given the following HTML and CSS: 
+   <div class="example" id="example-4c81cd27">
+    <a class="self-link" href="#example-4c81cd27"></a> Given the following HTML and CSS: 
 <pre>p    { line-padding: 0.5em; line-height: 1; text-align: center }
 span { background: black; color: white; }
 em   { background: green; color: white; }
@@ -1915,7 +2346,7 @@ em   { background: green; color: white; }
 		an extra 0.5em of inline background will be visible
 		on each side of each line.
 		If it renders such that there is a break between “some” and “text”,
-		the the additional padding will be:
+		the additional padding will be:
 		on the first line, black on the left and green on the right,
 		and on the second line, green on both sides.</p>
 <pre class="figure" id="line-padding-rendering"><span>Here is <em>some</em>
@@ -1929,28 +2360,28 @@ em   { background: green; color: white; }
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-text-spacing">text-spacing</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
-      <td class="prod">normal <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one③⑤">|</a> none <span id="ref-for-comb-one③⑥">|</span> [ trim-start <span id="ref-for-comb-one③⑦">|</span> space-start <span id="ref-for-comb-one③⑧">|</span> space-first ] <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-any" id="ref-for-comb-any②">||</a> [ trim-end <span id="ref-for-comb-one③⑨">|</span> space-end <span id="ref-for-comb-one④⓪">|</span> allow-end ] <span id="ref-for-comb-any③">||</span> [ trim-adjacent <span id="ref-for-comb-one④①">|</span> space-adjacent ] <span id="ref-for-comb-any④">||</span> no-compress <span id="ref-for-comb-any⑤">||</span> ideograph-alpha <span id="ref-for-comb-any⑥">||</span> ideograph-numeric <span id="ref-for-comb-any⑦">||</span> punctuation 
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
+      <td class="prod">normal <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one③⑤">|</a> none <span id="ref-for-comb-one③⑥">|</span> auto <span id="ref-for-comb-one③⑦">|</span> [ trim-start <span id="ref-for-comb-one③⑧">|</span> space-start <span id="ref-for-comb-one③⑨">|</span> space-first ] <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-any" id="ref-for-comb-any②">||</a> [ trim-end <span id="ref-for-comb-one④⓪">|</span> space-end <span id="ref-for-comb-one④①">|</span> allow-end ] <span id="ref-for-comb-any③">||</span> [ trim-adjacent <span id="ref-for-comb-one④②">|</span> space-adjacent ] <span id="ref-for-comb-any④">||</span> no-compress <span id="ref-for-comb-any⑤">||</span> ideograph-alpha <span id="ref-for-comb-any⑥">||</span> ideograph-numeric <span id="ref-for-comb-any⑦">||</span> punctuation 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>normal 
      <tr>
       <th>Applies to:
       <td>block containers 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>N/A 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword(s) 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <p>This property controls spacing between adjacent characters
@@ -1965,6 +2396,12 @@ em   { background: green; color: white; }
     <dt><dfn class="dfn-paneled css" data-dfn-for="text-spacing" data-dfn-type="value" data-export id="valdef-text-spacing-none">none</dfn> 
     <dd> Turns off all text-spacing features.
 			All fullwidth characters are set with full-width glyphs. 
+    <dt><dfn class="css" data-dfn-for="text-spacing" data-dfn-type="value" data-export id="valdef-text-spacing-auto">auto<a class="self-link" href="#valdef-text-spacing-auto"></a></dfn> 
+    <dd>
+      The user agent chooses a set of typographically high quality spacing values.
+                        Different user agents running on different platforms may pick different values. 
+     <p class="note" role="note"><span>Note:</span> These spacing values may or may not match OS platform conventions.</p>
+     <p class="note" role="note"><span>Note:</span> The behavior of <a class="css" data-link-type="maybe" href="#valdef-hyphenate-character-auto" id="ref-for-valdef-hyphenate-character-auto">auto</a> might not be achievable with any combination of other values of <a class="property" data-link-type="propdesc" href="#propdef-text-spacing" id="ref-for-propdef-text-spacing①">text-spacing</a>.</p>
     <dt><dfn class="css" data-dfn-for="text-spacing" data-dfn-type="value" data-export id="valdef-text-spacing-ideograph-alpha">ideograph-alpha<a class="self-link" href="#valdef-text-spacing-ideograph-alpha"></a></dfn> 
     <dd>
       Creates 1/4em extra spacing between runs of <a data-link-type="dfn" href="#ideographs" id="ref-for-ideographs">ideographs</a> and <a data-link-type="dfn" href="#non-ideographic-letters" id="ref-for-non-ideographic-letters">non-ideographic letters</a>. 
@@ -2056,7 +2493,7 @@ em   { background: green; color: white; }
    </dl>
    <p>This property is additive with the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-text-3/#propdef-word-spacing" id="ref-for-propdef-word-spacing①">word-spacing</a> and <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-text-3/#propdef-letter-spacing" id="ref-for-propdef-letter-spacing①">letter-spacing</a> properties.
 	That is, the amount of spacing contributed by the <span class="property" id="ref-for-propdef-letter-spacing②">letter-spacing</span> setting (if any)
-	is added to the spacing created by <a class="property" data-link-type="propdesc" href="#propdef-text-spacing" id="ref-for-propdef-text-spacing①">text-spacing</a>.
+	is added to the spacing created by <a class="property" data-link-type="propdesc" href="#propdef-text-spacing" id="ref-for-propdef-text-spacing②">text-spacing</a>.
 	The same applies to <span class="property" id="ref-for-propdef-word-spacing②">word-spacing</span>.</p>
    <p>At element boundaries, the amount of extra spacing introduced between characters
 	is determined by and rendered within the innermost element that contains the boundary.
@@ -2072,7 +2509,7 @@ em   { background: green; color: white; }
 	as a standard Han character (e.g. 水 U+6C34).
 	However, many fullwidth punctuation glyphs only take up part of the fullwidth design space.
 	Thus such punctuation are not always set fullwidth.
-	Several values of <a class="property" data-link-type="propdesc" href="#propdef-text-spacing" id="ref-for-propdef-text-spacing②">text-spacing</a> allow the author to control
+	Several values of <a class="property" data-link-type="propdesc" href="#propdef-text-spacing" id="ref-for-propdef-text-spacing③">text-spacing</a> allow the author to control
 	when such characters are set half-width (typically half the width of an ideograph)
 	and when they are set full-width.</p>
    <p>In order to set the text as specified, the UA will need to either</p>
@@ -2107,7 +2544,7 @@ em   { background: green; color: white; }
 	Note that if 水 U+6C34, 卜 U+535C, and 一 U+4E00 do not all have the same advance width,
 	the font has proportional ideographs
 	and the fullwidth advance width cannot be reliably determined by measuring glyphs.</p>
-   <p>Unless <a class="property" data-link-type="propdesc" href="#propdef-text-spacing" id="ref-for-propdef-text-spacing③">text-spacing</a> is set to <a class="css" data-link-type="maybe" href="#valdef-text-spacing-space-adjacent" id="ref-for-valdef-text-spacing-space-adjacent">space-adjacent</a> or <a class="css" data-link-type="maybe" href="#valdef-text-spacing-none" id="ref-for-valdef-text-spacing-none①">none</a> (or the font has proportional fullwidth punctuation glyphs),
+   <p>Unless <a class="property" data-link-type="propdesc" href="#propdef-text-spacing" id="ref-for-propdef-text-spacing④">text-spacing</a> is set to <a class="css" data-link-type="maybe" href="#valdef-text-spacing-space-adjacent" id="ref-for-valdef-text-spacing-space-adjacent">space-adjacent</a> or <a class="css" data-link-type="maybe" href="#valdef-text-spacing-none" id="ref-for-valdef-text-spacing-none①">none</a> (or the font has proportional fullwidth punctuation glyphs),
 	the UA must collapse the space typically associated with such full width glyphs
 	when placed adjacently on a line
 	as follows:</p>
@@ -2123,8 +2560,8 @@ em   { background: green; color: white; }
 			or if the next character is a <a data-link-type="dfn" href="#fullwidth-opening-punctuation" id="ref-for-fullwidth-opening-punctuation⑤">fullwidth opening punctuation</a> of a larger <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-fonts-3/#propdef-font-size" id="ref-for-propdef-font-size①">font-size</a>.
 			Else set it full-width. 
    </ul>
-   <div class="example" id="example-ac299d6e">
-    <a class="self-link" href="#example-ac299d6e"></a> The following example table lists the punctuation pairs
+   <div class="example" id="example-939a2863">
+    <a class="self-link" href="#example-939a2863"></a> The following example table lists the punctuation pairs
 		affected by adjancent-pairs trimming.
 		It uses halfwidth equivalents to approximate the trimming effect. 
     <table class="data">
@@ -2327,7 +2764,7 @@ em   { background: green; color: white; }
    <ul>
     <li>Adding <a class="property" data-link-type="propdesc" href="#propdef-line-padding" id="ref-for-propdef-line-padding①">line-padding</a>. 
     <li>Adding <a class="property" data-link-type="propdesc" href="#propdef-text-group-align" id="ref-for-propdef-text-group-align①">text-group-align</a>. 
-    <li>Adding <a class="css" data-link-type="propdesc" href="#propdef-text-spacing" id="ref-for-propdef-text-spacing④">text-spacing: space-first</a>. 
+    <li>Adding <a class="css" data-link-type="propdesc" href="#propdef-text-spacing" id="ref-for-propdef-text-spacing⑤">text-spacing: space-first</a>. 
     <li>Allow truncating the <a class="property" data-link-type="propdesc" href="#propdef-hyphenate-character" id="ref-for-propdef-hyphenate-character③">hyphenate-character</a>. 
     <li>Rename <a class="css" data-link-type="propdesc" href="#propdef-text-wrap" id="ref-for-propdef-text-wrap⑦">text-wrap: normal</a> to <span class="css" id="ref-for-propdef-text-wrap⑧">text-wrap: wrap</span> for consistency with <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-flexbox-1/#propdef-flex-wrap" id="ref-for-propdef-flex-wrap">flex-wrap</a>. 
     <li>Drop <span class="css">preserve-auto</span> and <span class="css">preserve-trim</span> from <a class="property" data-link-type="propdesc" href="#propdef-text-space-collapse" id="ref-for-propdef-text-space-collapse③">text-space-collapse</a>. 
@@ -2336,95 +2773,89 @@ em   { background: green; color: white; }
     <li>Miscellaneous minor fixes. 
    </ul>
   </main>
-  <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
-  <h3 class="heading settled" id="document-conventions"><span class="content"> Document conventions</span><a class="self-link" href="#document-conventions"></a></h3>
+  <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content"> Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
+  <h3 class="no-ref heading settled" id="w3c-conventions"><span class="content"> Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
   <p>Conformance requirements are expressed with a combination of
-	descriptive assertions and RFC 2119 terminology. The key words “MUST”,
-	“MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
-	“RECOMMENDED”, “MAY”, and “OPTIONAL” in the normative parts of this
-	document are to be interpreted as described in RFC 2119.
-	However, for readability, these words do not appear in all uppercase
-	letters in this specification. </p>
+    descriptive assertions and RFC 2119 terminology. The key words “MUST”,
+    “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
+    “RECOMMENDED”, “MAY”, and “OPTIONAL” in the normative parts of this
+    document are to be interpreted as described in RFC 2119.
+    However, for readability, these words do not appear in all uppercase
+    letters in this specification. </p>
   <p>All of the text of this specification is normative except sections
-	explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a> </p>
+    explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a></p>
   <p>Examples in this specification are introduced with the words “for example”
-	or are set apart from the normative text with <code>class="example"</code>,
-	like this: </p>
+    or are set apart from the normative text with <code>class="example"</code>,
+    like this: </p>
   <div class="example" id="example-ae2b6bc0">
    <a class="self-link" href="#example-ae2b6bc0"></a> 
-   <p>This is an example of an informative example. </p>
+   <p>This is an example of an informative example.</p>
   </div>
   <p>Informative notes begin with the word “Note” and are set apart from the
-	normative text with <code>class="note"</code>, like this: </p>
-  <p class="note" role="note">Note, this is an informative note. </p>
+    normative text with <code>class="note"</code>, like this: </p>
+  <p class="note" role="note">Note, this is an informative note.</p>
   <p>Advisements are normative sections styled to evoke special attention and are
-	set apart from other normative text with <code>&lt;strong class="advisement"></code>, like
-	this: <strong class="advisement"> UAs MUST provide an accessible alternative. </strong> </p>
-  <h3 class="heading settled" id="conform-classes"><span class="content"> Conformance classes</span><a class="self-link" href="#conform-classes"></a></h3>
+    set apart from other normative text with <code>&lt;strong class="advisement"></code>, like
+    this: <strong class="advisement"> UAs MUST provide an accessible alternative. </strong> </p>
+  <h3 class="no-ref heading settled" id="w3c-conformance-classes"><span class="content"> Conformance classes</span><a class="self-link" href="#w3c-conformance-classes"></a></h3>
   <p>Conformance to this specification
-	is defined for three conformance classes: </p>
+    is defined for three conformance classes: </p>
   <dl>
    <dt>style sheet 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#style-sheet">CSS
-			style sheet</a>. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#style-sheet">CSS
+            style sheet</a>. 
    <dt>renderer 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#user-agent">UA</a> that interprets the semantics of a style sheet and renders
-			documents that use them. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#user-agent">UA</a> that interprets the semantics of a style sheet and renders
+            documents that use them. 
    <dt>authoring tool 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#user-agent">UA</a> that writes a style sheet. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#user-agent">UA</a> that writes a style sheet. 
   </dl>
   <p>A style sheet is conformant to this specification
-	if all of its statements that use syntax defined in this module are valid
-	according to the generic CSS grammar and the individual grammars of each
-	feature defined in this module. </p>
+    if all of its statements that use syntax defined in this module are valid
+    according to the generic CSS grammar and the individual grammars of each
+    feature defined in this module. </p>
   <p>A renderer is conformant to this specification
-	if, in addition to interpreting the style sheet as defined by the
-	appropriate specifications, it supports all the features defined
-	by this specification by parsing them correctly
-	and rendering the document accordingly. However, the inability of a
-	UA to correctly render a document due to limitations of the device
-	does not make the UA non-conformant. (For example, a UA is not
-	required to render color on a monochrome monitor.) </p>
+    if, in addition to interpreting the style sheet as defined by the
+    appropriate specifications, it supports all the features defined
+    by this specification by parsing them correctly
+    and rendering the document accordingly. However, the inability of a
+    UA to correctly render a document due to limitations of the device
+    does not make the UA non-conformant. (For example, a UA is not
+    required to render color on a monochrome monitor.) </p>
   <p>An authoring tool is conformant to this specification
-	if it writes style sheets that are syntactically correct according to the
-	generic CSS grammar and the individual grammars of each feature in
-	this module, and meet all other conformance requirements of style sheets
-	as described in this module. </p>
-  <h3 class="heading settled" id="conform-responsible"><span class="content"> Requirements for Responsible Implementation of CSS</span><a class="self-link" href="#conform-responsible"></a></h3>
-  <p>The following sections define several conformance requirements
-		for implementing CSS responsibly,
-		in a way that promotes interoperability in the present and future. </p>
-  <h4 class="heading settled" id="conform-partial"><span class="content"> Partial Implementations</span><a class="self-link" href="#conform-partial"></a></h4>
-  <p>So that authors can exploit the forward-compatible parsing rules to assign fallback values, <strong>CSS renderers <em>must</em> treat as invalid
-		(and <a href="http://www.w3.org/TR/CSS2/conform.html#ignore">ignore as appropriate</a>)
-		any at-rules, properties, property values, keywords, and other syntactic constructs
-		for which they have no usable level of support</strong>.
-		In particular, user agents <em>must not</em> selectively ignore
-		unsupported property values and honor supported values in a single multi-value property declaration:
-		if any value is considered invalid (as unsupported values must be),
-		CSS requires that the entire declaration be ignored. </p>
-  <h4 class="heading settled" id="conform-future-proofing"><span class="content"> Implementations of Unstable and Proprietary Features</span><a class="self-link" href="#conform-future-proofing"></a></h4>
+    if it writes style sheets that are syntactically correct according to the
+    generic CSS grammar and the individual grammars of each feature in
+    this module, and meet all other conformance requirements of style sheets
+    as described in this module. </p>
+  <h3 class="no-ref heading settled" id="w3c-partial"><span class="content"> Partial implementations</span><a class="self-link" href="#w3c-partial"></a></h3>
+  <p>So that authors can exploit the forward-compatible parsing rules to
+    assign fallback values, CSS renderers <strong>must</strong> treat as invalid (and <a href="http://www.w3.org/TR/CSS21/conform.html#ignore">ignore
+    as appropriate</a>) any at-rules, properties, property values, keywords,
+    and other syntactic constructs for which they have no usable level of
+    support. In particular, user agents <strong>must not</strong> selectively
+    ignore unsupported component values and honor supported values in a single
+    multi-value property declaration: if any value is considered invalid
+    (as unsupported values must be), CSS requires that the entire declaration
+    be ignored.</p>
+  <h4 class="heading settled" id="w3c-conform-future-proofing"><span class="content"> Implementations of Unstable and Proprietary Features</span><a class="self-link" href="#w3c-conform-future-proofing"></a></h4>
   <p>To avoid clashes with future stable CSS features,
-		the CSSWG recommends <a href="http://www.w3.org/TR/CSS/#future-proofing">following best practices</a> for the implementation of <a href="http://www.w3.org/TR/CSS/#unstable">unstable</a> features and <a href="http://www.w3.org/TR/CSS/#proprietary-extension">proprietary extensions</a> to CSS. </p>
-  <h4 class="heading settled" id="conform-testing"><span class="content"> Implementations of CR-level Features</span><a class="self-link" href="#conform-testing"></a></h4>
+        the CSSWG recommends <a href="http://www.w3.org/TR/CSS/#future-proofing">following best practices</a> for the implementation of <a href="http://www.w3.org/TR/CSS/#unstable">unstable</a> features and <a href="http://www.w3.org/TR/CSS/#proprietary-extension">proprietary extensions</a> to CSS. </p>
+  <h3 class="no-ref heading settled" id="w3c-testing"><span class="content"> Non-experimental implementations</span><a class="self-link" href="#w3c-testing"></a></h3>
   <p>Once a specification reaches the Candidate Recommendation stage,
-		implementers should release an <a data-link-type="dfn" href="http://www.w3.org/TR/CSS/#vendor-prefix">unprefixed</a> implementation
-		of any CR-level feature they can demonstrate
-		to be correctly implemented according to spec,
-		and should avoid exposing a prefixed variant of that feature. </p>
+    non-experimental implementations are possible, and implementors should
+    release an unprefixed implementation of any CR-level feature they
+    can demonstrate to be correctly implemented according to spec. </p>
   <p>To establish and maintain the interoperability of CSS across
-		implementations, the CSS Working Group requests that non-experimental
-		CSS renderers submit an implementation report (and, if necessary, the
-		testcases used for that implementation report) to the W3C before
-		releasing an unprefixed implementation of any CSS features. Testcases
-		submitted to W3C are subject to review and correction by the CSS
-		Working Group. </p>
-  <p>
-   Further information on submitting testcases and implementation reports
-		can be found from on the CSS Working Group’s website at <a href="http://www.w3.org/Style/CSS/Test/">http://www.w3.org/Style/CSS/Test/</a>.
-		Questions should be directed to the <a href="http://lists.w3.org/Archives/Public/public-css-testsuite">public-css-testsuite@w3.org</a> mailing list. 
+    implementations, the CSS Working Group requests that non-experimental
+    CSS renderers submit an implementation report (and, if necessary, the
+    testcases used for that implementation report) to the W3C before
+    releasing an unprefixed implementation of any CSS features. Testcases
+    submitted to W3C are subject to review and correction by the CSS
+    Working Group. </p>
+  <p>Further information on submitting testcases and implementation reports
+    can be found from on the CSS Working Group’s website at <a href="http://www.w3.org/Style/CSS/Test/">http://www.w3.org/Style/CSS/Test/</a>.
+    Questions should be directed to the <a href="http://lists.w3.org/Archives/Public/public-css-testsuite">public-css-testsuite@w3.org</a> mailing list.</p>
 <script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script>
-  </p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
@@ -2436,6 +2867,7 @@ em   { background: green; color: white; }
     <ul>
      <li><a href="#valdef-hyphenate-character-auto">value for hyphenate-character</a><span>, in §8.1</span>
      <li><a href="#valdef-hyphenate-limit-chars-auto">value for hyphenate-limit-chars</a><span>, in §8.3</span>
+     <li><a href="#valdef-text-spacing-auto">value for text-spacing</a><span>, in §10.2</span>
      <li><a href="#valdef-wrap-before-auto">value for wrap-before, wrap-after</a><span>, in §5.2</span>
      <li><a href="#valdef-wrap-inside-auto">value for wrap-inside</a><span>, in §5.3</span>
     </ul>
@@ -2544,14 +2976,14 @@ Makig Word Boundaries Visible: the word-boundary-expansion property</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-margin">
-   <a href="https://drafts.csswg.org/css-box-3/#propdef-margin">https://drafts.csswg.org/css-box-3/#propdef-margin</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-box-4/#propdef-margin">https://drafts.csswg.org/css-box-4/#propdef-margin</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-margin">2.2.2. 
 Makig Word Boundaries Visible: the word-boundary-expansion property</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-padding">
-   <a href="https://drafts.csswg.org/css-box-3/#propdef-padding">https://drafts.csswg.org/css-box-3/#propdef-padding</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-box-4/#propdef-padding">https://drafts.csswg.org/css-box-4/#propdef-padding</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-padding">2.2.2. 
 Makig Word Boundaries Visible: the word-boundary-expansion property</a>
@@ -2564,13 +2996,27 @@ Makig Word Boundaries Visible: the word-boundary-expansion property</a>
 Inline breaks between boxes: the wrap-before/wrap-after properties</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-declared-value">
+   <a href="https://drafts.csswg.org/css-cascade-5/#declared-value">https://drafts.csswg.org/css-cascade-5/#declared-value</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-declared-value">2.2.1. 
+Detecting Word Boundaries: the word-boundary-detection property</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-used-value">
-   <a href="https://drafts.csswg.org/css-cascade-4/#used-value">https://drafts.csswg.org/css-cascade-4/#used-value</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-cascade-5/#used-value">https://drafts.csswg.org/css-cascade-5/#used-value</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-used-value">2.2.1. 
 Detecting Word Boundaries: the word-boundary-detection property</a> <a href="#ref-for-used-value①">(2)</a>
     <li><a href="#ref-for-used-value②">8.1. 
 Hyphens: the hyphenate-character property</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-cascade-origin-user">
+   <a href="https://drafts.csswg.org/css-cascade-5/#cascade-origin-user">https://drafts.csswg.org/css-cascade-5/#cascade-origin-user</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-cascade-origin-user">2.2.1. 
+Detecting Word Boundaries: the word-boundary-detection property</a> <a href="#ref-for-cascade-origin-user①">(2)</a> <a href="#ref-for-cascade-origin-user②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-at-ruledef-supports">
@@ -2599,7 +3045,11 @@ Inline breaks between boxes: the wrap-before/wrap-after properties</a>
    <ul>
     <li><a href="#ref-for-block-container">5.1. 
 Text Wrap Settings: the text-wrap property</a> <a href="#ref-for-block-container①">(2)</a> <a href="#ref-for-block-container②">(3)</a> <a href="#ref-for-block-container③">(4)</a>
-    <li><a href="#ref-for-block-container④">9.3. 
+    <li><a href="#ref-for-block-container④">8.2. 
+Hyphenation Size Limit: the hyphenate-limit-zone property</a>
+    <li><a href="#ref-for-block-container⑤">8.4. 
+Hyphenation Line Limits: the hyphenate-limit-lines and hyphenate-limit-last properties</a>
+    <li><a href="#ref-for-block-container⑥">9.3. 
 Aligning a block of text within its container: the text-group-align property</a>
    </ul>
   </aside>
@@ -2635,17 +3085,17 @@ Aligning a block of text within its container: the text-group-align property</a>
    <a href="https://drafts.csswg.org/css-display-3/#inline-box">https://drafts.csswg.org/css-display-3/#inline-box</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-inline-box">2.2.1. 
-Detecting Word Boundaries: the word-boundary-detection property</a> <a href="#ref-for-inline-box①">(2)</a>
-    <li><a href="#ref-for-inline-box②">2.2.2. 
-Makig Word Boundaries Visible: the word-boundary-expansion property</a>
-    <li><a href="#ref-for-inline-box③">5.1. 
-Text Wrap Settings: the text-wrap property</a> <a href="#ref-for-inline-box④">(2)</a>
-    <li><a href="#ref-for-inline-box⑤">5.2. 
+Detecting Word Boundaries: the word-boundary-detection property</a>
+    <li><a href="#ref-for-inline-box①">3.2. 
+White Space Trimming: the text-space-trim property</a>
+    <li><a href="#ref-for-inline-box②">5.1. 
+Text Wrap Settings: the text-wrap property</a>
+    <li><a href="#ref-for-inline-box③">5.2. 
 Inline breaks between boxes: the wrap-before/wrap-after properties</a>
-    <li><a href="#ref-for-inline-box⑥">5.3. 
+    <li><a href="#ref-for-inline-box④">5.3. 
 Line breaks within boxes: the wrap-inside property</a>
-    <li><a href="#ref-for-inline-box⑦">10.1. 
-Line Start/End Padding: the line-padding property</a> <a href="#ref-for-inline-box⑧">(2)</a> <a href="#ref-for-inline-box⑨">(3)</a>
+    <li><a href="#ref-for-inline-box⑤">10.1. 
+Line Start/End Padding: the line-padding property</a> <a href="#ref-for-inline-box⑥">(2)</a> <a href="#ref-for-inline-box⑦">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-inline-formatting-context">
@@ -2779,7 +3229,7 @@ Hyphenation Line Limits: the hyphenate-limit-lines and hyphenate-limit-last prop
     <li><a href="#ref-for-comb-one③⓪">9.3. 
 Aligning a block of text within its container: the text-group-align property</a> <a href="#ref-for-comb-one③①">(2)</a> <a href="#ref-for-comb-one③②">(3)</a> <a href="#ref-for-comb-one③③">(4)</a> <a href="#ref-for-comb-one③④">(5)</a>
     <li><a href="#ref-for-comb-one③⑤">10.2. 
-Character Class Spacing: the text-spacing property</a> <a href="#ref-for-comb-one③⑥">(2)</a> <a href="#ref-for-comb-one③⑦">(3)</a> <a href="#ref-for-comb-one③⑧">(4)</a> <a href="#ref-for-comb-one③⑨">(5)</a> <a href="#ref-for-comb-one④⓪">(6)</a> <a href="#ref-for-comb-one④①">(7)</a>
+Character Class Spacing: the text-spacing property</a> <a href="#ref-for-comb-one③⑥">(2)</a> <a href="#ref-for-comb-one③⑦">(3)</a> <a href="#ref-for-comb-one③⑧">(4)</a> <a href="#ref-for-comb-one③⑨">(5)</a> <a href="#ref-for-comb-one④⓪">(6)</a> <a href="#ref-for-comb-one④①">(7)</a> <a href="#ref-for-comb-one④②">(8)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-comb-any">
@@ -2845,6 +3295,13 @@ Text Spacing Character Classes</a> <a href="#ref-for-propdef-text-combine-uprigh
    <ul>
     <li><a href="#ref-for-propdef-text-orientation">10.2.2. 
 Text Spacing Character Classes</a> <a href="#ref-for-propdef-text-orientation①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-selectordef-lang">
+   <a href="https://drafts.csswg.org/css2/#selectordef-lang">https://drafts.csswg.org/css2/#selectordef-lang</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-selectordef-lang">2.2.1. 
+Detecting Word Boundaries: the word-boundary-detection property</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-flex-item">
@@ -2973,6 +3430,13 @@ Detecting Word Boundaries: the word-boundary-detection property</a>
 Shorthand for White Space and Wrapping: the white-space property</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-other-space-separators">
+   <a href="https://drafts.csswg.org/css-text-3/#other-space-separators">https://drafts.csswg.org/css-text-3/#other-space-separators</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-other-space-separators">2.2.1. 
+Detecting Word Boundaries: the word-boundary-detection property</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-valdef-white-space-pre">
    <a href="https://drafts.csswg.org/css-text-3/#valdef-white-space-pre">https://drafts.csswg.org/css-text-3/#valdef-white-space-pre</a><b>Referenced in:</b>
    <ul>
@@ -3071,8 +3535,8 @@ Hyphens: the hyphenate-character property</a> <a href="#ref-for-typographic-char
    <a href="https://drafts.csswg.org/css-text-3/#typographic-letter-unit">https://drafts.csswg.org/css-text-3/#typographic-letter-unit</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-typographic-letter-unit">2.2.1. 
-Detecting Word Boundaries: the word-boundary-detection property</a> <a href="#ref-for-typographic-letter-unit①">(2)</a> <a href="#ref-for-typographic-letter-unit②">(3)</a> <a href="#ref-for-typographic-letter-unit③">(4)</a> <a href="#ref-for-typographic-letter-unit④">(5)</a>
-    <li><a href="#ref-for-typographic-letter-unit⑤">10.1. 
+Detecting Word Boundaries: the word-boundary-detection property</a> <a href="#ref-for-typographic-letter-unit①">(2)</a> <a href="#ref-for-typographic-letter-unit②">(3)</a> <a href="#ref-for-typographic-letter-unit③">(4)</a> <a href="#ref-for-typographic-letter-unit④">(5)</a> <a href="#ref-for-typographic-letter-unit⑤">(6)</a>
+    <li><a href="#ref-for-typographic-letter-unit⑥">10.1. 
 Line Start/End Padding: the line-padding property</a>
    </ul>
   </aside>
@@ -3105,16 +3569,9 @@ Character Class Spacing: the text-spacing property</a> <a href="#ref-for-propdef
     <li><a href="#ref-for-the-wbr-element">2.2. 
 Word Boundaries</a>
     <li><a href="#ref-for-the-wbr-element①">2.2.1. 
-Detecting Word Boundaries: the word-boundary-detection property</a>
-    <li><a href="#ref-for-the-wbr-element②">2.2.2. 
-Makig Word Boundaries Visible: the word-boundary-expansion property</a> <a href="#ref-for-the-wbr-element③">(2)</a> <a href="#ref-for-the-wbr-element④">(3)</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-lang-pseudo">
-   <a href="https://drafts.csswg.org/selectors-4/#lang-pseudo">https://drafts.csswg.org/selectors-4/#lang-pseudo</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-lang-pseudo">2.2.1. 
-Detecting Word Boundaries: the word-boundary-detection property</a>
+Detecting Word Boundaries: the word-boundary-detection property</a> <a href="#ref-for-the-wbr-element②">(2)</a>
+    <li><a href="#ref-for-the-wbr-element③">2.2.2. 
+Makig Word Boundaries Visible: the word-boundary-expansion property</a> <a href="#ref-for-the-wbr-element④">(2)</a> <a href="#ref-for-the-wbr-element⑤">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-selector">
@@ -3129,188 +3586,195 @@ Detecting Word Boundaries: the word-boundary-detection property</a>
    <li>
     <a data-link-type="biblio">[css-backgrounds-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-border" style="color:initial">border</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-border">border</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[css-box-3]</a> defines the following terms:
+    <a data-link-type="biblio">[css-box-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-margin" style="color:initial">margin</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-padding" style="color:initial">padding</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-margin">margin</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-padding">padding</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-break-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-fragmentation-context" style="color:initial">fragmentation context</span>
+     <li><span class="dfn-paneled" id="term-for-fragmentation-context">fragmentation context</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[css-cascade-4]</a> defines the following terms:
+    <a data-link-type="biblio">[css-cascade-5]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-used-value" style="color:initial">used value</span>
+     <li><span class="dfn-paneled" id="term-for-declared-value">declared value</span>
+     <li><span class="dfn-paneled" id="term-for-used-value">used value</span>
+     <li><span class="dfn-paneled" id="term-for-cascade-origin-user">user origin</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-conditional-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-at-ruledef-supports" style="color:initial">@supports</span>
+     <li><span class="dfn-paneled" id="term-for-at-ruledef-supports">@supports</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-display-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-atomic-inline" style="color:initial">atomic inline</span>
-     <li><span class="dfn-paneled" id="term-for-block-box" style="color:initial">block box</span>
-     <li><span class="dfn-paneled" id="term-for-block-container" style="color:initial">block container</span>
-     <li><span class="dfn-paneled" id="term-for-block-formatting-context" style="color:initial">block formatting context</span>
-     <li><span class="dfn-paneled" id="term-for-block-level" style="color:initial">block-level</span>
-     <li><span class="dfn-paneled" id="term-for-in-flow" style="color:initial">in-flow</span>
-     <li><span class="dfn-paneled" id="term-for-independent-formatting-context" style="color:initial">independent formatting context</span>
-     <li><span class="dfn-paneled" id="term-for-inline-box" style="color:initial">inline box</span>
-     <li><span class="dfn-paneled" id="term-for-inline-formatting-context" style="color:initial">inline formatting context</span>
-     <li><span class="dfn-paneled" id="term-for-inline-level" style="color:initial">inline-level</span>
-     <li><span class="dfn-paneled" id="term-for-text-run" style="color:initial">text run</span>
+     <li><span class="dfn-paneled" id="term-for-atomic-inline">atomic inline</span>
+     <li><span class="dfn-paneled" id="term-for-block-box">block box</span>
+     <li><span class="dfn-paneled" id="term-for-block-container">block container</span>
+     <li><span class="dfn-paneled" id="term-for-block-formatting-context">block formatting context</span>
+     <li><span class="dfn-paneled" id="term-for-block-level">block-level</span>
+     <li><span class="dfn-paneled" id="term-for-in-flow">in-flow</span>
+     <li><span class="dfn-paneled" id="term-for-independent-formatting-context">independent formatting context</span>
+     <li><span class="dfn-paneled" id="term-for-inline-box">inline box</span>
+     <li><span class="dfn-paneled" id="term-for-inline-formatting-context">inline formatting context</span>
+     <li><span class="dfn-paneled" id="term-for-inline-level">inline-level</span>
+     <li><span class="dfn-paneled" id="term-for-text-run">text run</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-fonts-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-font-size" style="color:initial">font-size</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-font-size">font-size</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-sizing-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-intrinsic-sizing" style="color:initial">intrinsic sizing</span>
+     <li><span class="dfn-paneled" id="term-for-intrinsic-sizing">intrinsic sizing</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-values-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-integer-value" style="color:initial">&lt;integer></span>
-     <li><span class="dfn-paneled" id="term-for-length-value" style="color:initial">&lt;length></span>
-     <li><span class="dfn-paneled" id="term-for-percentage-value" style="color:initial">&lt;percentage></span>
-     <li><span class="dfn-paneled" id="term-for-string-value" style="color:initial">&lt;string></span>
+     <li><span class="dfn-paneled" id="term-for-integer-value">&lt;integer></span>
+     <li><span class="dfn-paneled" id="term-for-length-value">&lt;length></span>
+     <li><span class="dfn-paneled" id="term-for-percentage-value">&lt;percentage></span>
+     <li><span class="dfn-paneled" id="term-for-string-value">&lt;string></span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-values-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-typedef-ident" style="color:initial">&lt;ident></span>
-     <li><span class="dfn-paneled" id="term-for-typedef-length-percentage" style="color:initial">&lt;length-percentage></span>
-     <li><span class="dfn-paneled" id="term-for-mult-num-range" style="color:initial">{a,b}</span>
-     <li><span class="dfn-paneled" id="term-for-comb-one" style="color:initial">|</span>
-     <li><span class="dfn-paneled" id="term-for-comb-any" style="color:initial">||</span>
+     <li><span class="dfn-paneled" id="term-for-typedef-ident">&lt;ident></span>
+     <li><span class="dfn-paneled" id="term-for-typedef-length-percentage">&lt;length-percentage></span>
+     <li><span class="dfn-paneled" id="term-for-mult-num-range">{a,b}</span>
+     <li><span class="dfn-paneled" id="term-for-comb-one">|</span>
+     <li><span class="dfn-paneled" id="term-for-comb-any">||</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-writing-modes-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-inline-end" style="color:initial">inline end</span>
-     <li><span class="dfn-paneled" id="term-for-inline-start" style="color:initial">inline start</span>
-     <li><span class="dfn-paneled" id="term-for-inline-axis" style="color:initial">inline-axis</span>
-     <li><span class="dfn-paneled" id="term-for-inline-size" style="color:initial">inline-size</span>
-     <li><span class="dfn-paneled" id="term-for-line-left" style="color:initial">line-left</span>
-     <li><span class="dfn-paneled" id="term-for-line-right" style="color:initial">line-right</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-text-combine-upright" style="color:initial">text-combine-upright</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-text-orientation" style="color:initial">text-orientation</span>
+     <li><span class="dfn-paneled" id="term-for-inline-end">inline end</span>
+     <li><span class="dfn-paneled" id="term-for-inline-start">inline start</span>
+     <li><span class="dfn-paneled" id="term-for-inline-axis">inline-axis</span>
+     <li><span class="dfn-paneled" id="term-for-inline-size">inline-size</span>
+     <li><span class="dfn-paneled" id="term-for-line-left">line-left</span>
+     <li><span class="dfn-paneled" id="term-for-line-right">line-right</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-text-combine-upright">text-combine-upright</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-text-orientation">text-orientation</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[CSS21]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-selectordef-lang">:lang()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS3-FLEXBOX]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-flex-item" style="color:initial">flex item</span>
-     <li><span class="dfn-paneled" id="term-for-flex-line" style="color:initial">flex line</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-flex-wrap" style="color:initial">flex-wrap</span>
-     <li><span class="dfn-paneled" id="term-for-multi-line-flex-container" style="color:initial">multi-line flex container</span>
+     <li><span class="dfn-paneled" id="term-for-flex-item">flex item</span>
+     <li><span class="dfn-paneled" id="term-for-flex-line">flex line</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-flex-wrap">flex-wrap</span>
+     <li><span class="dfn-paneled" id="term-for-multi-line-flex-container">multi-line flex container</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS3TEXT]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-valdef-line-break-anywhere" style="color:initial">anywhere</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-text-align-center" style="color:initial">center</span>
-     <li><span class="dfn-paneled" id="term-for-content-language" style="color:initial">content language</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-text-align-end" style="color:initial">end</span>
-     <li><span class="dfn-paneled" id="term-for-forced-line-break" style="color:initial">forced line break</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-hanging-punctuation" style="color:initial">hanging-punctuation</span>
-     <li><span class="dfn-paneled" id="term-for-justification-opportunity" style="color:initial">justification opportunity</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-text-align-left" style="color:initial">left</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-letter-spacing" style="color:initial">letter-spacing</span>
-     <li><span class="dfn-paneled" id="term-for-line-breaking-process" style="color:initial">line breaking</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-line-break" style="color:initial">line-break</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-line-break-loose" style="color:initial">loose</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-white-space-normal" style="color:initial">normal <small>(for white-space)</small></span>
-     <li><span class="dfn-paneled" id="term-for-valdef-white-space-pre" style="color:initial">pre</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-white-space-pre-line" style="color:initial">pre-line</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-white-space-pre-wrap" style="color:initial">pre-wrap</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-text-align-right" style="color:initial">right</span>
-     <li><span class="dfn-paneled" id="term-for-segment-break" style="color:initial">segment break</span>
-     <li><span class="dfn-paneled" id="term-for-soft-wrap-opportunity" style="color:initial">soft wrap opportunity</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-text-align-start" style="color:initial">start</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-line-break-strict" style="color:initial">strict</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-text-align" style="color:initial">text-align</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-text-indent" style="color:initial">text-indent</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-text-transform" style="color:initial">text-transform</span>
-     <li><span class="dfn-paneled" id="term-for-typographic-character-unit" style="color:initial">typographic character unit</span>
-     <li><span class="dfn-paneled" id="term-for-typographic-letter-unit" style="color:initial">typographic letter unit</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-word-break" style="color:initial">word-break</span>
-     <li><span class="dfn-paneled" id="term-for-word-separator" style="color:initial">word-separator character</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-word-spacing" style="color:initial">word-spacing</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-line-break-anywhere">anywhere</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-text-align-center">center</span>
+     <li><span class="dfn-paneled" id="term-for-content-language">content language</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-text-align-end">end</span>
+     <li><span class="dfn-paneled" id="term-for-forced-line-break">forced line break</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-hanging-punctuation">hanging-punctuation</span>
+     <li><span class="dfn-paneled" id="term-for-justification-opportunity">justification opportunity</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-text-align-left">left</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-letter-spacing">letter-spacing</span>
+     <li><span class="dfn-paneled" id="term-for-line-breaking-process">line breaking</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-line-break">line-break</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-line-break-loose">loose</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-white-space-normal">normal <small>(for white-space)</small></span>
+     <li><span class="dfn-paneled" id="term-for-other-space-separators">other space separators</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-white-space-pre">pre</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-white-space-pre-line">pre-line</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-white-space-pre-wrap">pre-wrap</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-text-align-right">right</span>
+     <li><span class="dfn-paneled" id="term-for-segment-break">segment break</span>
+     <li><span class="dfn-paneled" id="term-for-soft-wrap-opportunity">soft wrap opportunity</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-text-align-start">start</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-line-break-strict">strict</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-text-align">text-align</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-text-indent">text-indent</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-text-transform">text-transform</span>
+     <li><span class="dfn-paneled" id="term-for-typographic-character-unit">typographic character unit</span>
+     <li><span class="dfn-paneled" id="term-for-typographic-letter-unit">typographic letter unit</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-word-break">word-break</span>
+     <li><span class="dfn-paneled" id="term-for-word-separator">word-separator character</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-word-spacing">word-spacing</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-the-wbr-element" style="color:initial">wbr</span>
+     <li><span class="dfn-paneled" id="term-for-the-wbr-element">wbr</span>
     </ul>
    <li>
     <a data-link-type="biblio">[selectors-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-lang-pseudo" style="color:initial">:lang()</span>
-     <li><span class="dfn-paneled" id="term-for-selector" style="color:initial">selector</span>
+     <li><span class="dfn-paneled" id="term-for-selector">selector</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
    <dt id="biblio-css-backgrounds-3">[CSS-BACKGROUNDS-3]
-   <dd>Bert Bos; Elika Etemad; Brad Kemper. <a href="https://www.w3.org/TR/css-backgrounds-3/">CSS Backgrounds and Borders Module Level 3</a>. 17 October 2017. CR. URL: <a href="https://www.w3.org/TR/css-backgrounds-3/">https://www.w3.org/TR/css-backgrounds-3/</a>
-   <dt id="biblio-css-box-3">[CSS-BOX-3]
-   <dd>Elika Etemad. <a href="https://www.w3.org/TR/css-box-3/">CSS Box Model Module Level 3</a>. 18 December 2018. WD. URL: <a href="https://www.w3.org/TR/css-box-3/">https://www.w3.org/TR/css-box-3/</a>
+   <dd>Bert Bos; Elika Etemad; Brad Kemper. <a href="https://www.w3.org/TR/css-backgrounds-3/">CSS Backgrounds and Borders Module Level 3</a>. 22 December 2020. CR. URL: <a href="https://www.w3.org/TR/css-backgrounds-3/">https://www.w3.org/TR/css-backgrounds-3/</a>
+   <dt id="biblio-css-box-4">[CSS-BOX-4]
+   <dd>Elika Etemad. <a href="https://www.w3.org/TR/css-box-4/">CSS Box Model Module Level 4</a>. 21 April 2020. WD. URL: <a href="https://www.w3.org/TR/css-box-4/">https://www.w3.org/TR/css-box-4/</a>
    <dt id="biblio-css-break-4">[CSS-BREAK-4]
    <dd>Rossen Atanassov; Elika Etemad. <a href="https://www.w3.org/TR/css-break-4/">CSS Fragmentation Module Level 4</a>. 18 December 2018. WD. URL: <a href="https://www.w3.org/TR/css-break-4/">https://www.w3.org/TR/css-break-4/</a>
-   <dt id="biblio-css-cascade-4">[CSS-CASCADE-4]
-   <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://www.w3.org/TR/css-cascade-4/">CSS Cascading and Inheritance Level 4</a>. 28 August 2018. CR. URL: <a href="https://www.w3.org/TR/css-cascade-4/">https://www.w3.org/TR/css-cascade-4/</a>
+   <dt id="biblio-css-cascade-5">[CSS-CASCADE-5]
+   <dd>Elika Etemad; Miriam Suzanne; Tab Atkins Jr.. <a href="https://www.w3.org/TR/css-cascade-5/">CSS Cascading and Inheritance Level 5</a>. 19 January 2021. WD. URL: <a href="https://www.w3.org/TR/css-cascade-5/">https://www.w3.org/TR/css-cascade-5/</a>
    <dt id="biblio-css-display-3">[CSS-DISPLAY-3]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-display-3/">CSS Display Module Level 3</a>. 28 August 2018. CR. URL: <a href="https://www.w3.org/TR/css-display-3/">https://www.w3.org/TR/css-display-3/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-display-3/">CSS Display Module Level 3</a>. 18 December 2020. CR. URL: <a href="https://www.w3.org/TR/css-display-3/">https://www.w3.org/TR/css-display-3/</a>
    <dt id="biblio-css-fonts-3">[CSS-FONTS-3]
    <dd>John Daggett; Myles Maxfield; Chris Lilley. <a href="https://www.w3.org/TR/css-fonts-3/">CSS Fonts Module Level 3</a>. 20 September 2018. REC. URL: <a href="https://www.w3.org/TR/css-fonts-3/">https://www.w3.org/TR/css-fonts-3/</a>
    <dt id="biblio-css-sizing-3">[CSS-SIZING-3]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-sizing-3/">CSS Intrinsic &amp; Extrinsic Sizing Module Level 3</a>. 22 May 2019. WD. URL: <a href="https://www.w3.org/TR/css-sizing-3/">https://www.w3.org/TR/css-sizing-3/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-sizing-3/">CSS Box Sizing Module Level 3</a>. 18 December 2020. WD. URL: <a href="https://www.w3.org/TR/css-sizing-3/">https://www.w3.org/TR/css-sizing-3/</a>
    <dt id="biblio-css-values-3">[CSS-VALUES-3]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 31 January 2019. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 6 June 2019. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
    <dt id="biblio-css-values-4">[CSS-VALUES-4]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 31 January 2019. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 11 November 2020. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
    <dt id="biblio-css-writing-modes-4">[CSS-WRITING-MODES-4]
-   <dd>Elika Etemad; Koji Ishii. <a href="https://www.w3.org/TR/css-writing-modes-4/">CSS Writing Modes Level 4</a>. 24 May 2018. CR. URL: <a href="https://www.w3.org/TR/css-writing-modes-4/">https://www.w3.org/TR/css-writing-modes-4/</a>
+   <dd>Elika Etemad; Koji Ishii. <a href="https://www.w3.org/TR/css-writing-modes-4/">CSS Writing Modes Level 4</a>. 30 July 2019. CR. URL: <a href="https://www.w3.org/TR/css-writing-modes-4/">https://www.w3.org/TR/css-writing-modes-4/</a>
    <dt id="biblio-css3-break">[CSS3-BREAK]
    <dd>Rossen Atanassov; Elika Etemad. <a href="https://www.w3.org/TR/css-break-3/">CSS Fragmentation Module Level 3</a>. 4 December 2018. CR. URL: <a href="https://www.w3.org/TR/css-break-3/">https://www.w3.org/TR/css-break-3/</a>
    <dt id="biblio-css3-flexbox">[CSS3-FLEXBOX]
    <dd>Tab Atkins Jr.; et al. <a href="https://www.w3.org/TR/css-flexbox-1/">CSS Flexible Box Layout Module Level 1</a>. 19 November 2018. CR. URL: <a href="https://www.w3.org/TR/css-flexbox-1/">https://www.w3.org/TR/css-flexbox-1/</a>
    <dt id="biblio-css3text">[CSS3TEXT]
-   <dd>Elika Etemad; Koji Ishii; Florian Rivoal. <a href="https://www.w3.org/TR/css-text-3/">CSS Text Module Level 3</a>. 12 December 2018. WD. URL: <a href="https://www.w3.org/TR/css-text-3/">https://www.w3.org/TR/css-text-3/</a>
+   <dd>Elika Etemad; Koji Ishii; Florian Rivoal. <a href="https://www.w3.org/TR/css-text-3/">CSS Text Module Level 3</a>. 22 December 2020. CR. URL: <a href="https://www.w3.org/TR/css-text-3/">https://www.w3.org/TR/css-text-3/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
-   <dt id="biblio-rfc5646">[RFC5646]
-   <dd>A. Phillips, Ed.; M. Davis, Ed.. <a href="https://tools.ietf.org/html/rfc5646">Tags for Identifying Languages</a>. September 2009. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc5646">https://tools.ietf.org/html/rfc5646</a>
    <dt id="biblio-selectors-4">[SELECTORS-4]
    <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://www.w3.org/TR/selectors-4/">Selectors Level 4</a>. 21 November 2018. WD. URL: <a href="https://www.w3.org/TR/selectors-4/">https://www.w3.org/TR/selectors-4/</a>
    <dt id="biblio-uax11">[UAX11]
-   <dd>Ken Lunde 小林劍󠄁. <a href="https://www.unicode.org/reports/tr11/tr11-36.html">East Asian Width</a>. 25 January 2019. Unicode Standard Annex #11. URL: <a href="https://www.unicode.org/reports/tr11/tr11-36.html">https://www.unicode.org/reports/tr11/tr11-36.html</a>
+   <dd>Ken Lunde 小林劍󠄁. <a href="https://www.unicode.org/reports/tr11/tr11-38.html">East Asian Width</a>. 18 January 2020. Unicode Standard Annex #11. URL: <a href="https://www.unicode.org/reports/tr11/tr11-38.html">https://www.unicode.org/reports/tr11/tr11-38.html</a>
    <dt id="biblio-uax14">[UAX14]
-   <dd>Andy Heninger. <a href="https://www.unicode.org/reports/tr14/tr14-43.html">Unicode Line Breaking Algorithm</a>. 15 February 2019. Unicode Standard Annex #14. URL: <a href="https://www.unicode.org/reports/tr14/tr14-43.html">https://www.unicode.org/reports/tr14/tr14-43.html</a>
+   <dd>Christopher Chapman. <a href="https://www.unicode.org/reports/tr14/tr14-45.html">Unicode Line Breaking Algorithm</a>. 17 February 2020. Unicode Standard Annex #14. URL: <a href="https://www.unicode.org/reports/tr14/tr14-45.html">https://www.unicode.org/reports/tr14/tr14-45.html</a>
    <dt id="biblio-uax24">[UAX24]
-   <dd>Ken Whistler. <a href="https://www.unicode.org/reports/tr24/tr24-29.html">Unicode Script Property</a>. 6 February 2019. Unicode Standard Annex #24. URL: <a href="https://www.unicode.org/reports/tr24/tr24-29.html">https://www.unicode.org/reports/tr24/tr24-29.html</a>
+   <dd>Ken Whistler. <a href="https://www.unicode.org/reports/tr24/tr24-31.html">Unicode Script Property</a>. 17 February 2020. Unicode Standard Annex #24. URL: <a href="https://www.unicode.org/reports/tr24/tr24-31.html">https://www.unicode.org/reports/tr24/tr24-31.html</a>
   </dl>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
    <dt id="biblio-bcp47">[BCP47]
    <dd>A. Phillips; M. Davis. <a href="https://tools.ietf.org/html/bcp47">Tags for Identifying Languages</a>. September 2009. IETF Best Current Practice. URL: <a href="https://tools.ietf.org/html/bcp47">https://tools.ietf.org/html/bcp47</a>
    <dt id="biblio-css-conditional-3">[CSS-CONDITIONAL-3]
-   <dd>CSS Conditional Rules Module Level 3 URL: <a href="https://www.w3.org/TR/css3-conditional/">https://www.w3.org/TR/css3-conditional/</a>
+   <dd>David Baron; Elika Etemad; Chris Lilley. <a href="https://www.w3.org/TR/css-conditional-3/">CSS Conditional Rules Module Level 3</a>. 8 December 2020. CR. URL: <a href="https://www.w3.org/TR/css-conditional-3/">https://www.w3.org/TR/css-conditional-3/</a>
+   <dt id="biblio-css21">[CSS21]
+   <dd>Bert Bos; et al. <a href="https://www.w3.org/TR/CSS21/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. 7 June 2011. REC. URL: <a href="https://www.w3.org/TR/CSS21/">https://www.w3.org/TR/CSS21/</a>
    <dt id="biblio-jlreq">[JLREQ]
-   <dd>Yasuhiro Anan; et al. <a href="https://www.w3.org/TR/jlreq/">Requirements for Japanese Text Layout</a>. 3 April 2012. NOTE. URL: <a href="https://www.w3.org/TR/jlreq/">https://www.w3.org/TR/jlreq/</a>
+   <dd>Hiroyuki Chiba; et al. <a href="https://www.w3.org/TR/jlreq/">Requirements for Japanese Text Layout 日本語組版処理の要件(日本語版)</a>. 11 August 2020. NOTE. URL: <a href="https://www.w3.org/TR/jlreq/">https://www.w3.org/TR/jlreq/</a>
    <dt id="biblio-rfc4647">[RFC4647]
    <dd>A. Phillips; M. Davis. <a href="https://tools.ietf.org/html/rfc4647">Matching of Language Tags</a>. September 2006. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc4647">https://tools.ietf.org/html/rfc4647</a>
    <dt id="biblio-unicode">[UNICODE]
@@ -3335,7 +3799,7 @@ Detecting Word Boundaries: the word-boundary-detection property</a>
       <th scope="row"><a class="css" data-link-type="property" href="#propdef-hyphenate-character" id="ref-for-propdef-hyphenate-character④">hyphenate-character</a>
       <td>auto | &lt;string>
       <td>auto
-      <td>all elements
+      <td>text
       <td>yes
       <td>n/a
       <td>discrete
@@ -3345,7 +3809,7 @@ Detecting Word Boundaries: the word-boundary-detection property</a>
       <th scope="row"><a class="css" data-link-type="property" href="#propdef-hyphenate-limit-chars" id="ref-for-propdef-hyphenate-limit-chars①">hyphenate-limit-chars</a>
       <td>[ auto | &lt;integer> ]{1,3}
       <td>auto
-      <td>all elements
+      <td>text
       <td>yes
       <td>n/a
       <td>by computed value type
@@ -3405,7 +3869,7 @@ Detecting Word Boundaries: the word-boundary-detection property</a>
       <th scope="row"><a class="css" data-link-type="property" href="#propdef-text-space-collapse" id="ref-for-propdef-text-space-collapse④">text-space-collapse</a>
       <td>collapse | discard | preserve | preserve-breaks | preserve-spaces
       <td>collapse
-      <td>all elements
+      <td>text
       <td>yes
       <td>n/a
       <td>discrete
@@ -3415,15 +3879,15 @@ Detecting Word Boundaries: the word-boundary-detection property</a>
       <th scope="row"><a class="css" data-link-type="property" href="#propdef-text-space-trim" id="ref-for-propdef-text-space-trim③">text-space-trim</a>
       <td>none | trim-inner || discard-before || discard-after
       <td>none
-      <td>all elements
+      <td>inline boxes
       <td>no
       <td>n/a
       <td>discrete
       <td>per grammar
       <td>specified keyword(s)
      <tr>
-      <th scope="row"><a class="css" data-link-type="property" href="#propdef-text-spacing" id="ref-for-propdef-text-spacing⑤">text-spacing</a>
-      <td>normal | none |
+      <th scope="row"><a class="css" data-link-type="property" href="#propdef-text-spacing" id="ref-for-propdef-text-spacing⑥">text-spacing</a>
+      <td>normal | none | auto |
 [ trim-start | space-start | space-first ] ||
 [ trim-end | space-end | allow-end ] ||
 [ trim-adjacent | space-adjacent ] ||
@@ -3439,7 +3903,7 @@ no-compress || ideograph-alpha || ideograph-numeric || punctuation
       <th scope="row"><a class="css" data-link-type="property" href="#propdef-text-wrap" id="ref-for-propdef-text-wrap①⓪">text-wrap</a>
       <td>wrap | nowrap | balance | stable | pretty
       <td>wrap
-      <td>inline boxes and block containers
+      <td>text and block containers
       <td>yes
       <td>n/a
       <td>discrete
@@ -3449,17 +3913,17 @@ no-compress || ideograph-alpha || ideograph-numeric || punctuation
       <th scope="row"><a class="css" data-link-type="property" href="#propdef-white-space" id="ref-for-propdef-white-space②">white-space</a>
       <td>normal | pre | nowrap | pre-wrap | pre-line
       <td>auto
-      <td>all elements
+      <td>See individual properties
       <td>yes
       <td>n/a
       <td>discrete
       <td>per grammar
       <td>see individual properties
      <tr>
-      <th scope="row"><a class="css" data-link-type="property" href="#propdef-word-boundary-detection" id="ref-for-propdef-word-boundary-detection②">word-boundary-detection</a>
+      <th scope="row"><a class="css" data-link-type="property" href="#propdef-word-boundary-detection" id="ref-for-propdef-word-boundary-detection④">word-boundary-detection</a>
       <td>normal | manual | auto(&lt;lang>)
       <td>normal
-      <td>inline boxes
+      <td>text
       <td>yes
       <td>N/A
       <td>discrete
@@ -3469,7 +3933,7 @@ no-compress || ideograph-alpha || ideograph-numeric || punctuation
       <th scope="row"><a class="css" data-link-type="property" href="#propdef-word-boundary-expansion" id="ref-for-propdef-word-boundary-expansion③">word-boundary-expansion</a>
       <td>none | space | ideographic-space
       <td>none
-      <td>inline boxes
+      <td>text
       <td>yes
       <td>N/A
       <td>discrete
@@ -3534,7 +3998,7 @@ no-compress || ideograph-alpha || ideograph-numeric || punctuation
      <li>At least X characters. 
      <li>Percentage-based. 
     </ul>
-    <p>Suggestion for value space is ''match-indent | <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" title="Expands to: em | vb | ch | cm | vh | vi | in | ex | vw | ic | pt | px | lh | pc | rem | rlh | vmax | advance measure | vmin | mm | cap | q">&lt;length></a> | <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#percentage-value">&lt;percentage></a>''
+    <p>Suggestion for value space is ''match-indent | <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" title="Expands to: advance measure | cap | ch | cm | em | ex | ic | in | lh | mm | pc | pt | px | q | rem | rlh | vb | vh | vi | vmax | vmin | vw">&lt;length></a> | <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#percentage-value">&lt;percentage></a>''
 		(with <span class="css">Xch</span> given as an example to make that use case clear).
 		Alternately <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#integer-value">&lt;integer></a> could actually count the characters.</p>
     <p>It’s unclear how this would interact with text balancing (above);
@@ -3645,8 +4109,8 @@ no-compress || ideograph-alpha || ideograph-numeric || punctuation
    <b><a href="#propdef-word-boundary-detection">#propdef-word-boundary-detection</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-word-boundary-detection">2.2.1. 
-Detecting Word Boundaries: the word-boundary-detection property</a>
-    <li><a href="#ref-for-propdef-word-boundary-detection①">2.2.2. 
+Detecting Word Boundaries: the word-boundary-detection property</a> <a href="#ref-for-propdef-word-boundary-detection①">(2)</a> <a href="#ref-for-propdef-word-boundary-detection②">(3)</a>
+    <li><a href="#ref-for-propdef-word-boundary-detection③">2.2.2. 
 Makig Word Boundaries Visible: the word-boundary-expansion property</a>
    </ul>
   </aside>
@@ -3684,7 +4148,7 @@ Detecting Word Boundaries: the word-boundary-detection property</a>
    <b><a href="#typedef-word-boundary-detection-lang">#typedef-word-boundary-detection-lang</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-typedef-word-boundary-detection-lang">2.2.1. 
-Detecting Word Boundaries: the word-boundary-detection property</a> <a href="#ref-for-typedef-word-boundary-detection-lang①">(2)</a> <a href="#ref-for-typedef-word-boundary-detection-lang②">(3)</a> <a href="#ref-for-typedef-word-boundary-detection-lang③">(4)</a> <a href="#ref-for-typedef-word-boundary-detection-lang④">(5)</a> <a href="#ref-for-typedef-word-boundary-detection-lang⑤">(6)</a>
+Detecting Word Boundaries: the word-boundary-detection property</a> <a href="#ref-for-typedef-word-boundary-detection-lang①">(2)</a> <a href="#ref-for-typedef-word-boundary-detection-lang②">(3)</a> <a href="#ref-for-typedef-word-boundary-detection-lang③">(4)</a> <a href="#ref-for-typedef-word-boundary-detection-lang④">(5)</a> <a href="#ref-for-typedef-word-boundary-detection-lang⑤">(6)</a> <a href="#ref-for-typedef-word-boundary-detection-lang⑥">(7)</a> <a href="#ref-for-typedef-word-boundary-detection-lang⑦">(8)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="propdef-word-boundary-expansion">
@@ -3857,6 +4321,13 @@ Hyphens: the hyphenate-character property</a> <a href="#ref-for-propdef-hyphenat
     <li><a href="#ref-for-propdef-hyphenate-character③"> Changes</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="valdef-hyphenate-character-auto">
+   <b><a href="#valdef-hyphenate-character-auto">#valdef-hyphenate-character-auto</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-valdef-hyphenate-character-auto">10.2. 
+Character Class Spacing: the text-spacing property</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="propdef-hyphenate-limit-zone">
    <b><a href="#propdef-hyphenate-limit-zone">#propdef-hyphenate-limit-zone</a></b><b>Referenced in:</b>
    <ul>
@@ -3919,10 +4390,10 @@ Line Start/End Padding: the line-padding property</a>
    <b><a href="#propdef-text-spacing">#propdef-text-spacing</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-text-spacing">10.2. 
-Character Class Spacing: the text-spacing property</a> <a href="#ref-for-propdef-text-spacing①">(2)</a>
-    <li><a href="#ref-for-propdef-text-spacing②">10.2.1. 
-Fullwidth Punctuation Collapsing</a> <a href="#ref-for-propdef-text-spacing③">(2)</a>
-    <li><a href="#ref-for-propdef-text-spacing④"> Changes</a>
+Character Class Spacing: the text-spacing property</a> <a href="#ref-for-propdef-text-spacing①">(2)</a> <a href="#ref-for-propdef-text-spacing②">(3)</a>
+    <li><a href="#ref-for-propdef-text-spacing③">10.2.1. 
+Fullwidth Punctuation Collapsing</a> <a href="#ref-for-propdef-text-spacing④">(2)</a>
+    <li><a href="#ref-for-propdef-text-spacing⑤"> Changes</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="valdef-text-spacing-normal">
@@ -4105,3 +4576,11 @@ document.body.addEventListener("click", function(e) {
 
 });
 </script>
+<script>/* script-mdn-anno */
+
+            document.body.addEventListener("click", (e) => {
+                if(e.target.closest(".mdn-anno-btn")) {
+                    e.target.closest(".mdn-anno").classList.toggle("wrapped");
+                }
+            });
+            </script>

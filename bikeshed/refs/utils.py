@@ -1,13 +1,13 @@
-# -*- coding: utf-8 -*-
-from __future__ import division, unicode_literals
-
 from collections import defaultdict
+
 from .. import config
 
 
-def filterObsoletes(refs, replacedSpecs, ignoredSpecs, localShortname=None, localSpec=None):
+def filterObsoletes(
+    refs, replacedSpecs, ignoredSpecs, localShortname=None, localSpec=None
+):
     # Remove any ignored or obsoleted specs
-    possibleSpecs = set(ref.spec for ref in refs)
+    possibleSpecs = {ref.spec for ref in refs}
     if localSpec:
         possibleSpecs.add(localSpec)
     moreIgnores = set()
@@ -25,13 +25,14 @@ def filterObsoletes(refs, replacedSpecs, ignoredSpecs, localShortname=None, loca
         ret.append(ref)
     return ret
 
+
 def filterOldVersions(refs, status=None):
     # If multiple levels of the same shortname exist,
     # only use the latest level.
     # If generating for a snapshot, prefer the latest snapshot level,
     # unless that doesn't exist, in which case just prefer the latest level.
-    shortnameLevels = defaultdict(lambda:defaultdict(list))
-    snapshotShortnameLevels = defaultdict(lambda:defaultdict(list))
+    shortnameLevels = defaultdict(lambda: defaultdict(list))
+    snapshotShortnameLevels = defaultdict(lambda: defaultdict(list))
     for ref in refs:
         shortnameLevels[ref.shortname][ref.level].append(ref)
         if status == ref.status == "snapshot":
@@ -79,7 +80,7 @@ def linkTextVariations(str, linkType):
             yield str + "es"
 
         # Bikeshed's <-> Bikeshed
-        if last2 == "'s" or last2 == "’s":
+        if last2 in ("'s", "’s"):
             yield str[:-2]
         else:
             yield str + "'s"
@@ -91,7 +92,7 @@ def linkTextVariations(str, linkType):
             yield str + "s"
 
         # Bikesheds <-> Bikesheds'
-        if last1 == "'" or last1 == "’":
+        if last1 in ("'", "’"):
             yield str[:-1]
         else:
             yield str + "'"
@@ -141,9 +142,20 @@ def linkTextVariations(str, linkType):
         if str == "thrown":
             yield "throw"
 
+    if " " in str and (
+        config.linkTypeIn(linkType, "dfn") or config.linkTypeIn(linkType, "abstract-op")
+    ):
+        # Multi-word phrase, which often contains the conjugated word as the *first*,
+        # rather than at the end.
+        first, _, rest = str.partition(" ")
+        for variation in linkTextVariations(first, linkType):
+            yield variation + " " + rest
+
     if config.linkTypeIn(linkType, "idl"):
-        # Let people refer to escaped IDL names with their "real" names (without the underscore)
-        if str[:1] != "_":
+        # _or <-> or
+        if str[:1] == "_":
+            yield str[1:]
+        else:
             yield "_" + str
 
         # Let people refer to methods without the parens.
@@ -162,9 +174,7 @@ def stripLineBreaks(obj):
     it = obj.items() if isinstance(obj, dict) else enumerate(obj)
     for key, val in it:
         if isinstance(val, str):
-            obj[key] = unicode(val, encoding="utf-8").rstrip("\n")
-        elif isinstance(val, unicode):
             obj[key] = val.rstrip("\n")
-        elif isinstance(val, dict) or isinstance(val, list):
+        elif isinstance(val, (dict, list)):
             stripLineBreaks(val)
     return obj

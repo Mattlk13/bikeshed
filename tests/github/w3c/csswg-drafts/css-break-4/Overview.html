@@ -8,138 +8,12 @@
   <meta content="This module describes the fragmentation model that partitions a flow into pages, columns, or regions.  It builds on the Page model module and introduces and defines the fragmentation model.  It adds functionality for pagination, breaking variable fragment size and orientation, widows and orphans." name="abstract">
   <link href="../default.css" rel="stylesheet" type="text/css">
   <link href="../csslogo.ico" rel="shortcut icon" type="image/x-icon">
-<style>
-  body {
-    background: url("https://www.w3.org/StyleSheets/TR/logo-ED") top left no-repeat;
-  }
-  </style>
+  <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <link href="https://www.w3.org/TR/css-break-4/" rel="canonical">
-<style>/* style-md-lists */
-
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}</style>
-<style>/* style-counters */
-
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}</style>
-<style>/* style-dfn-panel */
-
-.dfn-panel {
-    position: absolute;
-    z-index: 35;
-    height: auto;
-    width: -webkit-fit-content;
-    width: fit-content;
-    max-width: 300px;
-    max-height: 500px;
-    overflow: auto;
-    padding: 0.5em 0.75em;
-    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
-    border: outset 0.2em;
-}
-.dfn-panel:not(.on) { display: none; }
-.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
-.dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
-.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
-.dfn-panel > b + b { margin-top: 0.25em; }
-.dfn-panel ul { padding: 0; }
-.dfn-panel li { list-style: inside; }
-.dfn-panel.activated {
-    display: inline-block;
-    position: fixed;
-    left: .5em;
-    bottom: 2em;
-    margin: 0 auto;
-    max-width: calc(100vw - 1.5em - .4em - .5em);
-    max-height: 30vh;
-}
-
-.dfn-paneled { cursor: pointer; }
-</style>
-<style>/* style-selflinks */
-
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: gray;
-    color: white;
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: black;
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
-    color: #005a9c;
+    color: var(--a-normal-text);
     font-size: inherit;
     font-family: inherit;
 }
@@ -198,6 +72,374 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #707070;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #bbb;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
+<style>/* style-dfn-panel */
+
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    height: auto;
+    width: -webkit-fit-content;
+    width: fit-content;
+    max-width: 300px;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
+    border: outset 0.2em;
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0; }
+.dfn-panel li { list-style: inside; }
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: .5em;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+}
+
+.dfn-paneled { cursor: pointer; }
+</style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
@@ -211,18 +453,18 @@ pre .property::before, pre .property::after {
       <dd><a class="u-url" href="https://drafts.csswg.org/css-break-4/">https://drafts.csswg.org/css-break-4/</a>
       <dt>Latest published version:
       <dd><a href="https://www.w3.org/TR/css-break-4/">https://www.w3.org/TR/css-break-4/</a>
+      <dt>Issue Tracking:
+      <dd><a href="https://github.com/w3c/csswg-drafts/labels/css-break-4">CSSWG Issues Repository</a>
       <dt class="editor">Editors:
       <dd class="editor p-author h-card vcard" data-editor-id="49885"><a class="p-name fn u-email email" href="mailto:ratan@microsoft.com">Rossen Atanassov</a> (<span class="p-org org">Microsoft</span>)
       <dd class="editor p-author h-card vcard" data-editor-id="35400"><a class="p-name fn u-url url" href="http://fantasai.inkedblade.net/contact">Elika J. Etemad / fantasai</a> (<span class="p-org org">Invited Expert</span>)
       <dt>Suggest an Edit for this Spec:
       <dd><a href="https://github.com/w3c/csswg-drafts/blob/master/css-break-4/Overview.bs">GitHub Editor</a>
-      <dt>Issue Tracking:
-      <dd><a href="https://github.com/w3c/csswg-drafts/labels/css-break-4">GitHub Issues</a>
      </dl>
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -241,19 +483,13 @@ on screen, on paper, etc.
 	It is provided for discussion only and may change at any moment.
 	Its publication here does not imply endorsement of its contents by W3C.
 	Don’t cite this document other than as work in progress. </p>
-   <p> <a href="https://github.com/w3c/csswg-drafts/issues">GitHub Issues</a> are preferred for discussion of this specification.
-	When filing an issue, please put the text “css-break” in the title,
-	preferably like this:
-	“[css-break] <i data-lt>…summary of comment…</i>”.
-	All issues and comments are <a href="https://lists.w3.org/Archives/Public/public-css-archive/">archived</a>,
-	and there is also a <a href="https://lists.w3.org/Archives/Public/www-style/">historical archive</a>. </p>
-   <p> This document was produced by the <a href="https://www.w3.org/Style/CSS/">CSS Working Group</a>. </p>
-   <p> This document was produced by a group operating under
-	the <a href="https://www.w3.org/Consortium/Patent-Policy/">W3C Patent Policy</a>.
-	W3C maintains a <a href="https://www.w3.org/2004/01/pp-impl/32061/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group;
-	that page also includes instructions for disclosing a patent.
-	An individual who has actual knowledge of a patent which the individual believes contains <a href="https://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="https://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the W3C Patent Policy</a>. </p>
-   <p> This document is governed by the <a href="https://www.w3.org/2019/Process-20190301/" id="w3c_process_revision">1 March 2019 W3C Process Document</a>. </p>
+   <p>Please send feedback
+	by <a href="https://github.com/w3c/csswg-drafts/issues">filing issues in GitHub</a> (preferred),
+	including the spec code “css-break” in the title, like this:
+	“[css-break] <i>…summary of comment…</i>”.
+	All issues and comments are <a href="https://lists.w3.org/Archives/Public/public-css-archive/">archived</a>.
+	Alternately, feedback can be sent to the (<a href="https://lists.w3.org/Archives/Public/www-style/">archived</a>) public mailing list <a href="mailto:www-style@w3.org?Subject=%5Bcss-break%5D%20PUT%20SUBJECT%20HERE">www-style@w3.org</a>. </p>
+   <p>This document is governed by the <a href="https://www.w3.org/2020/Process-20200915/" id="w3c_process_revision">15 September 2020 W3C Process Document</a>. </p>
    <p></p>
   </div>
   <div data-fill-with="at-risk">
@@ -270,7 +506,7 @@ on screen, on paper, etc.
      <a href="#intro"><span class="secno">1</span> <span class="content"> Introduction</span></a>
      <ol class="toc">
       <li><a href="#placement"><span class="secno">1.1</span> <span class="content"> Module Interactions</span></a>
-      <li><a href="#values"><span class="secno">1.2</span> <span class="content"> Values</span></a>
+      <li><a href="#values"><span class="secno">1.2</span> <span class="content"> Value Definitions</span></a>
      </ol>
     <li>
      <a href="#fragmentation-model"><span class="secno">2</span> <span class="content"> Fragmentation Model and Terminology</span></a>
@@ -316,6 +552,7 @@ on screen, on paper, etc.
        </ol>
       <li><a href="#transforms"><span class="secno">5.5</span> <span class="content"> Transforms, Positioning, and Pagination</span></a>
      </ol>
+    <li><a href="#priv-sec"><span class="secno"></span> <span class="content"> Privacy and Security Considerations</span></a>
     <li>
      <a href="#changes"><span class="secno"></span> <span class="content"> Changes</span></a>
      <ol class="toc">
@@ -323,17 +560,16 @@ on screen, on paper, etc.
      </ol>
     <li><a href="#acknowledgments"><span class="secno"></span> <span class="content"> Acknowledgments</span></a>
     <li>
-     <a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
+     <a href="#w3c-conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
      <ol class="toc">
-      <li><a href="#document-conventions"><span class="secno"></span> <span class="content"> Document conventions</span></a>
-      <li><a href="#conform-classes"><span class="secno"></span> <span class="content"> Conformance classes</span></a>
+      <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content"> Document conventions</span></a>
+      <li><a href="#w3c-conformance-classes"><span class="secno"></span> <span class="content"> Conformance classes</span></a>
       <li>
-       <a href="#conform-responsible"><span class="secno"></span> <span class="content"> Requirements for Responsible Implementation of CSS</span></a>
+       <a href="#w3c-partial"><span class="secno"></span> <span class="content"> Partial implementations</span></a>
        <ol class="toc">
-        <li><a href="#conform-partial"><span class="secno"></span> <span class="content"> Partial Implementations</span></a>
-        <li><a href="#conform-future-proofing"><span class="secno"></span> <span class="content"> Implementations of Unstable and Proprietary Features</span></a>
-        <li><a href="#conform-testing"><span class="secno"></span> <span class="content"> Implementations of CR-level Features</span></a>
+        <li><a href="#w3c-conform-future-proofing"><span class="secno"></span> <span class="content"> Implementations of Unstable and Proprietary Features</span></a>
        </ol>
+      <li><a href="#w3c-testing"><span class="secno"></span> <span class="content"> Non-experimental implementations</span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -353,11 +589,11 @@ on screen, on paper, etc.
   </nav>
   <main>
    <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content"> Introduction</span><a class="self-link" href="#intro"></a></h2>
-   <p><em>This section is not normative.</em></p>
-   <p>In paged media
-	(e.g., paper, transparencies, photo album pages,
+   <div class="non-normative">
+     <em>This section is not normative.</em> 
+    <p>In <a data-link-type="dfn" href="https://drafts.csswg.org/mediaqueries-5/#paged-media" id="ref-for-paged-media">paged media</a> (e.g., paper, transparencies, photo album pages,
 	 pages displayed on computer screens as printed output simulations),
-	as opposed to <a href="https://www.w3.org/TR/CSS2/media.html#continuous-media-group">continuous media</a>,
+	as opposed to <a data-link-type="dfn" href="https://drafts.csswg.org/mediaqueries-5/#continuous-media" id="ref-for-continuous-media">continuous media</a>,
 	the content of the document is split into
 	one or more discrete display surfaces.
 	In order to avoid awkward breaks
@@ -365,26 +601,25 @@ on screen, on paper, etc.
 	the layout engine must be able to shift around content
 	that would fall across the page break.
 	This process is called <dfn data-dfn-type="dfn" data-export id="pagination">pagination<a class="self-link" href="#pagination"></a></dfn>.</p>
-   <p>In CSS, in addition to paged media,
+    <p>In CSS, in addition to <a data-link-type="dfn" href="https://drafts.csswg.org/mediaqueries-5/#paged-media" id="ref-for-paged-media①">paged media</a>,
 	certain layout features such as <a href="https://www.w3.org/TR/css3-regions/">regions</a> <a data-link-type="biblio" href="#biblio-css3-regions">[CSS3-REGIONS]</a> and <a href="https://www.w3.org/TR/css-multicol-1/">multi-column layout</a> <a data-link-type="biblio" href="#biblio-css-multicol-1">[CSS-MULTICOL-1]</a> create a similarly fragmented environment.
 	The generic term for breaking content across containers is <a data-link-type="dfn" href="#fragmentation" id="ref-for-fragmentation">fragmentation</a>.
 	This module explains how content breaks across <a data-link-type="dfn" href="#fragmentation-container" id="ref-for-fragmentation-container">fragmentation containers</a> (<a data-link-type="dfn" href="#fragmentainer" id="ref-for-fragmentainer">fragmentainers</a>)
 	such as pages and columns
 	and how such breaks can be <a href="https://www.w3.org/TR/css-break-3/#breaking-controls">controlled by the author</a>.</p>
-   <p>This specification is identical to <a href="https://www.w3.org/TR/css-break-3/">CSS Fragmentation Level 3</a> except for the addition of the <a class="property" data-link-type="propdesc" href="#propdef-margin-break" id="ref-for-propdef-margin-break">margin-break</a> property
+    <p>This specification is identical to <a href="https://www.w3.org/TR/css-break-3/">CSS Fragmentation Level 3</a> except for the addition of the <a class="property" data-link-type="propdesc" href="#propdef-margin-break" id="ref-for-propdef-margin-break">margin-break</a> property
 	and the <a class="css" data-link-type="maybe" href="#valdef-break-before-always" id="ref-for-valdef-break-before-always">always</a> and <a class="css" data-link-type="maybe" href="#valdef-break-before-all" id="ref-for-valdef-break-before-all①">all</a> values
 	of the <a class="property" data-link-type="propdesc" href="#propdef-break-before" id="ref-for-propdef-break-before①">break-before</a> and <a class="property" data-link-type="propdesc" href="#propdef-break-after" id="ref-for-propdef-break-after①">break-after</a> properties.</p>
+   </div>
    <h3 class="heading settled" data-level="1.1" id="placement"><span class="secno">1.1. </span><span class="content"> Module Interactions</span><a class="self-link" href="#placement"></a></h3>
    <p>This module replaces and extends the pagination controls defined in <a data-link-type="biblio" href="#biblio-css2">[CSS2]</a> <a href="https://www.w3.org/TR/CSS2/page.html#page-breaks">section 13.3</a> and in <a data-link-type="biblio" href="#biblio-css-page-3">[CSS-PAGE-3]</a>.</p>
-   <h3 class="heading settled" data-level="1.2" id="values"><span class="secno">1.2. </span><span class="content"> Values</span><a class="self-link" href="#values"></a></h3>
-   <p>This specification follows
-	the <a href="https://www.w3.org/TR/CSS2/about.html#property-defs">CSS property definition conventions</a> from <a data-link-type="biblio" href="#biblio-css2">[CSS2]</a>.
-	Value types not defined in this specification are defined
-	in CSS Values &amp; Units <a data-link-type="biblio" href="#biblio-css-values-3">[CSS-VALUES-3]</a>.
-	Other CSS modules may expand the definitions of these value types.</p>
+   <h3 class="heading settled" data-level="1.2" id="values"><span class="secno">1.2. </span><span class="content"> Value Definitions</span><a class="self-link" href="#values"></a></h3>
+   <p>This specification follows the <a href="https://www.w3.org/TR/CSS2/about.html#property-defs">CSS property definition conventions</a> from <a data-link-type="biblio" href="#biblio-css2">[CSS2]</a> using the <a href="https://www.w3.org/TR/css-values-3/#value-defs">value definition syntax</a> from <a data-link-type="biblio" href="#biblio-css-values-3">[CSS-VALUES-3]</a>.
+	Value types not defined in this specification are defined in CSS Values &amp; Units <span>[CSS-VALUES-3]</span>.
+	Combination with other CSS modules may expand the definitions of these value types.</p>
    <p>In addition to the property-specific values listed in their definitions,
 	all properties defined in this specification
-	also accept the <a data-link-type="dfn" href="https://drafts.csswg.org/css-values-4/#css-wide-keywords" id="ref-for-css-wide-keywords">CSS-wide keywords</a> keywords as their property value.
+	also accept the <a data-link-type="dfn" href="https://drafts.csswg.org/css-values-4/#css-wide-keywords" id="ref-for-css-wide-keywords">CSS-wide keywords</a> as their property value.
 	For readability they have not been repeated explicitly.</p>
    <h2 class="heading settled" data-level="2" id="fragmentation-model"><span class="secno">2. </span><span class="content"> Fragmentation Model and Terminology</span><a class="self-link" href="#fragmentation-model"></a></h2>
    <dl>
@@ -397,7 +632,7 @@ on screen, on paper, etc.
     <dd> An ordered series of <a data-link-type="dfn" href="#fragmentainer" id="ref-for-fragmentainer①">fragmentainers</a>,
 		such as created by a <a href="https://www.w3.org/TR/css-multicol-1/">multi-column container</a>,
 		a chain of <a href="https://www.w3.org/TR/css3-regions">CSS regions</a>,
-		or a <a href="https://www.w3.org/TR/css-page-3/">paged media display</a>.
+		or a <a data-link-type="dfn" href="https://drafts.csswg.org/mediaqueries-5/#paged-media" id="ref-for-paged-media②">paged media</a> display.
 		A given fragmentation context can only have one block flow direction
 		across all its <span id="ref-for-fragmentainer②">fragmentainers</span>.
 		(Descendants of the <a data-link-type="dfn" href="#fragmentation-root" id="ref-for-fragmentation-root">fragmentation root</a> may have other block flow directions,
@@ -417,7 +652,7 @@ on screen, on paper, etc.
 		A box in continuous flow always consists of only one fragment.
 		A box in a fragmented flow consists of one or more fragments.
 		Each fragment has its own share of the box’s border, padding, and margin,
-		and therefore has its own <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-3/#padding-area" id="ref-for-padding-area">padding area</a>, <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-3/#border-area" id="ref-for-border-area">border area</a>, and <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-3/#margin-area" id="ref-for-margin-area">margin area</a>.
+		and therefore has its own <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-4/#padding-area" id="ref-for-padding-area">padding area</a>, <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-4/#border-area" id="ref-for-border-area">border area</a>, and <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-4/#margin-area" id="ref-for-margin-area">margin area</a>.
 		(See <a class="property" data-link-type="propdesc" href="#propdef-box-decoration-break" id="ref-for-propdef-box-decoration-break">box-decoration-break</a>, which controls how these are affected by fragmentation.) 
     <dt><dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="remaining-fragmentainer-extent">remaining fragmentainer extent</dfn>
     <dd> The remaining <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#block-axis" id="ref-for-block-axis">block-axis</a> space in the <a data-link-type="dfn" href="#fragmentainer" id="ref-for-fragmentainer⑤">fragmentainer</a> available to a given element,
@@ -504,28 +739,28 @@ on screen, on paper, etc.
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-break-before">break-before</dfn>, <dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-break-after">break-after</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">auto <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one">|</a> avoid <span id="ref-for-comb-one①">|</span> always <span id="ref-for-comb-one②">|</span> all <span id="ref-for-comb-one③">|</span> avoid-page <span id="ref-for-comb-one④">|</span> page <span id="ref-for-comb-one⑤">|</span> left <span id="ref-for-comb-one⑥">|</span> right <span id="ref-for-comb-one⑦">|</span> recto <span id="ref-for-comb-one⑧">|</span> verso <span id="ref-for-comb-one⑨">|</span> avoid-column <span id="ref-for-comb-one①⓪">|</span> column <span id="ref-for-comb-one①①">|</span> avoid-region <span id="ref-for-comb-one①②">|</span> region 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>auto 
      <tr>
       <th>Applies to:
       <td>block-level boxes, grid items, flex items, table row groups, table rows (but see prose) 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>n/a 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <p>These properties specify page/column/region break behavior
@@ -550,13 +785,13 @@ on screen, on paper, etc.
     <dd> Always force a break before/after the <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#principal-box" id="ref-for-principal-box">principal box</a>.
 		The type of this break is that of the immediately-containing <a data-link-type="dfn" href="#fragmentation-context" id="ref-for-fragmentation-context⑥">fragmentation context</a>.
 		For example, in a <a data-link-type="dfn" href="https://drafts.csswg.org/css-multicol-1/#multi-column-container" id="ref-for-multi-column-container">multi-column container</a> forces a <a data-link-type="dfn" href="#column-break" id="ref-for-column-break">column break</a>;
-		in <a data-link-type="dfn">paged media</a> not inside a <span id="ref-for-multi-column-container①">multi-column container</span>,
+		in <a data-link-type="dfn" href="https://drafts.csswg.org/mediaqueries-5/#paged-media" id="ref-for-paged-media③">paged media</a> not inside a <span id="ref-for-multi-column-container①">multi-column container</span>,
 		forces a <a data-link-type="dfn" href="#page-break" id="ref-for-page-break">page break</a>. 
     <dt><dfn class="dfn-paneled css" data-dfn-for="break-before,break-after" data-dfn-type="value" data-export id="valdef-break-before-all">all</dfn> 
     <dd>
       Always force a break before/after the <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#principal-box" id="ref-for-principal-box①">principal box</a>.
 		This value breaks through all containing <a data-link-type="dfn" href="#fragmentation-context" id="ref-for-fragmentation-context⑦">fragmentation contexts</a>.
-		For example, inside a <a data-link-type="dfn" href="https://drafts.csswg.org/css-multicol-1/#multi-column-container" id="ref-for-multi-column-container②">multi-column container</a> in a <a data-link-type="dfn">region</a> in a <span id="ref-for-multi-column-container③">multi-column container</span> in <span>paged media</span>,
+		For example, inside a <a data-link-type="dfn" href="https://drafts.csswg.org/css-multicol-1/#multi-column-container" id="ref-for-multi-column-container②">multi-column container</a> in a <a data-link-type="dfn">region</a> in a <span id="ref-for-multi-column-container③">multi-column container</span> in <a data-link-type="dfn" href="https://drafts.csswg.org/mediaqueries-5/#paged-media" id="ref-for-paged-media④">paged media</a>,
 		it forces simultaneously a <a data-link-type="dfn" href="#column-break" id="ref-for-column-break①">column break</a> in the inner <span id="ref-for-multi-column-container④">multi-column container</span>,
 		a <a data-link-type="dfn" href="#region-break" id="ref-for-region-break">region break</a>, a <span id="ref-for-column-break②">column break</span> in the outer <span id="ref-for-multi-column-container⑤">multi-column container</span>,
 		and a <a data-link-type="dfn" href="#page-break" id="ref-for-page-break①">page break</a>. 
@@ -616,7 +851,7 @@ on screen, on paper, etc.
 	is <span id="ref-for-propagate①">propagated</span> to its container.
 	(Conflicting values <a href="#forced-breaks">combine</a> as defined below.)
 	This propagation stops before it breaks through the nearest matching fragmentation context.</p>
-   <p>Break <a data-link-type="dfn" href="#propagate" id="ref-for-propagate②">propagation</a> does not affect <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-4/#computed-value" id="ref-for-computed-value">computed values</a>;
+   <p>Break <a data-link-type="dfn" href="#propagate" id="ref-for-propagate②">propagation</a> does not affect <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value">computed values</a>;
 	it is part of interpreting the elements’ computed values for layout.</p>
    <h3 class="heading settled" data-level="3.2" id="break-within"><span class="secno">3.2. </span><span class="content"> Breaks Within Boxes: the <a class="property" data-link-type="propdesc" href="#propdef-break-inside" id="ref-for-propdef-break-inside②">break-inside</a> property</span><a class="self-link" href="#break-within"></a></h3>
    <table class="def propdef" data-link-for-hint="break-inside">
@@ -625,28 +860,28 @@ on screen, on paper, etc.
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-break-inside">break-inside</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">auto <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①③">|</a> avoid <span id="ref-for-comb-one①④">|</span> avoid-page <span id="ref-for-comb-one①⑤">|</span> avoid-column <span id="ref-for-comb-one①⑥">|</span> avoid-region 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>auto 
      <tr>
       <th>Applies to:
       <td>all elements except inline-level boxes, internal ruby boxes, table column boxes, table column group boxes, absolutely-positioned boxes 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>n/a 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <p>This property specifies page/column/region break behavior
@@ -671,28 +906,28 @@ on screen, on paper, etc.
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-orphans">orphans</dfn>, <dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-widows">widows</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod"><a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#integer-value" id="ref-for-integer-value">&lt;integer></a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>2 
      <tr>
       <th>Applies to:
       <td><a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#block-container" id="ref-for-block-container">block containers</a> that establish an <a data-link-type="dfn" href="https://drafts.csswg.org/css-display-3/#inline-formatting-context" id="ref-for-inline-formatting-context">inline formatting context</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>yes 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>n/a 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified integer 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>by computed value type 
    </table>
    <p>The <a class="property" data-link-type="propdesc" href="#propdef-orphans" id="ref-for-propdef-orphans②">orphans</a> property specifies the minimum number
@@ -706,10 +941,10 @@ on screen, on paper, etc.
 	Negative values and zero are invalid and must cause the declaration to be <a href="https://www.w3.org/TR/CSS2/conform.html#ignore">ignored</a>.</p>
    <p>If a block contains fewer lines than the value of <a class="property" data-link-type="propdesc" href="#propdef-widows" id="ref-for-propdef-widows④">widows</a> or <a class="property" data-link-type="propdesc" href="#propdef-orphans" id="ref-for-propdef-orphans④">orphans</a>,
 	the rule simply becomes that all lines in the block must be kept together.</p>
-   <h3 class="heading settled" data-level="3.4" id="page-break-properties"><span class="secno">3.4. </span><span class="content"> Page Break Aliases: the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/page.html#propdef-page-break-before" id="ref-for-propdef-page-break-before">page-break-before</a>, <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/page.html#propdef-page-break-after" id="ref-for-propdef-page-break-after">page-break-after</a>, and <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/page.html#propdef-page-break-inside" id="ref-for-propdef-page-break-inside">page-break-inside</a> properties</span><a class="self-link" href="#page-break-properties"></a></h3>
+   <h3 class="heading settled" data-level="3.4" id="page-break-properties"><span class="secno">3.4. </span><span class="content"> Page Break Aliases: the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-page-break-before" id="ref-for-propdef-page-break-before">page-break-before</a>, <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-page-break-after" id="ref-for-propdef-page-break-after">page-break-after</a>, and <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-page-break-inside" id="ref-for-propdef-page-break-inside">page-break-inside</a> properties</span><a class="self-link" href="#page-break-properties"></a></h3>
    <p>For compatibility with <a href="https://www.w3.org/TR/CSS2/page.html">CSS Level 2</a>,
-	UAs that conform to <a data-link-type="biblio" href="#biblio-css2">[CSS2]</a> must alias the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/page.html#propdef-page-break-before" id="ref-for-propdef-page-break-before①">page-break-before</a>, <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/page.html#propdef-page-break-after" id="ref-for-propdef-page-break-after①">page-break-after</a>, and <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/page.html#propdef-page-break-inside" id="ref-for-propdef-page-break-inside①">page-break-inside</a> properties
-	to <a class="property" data-link-type="propdesc" href="#propdef-break-before" id="ref-for-propdef-break-before⑥">break-before</a>, <a class="property" data-link-type="propdesc" href="#propdef-break-after" id="ref-for-propdef-break-after⑥">break-after</a>, and <a class="property" data-link-type="propdesc" href="#propdef-break-inside" id="ref-for-propdef-break-inside③">break-inside</a> by treating the <a class="property" data-link-type="propdesc">page-break-*</a> properties as <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-4/#legacy-shorthand" id="ref-for-legacy-shorthand">legacy shorthands</a> for the <span class="property">break-*</span> properties
+	UAs that conform to <a data-link-type="biblio" href="#biblio-css2">[CSS2]</a> must alias the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-page-break-before" id="ref-for-propdef-page-break-before①">page-break-before</a>, <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-page-break-after" id="ref-for-propdef-page-break-after①">page-break-after</a>, and <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-page-break-inside" id="ref-for-propdef-page-break-inside①">page-break-inside</a> properties
+	to <a class="property" data-link-type="propdesc" href="#propdef-break-before" id="ref-for-propdef-break-before⑥">break-before</a>, <a class="property" data-link-type="propdesc" href="#propdef-break-after" id="ref-for-propdef-break-after⑥">break-after</a>, and <a class="property" data-link-type="propdesc" href="#propdef-break-inside" id="ref-for-propdef-break-inside③">break-inside</a> by treating the <a class="property" data-link-type="propdesc">page-break-*</a> properties as <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#legacy-shorthand" id="ref-for-legacy-shorthand">legacy shorthands</a> for the <span class="property">break-*</span> properties
 	with the following value mappings:</p>
    <table class="data">
     <thead>
@@ -803,7 +1038,7 @@ on screen, on paper, etc.
 		Note that if the region boxes are on different pages, then the break is
 		also a <a data-link-type="dfn" href="#page-break" id="ref-for-page-break③">page break</a>. <a data-link-type="biblio" href="#biblio-css3-regions">[CSS3-REGIONS]</a> 
    </dl>
-   <p class="note" role="note"><span>Note:</span> A fifth type of break is the <dfn data-dfn-type="dfn" data-noexport id="line-break">line break<a class="self-link" href="#line-break"></a></dfn>,
+   <p class="note" role="note"><span>Note:</span> A fifth type of break is the <a data-link-type="dfn" href="https://drafts.csswg.org/css-text-3/#line-break" id="ref-for-line-break">line break</a>,
 	which is a break between two <a href="https://www.w3.org/TR/CSS2/visuren.html#line-box">line boxes</a>.
 	These are not covered in this specification; see <a data-link-type="biblio" href="#biblio-css2">[CSS2]</a> <a data-link-type="biblio" href="#biblio-css-text-3">[CSS-TEXT-3]</a>.</p>
    <h3 class="heading settled" data-level="4.3" id="forced-breaks"><span class="secno">4.3. </span><span class="content"> Forced Breaks</span><a class="self-link" href="#forced-breaks"></a></h3>
@@ -862,8 +1097,8 @@ on screen, on paper, etc.
 	In this case the UA may use the <span class="css">avoid</span>s that are in effect at those
 	points to weigh the appropriateness of the new breakpoints; however,
 	this specification does not suggest a precise algorithm.</p>
-   <p>If even that does not lead to sufficient break points, <a href="#valdef-box-decoration-break-clone" id="ref-for-valdef-box-decoration-break-clone">cloned margins/border/padding</a> at on the block-end side are truncated;
-	and if more room is still needed, <a href="#valdef-box-decoration-break-clone" id="ref-for-valdef-box-decoration-break-clone①">cloned margins/border/padding</a> are truncated at the block-end side as well.</p>
+   <p>If even that does not lead to sufficient break points, <a href="#valdef-box-decoration-break-clone" id="ref-for-valdef-box-decoration-break-clone">cloned margins/border/padding</a> at on the <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#block-end" id="ref-for-block-end">block-end</a> side are truncated;
+	and if more room is still needed, <a href="#valdef-box-decoration-break-clone" id="ref-for-valdef-box-decoration-break-clone①">cloned margins/border/padding</a> are truncated at the <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#block-start" id="ref-for-block-start">block-start</a> side as well.</p>
    <p>Finally, if there are no possible break points below the top of the fragmentainer,
 	and not all the content fits, the UA may break anywhere
 	in order to avoid losing content off the edge of the fragmentainer. <span id="monolithic-breaking"> In such cases, the UA may also fragment the contents of <a data-link-type="dfn" href="#monolithic" id="ref-for-monolithic②">monolithic</a> elements
@@ -948,9 +1183,9 @@ on screen, on paper, etc.
       Fragments of boxes that began on a previous fragmentainer
 			must obey placement rules with the additional constraint
 			that fragments must not be positioned above
-			the <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#block-start" id="ref-for-block-start">block-start</a> edge of the fragmentainer.
+			the <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#block-start" id="ref-for-block-start①">block-start</a> edge of the fragmentainer.
 			If this results in a box’s continuation fragment
-			shifting away from the <span id="ref-for-block-start①">block-start</span> edge of the fragmentainer,
+			shifting away from the <span id="ref-for-block-start②">block-start</span> edge of the fragmentainer,
 			then <a class="css" data-link-type="propdesc" href="#propdef-box-decoration-break" id="ref-for-propdef-box-decoration-break①">box-decoration-break: clone</a>, if specified,
 			wraps the fragment with the box’s margin
 			in addition to its padding and border. 
@@ -987,7 +1222,7 @@ on screen, on paper, etc.
    </ul>
    <div class="example" id="example-fbdd0b64">
     <a class="self-link" href="#example-fbdd0b64"></a> Here is an example that shows the use of percentage-based progress:
-		Suppose we have an absolutely-positioned element that is positioned <a class="css" data-link-type="propdesc" href="https://drafts.csswg.org/css-position-3/#propdef-top" id="ref-for-propdef-top">top: calc(150% + 30px)</a> and has <a class="css" data-link-type="propdesc" href="https://drafts.csswg.org/css2/visudet.html#propdef-height" id="ref-for-propdef-height">height: calc(100% - 10px)</a>. If
+		Suppose we have an absolutely-positioned element that is positioned <a class="css" data-link-type="propdesc" href="https://drafts.csswg.org/css-position-3/#propdef-top" id="ref-for-propdef-top">top: calc(150% + 30px)</a> and has <a class="css" data-link-type="propdesc" href="https://drafts.csswg.org/css-sizing-3/#propdef-height" id="ref-for-propdef-height">height: calc(100% - 10px)</a>. If
 		it is placed into a paginated context with a first page height of 400px,
 		a second page of 200px, and a third page of 600px, its layout progresses
 		as follows: 
@@ -1020,31 +1255,31 @@ on screen, on paper, etc.
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-margin-break">margin-break</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">auto <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①⑦">|</a> keep <span id="ref-for-comb-one①⑧">|</span> discard 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>auto 
      <tr>
       <th>Applies to:
-      <td><a href="https://drafts.csswg.org/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
+      <td><a href="https://www.w3.org/TR/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>n/a 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
-   <p>Controls whether the box’s <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#block-axis" id="ref-for-block-axis①">block-axis</a> <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-3/#margin" id="ref-for-margin">margins</a> are discarded or kept at a <a data-link-type="dfn" href="#fragmentation-break" id="ref-for-fragmentation-break①">fragmentation break</a>.
+   <p>Controls whether the box’s <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#block-axis" id="ref-for-block-axis①">block-axis</a> <a data-link-type="dfn" href="https://drafts.csswg.org/css-box-4/#margin" id="ref-for-margin">margins</a> are discarded or kept at a <a data-link-type="dfn" href="#fragmentation-break" id="ref-for-fragmentation-break①">fragmentation break</a>.
 	Values have the following meanings:</p>
    <dl>
     <dt><dfn class="css" data-dfn-for="margin-break" data-dfn-type="value" data-export id="valdef-margin-break-auto">auto<a class="self-link" href="#valdef-margin-break-auto"></a></dfn> 
@@ -1065,7 +1300,7 @@ on screen, on paper, etc.
     <dd> Margins adjoining a <a data-link-type="dfn" href="#fragmentation-break" id="ref-for-fragmentation-break③">fragmentation break</a> are always truncated,
 			including at the start and end of a <a data-link-type="dfn" href="#fragmentation-context" id="ref-for-fragmentation-context⑧">fragmentation context</a>. 
    </dl>
-   <p class="note" role="note"><span>Note:</span> See also the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-box-3/#propdef-margin-trim" id="ref-for-propdef-margin-trim">margin-trim</a> property,
+   <p class="note" role="note"><span>Note:</span> See also the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-box-4/#propdef-margin-trim" id="ref-for-propdef-margin-trim">margin-trim</a> property,
 	which applies to the <a data-link-type="dfn" href="#fragmentation-container" id="ref-for-fragmentation-container①">fragmentation container</a> (page/column/etc.)</p>
    <p class="issue" id="issue-c8907d92"><a class="self-link" href="#issue-c8907d92"></a> <a href="https://www.antennahouse.com/product/ahf66/ahf-focss6.html">Antenna House also allows a second <span class="css">keep</span> keyword</a>,
 	which preserves the margin after the break;
@@ -1135,28 +1370,28 @@ on screen, on paper, etc.
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-box-decoration-break">box-decoration-break</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">slice <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①⑨">|</a> clone 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>slice 
      <tr>
       <th>Applies to:
-      <td><a href="https://drafts.csswg.org/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
+      <td><a href="https://www.w3.org/TR/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>n/a 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <p>When a break (page/column/region/line) splits a box,
@@ -1274,10 +1509,12 @@ on screen, on paper, etc.
    <p>Absolute positioning affects layout and thus interacts with fragmentation.
 	Both the coordinate system and absolutely-positioned boxes belonging to a containing block
 	will fragment across fragmentainers in the same fragmentation flow as the containing block.</p>
-   <p>UAs are not required to correctly position boxes that span a <a data-link-type="dfn" href="#fragmentation-break" id="ref-for-fragmentation-break⑤">fragmentation break</a> and whose <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#block-start" id="ref-for-block-start②">block-start</a> edge position depends on where the box’s content fragments.</p>
+   <p>UAs are not required to correctly position boxes that span a <a data-link-type="dfn" href="#fragmentation-break" id="ref-for-fragmentation-break⑤">fragmentation break</a> and whose <a data-link-type="dfn" href="https://drafts.csswg.org/css-writing-modes-4/#block-start" id="ref-for-block-start③">block-start</a> edge position depends on where the box’s content fragments.</p>
    <p>UAs with memory constraints that prevent them from manipulating an entire document in memory
 	are not required to correctly position absolutely-positioned elements
 	that end up on a previously-rendered page.</p>
+   <h2 class="no-num heading settled" id="priv-sec"><span class="content"> Privacy and Security Considerations</span><a class="self-link" href="#priv-sec"></a></h2>
+   <p>This specification introduces no new privacy or security considerations over CSS in general.</p>
    <h2 class="no-num heading settled" id="changes"><span class="content"> Changes</span><a class="self-link" href="#changes"></a></h2>
    <h3 class="no-num heading settled" id="changes-level-4"><span class="content"> Changes Since Level 3</span><a class="self-link" href="#changes-level-4"></a></h3>
    <p>The following features have been added since <a href="https://www.w3.org/TR/css-break-3/">CSS Fragmentation Level 3</a>:</p>
@@ -1292,95 +1529,89 @@ on screen, on paper, etc.
 	and to <a href="https://www.w3.org/TR/css-break-3/#acknowledgments">all the contributors to Level 3</a>,
 	which constitutes the bulk of this specification.</p>
   </main>
-  <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
-  <h3 class="heading settled" id="document-conventions"><span class="content"> Document conventions</span><a class="self-link" href="#document-conventions"></a></h3>
+  <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content"> Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
+  <h3 class="no-ref heading settled" id="w3c-conventions"><span class="content"> Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
   <p>Conformance requirements are expressed with a combination of
-	descriptive assertions and RFC 2119 terminology. The key words “MUST”,
-	“MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
-	“RECOMMENDED”, “MAY”, and “OPTIONAL” in the normative parts of this
-	document are to be interpreted as described in RFC 2119.
-	However, for readability, these words do not appear in all uppercase
-	letters in this specification. </p>
+    descriptive assertions and RFC 2119 terminology. The key words “MUST”,
+    “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
+    “RECOMMENDED”, “MAY”, and “OPTIONAL” in the normative parts of this
+    document are to be interpreted as described in RFC 2119.
+    However, for readability, these words do not appear in all uppercase
+    letters in this specification. </p>
   <p>All of the text of this specification is normative except sections
-	explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a> </p>
+    explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a></p>
   <p>Examples in this specification are introduced with the words “for example”
-	or are set apart from the normative text with <code>class="example"</code>,
-	like this: </p>
+    or are set apart from the normative text with <code>class="example"</code>,
+    like this: </p>
   <div class="example" id="example-ae2b6bc0">
    <a class="self-link" href="#example-ae2b6bc0"></a> 
-   <p>This is an example of an informative example. </p>
+   <p>This is an example of an informative example.</p>
   </div>
   <p>Informative notes begin with the word “Note” and are set apart from the
-	normative text with <code>class="note"</code>, like this: </p>
-  <p class="note" role="note">Note, this is an informative note. </p>
+    normative text with <code>class="note"</code>, like this: </p>
+  <p class="note" role="note">Note, this is an informative note.</p>
   <p>Advisements are normative sections styled to evoke special attention and are
-	set apart from other normative text with <code>&lt;strong class="advisement"></code>, like
-	this: <strong class="advisement"> UAs MUST provide an accessible alternative. </strong> </p>
-  <h3 class="heading settled" id="conform-classes"><span class="content"> Conformance classes</span><a class="self-link" href="#conform-classes"></a></h3>
+    set apart from other normative text with <code>&lt;strong class="advisement"></code>, like
+    this: <strong class="advisement"> UAs MUST provide an accessible alternative. </strong> </p>
+  <h3 class="no-ref heading settled" id="w3c-conformance-classes"><span class="content"> Conformance classes</span><a class="self-link" href="#w3c-conformance-classes"></a></h3>
   <p>Conformance to this specification
-	is defined for three conformance classes: </p>
+    is defined for three conformance classes: </p>
   <dl>
    <dt>style sheet 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#style-sheet">CSS
-			style sheet</a>. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#style-sheet">CSS
+            style sheet</a>. 
    <dt>renderer 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#user-agent">UA</a> that interprets the semantics of a style sheet and renders
-			documents that use them. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#user-agent">UA</a> that interprets the semantics of a style sheet and renders
+            documents that use them. 
    <dt>authoring tool 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#user-agent">UA</a> that writes a style sheet. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#user-agent">UA</a> that writes a style sheet. 
   </dl>
   <p>A style sheet is conformant to this specification
-	if all of its statements that use syntax defined in this module are valid
-	according to the generic CSS grammar and the individual grammars of each
-	feature defined in this module. </p>
+    if all of its statements that use syntax defined in this module are valid
+    according to the generic CSS grammar and the individual grammars of each
+    feature defined in this module. </p>
   <p>A renderer is conformant to this specification
-	if, in addition to interpreting the style sheet as defined by the
-	appropriate specifications, it supports all the features defined
-	by this specification by parsing them correctly
-	and rendering the document accordingly. However, the inability of a
-	UA to correctly render a document due to limitations of the device
-	does not make the UA non-conformant. (For example, a UA is not
-	required to render color on a monochrome monitor.) </p>
+    if, in addition to interpreting the style sheet as defined by the
+    appropriate specifications, it supports all the features defined
+    by this specification by parsing them correctly
+    and rendering the document accordingly. However, the inability of a
+    UA to correctly render a document due to limitations of the device
+    does not make the UA non-conformant. (For example, a UA is not
+    required to render color on a monochrome monitor.) </p>
   <p>An authoring tool is conformant to this specification
-	if it writes style sheets that are syntactically correct according to the
-	generic CSS grammar and the individual grammars of each feature in
-	this module, and meet all other conformance requirements of style sheets
-	as described in this module. </p>
-  <h3 class="heading settled" id="conform-responsible"><span class="content"> Requirements for Responsible Implementation of CSS</span><a class="self-link" href="#conform-responsible"></a></h3>
-  <p>The following sections define several conformance requirements
-		for implementing CSS responsibly,
-		in a way that promotes interoperability in the present and future. </p>
-  <h4 class="heading settled" id="conform-partial"><span class="content"> Partial Implementations</span><a class="self-link" href="#conform-partial"></a></h4>
-  <p>So that authors can exploit the forward-compatible parsing rules to assign fallback values, <strong>CSS renderers <em>must</em> treat as invalid
-		(and <a href="http://www.w3.org/TR/CSS2/conform.html#ignore">ignore as appropriate</a>)
-		any at-rules, properties, property values, keywords, and other syntactic constructs
-		for which they have no usable level of support</strong>.
-		In particular, user agents <em>must not</em> selectively ignore
-		unsupported property values and honor supported values in a single multi-value property declaration:
-		if any value is considered invalid (as unsupported values must be),
-		CSS requires that the entire declaration be ignored. </p>
-  <h4 class="heading settled" id="conform-future-proofing"><span class="content"> Implementations of Unstable and Proprietary Features</span><a class="self-link" href="#conform-future-proofing"></a></h4>
+    if it writes style sheets that are syntactically correct according to the
+    generic CSS grammar and the individual grammars of each feature in
+    this module, and meet all other conformance requirements of style sheets
+    as described in this module. </p>
+  <h3 class="no-ref heading settled" id="w3c-partial"><span class="content"> Partial implementations</span><a class="self-link" href="#w3c-partial"></a></h3>
+  <p>So that authors can exploit the forward-compatible parsing rules to
+    assign fallback values, CSS renderers <strong>must</strong> treat as invalid (and <a href="http://www.w3.org/TR/CSS21/conform.html#ignore">ignore
+    as appropriate</a>) any at-rules, properties, property values, keywords,
+    and other syntactic constructs for which they have no usable level of
+    support. In particular, user agents <strong>must not</strong> selectively
+    ignore unsupported component values and honor supported values in a single
+    multi-value property declaration: if any value is considered invalid
+    (as unsupported values must be), CSS requires that the entire declaration
+    be ignored.</p>
+  <h4 class="heading settled" id="w3c-conform-future-proofing"><span class="content"> Implementations of Unstable and Proprietary Features</span><a class="self-link" href="#w3c-conform-future-proofing"></a></h4>
   <p>To avoid clashes with future stable CSS features,
-		the CSSWG recommends <a href="http://www.w3.org/TR/CSS/#future-proofing">following best practices</a> for the implementation of <a href="http://www.w3.org/TR/CSS/#unstable">unstable</a> features and <a href="http://www.w3.org/TR/CSS/#proprietary-extension">proprietary extensions</a> to CSS. </p>
-  <h4 class="heading settled" id="conform-testing"><span class="content"> Implementations of CR-level Features</span><a class="self-link" href="#conform-testing"></a></h4>
+        the CSSWG recommends <a href="http://www.w3.org/TR/CSS/#future-proofing">following best practices</a> for the implementation of <a href="http://www.w3.org/TR/CSS/#unstable">unstable</a> features and <a href="http://www.w3.org/TR/CSS/#proprietary-extension">proprietary extensions</a> to CSS. </p>
+  <h3 class="no-ref heading settled" id="w3c-testing"><span class="content"> Non-experimental implementations</span><a class="self-link" href="#w3c-testing"></a></h3>
   <p>Once a specification reaches the Candidate Recommendation stage,
-		implementers should release an <a data-link-type="dfn" href="http://www.w3.org/TR/CSS/#vendor-prefix">unprefixed</a> implementation
-		of any CR-level feature they can demonstrate
-		to be correctly implemented according to spec,
-		and should avoid exposing a prefixed variant of that feature. </p>
+    non-experimental implementations are possible, and implementors should
+    release an unprefixed implementation of any CR-level feature they
+    can demonstrate to be correctly implemented according to spec. </p>
   <p>To establish and maintain the interoperability of CSS across
-		implementations, the CSS Working Group requests that non-experimental
-		CSS renderers submit an implementation report (and, if necessary, the
-		testcases used for that implementation report) to the W3C before
-		releasing an unprefixed implementation of any CSS features. Testcases
-		submitted to W3C are subject to review and correction by the CSS
-		Working Group. </p>
-  <p>
-   Further information on submitting testcases and implementation reports
-		can be found from on the CSS Working Group’s website at <a href="http://www.w3.org/Style/CSS/Test/">http://www.w3.org/Style/CSS/Test/</a>.
-		Questions should be directed to the <a href="http://lists.w3.org/Archives/Public/public-css-testsuite">public-css-testsuite@w3.org</a> mailing list. 
+    implementations, the CSS Working Group requests that non-experimental
+    CSS renderers submit an implementation report (and, if necessary, the
+    testcases used for that implementation report) to the W3C before
+    releasing an unprefixed implementation of any CSS features. Testcases
+    submitted to W3C are subject to review and correction by the CSS
+    Working Group. </p>
+  <p>Further information on submitting testcases and implementation reports
+    can be found from on the CSS Working Group’s website at <a href="http://www.w3.org/Style/CSS/Test/">http://www.w3.org/Style/CSS/Test/</a>.
+    Questions should be directed to the <a href="http://lists.w3.org/Archives/Public/public-css-testsuite">public-css-testsuite@w3.org</a> mailing list.</p>
 <script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script>
-  </p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
@@ -1441,7 +1672,6 @@ on screen, on paper, etc.
    <li><a href="#fragmented-flow">fragmented flow</a><span>, in §2</span>
    <li><a href="#valdef-margin-break-keep">keep</a><span>, in §5.2</span>
    <li><a href="#valdef-break-before-left">left</a><span>, in §3.1</span>
-   <li><a href="#line-break">line break</a><span>, in §4.2</span>
    <li><a href="#propdef-margin-break">margin-break</a><span>, in §5.2</span>
    <li><a href="#monolithic">monolithic</a><span>, in §4.1</span>
    <li><a href="#propdef-orphans">orphans</a><span>, in §3.3</span>
@@ -1485,49 +1715,49 @@ Fragmented Borders and Backgrounds: the box-decoration-break property</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-border-area">
-   <a href="https://drafts.csswg.org/css-box-3/#border-area">https://drafts.csswg.org/css-box-3/#border-area</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-box-4/#border-area">https://drafts.csswg.org/css-box-4/#border-area</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-border-area">2. 
 Fragmentation Model and Terminology</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-margin">
-   <a href="https://drafts.csswg.org/css-box-3/#margin">https://drafts.csswg.org/css-box-3/#margin</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-box-4/#margin">https://drafts.csswg.org/css-box-4/#margin</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-margin">5.2. 
 Adjoining Margins at Breaks: the margin-break property</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-margin-area">
-   <a href="https://drafts.csswg.org/css-box-3/#margin-area">https://drafts.csswg.org/css-box-3/#margin-area</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-box-4/#margin-area">https://drafts.csswg.org/css-box-4/#margin-area</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-margin-area">2. 
 Fragmentation Model and Terminology</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-margin-trim">
-   <a href="https://drafts.csswg.org/css-box-3/#propdef-margin-trim">https://drafts.csswg.org/css-box-3/#propdef-margin-trim</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-box-4/#propdef-margin-trim">https://drafts.csswg.org/css-box-4/#propdef-margin-trim</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-margin-trim">5.2. 
 Adjoining Margins at Breaks: the margin-break property</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-padding-area">
-   <a href="https://drafts.csswg.org/css-box-3/#padding-area">https://drafts.csswg.org/css-box-3/#padding-area</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-box-4/#padding-area">https://drafts.csswg.org/css-box-4/#padding-area</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-padding-area">2. 
 Fragmentation Model and Terminology</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-computed-value">
-   <a href="https://drafts.csswg.org/css-cascade-4/#computed-value">https://drafts.csswg.org/css-cascade-4/#computed-value</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-cascade-5/#computed-value">https://drafts.csswg.org/css-cascade-5/#computed-value</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-computed-value">3.1.1. 
 Child→Parent Break Propagation</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-legacy-shorthand">
-   <a href="https://drafts.csswg.org/css-cascade-4/#legacy-shorthand">https://drafts.csswg.org/css-cascade-4/#legacy-shorthand</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-cascade-5/#legacy-shorthand">https://drafts.csswg.org/css-cascade-5/#legacy-shorthand</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-legacy-shorthand">3.4. 
 Page Break Aliases: the page-break-before, page-break-after, and page-break-inside properties</a>
@@ -1683,6 +1913,13 @@ Breaking into Varying-size Fragmentainers</a>
 Possible Break Points</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-propdef-height">
+   <a href="https://drafts.csswg.org/css-sizing-3/#propdef-height">https://drafts.csswg.org/css-sizing-3/#propdef-height</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-propdef-height">5.1. 
+Breaking into Varying-size Fragmentainers</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-max-content">
    <a href="https://drafts.csswg.org/css-sizing-3/#max-content">https://drafts.csswg.org/css-sizing-3/#max-content</a><b>Referenced in:</b>
    <ul>
@@ -1704,6 +1941,13 @@ Breaking into Varying-size Fragmentainers</a>
 Breaking into Varying-size Fragmentainers</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-line-break">
+   <a href="https://drafts.csswg.org/css-text-3/#line-break">https://drafts.csswg.org/css-text-3/#line-break</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-line-break">4.2. 
+Types of Breaks</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-integer-value">
    <a href="https://drafts.csswg.org/css-values-3/#integer-value">https://drafts.csswg.org/css-values-3/#integer-value</a><b>Referenced in:</b>
    <ul>
@@ -1715,7 +1959,7 @@ Breaks Between Lines: orphans, widows</a>
    <a href="https://drafts.csswg.org/css-values-4/#css-wide-keywords">https://drafts.csswg.org/css-values-4/#css-wide-keywords</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-css-wide-keywords">1.2. 
-Values</a>
+Value Definitions</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-comb-one">
@@ -1767,12 +2011,21 @@ Fragmentation Model and Terminology</a>
 Adjoining Margins at Breaks: the margin-break property</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-block-end">
+   <a href="https://drafts.csswg.org/css-writing-modes-4/#block-end">https://drafts.csswg.org/css-writing-modes-4/#block-end</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-block-end">4.4. 
+Unforced Breaks</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-block-start">
    <a href="https://drafts.csswg.org/css-writing-modes-4/#block-start">https://drafts.csswg.org/css-writing-modes-4/#block-start</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-block-start">5.1. 
-Breaking into Varying-size Fragmentainers</a> <a href="#ref-for-block-start①">(2)</a>
-    <li><a href="#ref-for-block-start②">5.5. 
+    <li><a href="#ref-for-block-start">4.4. 
+Unforced Breaks</a>
+    <li><a href="#ref-for-block-start①">5.1. 
+Breaking into Varying-size Fragmentainers</a> <a href="#ref-for-block-start②">(2)</a>
+    <li><a href="#ref-for-block-start③">5.5. 
 Transforms, Positioning, and Pagination</a>
    </ul>
   </aside>
@@ -1811,29 +2064,22 @@ Joining Boxes for slice</a>
 Joining Boxes for slice</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-propdef-height">
-   <a href="https://drafts.csswg.org/css2/visudet.html#propdef-height">https://drafts.csswg.org/css2/visudet.html#propdef-height</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-propdef-height">5.1. 
-Breaking into Varying-size Fragmentainers</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-page-break-after">
-   <a href="https://drafts.csswg.org/css2/page.html#propdef-page-break-after">https://drafts.csswg.org/css2/page.html#propdef-page-break-after</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css2/#propdef-page-break-after">https://drafts.csswg.org/css2/#propdef-page-break-after</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-page-break-after">3.4. 
 Page Break Aliases: the page-break-before, page-break-after, and page-break-inside properties</a> <a href="#ref-for-propdef-page-break-after①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-page-break-before">
-   <a href="https://drafts.csswg.org/css2/page.html#propdef-page-break-before">https://drafts.csswg.org/css2/page.html#propdef-page-break-before</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css2/#propdef-page-break-before">https://drafts.csswg.org/css2/#propdef-page-break-before</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-page-break-before">3.4. 
 Page Break Aliases: the page-break-before, page-break-after, and page-break-inside properties</a> <a href="#ref-for-propdef-page-break-before①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-page-break-inside">
-   <a href="https://drafts.csswg.org/css2/page.html#propdef-page-break-inside">https://drafts.csswg.org/css2/page.html#propdef-page-break-inside</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css2/#propdef-page-break-inside">https://drafts.csswg.org/css2/#propdef-page-break-inside</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-page-break-inside">3.4. 
 Page Break Aliases: the page-break-before, page-break-after, and page-break-inside properties</a> <a href="#ref-for-propdef-page-break-inside①">(2)</a>
@@ -1846,162 +2092,193 @@ Page Break Aliases: the page-break-before, page-break-after, and page-break-insi
 Joining Boxes for slice</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-continuous-media">
+   <a href="https://drafts.csswg.org/mediaqueries-5/#continuous-media">https://drafts.csswg.org/mediaqueries-5/#continuous-media</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-continuous-media">1. 
+Introduction</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-paged-media">
+   <a href="https://drafts.csswg.org/mediaqueries-5/#paged-media">https://drafts.csswg.org/mediaqueries-5/#paged-media</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-paged-media">1. 
+Introduction</a> <a href="#ref-for-paged-media①">(2)</a>
+    <li><a href="#ref-for-paged-media②">2. 
+Fragmentation Model and Terminology</a>
+    <li><a href="#ref-for-paged-media③"> Generic Break Values</a> <a href="#ref-for-paged-media④">(2)</a>
+   </ul>
+  </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
    <li>
     <a data-link-type="biblio">[CSS-BACKGROUNDS-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-border-image" style="color:initial">border-image</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-border-radius" style="color:initial">border-radius</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-box-shadow" style="color:initial">box-shadow</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-border-image">border-image</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-border-radius">border-radius</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-box-shadow">box-shadow</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[css-box-3]</a> defines the following terms:
+    <a data-link-type="biblio">[css-box-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-border-area" style="color:initial">border area</span>
-     <li><span class="dfn-paneled" id="term-for-margin" style="color:initial">margin</span>
-     <li><span class="dfn-paneled" id="term-for-margin-area" style="color:initial">margin area</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-margin-trim" style="color:initial">margin-trim</span>
-     <li><span class="dfn-paneled" id="term-for-padding-area" style="color:initial">padding area</span>
+     <li><span class="dfn-paneled" id="term-for-border-area">border area</span>
+     <li><span class="dfn-paneled" id="term-for-margin">margin</span>
+     <li><span class="dfn-paneled" id="term-for-margin-area">margin area</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-margin-trim">margin-trim</span>
+     <li><span class="dfn-paneled" id="term-for-padding-area">padding area</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[css-cascade-4]</a> defines the following terms:
+    <a data-link-type="biblio">[css-cascade-5]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-computed-value" style="color:initial">computed value</span>
-     <li><span class="dfn-paneled" id="term-for-legacy-shorthand" style="color:initial">legacy shorthand</span>
+     <li><span class="dfn-paneled" id="term-for-computed-value">computed value</span>
+     <li><span class="dfn-paneled" id="term-for-legacy-shorthand">legacy shorthand</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-display-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-block-container" style="color:initial">block container</span>
-     <li><span class="dfn-paneled" id="term-for-block-level-box" style="color:initial">block-level box</span>
-     <li><span class="dfn-paneled" id="term-for-display-type" style="color:initial">display type</span>
-     <li><span class="dfn-paneled" id="term-for-formatting-context" style="color:initial">formatting context</span>
-     <li><span class="dfn-paneled" id="term-for-in-flow" style="color:initial">in-flow</span>
-     <li><span class="dfn-paneled" id="term-for-independent-formatting-context" style="color:initial">independent formatting context</span>
-     <li><span class="dfn-paneled" id="term-for-inline-box" style="color:initial">inline box</span>
-     <li><span class="dfn-paneled" id="term-for-inline-formatting-context" style="color:initial">inline formatting context</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-display-inline-block" style="color:initial">inline-block</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-display-inline-table" style="color:initial">inline-table</span>
-     <li><span class="dfn-paneled" id="term-for-principal-box" style="color:initial">principal box</span>
+     <li><span class="dfn-paneled" id="term-for-block-container">block container</span>
+     <li><span class="dfn-paneled" id="term-for-block-level-box">block-level box</span>
+     <li><span class="dfn-paneled" id="term-for-display-type">display type</span>
+     <li><span class="dfn-paneled" id="term-for-formatting-context">formatting context</span>
+     <li><span class="dfn-paneled" id="term-for-in-flow">in-flow</span>
+     <li><span class="dfn-paneled" id="term-for-independent-formatting-context">independent formatting context</span>
+     <li><span class="dfn-paneled" id="term-for-inline-box">inline box</span>
+     <li><span class="dfn-paneled" id="term-for-inline-formatting-context">inline formatting context</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-display-inline-block">inline-block</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-display-inline-table">inline-table</span>
+     <li><span class="dfn-paneled" id="term-for-principal-box">principal box</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS-MASKING-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-mask-positioning-area" style="color:initial">mask positioning area</span>
+     <li><span class="dfn-paneled" id="term-for-mask-positioning-area">mask positioning area</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS-MULTICOL-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-multi-column-container" style="color:initial">multi-column container</span>
-     <li><span class="dfn-paneled" id="term-for-multi-column-layout" style="color:initial">multi-column layout</span>
+     <li><span class="dfn-paneled" id="term-for-multi-column-container">multi-column container</span>
+     <li><span class="dfn-paneled" id="term-for-multi-column-layout">multi-column layout</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-overflow-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-valdef-overflow-auto" style="color:initial">auto</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-overflow" style="color:initial">overflow</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-overflow-scroll" style="color:initial">scroll</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-overflow-auto">auto</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-overflow">overflow</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-overflow-scroll">scroll</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS-PAGE-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-page" style="color:initial">page</span>
-     <li><span class="dfn-paneled" id="term-for-page-progression" style="color:initial">page progression</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-page">page</span>
+     <li><span class="dfn-paneled" id="term-for-page-progression">page progression</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-position-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-top" style="color:initial">top</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-top">top</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS-SIZING-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-valdef-width-auto" style="color:initial">auto</span>
-     <li><span class="dfn-paneled" id="term-for-max-content" style="color:initial">max-content size</span>
-     <li><span class="dfn-paneled" id="term-for-min-content" style="color:initial">min-content size</span>
-     <li><span class="dfn-paneled" id="term-for-stretch-fit-size" style="color:initial">stretch-fit size</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-width-auto">auto</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-height">height</span>
+     <li><span class="dfn-paneled" id="term-for-max-content">max-content size</span>
+     <li><span class="dfn-paneled" id="term-for-min-content">min-content size</span>
+     <li><span class="dfn-paneled" id="term-for-stretch-fit-size">stretch-fit size</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[CSS-TEXT-3]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-line-break">line break</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS-VALUES-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-integer-value" style="color:initial">&lt;integer></span>
+     <li><span class="dfn-paneled" id="term-for-integer-value">&lt;integer></span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-values-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-css-wide-keywords" style="color:initial">css-wide keywords</span>
-     <li><span class="dfn-paneled" id="term-for-comb-one" style="color:initial">|</span>
+     <li><span class="dfn-paneled" id="term-for-css-wide-keywords">css-wide keywords</span>
+     <li><span class="dfn-paneled" id="term-for-comb-one">|</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS-WRITING-MODES-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-direction" style="color:initial">direction</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-direction">direction</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-writing-modes-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-block-flow-direction" style="color:initial">block flow direction</span>
-     <li><span class="dfn-paneled" id="term-for-block-size" style="color:initial">block size</span>
-     <li><span class="dfn-paneled" id="term-for-block-axis" style="color:initial">block-axis</span>
-     <li><span class="dfn-paneled" id="term-for-block-start" style="color:initial">block-start</span>
-     <li><span class="dfn-paneled" id="term-for-inline-base-direction" style="color:initial">inline base direction</span>
-     <li><span class="dfn-paneled" id="term-for-inline-size" style="color:initial">inline size</span>
-     <li><span class="dfn-paneled" id="term-for-logical-height" style="color:initial">logical height</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-direction-ltr" style="color:initial">ltr</span>
-     <li><span class="dfn-paneled" id="term-for-principal-writing-mode" style="color:initial">principal writing mode</span>
+     <li><span class="dfn-paneled" id="term-for-block-flow-direction">block flow direction</span>
+     <li><span class="dfn-paneled" id="term-for-block-size">block size</span>
+     <li><span class="dfn-paneled" id="term-for-block-axis">block-axis</span>
+     <li><span class="dfn-paneled" id="term-for-block-end">block-end</span>
+     <li><span class="dfn-paneled" id="term-for-block-start">block-start</span>
+     <li><span class="dfn-paneled" id="term-for-inline-base-direction">inline base direction</span>
+     <li><span class="dfn-paneled" id="term-for-inline-size">inline size</span>
+     <li><span class="dfn-paneled" id="term-for-logical-height">logical height</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-direction-ltr">ltr</span>
+     <li><span class="dfn-paneled" id="term-for-principal-writing-mode">principal writing mode</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS2]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-height" style="color:initial">height</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-page-break-after" style="color:initial">page-break-after</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-page-break-before" style="color:initial">page-break-before</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-page-break-inside" style="color:initial">page-break-inside</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-page-break-after">page-break-after</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-page-break-before">page-break-before</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-page-break-inside">page-break-inside</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS3-REGIONS]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-region-chain" style="color:initial">region chain</span>
+     <li><span class="dfn-paneled" id="term-for-region-chain">region chain</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[mediaqueries-5]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-continuous-media">continuous media</span>
+     <li><span class="dfn-paneled" id="term-for-paged-media">paged media</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
    <dt id="biblio-css-backgrounds-3">[CSS-BACKGROUNDS-3]
-   <dd>Bert Bos; Elika Etemad; Brad Kemper. <a href="https://www.w3.org/TR/css-backgrounds-3/">CSS Backgrounds and Borders Module Level 3</a>. 17 October 2017. CR. URL: <a href="https://www.w3.org/TR/css-backgrounds-3/">https://www.w3.org/TR/css-backgrounds-3/</a>
-   <dt id="biblio-css-box-3">[CSS-BOX-3]
-   <dd>Elika Etemad. <a href="https://www.w3.org/TR/css-box-3/">CSS Box Model Module Level 3</a>. 18 December 2018. WD. URL: <a href="https://www.w3.org/TR/css-box-3/">https://www.w3.org/TR/css-box-3/</a>
-   <dt id="biblio-css-cascade-4">[CSS-CASCADE-4]
-   <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://www.w3.org/TR/css-cascade-4/">CSS Cascading and Inheritance Level 4</a>. 28 August 2018. CR. URL: <a href="https://www.w3.org/TR/css-cascade-4/">https://www.w3.org/TR/css-cascade-4/</a>
+   <dd>Bert Bos; Elika Etemad; Brad Kemper. <a href="https://www.w3.org/TR/css-backgrounds-3/">CSS Backgrounds and Borders Module Level 3</a>. 22 December 2020. CR. URL: <a href="https://www.w3.org/TR/css-backgrounds-3/">https://www.w3.org/TR/css-backgrounds-3/</a>
+   <dt id="biblio-css-box-4">[CSS-BOX-4]
+   <dd>Elika Etemad. <a href="https://www.w3.org/TR/css-box-4/">CSS Box Model Module Level 4</a>. 21 April 2020. WD. URL: <a href="https://www.w3.org/TR/css-box-4/">https://www.w3.org/TR/css-box-4/</a>
+   <dt id="biblio-css-cascade-5">[CSS-CASCADE-5]
+   <dd>Elika Etemad; Miriam Suzanne; Tab Atkins Jr.. <a href="https://www.w3.org/TR/css-cascade-5/">CSS Cascading and Inheritance Level 5</a>. 19 January 2021. WD. URL: <a href="https://www.w3.org/TR/css-cascade-5/">https://www.w3.org/TR/css-cascade-5/</a>
    <dt id="biblio-css-display-3">[CSS-DISPLAY-3]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-display-3/">CSS Display Module Level 3</a>. 28 August 2018. CR. URL: <a href="https://www.w3.org/TR/css-display-3/">https://www.w3.org/TR/css-display-3/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-display-3/">CSS Display Module Level 3</a>. 18 December 2020. CR. URL: <a href="https://www.w3.org/TR/css-display-3/">https://www.w3.org/TR/css-display-3/</a>
    <dt id="biblio-css-masking-1">[CSS-MASKING-1]
    <dd>Dirk Schulze; Brian Birtles; Tab Atkins Jr.. <a href="https://www.w3.org/TR/css-masking-1/">CSS Masking Module Level 1</a>. 26 August 2014. CR. URL: <a href="https://www.w3.org/TR/css-masking-1/">https://www.w3.org/TR/css-masking-1/</a>
    <dt id="biblio-css-multicol-1">[CSS-MULTICOL-1]
-   <dd>Florian Rivoal; Rachel Andrew. <a href="https://www.w3.org/TR/css-multicol-1/">CSS Multi-column Layout Module Level 1</a>. 28 May 2018. WD. URL: <a href="https://www.w3.org/TR/css-multicol-1/">https://www.w3.org/TR/css-multicol-1/</a>
+   <dd>Håkon Wium Lie; Florian Rivoal; Rachel Andrew. <a href="https://www.w3.org/TR/css-multicol-1/">CSS Multi-column Layout Module Level 1</a>. 12 February 2021. WD. URL: <a href="https://www.w3.org/TR/css-multicol-1/">https://www.w3.org/TR/css-multicol-1/</a>
    <dt id="biblio-css-overflow-3">[CSS-OVERFLOW-3]
-   <dd>David Baron; Elika Etemad; Florian Rivoal. <a href="https://www.w3.org/TR/css-overflow-3/">CSS Overflow Module Level 3</a>. 31 July 2018. WD. URL: <a href="https://www.w3.org/TR/css-overflow-3/">https://www.w3.org/TR/css-overflow-3/</a>
+   <dd>David Baron; Elika Etemad; Florian Rivoal. <a href="https://www.w3.org/TR/css-overflow-3/">CSS Overflow Module Level 3</a>. 3 June 2020. WD. URL: <a href="https://www.w3.org/TR/css-overflow-3/">https://www.w3.org/TR/css-overflow-3/</a>
    <dt id="biblio-css-page-3">[CSS-PAGE-3]
    <dd>Elika Etemad; Simon Sapin. <a href="https://www.w3.org/TR/css-page-3/">CSS Paged Media Module Level 3</a>. 18 October 2018. WD. URL: <a href="https://www.w3.org/TR/css-page-3/">https://www.w3.org/TR/css-page-3/</a>
    <dt id="biblio-css-shapes-1">[CSS-SHAPES-1]
    <dd>Vincent Hardy; Rossen Atanassov; Alan Stearns. <a href="https://www.w3.org/TR/css-shapes-1/">CSS Shapes Module Level 1</a>. 20 March 2014. CR. URL: <a href="https://www.w3.org/TR/css-shapes-1/">https://www.w3.org/TR/css-shapes-1/</a>
    <dt id="biblio-css-sizing-3">[CSS-SIZING-3]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-sizing-3/">CSS Intrinsic &amp; Extrinsic Sizing Module Level 3</a>. 22 May 2019. WD. URL: <a href="https://www.w3.org/TR/css-sizing-3/">https://www.w3.org/TR/css-sizing-3/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-sizing-3/">CSS Box Sizing Module Level 3</a>. 18 December 2020. WD. URL: <a href="https://www.w3.org/TR/css-sizing-3/">https://www.w3.org/TR/css-sizing-3/</a>
    <dt id="biblio-css-transforms-1">[CSS-TRANSFORMS-1]
    <dd>Simon Fraser; et al. <a href="https://www.w3.org/TR/css-transforms-1/">CSS Transforms Module Level 1</a>. 14 February 2019. CR. URL: <a href="https://www.w3.org/TR/css-transforms-1/">https://www.w3.org/TR/css-transforms-1/</a>
    <dt id="biblio-css-values-3">[CSS-VALUES-3]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 31 January 2019. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 6 June 2019. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
    <dt id="biblio-css-values-4">[CSS-VALUES-4]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 31 January 2019. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 11 November 2020. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
    <dt id="biblio-css-writing-modes-3">[CSS-WRITING-MODES-3]
-   <dd>Elika Etemad; Koji Ishii. <a href="https://www.w3.org/TR/css-writing-modes-3/">CSS Writing Modes Level 3</a>. 24 May 2018. CR. URL: <a href="https://www.w3.org/TR/css-writing-modes-3/">https://www.w3.org/TR/css-writing-modes-3/</a>
+   <dd>Elika Etemad; Koji Ishii. <a href="https://www.w3.org/TR/css-writing-modes-3/">CSS Writing Modes Level 3</a>. 10 December 2019. REC. URL: <a href="https://www.w3.org/TR/css-writing-modes-3/">https://www.w3.org/TR/css-writing-modes-3/</a>
    <dt id="biblio-css-writing-modes-4">[CSS-WRITING-MODES-4]
-   <dd>Elika Etemad; Koji Ishii. <a href="https://www.w3.org/TR/css-writing-modes-4/">CSS Writing Modes Level 4</a>. 24 May 2018. CR. URL: <a href="https://www.w3.org/TR/css-writing-modes-4/">https://www.w3.org/TR/css-writing-modes-4/</a>
+   <dd>Elika Etemad; Koji Ishii. <a href="https://www.w3.org/TR/css-writing-modes-4/">CSS Writing Modes Level 4</a>. 30 July 2019. CR. URL: <a href="https://www.w3.org/TR/css-writing-modes-4/">https://www.w3.org/TR/css-writing-modes-4/</a>
    <dt id="biblio-css2">[CSS2]
-   <dd>Bert Bos; et al. <a href="https://www.w3.org/TR/CSS2/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. 7 June 2011. REC. URL: <a href="https://www.w3.org/TR/CSS2/">https://www.w3.org/TR/CSS2/</a>
+   <dd>Bert Bos; et al. <a href="https://www.w3.org/TR/CSS21/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. 7 June 2011. REC. URL: <a href="https://www.w3.org/TR/CSS21/">https://www.w3.org/TR/CSS21/</a>
    <dt id="biblio-css3-regions">[CSS3-REGIONS]
    <dd>Rossen Atanassov; Alan Stearns. <a href="https://www.w3.org/TR/css-regions-1/">CSS Regions Module Level 1</a>. 9 October 2014. WD. URL: <a href="https://www.w3.org/TR/css-regions-1/">https://www.w3.org/TR/css-regions-1/</a>
+   <dt id="biblio-mediaqueries-5">[MEDIAQUERIES-5]
+   <dd>Dean Jackson; Florian Rivoal; Tab Atkins Jr.. <a href="https://www.w3.org/TR/mediaqueries-5/">Media Queries Level 5</a>. 31 July 2020. WD. URL: <a href="https://www.w3.org/TR/mediaqueries-5/">https://www.w3.org/TR/mediaqueries-5/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
   </dl>
@@ -2010,11 +2287,11 @@ Joining Boxes for slice</a>
    <dt id="biblio-css-flexbox-1">[CSS-FLEXBOX-1]
    <dd>Tab Atkins Jr.; et al. <a href="https://www.w3.org/TR/css-flexbox-1/">CSS Flexible Box Layout Module Level 1</a>. 19 November 2018. CR. URL: <a href="https://www.w3.org/TR/css-flexbox-1/">https://www.w3.org/TR/css-flexbox-1/</a>
    <dt id="biblio-css-grid-1">[CSS-GRID-1]
-   <dd>Tab Atkins Jr.; Elika Etemad; Rossen Atanassov. <a href="https://www.w3.org/TR/css-grid-1/">CSS Grid Layout Module Level 1</a>. 14 December 2017. CR. URL: <a href="https://www.w3.org/TR/css-grid-1/">https://www.w3.org/TR/css-grid-1/</a>
+   <dd>Tab Atkins Jr.; et al. <a href="https://www.w3.org/TR/css-grid-1/">CSS Grid Layout Module Level 1</a>. 18 December 2020. CR. URL: <a href="https://www.w3.org/TR/css-grid-1/">https://www.w3.org/TR/css-grid-1/</a>
    <dt id="biblio-css-position-3">[CSS-POSITION-3]
-   <dd>Rossen Atanassov; Arron Eicholz. <a href="https://www.w3.org/TR/css-position-3/">CSS Positioned Layout Module Level 3</a>. 17 May 2016. WD. URL: <a href="https://www.w3.org/TR/css-position-3/">https://www.w3.org/TR/css-position-3/</a>
+   <dd>Elika Etemad; et al. <a href="https://www.w3.org/TR/css-position-3/">CSS Positioned Layout Module Level 3</a>. 19 May 2020. WD. URL: <a href="https://www.w3.org/TR/css-position-3/">https://www.w3.org/TR/css-position-3/</a>
    <dt id="biblio-css-text-3">[CSS-TEXT-3]
-   <dd>Elika Etemad; Koji Ishii; Florian Rivoal. <a href="https://www.w3.org/TR/css-text-3/">CSS Text Module Level 3</a>. 12 December 2018. WD. URL: <a href="https://www.w3.org/TR/css-text-3/">https://www.w3.org/TR/css-text-3/</a>
+   <dd>Elika Etemad; Koji Ishii; Florian Rivoal. <a href="https://www.w3.org/TR/css-text-3/">CSS Text Module Level 3</a>. 22 December 2020. CR. URL: <a href="https://www.w3.org/TR/css-text-3/">https://www.w3.org/TR/css-text-3/</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="property-index"><span class="content">Property Index</span><a class="self-link" href="#property-index"></a></h2>
   <div class="big-element-wrapper">

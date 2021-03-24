@@ -8,11 +8,7 @@
   <meta content="CSS Transitions allows property changes in CSS values to occur smoothly over a specified duration." name="abstract">
   <link href="../default.css" rel="stylesheet" type="text/css">
   <link href="../csslogo.ico" rel="shortcut icon" type="image/x-icon">
-<style>
-  body {
-    background: url("https://www.w3.org/StyleSheets/TR/logo-ED") top left no-repeat;
-  }
-  </style>
+  <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <link href="https://www.w3.org/TR/css-transitions-1/" rel="canonical">
 <script defer src="https://test.csswg.org/harness/annotate.js#!css-transitions-1_dev/css-transitions-1" type="text/javascript"></script>
 <style type="text/css">
@@ -29,95 +25,10 @@
       border: 1px solid black;
     }
   </style>
-<style>/* style-md-lists */
-
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}</style>
-<style>/* style-selflinks */
-
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: gray;
-    color: white;
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: black;
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
-<style>/* style-counters */
-
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}</style>
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
-    color: #005a9c;
+    color: var(--a-normal-text);
     font-size: inherit;
     font-family: inherit;
 }
@@ -176,8 +87,150 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #707070;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #bbb;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
 <style>/* style-dfn-panel */
 
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
 .dfn-panel {
     position: absolute;
     z-index: 35;
@@ -189,14 +242,14 @@ pre .property::before, pre .property::after {
     overflow: auto;
     padding: 0.5em 0.75em;
     font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
     border: outset 0.2em;
 }
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
 .dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
+.dfn-panel a { color: var(--dfnpanel-text); }
 .dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
 .dfn-panel > b + b { margin-top: 0.25em; }
 .dfn-panel ul { padding: 0; }
@@ -213,11 +266,134 @@ pre .property::before, pre .property::after {
 
 .dfn-paneled { cursor: pointer; }
 </style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-mdn-anno */
+
+            @media (max-width: 767px) { .mdn-anno { opacity: .1 } }
+            .mdn-anno { font: 1em sans-serif; padding: 0.3em; position: absolute; z-index: 8; right: 0.3em; background: #EEE; color: black; box-shadow: 0 0 3px #999; overflow: hidden; border-collapse: initial; border-spacing: initial; min-width: 9em; max-width: min-content; white-space: nowrap; word-wrap: normal; hyphens: none}
+            .mdn-anno:not(.wrapped) { opacity: 1}
+            .mdn-anno:hover { z-index: 9 }
+            .mdn-anno.wrapped { min-width: 0 }
+            .mdn-anno.wrapped > :not(button) { display: none; }
+            .mdn-anno > .mdn-anno-btn { cursor: pointer; border: none; color: #000; background: transparent; margin: -8px; float: right; padding: 10px 8px 8px 8px; outline: none; }
+            .mdn-anno > .mdn-anno-btn > .less-than-two-engines-flag { color: red; padding-right: 2px; }
+            .mdn-anno > .mdn-anno-btn > .all-engines-flag { color: green; padding-right: 2px; }
+            .mdn-anno > .mdn-anno-btn > span { color: #fff; background-color: #000; font-weight: normal; font-family: zillaslab, Palatino, "Palatino Linotype", serif; padding: 2px 3px 0px 3px; line-height: 1.3em; vertical-align: top; }
+            .mdn-anno > .feature { margin-top: 20px; }
+            .mdn-anno > .feature:not(:first-of-type) { border-top: 1px solid #999; margin-top: 6px; padding-top: 2px; }
+            .mdn-anno > .feature > .less-than-two-engines-text { color: red }
+            .mdn-anno > .feature > .all-engines-text { color: green }
+            .mdn-anno > .feature > p { font-size: .75em; margin-top: 6px; margin-bottom: 0; }
+            .mdn-anno > .feature > p + p { margin-top: 3px; }
+            .mdn-anno > .feature > .support { display: block; font-size: 0.6em; margin: 0; padding: 0; margin-top: 2px }
+            .mdn-anno > .feature > .support + div { padding-top: 0.5em; }
+            .mdn-anno > .feature > .support > hr { display: block; border: none; border-top: 1px dotted #999; padding: 3px 0px 0px 0px; margin: 2px 3px 0px 3px; }
+            .mdn-anno > .feature > .support > hr::before { content: ""; }
+            .mdn-anno > .feature > .support > span { padding: 0.2em 0; display: block; display: table; }
+            .mdn-anno > .feature > .support > span.no { color: #CCCCCC; filter: grayscale(100%); }
+            .mdn-anno > .feature > .support > span.no::before { opacity: 0.5; }
+            .mdn-anno > .feature > .support > span:first-of-type { padding-top: 0.5em; }
+            .mdn-anno > .feature > .support > span > span { padding: 0 0.5em; display: table-cell; }
+            .mdn-anno > .feature > .support > span > span:first-child { width: 100%; }
+            .mdn-anno > .feature > .support > span > span:last-child { width: 100%; white-space: pre; padding: 0; }
+            .mdn-anno > .feature > .support > span::before { content: ' '; display: table-cell; min-width: 1.5em; height: 1.5em; background: no-repeat center center; background-size: contain; text-align: right; font-size: 0.75em; font-weight: bold; }
+            .mdn-anno > .feature > .support > .chrome_android::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+            .mdn-anno > .feature > .support > .firefox_android::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+            .mdn-anno > .feature > .support > .chrome::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+            .mdn-anno > .feature > .support > .edge_blink::before { background-image: url(https://resources.whatwg.org/browser-logos/edge.svg); }
+            .mdn-anno > .feature > .support > .edge::before { background-image: url(https://resources.whatwg.org/browser-logos/edge_legacy.svg); }
+            .mdn-anno > .feature > .support > .firefox::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+            .mdn-anno > .feature > .support > .ie::before { background-image: url(https://resources.whatwg.org/browser-logos/ie.png); }
+            .mdn-anno > .feature > .support > .safari_ios::before { background-image: url(https://resources.whatwg.org/browser-logos/safari-ios.svg); }
+            .mdn-anno > .feature > .support > .nodejs::before { background-image: url(https://nodejs.org/static/images/favicons/favicon.ico); }
+            .mdn-anno > .feature > .support > .opera_android::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
+            .mdn-anno > .feature > .support > .opera::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
+            .mdn-anno > .feature > .support > .safari::before { background-image: url(https://resources.whatwg.org/browser-logos/safari.png); }
+            .mdn-anno > .feature > .support > .samsunginternet_android::before { background-image: url(https://resources.whatwg.org/browser-logos/samsung.svg); }
+            .mdn-anno > .feature > .support > .webview_android::before { background-image: url(https://resources.whatwg.org/browser-logos/android-webview.png); }
+            .name-slug-mismatch { color: red }
+            .caniuse-status:hover { z-index: 9; }
+
+            /* dt, li, .issue, .note, and .example are "position: relative", so to put annotation at right margin, must move to right of containing block */
+            .h-entry:not(.status-LS) dt > .mdn-anno, .h-entry:not(.status-LS) li > .mdn-anno, .h-entry:not(.status-LS) .issue > .mdn-anno, .h-entry:not(.status-LS) .note > .mdn-anno, .h-entry:not(.status-LS) .example > .mdn-anno { right: -6.7em; }
+            .h-entry p + .mdn-anno { margin-top: 0; }
+            h2 + .mdn-anno.after { margin: -48px 0 0 0; }
+            h3 + .mdn-anno.after { margin: -46px 0 0 0; }
+            h4 + .mdn-anno.after { margin: -42px 0 0 0; }
+            h5 + .mdn-anno.after { margin: -40px 0 0 0; }
+            h6 + .mdn-anno.after { margin: -40px 0 0 0; }
+            </style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
 <style>/* style-syntax-highlighting */
-pre.idl.highlight { color: #708090; }
-.highlight:not(.idl) { background: hsl(24, 20%, 95%); }
+
+            pre.idl.highlight {
+                background: var(--borderedblock-bg, var(--def-bg));
+            }
+            
 code.highlight { padding: .1em; border-radius: .3em; }
 pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
 c-[a] { color: #990055 } /* Keyword.Declaration */
 c-[b] { color: #990055 } /* Keyword.Type */
 c-[c] { color: #708090 } /* Comment */
@@ -271,6 +447,196 @@ c-[vg] { color: #0077aa } /* Name.Variable.Global */
 c-[vi] { color: #0077aa } /* Name.Variable.Instance */
 c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
+
+    c-[a] { color: #d33682 } /* Keyword.Declaration */
+    c-[b] { color: #d33682 } /* Keyword.Type */
+    c-[c] { color: #2aa198 } /* Comment */
+    c-[d] { color: #2aa198 } /* Comment.Multiline */
+    c-[e] { color: #268bd2 } /* Name.Attribute */
+    c-[f] { color: #b58900 } /* Name.Tag */
+    c-[g] { color: #cb4b16 } /* Name.Variable */
+    c-[k] { color: #d33682 } /* Keyword */
+    c-[l] { color: #657b83 } /* Literal */
+    c-[m] { color: #657b83 } /* Literal.Number */
+    c-[n] { color: #268bd2 } /* Name */
+    c-[o] { color: #657b83 } /* Operator */
+    c-[p] { color: #657b83 } /* Punctuation */
+    c-[s] { color: #6c71c4 } /* Literal.String */
+    c-[t] { color: #6c71c4 } /* Literal.String.Single */
+    c-[u] { color: #6c71c4 } /* Literal.String.Double */
+    c-[ch] { color: #2aa198 } /* Comment.Hashbang */
+    c-[cp] { color: #2aa198 } /* Comment.Preproc */
+    c-[cpf] { color: #2aa198 } /* Comment.PreprocFile */
+    c-[c1] { color: #2aa198 } /* Comment.Single */
+    c-[cs] { color: #2aa198 } /* Comment.Special */
+    c-[kc] { color: #d33682 } /* Keyword.Constant */
+    c-[kn] { color: #d33682 } /* Keyword.Namespace */
+    c-[kp] { color: #d33682 } /* Keyword.Pseudo */
+    c-[kr] { color: #d33682 } /* Keyword.Reserved */
+    c-[ld] { color: #657b83 } /* Literal.Date */
+    c-[nc] { color: #268bd2 } /* Name.Class */
+    c-[no] { color: #268bd2 } /* Name.Constant */
+    c-[nd] { color: #268bd2 } /* Name.Decorator */
+    c-[ni] { color: #268bd2 } /* Name.Entity */
+    c-[ne] { color: #268bd2 } /* Name.Exception */
+    c-[nf] { color: #268bd2 } /* Name.Function */
+    c-[nl] { color: #268bd2 } /* Name.Label */
+    c-[nn] { color: #268bd2 } /* Name.Namespace */
+    c-[py] { color: #268bd2 } /* Name.Property */
+    c-[ow] { color: #657b83 } /* Operator.Word */
+    c-[mb] { color: #657b83 } /* Literal.Number.Bin */
+    c-[mf] { color: #657b83 } /* Literal.Number.Float */
+    c-[mh] { color: #657b83 } /* Literal.Number.Hex */
+    c-[mi] { color: #657b83 } /* Literal.Number.Integer */
+    c-[mo] { color: #657b83 } /* Literal.Number.Oct */
+    c-[sa] { color: #6c71c4 } /* Literal.String.Affix */
+    c-[sb] { color: #6c71c4 } /* Literal.String.Backtick */
+    c-[sc] { color: #6c71c4 } /* Literal.String.Char */
+    c-[dl] { color: #6c71c4 } /* Literal.String.Delimiter */
+    c-[sd] { color: #6c71c4 } /* Literal.String.Doc */
+    c-[se] { color: #6c71c4 } /* Literal.String.Escape */
+    c-[sh] { color: #6c71c4 } /* Literal.String.Heredoc */
+    c-[si] { color: #6c71c4 } /* Literal.String.Interpol */
+    c-[sx] { color: #6c71c4 } /* Literal.String.Other */
+    c-[sr] { color: #6c71c4 } /* Literal.String.Regex */
+    c-[ss] { color: #6c71c4 } /* Literal.String.Symbol */
+    c-[fm] { color: #268bd2 } /* Name.Function.Magic */
+    c-[vc] { color: #cb4b16 } /* Name.Variable.Class */
+    c-[vg] { color: #cb4b16 } /* Name.Variable.Global */
+    c-[vi] { color: #cb4b16 } /* Name.Variable.Instance */
+    c-[vm] { color: #cb4b16 } /* Name.Variable.Magic */
+    c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
+}
+</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
@@ -291,9 +657,9 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <dt>Test Suite:
       <dd><a href="http://test.csswg.org/suites/css-transitions-1_dev/nightly-unstable/">http://test.csswg.org/suites/css-transitions-1_dev/nightly-unstable/</a>
       <dt>Issue Tracking:
+      <dd><a href="https://github.com/w3c/csswg-drafts/labels/css-transitions-1">CSSWG Issues Repository</a>
       <dd><a href="https://www.w3.org/Bugs/Public/buglist.cgi?query_format=advanced&amp;amp;product=CSS&amp;amp;component=Transitions&amp;amp;resolution=---&amp;amp;status_whiteboard=defer%20to%20level%202&amp;amp;status_whiteboard_type=notregexp">Bugzilla bugs for this level</a>
       <dd><a href="https://www.w3.org/Bugs/Public/buglist.cgi?query_format=advanced&amp;amp;product=CSS&amp;amp;component=Transitions&amp;amp;resolution=---">Bugzilla bugs for all levels</a>
-      <dd><a href="https://github.com/w3c/csswg-drafts/labels/css-transitions-1">GitHub Issues</a>
       <dt class="editor">Editors:
       <dd class="editor p-author h-card vcard" data-editor-id="15393"><a class="p-name fn u-url url" href="https://dbaron.org/">L. David Baron</a> (<a class="p-org org" href="https://www.mozilla.org/">Mozilla</a>)
       <dd class="editor p-author h-card vcard" data-editor-id="42080"><a class="p-name fn u-email email" href="mailto:dino@apple.com">Dean Jackson</a> (<a class="p-org org" href="https://www.apple.com/">Apple Inc</a>)
@@ -307,7 +673,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -323,19 +689,13 @@ on screen, on paper, etc.
 	It is provided for discussion only and may change at any moment.
 	Its publication here does not imply endorsement of its contents by W3C.
 	Don’t cite this document other than as work in progress. </p>
-   <p> <a href="https://github.com/w3c/csswg-drafts/issues">GitHub Issues</a> are preferred for discussion of this specification.
-	When filing an issue, please put the text “css-transitions” in the title,
-	preferably like this:
-	“[css-transitions] <i data-lt>…summary of comment…</i>”.
-	All issues and comments are <a href="https://lists.w3.org/Archives/Public/public-css-archive/">archived</a>,
-	and there is also a <a href="https://lists.w3.org/Archives/Public/www-style/">historical archive</a>. </p>
-   <p> This document was produced by the <a href="https://www.w3.org/Style/CSS/">CSS Working Group</a>. </p>
-   <p> This document was produced by a group operating under
-	the <a href="https://www.w3.org/Consortium/Patent-Policy/">W3C Patent Policy</a>.
-	W3C maintains a <a href="https://www.w3.org/2004/01/pp-impl/32061/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group;
-	that page also includes instructions for disclosing a patent.
-	An individual who has actual knowledge of a patent which the individual believes contains <a href="https://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="https://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the W3C Patent Policy</a>. </p>
-   <p> This document is governed by the <a href="https://www.w3.org/2019/Process-20190301/" id="w3c_process_revision">1 March 2019 W3C Process Document</a>. </p>
+   <p>Please send feedback
+	by <a href="https://github.com/w3c/csswg-drafts/issues">filing issues in GitHub</a> (preferred),
+	including the spec code “css-transitions” in the title, like this:
+	“[css-transitions] <i>…summary of comment…</i>”.
+	All issues and comments are <a href="https://lists.w3.org/Archives/Public/public-css-archive/">archived</a>.
+	Alternately, feedback can be sent to the (<a href="https://lists.w3.org/Archives/Public/www-style/">archived</a>) public mailing list <a href="mailto:www-style@w3.org?Subject=%5Bcss-transitions%5D%20PUT%20SUBJECT%20HERE">www-style@w3.org</a>. </p>
+   <p>This document is governed by the <a href="https://www.w3.org/2020/Process-20200915/" id="w3c_process_revision">15 September 2020 W3C Process Document</a>. </p>
    <p></p>
    <p><strong>This document</strong> is expected to be relatively close to last call.  While some issues raised have yet to be addressed, new features are extremely unlikely to be considered for this level.</p>
   </div>
@@ -343,7 +703,11 @@ on screen, on paper, etc.
   <nav data-fill-with="table-of-contents" id="toc">
    <h2 class="no-num no-toc no-ref" id="contents">Table of Contents</h2>
    <ol class="toc" role="directory">
-    <li><a href="#introduction"><span class="secno">1</span> <span class="content">Introduction</span></a>
+    <li>
+     <a href="#introduction"><span class="secno">1</span> <span class="content">Introduction</span></a>
+     <ol class="toc">
+      <li><a href="#values"><span class="secno">1.1</span> <span class="content">Value Definitions</span></a>
+     </ol>
     <li>
      <a href="#transitions"><span class="secno">2</span> <span class="content"><span>Transitions</span></span></a>
      <ol class="toc">
@@ -388,17 +752,16 @@ on screen, on paper, etc.
     <li><a href="#changes"><span class="secno">11</span> <span class="content">Changes since Working Draft of 30 November 2017</span></a>
     <li><a href="#acknowledgments"><span class="secno">12</span> <span class="content">Acknowledgments</span></a>
     <li>
-     <a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
+     <a href="#w3c-conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
      <ol class="toc">
-      <li><a href="#document-conventions"><span class="secno"></span> <span class="content"> Document conventions</span></a>
-      <li><a href="#conform-classes"><span class="secno"></span> <span class="content"> Conformance classes</span></a>
+      <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content"> Document conventions</span></a>
+      <li><a href="#w3c-conformance-classes"><span class="secno"></span> <span class="content"> Conformance classes</span></a>
       <li>
-       <a href="#conform-responsible"><span class="secno"></span> <span class="content"> Requirements for Responsible Implementation of CSS</span></a>
+       <a href="#w3c-partial"><span class="secno"></span> <span class="content"> Partial implementations</span></a>
        <ol class="toc">
-        <li><a href="#conform-partial"><span class="secno"></span> <span class="content"> Partial Implementations</span></a>
-        <li><a href="#conform-future-proofing"><span class="secno"></span> <span class="content"> Implementations of Unstable and Proprietary Features</span></a>
-        <li><a href="#conform-testing"><span class="secno"></span> <span class="content"> Implementations of CR-level Features</span></a>
+        <li><a href="#w3c-conform-future-proofing"><span class="secno"></span> <span class="content"> Implementations of Unstable and Proprietary Features</span></a>
        </ol>
+      <li><a href="#w3c-testing"><span class="secno"></span> <span class="content"> Non-experimental implementations</span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -420,14 +783,22 @@ on screen, on paper, etc.
    <h2 class="heading settled" data-level="1" id="introduction"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#introduction"></a></h2>
    <p><em>This section is not normative.</em> </p>
    <p> This document introduces new CSS features to enable <em>implicit transitions</em>, which describe how CSS properties can be made to change smoothly from one value to another over a given duration. </p>
+   <h3 class="heading settled" data-level="1.1" id="values"><span class="secno">1.1. </span><span class="content">Value Definitions</span><a class="self-link" href="#values"></a></h3>
+   <p>This specification follows the <a href="https://www.w3.org/TR/CSS2/about.html#property-defs">CSS property definition conventions</a> from <a data-link-type="biblio" href="#biblio-css2">[CSS2]</a> using the <a href="https://www.w3.org/TR/css-values-3/#value-defs">value definition syntax</a> from <a data-link-type="biblio" href="#biblio-css-values-3">[CSS-VALUES-3]</a>.
+      Value types not defined in this specification are defined in CSS Values &amp; Units <span>[CSS-VALUES-3]</span>.
+      Combination with other CSS modules may expand the definitions of these value types.</p>
+   <p>In addition to the property-specific values listed in their definitions,
+      all properties defined in this specification
+      also accept the <a data-link-type="dfn" href="https://drafts.csswg.org/css-values-4/#css-wide-keywords" id="ref-for-css-wide-keywords">CSS-wide keywords</a> as their property value.
+      For readability they have not been repeated explicitly.</p>
    <h2 class="heading settled" data-level="2" id="transitions"><span class="secno">2. </span><span class="content"><span id="transitions-">Transitions</span></span><a class="self-link" href="#transitions"></a></h2>
    <p> Normally when the value of a CSS property changes, the rendered result is instantly updated, with the affected elements immediately changing from the old property value to the new property value. This section describes a way to specify transitions using new CSS properties. These properties are used to animate smoothly from the old state to the new state over time. </p>
-   <p> For example, suppose that transitions of one second have been defined on the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/visuren.html#propdef-left" id="ref-for-propdef-left">left</a> and <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/colors.html#propdef-background-color" id="ref-for-propdef-background-color">background-color</a> properties. The following diagram illustrates the effect of updating those properties on an element, in this case moving it to the right and changing the background from red to blue. This assumes other transition parameters still have their default values. </p>
+   <p> For example, suppose that transitions of one second have been defined on the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-left" id="ref-for-propdef-left">left</a> and <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-background-color" id="ref-for-propdef-background-color">background-color</a> properties. The following diagram illustrates the effect of updating those properties on an element, in this case moving it to the right and changing the background from red to blue. This assumes other transition parameters still have their default values. </p>
    <figure>
      <img alt="Example showing the initial, intermediate, and final states of a box whose color and position is interpolated" src="transition-example.svg" width="518"> 
-    <figcaption> Transitions of <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/visuren.html#propdef-left" id="ref-for-propdef-left①">left</a> and <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/colors.html#propdef-background-color" id="ref-for-propdef-background-color①">background-color</a>. </figcaption>
+    <figcaption> Transitions of <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-left" id="ref-for-propdef-left①">left</a> and <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-background-color" id="ref-for-propdef-background-color①">background-color</a>. </figcaption>
    </figure>
-   <p> Transitions are a presentational effect. The <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-4/#computed-value" id="ref-for-computed-value">computed value</a> of a property transitions over time from the old value to the new value. Therefore if a script queries the <span id="ref-for-computed-value①">computed value</span> of a property (or other data depending on it) as it is transitioning, it will see an intermediate value that represents the current animated value of the property. </p>
+   <p> Transitions are a presentational effect. The <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value">computed value</a> of a property transitions over time from the old value to the new value. Therefore if a script queries the <span id="ref-for-computed-value①">computed value</span> of a property (or other data depending on it) as it is transitioning, it will see an intermediate value that represents the current animated value of the property. </p>
    <p> The transition for a property is defined using a number of new properties. For example: </p>
    <div class="example" id="example-c14634d9">
     <a class="self-link" href="#example-c14634d9"></a> 
@@ -467,9 +838,9 @@ on screen, on paper, etc.
   transition-duration: 2s, 1s;
 }
 </pre>
-    The above example defines a transition on the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-color-3/#opacity" id="ref-for-opacity②">opacity</a> property of 2 seconds duration, a      transition on the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/visuren.html#propdef-left" id="ref-for-propdef-left②">left</a> property of 1
-      second duration, a transition on the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/visuren.html#propdef-top" id="ref-for-propdef-top">top</a> property of 2 seconds duration and a
-      transition on the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/visudet.html#propdef-width" id="ref-for-propdef-width">width</a> property of 1
+    The above example defines a transition on the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-color-3/#opacity" id="ref-for-opacity②">opacity</a> property of 2 seconds duration, a      transition on the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-left" id="ref-for-propdef-left②">left</a> property of 1
+      second duration, a transition on the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-top" id="ref-for-propdef-top">top</a> property of 2 seconds duration and a
+      transition on the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-width" id="ref-for-propdef-width">width</a> property of 1
       second duration. 
    </div>
    <p> While authors can use transitions to create dynamically changing content,
@@ -478,6 +849,22 @@ on screen, on paper, etc.
         Seizures:
         Do not design content in a way that is known to cause seizures</a> (<a data-link-type="biblio" href="#biblio-wcag20">[WCAG20]</a>). </p>
    <h3 class="heading settled" data-level="2.1" id="transition-property-property"><span class="secno">2.1. </span><span class="content"><span id="the-transition-property-property-">The <a class="property" data-link-type="propdesc" href="#propdef-transition-property" id="ref-for-propdef-transition-property③">transition-property</a> Property</span></span><a class="self-link" href="#transition-property-property"></a></h3>
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transition-property" title="The transition-property CSS property sets the CSS properties to which a transition effect should be applied.">transition-property</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>16+</span></span><span class="safari yes"><span>Safari</span><span>9+</span></span><span class="chrome yes"><span>Chrome</span><span>26+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>12.1+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>12+</span></span><span class="ie yes"><span>IE</span><span>10+</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>16+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>9+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>26+</span></span><span class="webview_android yes"><span>Android WebView</span><span>37+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.5+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>12.1+</span></span>
+     </div>
+    </div>
+   </div>
    <p> The <a class="property" data-link-type="propdesc" href="#propdef-transition-property" id="ref-for-propdef-transition-property④">transition-property</a> property specifies the name of the CSS property to which the transition is applied. </p>
    <table class="def propdef" data-link-for-hint="transition-property">
     <tbody>
@@ -485,31 +872,31 @@ on screen, on paper, etc.
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-transition-property">transition-property</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">none <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one">|</a> <a class="production css" data-link-type="type" href="#single-transition-property" id="ref-for-single-transition-property">&lt;single-transition-property></a><a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-comma" id="ref-for-mult-comma">#</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>all 
      <tr>
       <th>Applies to:
-      <td><a href="https://drafts.csswg.org/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
+      <td><a href="https://www.w3.org/TR/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>N/A 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>the keyword <a class="css" data-link-type="maybe" href="#valdef-transition-property-none" id="ref-for-valdef-transition-property-none">none</a> else a list of identifiers 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>not animatable 
    </table>
-   <div class="prod"> <dfn class="dfn-paneled css" data-dfn-type="type" data-export id="single-transition-property">&lt;single-transition-property></dfn> = <a class="css" data-link-type="maybe" href="#valdef-transition-property-all" id="ref-for-valdef-transition-property-all">all</a> <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①">|</a> <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#identifier-value" id="ref-for-identifier-value">&lt;custom-ident></a>; </div>
+   <div class="prod"> <dfn class="dfn-paneled css" data-dfn-type="type" data-export id="single-transition-property">&lt;single-transition-property></dfn> = <a class="css" data-link-type="maybe" href="#valdef-transition-property-all" id="ref-for-valdef-transition-property-all">all</a> <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①">|</a> <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#identifier-value" id="ref-for-identifier-value">&lt;custom-ident></a> </div>
    <p> A value of <dfn class="dfn-paneled css" data-dfn-for="transition-property" data-dfn-type="value" data-export id="valdef-transition-property-none">none</dfn> means that no property will transition.
         Otherwise, a list of properties to be transitioned, or the
         keyword <dfn class="dfn-paneled css" data-dfn-for="transition-property" data-dfn-type="value" data-export id="valdef-transition-property-all">all</dfn> which indicates that all properties are to be
@@ -523,7 +910,7 @@ on screen, on paper, etc.
         the list to preserve the matching of indices. </p>
    <p> The <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#identifier-value" id="ref-for-identifier-value①">&lt;custom-ident></a> production in <a class="production css" data-link-type="type" href="#single-transition-property" id="ref-for-single-transition-property①">&lt;single-transition-property></a> also excludes the keyword <a class="css" data-link-type="maybe" href="#valdef-transition-property-none" id="ref-for-valdef-transition-property-none①">none</a>,
         in addition to the keywords always excluded from <span class="production" id="ref-for-identifier-value②">&lt;custom-ident></span>.
-        This means that <span class="css" id="ref-for-valdef-transition-property-none②">none</span>, <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-cascade-4/#valdef-all-inherit" id="ref-for-valdef-all-inherit">inherit</a>, and <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-cascade-4/#valdef-all-initial" id="ref-for-valdef-all-initial">initial</a> are not
+        This means that <span class="css" id="ref-for-valdef-transition-property-none②">none</span>, <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-cascade-5/#valdef-all-inherit" id="ref-for-valdef-all-inherit">inherit</a>, and <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-cascade-5/#valdef-all-initial" id="ref-for-valdef-all-initial">initial</a> are not
         permitted as items within a list of more that one identifier;
         any list that uses them is syntactically invalid. </p>
    <p> For the keyword <a class="css" data-link-type="maybe" href="#valdef-transition-property-all" id="ref-for-valdef-transition-property-all①">all</a>,
@@ -535,10 +922,26 @@ on screen, on paper, etc.
         contains it, or via the <a class="css" data-link-type="maybe" href="#valdef-transition-property-all" id="ref-for-valdef-transition-property-all③">all</a> value), then the transition that
         starts uses the duration, delay, and timing function at the
         index corresponding to the <em>last</em> item in the value of <span class="property" id="ref-for-propdef-transition-property⑥">transition-property</span> that calls for animating that property. </p>
-   <p class="note" role="note"> Note:  The <a class="css" data-link-type="maybe" href="#valdef-transition-property-all" id="ref-for-valdef-transition-property-all④">all</a> value and <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-cascade-4/#propdef-all" id="ref-for-propdef-all">all</a> shorthand
+   <p class="note" role="note"> Note:  The <a class="css" data-link-type="maybe" href="#valdef-transition-property-all" id="ref-for-valdef-transition-property-all④">all</a> value and <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-cascade-5/#propdef-all" id="ref-for-propdef-all">all</a> shorthand
         property work in similar ways, so the <span class="css" id="ref-for-valdef-transition-property-all⑤">all</span> value is just like a shorthand that
         covers all properties. </p>
    <h3 class="heading settled" data-level="2.2" id="transition-duration-property"><span class="secno">2.2. </span><span class="content"><span id="the-transition-duration-property-">The <a class="property" data-link-type="propdesc" href="#propdef-transition-duration" id="ref-for-propdef-transition-duration①">transition-duration</a> Property</span></span><a class="self-link" href="#transition-duration-property"></a></h3>
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transition-duration" title="The transition-duration CSS property sets the length of time a transition animation should take to complete. By default, the value is 0s, meaning that no animation will occur.">transition-duration</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>16+</span></span><span class="safari yes"><span>Safari</span><span>9+</span></span><span class="chrome yes"><span>Chrome</span><span>26+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>12.1+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>12+</span></span><span class="ie yes"><span>IE</span><span>10+</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>16+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>9+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>26+</span></span><span class="webview_android yes"><span>Android WebView</span><span>37+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.5+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>12.1+</span></span>
+     </div>
+    </div>
+   </div>
    <p> The <a class="property" data-link-type="propdesc" href="#propdef-transition-duration" id="ref-for-propdef-transition-duration②">transition-duration</a> property defines the length of time that a transition takes. </p>
    <table class="def propdef" data-link-for-hint="transition-duration">
     <tbody>
@@ -546,32 +949,48 @@ on screen, on paper, etc.
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-transition-duration">transition-duration</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
-      <td class="prod"><a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#time-value" id="ref-for-time-value" title="Expands to: s | ms">&lt;time></a><a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-comma" id="ref-for-mult-comma①">#</a> 
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
+      <td class="prod"><a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#time-value" id="ref-for-time-value" title="Expands to: ms | s">&lt;time></a><a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-comma" id="ref-for-mult-comma①">#</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td><span class="css">0s</span> 
      <tr>
       <th>Applies to:
-      <td><a href="https://drafts.csswg.org/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
+      <td><a href="https://www.w3.org/TR/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>N/A 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>list, each item a duration 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>not animatable 
    </table>
    <p> This property specifies how long the transition from the old value to the new value should take. By default the value is <span class="css">0s</span>, meaning that the transition is immediate (i.e. there will be no animation). A negative value for <a class="property" data-link-type="propdesc" href="#propdef-transition-duration" id="ref-for-propdef-transition-duration③">transition-duration</a> renders the declaration invalid. </p>
    <h3 class="heading settled" data-level="2.3" id="transition-timing-function-property"><span class="secno">2.3. </span><span class="content"><span id="transition-timing-function_tag">The <a class="property" data-link-type="propdesc" href="#propdef-transition-timing-function" id="ref-for-propdef-transition-timing-function①">transition-timing-function</a> Property</span></span><a class="self-link" href="#transition-timing-function-property"></a></h3>
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transition-timing-function" title="The transition-timing-function CSS property sets how intermediate values are calculated for CSS properties being affected by a transition effect.">transition-timing-function</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>16+</span></span><span class="safari yes"><span>Safari</span><span>9+</span></span><span class="chrome yes"><span>Chrome</span><span>26+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>12.1+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>12+</span></span><span class="ie yes"><span>IE</span><span>10+</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>16+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>9+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>26+</span></span><span class="webview_android yes"><span>Android WebView</span><span>37+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.5+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>12.1+</span></span>
+     </div>
+    </div>
+   </div>
    <p> The <a class="property" data-link-type="propdesc" href="#propdef-transition-timing-function" id="ref-for-propdef-transition-timing-function②">transition-timing-function</a> property
         describes how the intermediate values used during a transition will be
         calculated. It allows for a transition to change speed over its
@@ -586,32 +1005,48 @@ on screen, on paper, etc.
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-transition-timing-function">transition-timing-function</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod"><a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-easing-1/#typedef-easing-function" id="ref-for-typedef-easing-function">&lt;easing-function></a><a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-comma" id="ref-for-mult-comma②">#</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td><span class="css">ease</span> 
      <tr>
       <th>Applies to:
-      <td><a href="https://drafts.csswg.org/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
+      <td><a href="https://www.w3.org/TR/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>N/A 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>as specified 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>not animatable 
    </table>
    <h3 class="heading settled" data-level="2.4" id="transition-delay-property"><span class="secno">2.4. </span><span class="content"><span id="the-transition-delay-property-">The <a class="property" data-link-type="propdesc" href="#propdef-transition-delay" id="ref-for-propdef-transition-delay①">transition-delay</a> Property</span></span><a class="self-link" href="#transition-delay-property"></a></h3>
-   <p> The <a class="property" data-link-type="propdesc" href="#propdef-transition-delay" id="ref-for-propdef-transition-delay②">transition-delay</a> property defines when the transition will start. It allows a transition to begin execution some some period of time from when it is applied. A <span class="property" id="ref-for-propdef-transition-delay③">transition-delay</span> value of <span class="css">0s</span> means the transition will execute as soon as the property is changed. Otherwise, the value specifies an offset from the moment the property is changed, and the transition will delay execution by that offset. </p>
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transition-delay" title="The transition-delay CSS property specifies the duration to wait before starting a property&apos;s transition effect when its value changes.">transition-delay</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>16+</span></span><span class="safari yes"><span>Safari</span><span>9+</span></span><span class="chrome yes"><span>Chrome</span><span>26+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>12.1+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>12+</span></span><span class="ie yes"><span>IE</span><span>10+</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>16+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>9+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>26+</span></span><span class="webview_android yes"><span>Android WebView</span><span>37+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.5+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>12.1+</span></span>
+     </div>
+    </div>
+   </div>
+   <p> The <a class="property" data-link-type="propdesc" href="#propdef-transition-delay" id="ref-for-propdef-transition-delay②">transition-delay</a> property defines when the transition will start. It allows a transition to begin execution after some period of time from when it is applied. A <span class="property" id="ref-for-propdef-transition-delay③">transition-delay</span> value of <span class="css">0s</span> means the transition will execute as soon as the property is changed. Otherwise, the value specifies an offset from the moment the property is changed, and the transition will delay execution by that offset. </p>
    <p> If the value for <a class="property" data-link-type="propdesc" href="#propdef-transition-delay" id="ref-for-propdef-transition-delay④">transition-delay</a> is a negative time offset then the transition will execute the moment the property is changed, but will appear to have begun execution at the specified offset. That is, the transition will appear to begin part-way through its play cycle. In the case where a transition has implied starting values and a negative <span class="property" id="ref-for-propdef-transition-delay⑤">transition-delay</span>, the starting values are taken from the moment the property is changed. </p>
    <table class="def propdef" data-link-for-hint="transition-delay">
     <tbody>
@@ -619,31 +1054,47 @@ on screen, on paper, etc.
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-transition-delay">transition-delay</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
-      <td class="prod"><a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#time-value" id="ref-for-time-value①" title="Expands to: s | ms">&lt;time></a><a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-comma" id="ref-for-mult-comma③">#</a> 
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
+      <td class="prod"><a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#time-value" id="ref-for-time-value①" title="Expands to: ms | s">&lt;time></a><a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-comma" id="ref-for-mult-comma③">#</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td><span class="css">0s</span> 
      <tr>
       <th>Applies to:
-      <td><a href="https://drafts.csswg.org/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
+      <td><a href="https://www.w3.org/TR/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>N/A 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>list, each item a duration 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>not animatable 
    </table>
    <h3 class="heading settled" data-level="2.5" id="transition-shorthand-property"><span class="secno">2.5. </span><span class="content"><span id="the-transition-shorthand-property-">The <a class="property" data-link-type="propdesc" href="#propdef-transition" id="ref-for-propdef-transition">transition</a> Shorthand Property</span></span><a class="self-link" href="#transition-shorthand-property"></a></h3>
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/transition" title="The transition CSS property is a shorthand property for transition-property, transition-duration, transition-timing-function, and transition-delay.">transition</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>16+</span></span><span class="safari yes"><span>Safari</span><span>9+</span></span><span class="chrome yes"><span>Chrome</span><span>26+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>12.1+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>12+</span></span><span class="ie yes"><span>IE</span><span>10+</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>16+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>9+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>26+</span></span><span class="webview_android yes"><span>Android WebView</span><span>37+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.5+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>12.1+</span></span>
+     </div>
+    </div>
+   </div>
    <p> The <a class="property" data-link-type="propdesc" href="#propdef-transition" id="ref-for-propdef-transition①">transition</a> shorthand property combines the four properties described above into a single property. </p>
    <table class="def propdef" data-link-for-hint="transition">
     <tbody>
@@ -651,34 +1102,34 @@ on screen, on paper, etc.
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-transition">transition</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod"><a class="production css" data-link-type="type" href="#single-transition" id="ref-for-single-transition">&lt;single-transition></a><a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-comma" id="ref-for-mult-comma④">#</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>see individual properties 
      <tr>
       <th>Applies to:
-      <td><a href="https://drafts.csswg.org/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
+      <td><a href="https://www.w3.org/TR/css-pseudo/#generated-content" title="Includes ::before and ::after pseudo-elements.">all elements</a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>N/A 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>see individual properties 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animatable:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animatable:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>not animatable 
    </table>
-   <div class="prod"> <dfn class="dfn-paneled css" data-dfn-type="type" data-export id="single-transition">&lt;single-transition></dfn> = [ <a class="css" data-link-type="maybe" href="#valdef-transition-property-none" id="ref-for-valdef-transition-property-none③">none</a> <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one②">|</a> <a class="production css" data-link-type="type" href="#single-transition-property" id="ref-for-single-transition-property②">&lt;single-transition-property></a> ] <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-any" id="ref-for-comb-any">||</a> <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#time-value" id="ref-for-time-value②" title="Expands to: s | ms">&lt;time></a> <span id="ref-for-comb-any①">||</span> <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-easing-1/#typedef-easing-function" id="ref-for-typedef-easing-function①">&lt;easing-function></a> <span id="ref-for-comb-any②">||</span> <span class="production" id="ref-for-time-value③" title="Expands to: s | ms">&lt;time></span> </div>
+   <div class="prod"> <dfn class="dfn-paneled css" data-dfn-type="type" data-export id="single-transition">&lt;single-transition></dfn> = [ <a class="css" data-link-type="maybe" href="#valdef-transition-property-none" id="ref-for-valdef-transition-property-none③">none</a> <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one②">|</a> <a class="production css" data-link-type="type" href="#single-transition-property" id="ref-for-single-transition-property②">&lt;single-transition-property></a> ] <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-any" id="ref-for-comb-any">||</a> <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#time-value" id="ref-for-time-value②" title="Expands to: ms | s">&lt;time></a> <span id="ref-for-comb-any①">||</span> <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-easing-1/#typedef-easing-function" id="ref-for-typedef-easing-function①">&lt;easing-function></a> <span id="ref-for-comb-any②">||</span> <span class="production" id="ref-for-time-value③" title="Expands to: ms | s">&lt;time></span> </div>
    <p> Note that order is important within the items in this property:
         the first value that can be parsed as a time is assigned to the
         transition-duration,
@@ -722,7 +1173,7 @@ on screen, on paper, etc.
           implementations could start additional transitions on the child
           after the initial 1 second transition on the child completes. </p>
    </div>
-   <p> Various things can cause the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-4/#computed-value" id="ref-for-computed-value②">computed values</a> of properties
+   <p> Various things can cause the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value②">computed values</a> of properties
         on an element to change.
         These include
         insertion and removal of elements from the document tree
@@ -763,7 +1214,7 @@ on screen, on paper, etc.
         simultaneous in some implementations but not others. </p>
    <p> When a <a data-link-type="dfn" href="#style-change-event" id="ref-for-style-change-event②">style change event</a> occurs,
         implementations must start transitions based on
-        the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-4/#computed-value" id="ref-for-computed-value①⓪">computed values</a> that changed in that event.
+        the <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#computed-value" id="ref-for-computed-value①⓪">computed values</a> that changed in that event.
         If an element is not in the document during that
         style change event or was not in the document during
         the previous style change event,
@@ -1001,7 +1452,7 @@ li:hover {
   transition-duration: 2s; /* applies to the transition *to* the :hover state */
 }</pre>
      <p> When a list item with these style rules enters the :hover
-            state, the computed <a class="property" data-link-type="propdesc" href="#propdef-transition-duration" id="ref-for-propdef-transition-duration⑦">transition-duration</a> at the time that <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/colors.html#propdef-background-color" id="ref-for-propdef-background-color②">background-color</a> would have its new value (<span class="css">green</span>) is <span class="css">2s</span>,
+            state, the computed <a class="property" data-link-type="propdesc" href="#propdef-transition-duration" id="ref-for-propdef-transition-duration⑦">transition-duration</a> at the time that <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css2/#propdef-background-color" id="ref-for-propdef-background-color②">background-color</a> would have its new value (<span class="css">green</span>) is <span class="css">2s</span>,
             so the transition from <span class="css">blue</span> to <span class="css">green</span> takes 2 seconds.
             However, when the list item leaves the :hover state, the
             transition from <span class="css">green</span> to <span class="css">blue</span> takes 1 second. </p>
@@ -1095,7 +1546,7 @@ li:hover {
       is defined by the property’s <a data-link-type="dfn" href="https://drafts.csswg.org/web-animations-1/#animation-type" id="ref-for-animation-type④">animation type</a>.</p>
    <h2 class="heading settled" data-level="5" id="complete"><span class="secno">5. </span><span class="content">Completion of transitions</span><a class="self-link" href="#complete"></a></h2>
    <p> <a data-link-type="dfn" href="#running-transition" id="ref-for-running-transition①⑧">Running transitions</a> <dfn class="dfn-paneled" data-dfn-for="transition" data-dfn-type="dfn" data-export id="dfn-complete">complete</dfn> at a time that is equal to or after their end time,
-        but prior to to the first <a data-link-type="dfn" href="#style-change-event" id="ref-for-style-change-event⑨">style change event</a> whose time is equal to or after their <a data-link-type="dfn" href="#transition-end-time" id="ref-for-transition-end-time④">end time</a>.
+        but prior to the first <a data-link-type="dfn" href="#style-change-event" id="ref-for-style-change-event⑨">style change event</a> whose time is equal to or after their <a data-link-type="dfn" href="#transition-end-time" id="ref-for-transition-end-time④">end time</a>.
         When a transition completes,
         implementations must move
         all transitions that complete at that time
@@ -1118,35 +1569,101 @@ with changes to transitions.</p>
    <p>Each event provides the name of the property the transition is
 associated with as well as the duration of the transition.</p>
    <h3 class="heading settled" data-level="6.1" id="interface-transitionevent"><span class="secno">6.1. </span><span class="content">Interface <code class="idl"><a data-link-type="idl" href="#transitionevent" id="ref-for-transitionevent">TransitionEvent</a></code></span><a class="self-link" href="#interface-transitionevent"></a></h3>
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/TransitionEvent" title="The TransitionEvent interface represents events providing information related to transitions.">TransitionEvent</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>4+</span></span><span class="safari yes"><span>Safari</span><span>Yes</span></span><span class="chrome yes"><span>Chrome</span><span>27+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>Yes</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>12+</span></span><span class="ie yes"><span>IE</span><span>10+</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>4+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>Yes</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>27+</span></span><span class="webview_android yes"><span>Android WebView</span><span>37+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>2.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>Yes</span></span>
+     </div>
+    </div>
+   </div>
    <p>The <code class="idl"><a data-link-type="idl" href="#transitionevent" id="ref-for-transitionevent①">TransitionEvent</a></code> interface provides specific contextual information
 associated with transitions.</p>
    <h4 class="heading settled" data-level="6.1.1" id="interface-transitionevent-idl"><span class="secno">6.1.1. </span><span class="content">IDL Definition</span><a class="self-link" href="#interface-transitionevent-idl"></a></h4>
-<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->,
- <a class="idl-code" data-link-type="constructor" href="#dom-transitionevent-transitionevent" id="ref-for-dom-transitionevent-transitionevent"><c- g>Constructor</c-></a>(<a class="n" data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring"><c- n>CSSOMString</c-></a> <dfn class="idl-code" data-dfn-for="TransitionEvent/TransitionEvent(type, transitionEventInitDict)" data-dfn-type="argument" data-export id="dom-transitionevent-transitionevent-type-transitioneventinitdict-type"><code><c- g>type</c-></code><a class="self-link" href="#dom-transitionevent-transitionevent-type-transitioneventinitdict-type"></a></dfn>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-transitioneventinit" id="ref-for-dictdef-transitioneventinit"><c- n>TransitionEventInit</c-></a> <dfn class="idl-code" data-dfn-for="TransitionEvent/TransitionEvent(type, transitionEventInitDict)" data-dfn-type="argument" data-export id="dom-transitionevent-transitionevent-type-transitioneventinitdict-transitioneventinitdict"><code><c- g>transitionEventInitDict</c-></code><a class="self-link" href="#dom-transitionevent-transitionevent-type-transitioneventinitdict-transitioneventinitdict"></a></dfn> = {})]
-<c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="transitionevent"><code><c- g>TransitionEvent</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#event" id="ref-for-event"><c- n>Event</c-></a> {
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring①"><c- n>CSSOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="CSSOMString" href="#Events-TransitionEvent-propertyName" id="ref-for-Events-TransitionEvent-propertyName"><c- g>propertyName</c-></a>;
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="transitionevent"><code><c- g>TransitionEvent</c-></code></dfn> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#event" id="ref-for-event"><c- n>Event</c-></a> {
+  <a class="idl-code" data-link-type="constructor" href="#dom-transitionevent-transitionevent" id="ref-for-dom-transitionevent-transitionevent"><c- g>constructor</c-></a>(<a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring"><c- n>CSSOMString</c-></a> <dfn class="idl-code" data-dfn-for="TransitionEvent/TransitionEvent(type, transitionEventInitDict), TransitionEvent/constructor(type, transitionEventInitDict), TransitionEvent/TransitionEvent(type), TransitionEvent/constructor(type)" data-dfn-type="argument" data-export id="dom-transitionevent-transitionevent-type-transitioneventinitdict-type"><code><c- g>type</c-></code><a class="self-link" href="#dom-transitionevent-transitionevent-type-transitioneventinitdict-type"></a></dfn>, <c- b>optional</c-> <a data-link-type="idl-name" href="#dictdef-transitioneventinit" id="ref-for-dictdef-transitioneventinit"><c- n>TransitionEventInit</c-></a> <dfn class="idl-code" data-dfn-for="TransitionEvent/TransitionEvent(type, transitionEventInitDict), TransitionEvent/constructor(type, transitionEventInitDict), TransitionEvent/TransitionEvent(type), TransitionEvent/constructor(type)" data-dfn-type="argument" data-export id="dom-transitionevent-transitionevent-type-transitioneventinitdict-transitioneventinitdict"><code><c- g>transitionEventInitDict</c-></code><a class="self-link" href="#dom-transitionevent-transitionevent-type-transitioneventinitdict-transitioneventinitdict"></a></dfn> = {});
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring①"><c- n>CSSOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="CSSOMString" href="#Events-TransitionEvent-propertyName" id="ref-for-Events-TransitionEvent-propertyName"><c- g>propertyName</c-></a>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-double" id="ref-for-idl-double"><c- b>double</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="double" href="#Events-TransitionEvent-elapsedTime" id="ref-for-Events-TransitionEvent-elapsedTime"><c- g>elapsedTime</c-></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring②"><c- n>CSSOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="CSSOMString" href="#Events-TransitionEvent-pseudoElement" id="ref-for-Events-TransitionEvent-pseudoElement"><c- g>pseudoElement</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring②"><c- n>CSSOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="CSSOMString" href="#Events-TransitionEvent-pseudoElement" id="ref-for-Events-TransitionEvent-pseudoElement"><c- g>pseudoElement</c-></a>;
 };
 
-<c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-transitioneventinit"><code><c- g>TransitionEventInit</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#dictdef-eventinit" id="ref-for-dictdef-eventinit"><c- n>EventInit</c-></a> {
-  <a class="n" data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring③"><c- n>CSSOMString</c-></a> <dfn class="idl-code" data-default="&quot;&quot;" data-dfn-for="TransitionEventInit" data-dfn-type="dict-member" data-export data-type="CSSOMString " id="dom-transitioneventinit-propertyname"><code><c- g>propertyName</c-></code><a class="self-link" href="#dom-transitioneventinit-propertyname"></a></dfn> = "";
+<c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-transitioneventinit"><code><c- g>TransitionEventInit</c-></code></dfn> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#dictdef-eventinit" id="ref-for-dictdef-eventinit"><c- n>EventInit</c-></a> {
+  <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring③"><c- n>CSSOMString</c-></a> <dfn class="idl-code" data-default="&quot;&quot;" data-dfn-for="TransitionEventInit" data-dfn-type="dict-member" data-export data-type="CSSOMString " id="dom-transitioneventinit-propertyname"><code><c- g>propertyName</c-></code><a class="self-link" href="#dom-transitioneventinit-propertyname"></a></dfn> = "";
   <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-double" id="ref-for-idl-double①"><c- b>double</c-></a> <dfn class="idl-code" data-default="0.0" data-dfn-for="TransitionEventInit" data-dfn-type="dict-member" data-export data-type="double " id="dom-transitioneventinit-elapsedtime"><code><c- g>elapsedTime</c-></code><a class="self-link" href="#dom-transitioneventinit-elapsedtime"></a></dfn> = 0.0;
-  <a class="n" data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring④"><c- n>CSSOMString</c-></a> <dfn class="idl-code" data-default="&quot;&quot;" data-dfn-for="TransitionEventInit" data-dfn-type="dict-member" data-export data-type="CSSOMString " id="dom-transitioneventinit-pseudoelement"><code><c- g>pseudoElement</c-></code><a class="self-link" href="#dom-transitioneventinit-pseudoelement"></a></dfn> = "";
+  <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring④"><c- n>CSSOMString</c-></a> <dfn class="idl-code" data-default="&quot;&quot;" data-dfn-for="TransitionEventInit" data-dfn-type="dict-member" data-export data-type="CSSOMString " id="dom-transitioneventinit-pseudoelement"><code><c- g>pseudoElement</c-></code><a class="self-link" href="#dom-transitioneventinit-pseudoelement"></a></dfn> = "";
 };
 </pre>
    <h4 class="heading settled" data-level="6.1.2" id="interface-transitionevent-attributes"><span class="secno">6.1.2. </span><span class="content">Attributes</span><a class="self-link" href="#interface-transitionevent-attributes"></a></h4>
    <dl>
-    <dt data-md><code class="attribute-name"><dfn class="dfn-paneled idl-code" data-dfn-for="TransitionEvent" data-dfn-type="attribute" data-export id="Events-TransitionEvent-propertyName"><code>propertyName</code></dfn>, <span> of type <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring⑤">CSSOMString</a>, readonly</span></code>
+    <dt data-md>
+     <div class="mdn-anno wrapped">
+      <button class="mdn-anno-btn"><span>MDN</span></button>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/TransitionEvent/animationName" title="The TransitionEvent.transitionName read-only property is a DOMString containing the name of the CSS property associated with the transition.">TransitionEvent/animationName</a></p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>4+</span></span><span class="safari yes"><span>Safari</span><span>Yes</span></span><span class="chrome no"><span>Chrome</span><span>None</span></span>
+        <hr>
+        <span class="opera yes"><span>Opera</span><span>Yes</span></span><span class="edge_blink no"><span>Edge</span><span>None</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie yes"><span>IE</span><span>10+</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>4+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>Yes</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>None</span></span><span class="webview_android no"><span>Android WebView</span><span>None</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>None</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>Yes</span></span>
+       </div>
+      </div>
+     </div>
+     <p><code class="attribute-name"><dfn class="dfn-paneled idl-code" data-dfn-for="TransitionEvent" data-dfn-type="attribute" data-export id="Events-TransitionEvent-propertyName"><code>propertyName</code></dfn>, <span> of type <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring⑤">CSSOMString</a>, readonly</span></code></p>
     <dd data-md>
      <p>The name of the CSS property associated with the transition.</p>
      <p class="note" role="note">Note:  This is always the name of a longhand property.  See <a class="property" data-link-type="propdesc" href="#propdef-transition-property" id="ref-for-propdef-transition-property①⓪">transition-property</a> for how specifying shorthand properties causes transitions on longhands.</p>
-    <dt data-md><code class="attribute-name"><dfn class="dfn-paneled idl-code" data-dfn-for="TransitionEvent" data-dfn-type="attribute" data-export id="Events-TransitionEvent-elapsedTime"><code>elapsedTime</code></dfn>, <span> of type <a data-link-type="idl-name" href="https://heycam.github.io/webidl/#idl-double" id="ref-for-idl-double②">double</a>, readonly</span></code>
+    <dt data-md>
+     <div class="mdn-anno wrapped">
+      <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/TransitionEvent/elapsedTime" title="The TransitionEvent.elapsedTime read-only property is a float giving the amount of time the animation has been running, in seconds, when this event fired. This value is not affected by the transition-delay property.">TransitionEvent/elapsedTime</a></p>
+       <p class="all-engines-text">In all current engines.</p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>4+</span></span><span class="safari yes"><span>Safari</span><span>6+</span></span><span class="chrome yes"><span>Chrome</span><span>2+</span></span>
+        <hr>
+        <span class="opera yes"><span>Opera</span><span>Yes</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+        <hr>
+        <span class="edge yes"><span>Edge (Legacy)</span><span>12+</span></span><span class="ie yes"><span>IE</span><span>10+</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>4+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>Yes</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>18+</span></span><span class="webview_android yes"><span>Android WebView</span><span>37+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>Yes</span></span>
+       </div>
+      </div>
+     </div>
+     <p><code class="attribute-name"><dfn class="dfn-paneled idl-code" data-dfn-for="TransitionEvent" data-dfn-type="attribute" data-export id="Events-TransitionEvent-elapsedTime"><code>elapsedTime</code></dfn>, <span> of type <a data-link-type="idl-name" href="https://heycam.github.io/webidl/#idl-double" id="ref-for-idl-double②">double</a>, readonly</span></code></p>
     <dd data-md>
      <p>The amount of time the transition has been running, in seconds, when this
 event fired not including any time spent in the delay phase.
 The calculation for of this member is defined along with each event type.</p>
-    <dt data-md><code class="attribute-name"><dfn class="dfn-paneled idl-code" data-dfn-for="TransitionEvent" data-dfn-type="attribute" data-export id="Events-TransitionEvent-pseudoElement"><code>pseudoElement</code></dfn>, <span> of type <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring⑥">CSSOMString</a>, readonly</span></code>
+    <dt data-md>
+     <div class="mdn-anno wrapped">
+      <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/TransitionEvent/pseudoElement" title="The TransitionEvent.pseudoElement read-only property is a DOMString, starting with &apos;::&apos;, containing the name of the pseudo-element the animation runs on. If the transition doesn&apos;t run on a pseudo-element but on the element, an empty string: &apos;&apos;.">TransitionEvent/pseudoElement</a></p>
+       <p class="all-engines-text">In all current engines.</p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>23+</span></span><span class="safari yes"><span>Safari</span><span>6+</span></span><span class="chrome yes"><span>Chrome</span><span>2+</span></span>
+        <hr>
+        <span class="opera yes"><span>Opera</span><span>Yes</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>23+</span></span><span class="safari_ios no"><span>iOS Safari</span><span>None</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>18+</span></span><span class="webview_android yes"><span>Android WebView</span><span>37+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>Yes</span></span>
+       </div>
+      </div>
+     </div>
+     <p><code class="attribute-name"><dfn class="dfn-paneled idl-code" data-dfn-for="TransitionEvent" data-dfn-type="attribute" data-export id="Events-TransitionEvent-pseudoElement"><code>pseudoElement</code></dfn>, <span> of type <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring⑥">CSSOMString</a>, readonly</span></code></p>
     <dd data-md>
      <p>The name (beginning with two colons) of the CSS
 pseudo-element on which the transition occurred (in
@@ -1155,11 +1672,67 @@ pseudo-element’s corresponding element), or the empty
 string if the transition occurred on an element (which
 means the target of the event is that element).</p>
    </dl>
-   <p><code id="TransitionEvent-constructor"><dfn class="dfn-paneled idl-code" data-dfn-for="TransitionEvent" data-dfn-type="constructor" data-export data-lt="TransitionEvent(type, transitionEventInitDict)|TransitionEvent(type)" id="dom-transitionevent-transitionevent"><code>TransitionEvent(type, transitionEventInitDict)</code></dfn></code> is an <a data-link-type="dfn" href="http://w3c.github.io/dom/#constructing-events" id="ref-for-constructing-events">event constructor</a>.</p>
+   <div class="mdn-anno wrapped">
+    <button class="mdn-anno-btn"><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/TransitionEvent/TransitionEvent" title="The TransitionEvent() constructor returns a newly created TransitionEvent, representing an event in relation with an transition.">TransitionEvent/TransitionEvent</a></p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>23+</span></span><span class="safari no"><span>Safari</span><span>None</span></span><span class="chrome yes"><span>Chrome</span><span>27+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>Yes</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>23+</span></span><span class="safari_ios no"><span>iOS Safari</span><span>None</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>27+</span></span><span class="webview_android yes"><span>Android WebView</span><span>37+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>2.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>Yes</span></span>
+     </div>
+    </div>
+   </div>
+   <p><code id="TransitionEvent-constructor"><dfn class="dfn-paneled idl-code" data-dfn-for="TransitionEvent" data-dfn-type="constructor" data-export data-lt="TransitionEvent(type, transitionEventInitDict)|constructor(type, transitionEventInitDict)|TransitionEvent(type)|constructor(type)" id="dom-transitionevent-transitionevent"><code>TransitionEvent(type, transitionEventInitDict)</code></dfn></code> is an <a data-link-type="dfn" href="http://w3c.github.io/dom/#constructing-events" id="ref-for-constructing-events">event constructor</a>.</p>
    <h3 class="heading settled" data-level="6.2" id="event-transitionevent"><span class="secno">6.2. </span><span class="content">Types of <code>TransitionEvent</code></span><a class="self-link" href="#event-transitionevent"></a></h3>
    <p>The different types of transition events that can occur are:</p>
    <dl>
-    <dt><dfn class="dfn-paneled idl-code" data-dfn-for="transitionevent" data-dfn-type="event" data-export id="transitionrun"><code>transitionrun</code></dfn>
+    <dt>
+     <div class="mdn-anno wrapped">
+      <button class="mdn-anno-btn"><span>MDN</span></button>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/transitionrun_event" title="The transitionrun event is fired when a CSS transition is first created, i.e. before any transition-delay has begun.">Document/transitionrun_event</a></p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>53+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome no"><span>Chrome</span><span>None</span></span>
+        <hr>
+        <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink no"><span>Edge</span><span>None</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>?</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>53+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>None</span></span><span class="webview_android no"><span>Android WebView</span><span>None</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>None</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+       </div>
+      </div>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/transitionrun_event" title="The transitionrun event is fired when a CSS transition is first created, i.e. before any transition-delay has begun.">HTMLElement/transitionrun_event</a></p>
+       <p class="all-engines-text">In all current engines.</p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>53+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome yes"><span>Chrome</span><span>74+</span></span>
+        <hr>
+        <span class="opera yes"><span>Opera</span><span>62+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>?</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>53+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>74+</span></span><span class="webview_android yes"><span>Android WebView</span><span>74+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>11.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>53+</span></span>
+       </div>
+      </div>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/transitionrun_event" title="The transitionrun event is fired when a CSS transition is first created, i.e. before any transition-delay has begun.">Window/transitionrun_event</a></p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>53+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome no"><span>Chrome</span><span>None</span></span>
+        <hr>
+        <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink no"><span>Edge</span><span>None</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>?</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>53+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>None</span></span><span class="webview_android no"><span>Android WebView</span><span>None</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>None</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+       </div>
+      </div>
+     </div>
+     <dfn class="dfn-paneled idl-code" data-dfn-for="transitionevent" data-dfn-type="event" data-export id="transitionrun"><code>transitionrun</code></dfn>
     <dd>
       The <code class="idl"><a data-link-type="idl" href="#transitionrun" id="ref-for-transitionrun">transitionrun</a></code> event occurs when a transition is created (i.e.,
       when it is added to the set of <a data-link-type="dfn" href="#running-transition" id="ref-for-running-transition②①">running transitions</a>). 
@@ -1172,7 +1745,48 @@ means the target of the event is that element).</p>
       <li>Cancelable: No
       <li>Context Info: propertyName, elapsedTime, pseudoElement
      </ul>
-    <dt><dfn class="dfn-paneled idl-code" data-dfn-for="transitionevent" data-dfn-type="event" data-export id="transitionstart"><code>transitionstart</code></dfn>
+    <dt>
+     <div class="mdn-anno wrapped">
+      <button class="mdn-anno-btn"><span>MDN</span></button>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/transitionstart_event" title="The transitionstart event is fired when a CSS transition has actually started, i.e., after any transition-delay has ended.">Document/transitionstart_event</a></p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>53+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome no"><span>Chrome</span><span>None</span></span>
+        <hr>
+        <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink no"><span>Edge</span><span>None</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>?</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>53+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>None</span></span><span class="webview_android no"><span>Android WebView</span><span>None</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>None</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+       </div>
+      </div>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/transitionstart_event" title="The transitionstart event is fired when a CSS transition has actually started, i.e., after any transition-delay has ended.">HTMLElement/transitionstart_event</a></p>
+       <p class="all-engines-text">In all current engines.</p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>53+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome yes"><span>Chrome</span><span>74+</span></span>
+        <hr>
+        <span class="opera yes"><span>Opera</span><span>62+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>?</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>53+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>74+</span></span><span class="webview_android yes"><span>Android WebView</span><span>74+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>11.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>53+</span></span>
+       </div>
+      </div>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/transitionstart_event" title="The transitionstart event is fired when a CSS transition has actually started, i.e., after any transition-delay has ended.">Window/transitionstart_event</a></p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>53+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome no"><span>Chrome</span><span>None</span></span>
+        <hr>
+        <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink no"><span>Edge</span><span>None</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>?</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>53+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>None</span></span><span class="webview_android no"><span>Android WebView</span><span>None</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>None</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+       </div>
+      </div>
+     </div>
+     <dfn class="dfn-paneled idl-code" data-dfn-for="transitionevent" data-dfn-type="event" data-export id="transitionstart"><code>transitionstart</code></dfn>
     <dd>
       The <code class="idl"><a data-link-type="idl" href="#transitionstart" id="ref-for-transitionstart">transitionstart</a></code> event occurs when a transition’s delay phase ends. 
      <p>The value of <code class="idl"><a data-link-type="idl" href="#Events-TransitionEvent-elapsedTime" id="ref-for-Events-TransitionEvent-elapsedTime②">elapsedTime</a></code> for <code class="idl"><a data-link-type="idl" href="#transitionstart" id="ref-for-transitionstart①">transitionstart</a></code> events is the same as the value used for <code class="idl"><a data-link-type="idl" href="#transitionrun" id="ref-for-transitionrun①">transitionrun</a></code> events.</p>
@@ -1181,7 +1795,48 @@ means the target of the event is that element).</p>
       <li>Cancelable: No
       <li>Context Info: propertyName, elapsedTime, pseudoElement
      </ul>
-    <dt><dfn class="dfn-paneled idl-code" data-dfn-for="transitionevent" data-dfn-type="event" data-export id="transitionend"><code>transitionend</code></dfn>
+    <dt>
+     <div class="mdn-anno wrapped">
+      <button class="mdn-anno-btn"><span>MDN</span></button>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/transitionend_event" title="The transitionend event is fired when a CSS transition has completed. In the case where a transition is removed before completion, such as if the transition-property is removed or display is set to none, then the event will not be generated.">Document/transitionend_event</a></p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>51+</span></span><span class="safari yes"><span>Safari</span><span>Yes</span></span><span class="chrome no"><span>Chrome</span><span>None</span></span>
+        <hr>
+        <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink no"><span>Edge</span><span>None</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>?</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>51+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>Yes</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>None</span></span><span class="webview_android no"><span>Android WebView</span><span>None</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>None</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+       </div>
+      </div>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/transitionend_event" title="The transitionend event is fired when a CSS transition has completed. In the case where a transition is removed before completion, such as if the transition-property is removed or display is set to none, then the event will not be generated.">HTMLElement/transitionend_event</a></p>
+       <p class="all-engines-text">In all current engines.</p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>51+</span></span><span class="safari yes"><span>Safari</span><span>6.1+</span></span><span class="chrome yes"><span>Chrome</span><span>26+</span></span>
+        <hr>
+        <span class="opera yes"><span>Opera</span><span>12.1+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie yes"><span>IE</span><span>10+</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>51+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>7+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>26+</span></span><span class="webview_android yes"><span>Android WebView</span><span>37+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.5+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>12.1+</span></span>
+       </div>
+      </div>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/transitionend_event" title="The transitionend event is fired when a CSS transition has completed. In the case where a transition is removed before completion, such as if the transition-property is removed or display is set to none, then the event will not be generated.">Window/transitionend_event</a></p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>51+</span></span><span class="safari yes"><span>Safari</span><span>Yes</span></span><span class="chrome no"><span>Chrome</span><span>None</span></span>
+        <hr>
+        <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink no"><span>Edge</span><span>None</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>?</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>51+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>Yes</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>None</span></span><span class="webview_android no"><span>Android WebView</span><span>None</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>None</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+       </div>
+      </div>
+     </div>
+     <dfn class="dfn-paneled idl-code" data-dfn-for="transitionevent" data-dfn-type="event" data-export id="transitionend"><code>transitionend</code></dfn>
     <dd>
       The <code class="idl"><a data-link-type="idl" href="#transitionend" id="ref-for-transitionend">transitionend</a></code> event occurs at the completion of the transition. In
       the case where a transition is removed before completion, such as if the <a class="property" data-link-type="propdesc" href="#propdef-transition-property" id="ref-for-propdef-transition-property①①">transition-property</a> is removed, then the event will not fire. 
@@ -1192,7 +1847,48 @@ means the target of the event is that element).</p>
       <li>Cancelable: No
       <li>Context Info: propertyName, elapsedTime, pseudoElement
      </ul>
-    <dt><dfn class="dfn-paneled idl-code" data-dfn-for="transitionevent" data-dfn-type="event" data-export id="transitioncancel"><code>transitioncancel</code></dfn>
+    <dt>
+     <div class="mdn-anno wrapped">
+      <button class="mdn-anno-btn"><span>MDN</span></button>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/transitioncancel_event" title="The transitioncancel event is fired when a CSS transition is canceled.">Document/transitioncancel_event</a></p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>53+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome no"><span>Chrome</span><span>None</span></span>
+        <hr>
+        <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink no"><span>Edge</span><span>None</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>?</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>53+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>None</span></span><span class="webview_android no"><span>Android WebView</span><span>None</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>None</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+       </div>
+      </div>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/transitioncancel_event" title="The transitioncancel event is fired when a CSS transition is canceled.">HTMLElement/transitioncancel_event</a></p>
+       <p class="all-engines-text">In all current engines.</p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>53+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome yes"><span>Chrome</span><span>74+</span></span>
+        <hr>
+        <span class="opera yes"><span>Opera</span><span>62+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>?</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>53+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>74+</span></span><span class="webview_android yes"><span>Android WebView</span><span>74+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>11.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>53+</span></span>
+       </div>
+      </div>
+      <div class="feature">
+       <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/transitioncancel_event" title="The transitioncancel event is fired when a CSS transition is canceled.">Window/transitioncancel_event</a></p>
+       <div class="support">
+        <span class="firefox yes"><span>Firefox</span><span>53+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome no"><span>Chrome</span><span>None</span></span>
+        <hr>
+        <span class="opera no"><span>Opera</span><span>?</span></span><span class="edge_blink no"><span>Edge</span><span>None</span></span>
+        <hr>
+        <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>?</span></span>
+        <hr>
+        <span class="firefox_android yes"><span>Firefox for Android</span><span>53+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android no"><span>Chrome for Android</span><span>None</span></span><span class="webview_android no"><span>Android WebView</span><span>None</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>None</span></span><span class="opera_android no"><span>Opera Mobile</span><span>?</span></span>
+       </div>
+      </div>
+     </div>
+     <dfn class="dfn-paneled idl-code" data-dfn-for="transitionevent" data-dfn-type="event" data-export id="transitioncancel"><code>transitioncancel</code></dfn>
     <dd>
       The <code class="idl"><a data-link-type="idl" href="#transitioncancel" id="ref-for-transitioncancel">transitioncancel</a></code> event occurs when a transition is <a data-link-type="dfn" href="#transition-cancel" id="ref-for-transition-cancel⑥">canceled</a>. 
      <p>The <code class="idl"><a data-link-type="idl" href="#Events-TransitionEvent-elapsedTime" id="ref-for-Events-TransitionEvent-elapsedTime④">elapsedTime</a></code> for <code class="idl"><a data-link-type="idl" href="#transitioncancel" id="ref-for-transitioncancel①">transitioncancel</a></code> events is
@@ -1235,11 +1931,40 @@ attributes</a>; and that must be supported by all <code class="idl"><a data-link
    <p>This specification extends the <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers" id="ref-for-globaleventhandlers">GlobalEventHandlers</a></code> interface mixin from HTML to
 add <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-idl-attributes" id="ref-for-event-handler-idl-attributes②">event handler IDL attributes</a> for <a href="#transition-events">transition events</a> as defined in <a href="#event-handlers-on-elements-document-objects-and-window-objects">§ 6.3 Event handlers on elements, Document objects, and Window objects</a>.</p>
    <h3 class="heading settled" data-level="7.1" id="interface-globaleventhandlers-idl"><span class="secno">7.1. </span><span class="content">IDL Definition</span><a class="self-link" href="#interface-globaleventhandlers-idl"></a></h3>
+   <div class="mdn-anno wrapped">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/ontransitioncancel" title="The ontransitioncancel property of the GlobalEventHandlers mixin is an EventHandler that processes transitioncancel events.">GlobalEventHandlers/ontransitioncancel</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>53+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome yes"><span>Chrome</span><span>87+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>73+</span></span><span class="edge_blink yes"><span>Edge</span><span>87+</span></span>
+      <hr>
+      <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>53+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>87+</span></span><span class="webview_android yes"><span>Android WebView</span><span>87+</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>None</span></span><span class="opera_android no"><span>Opera Mobile</span><span>None</span></span>
+     </div>
+    </div>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/GlobalEventHandlers/ontransitionend" title="The ontransitionend property of the GlobalEventHandlers mixin is an EventHandler that processes transitionend events.">GlobalEventHandlers/ontransitionend</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>51+</span></span><span class="safari yes"><span>Safari</span><span>11+</span></span><span class="chrome yes"><span>Chrome</span><span>79+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>66+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>18</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>51+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>11+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>79+</span></span><span class="webview_android yes"><span>Android WebView</span><span>79+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>11.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>57+</span></span>
+     </div>
+    </div>
+   </div>
 <pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <c- b>mixin</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers" id="ref-for-globaleventhandlers①"><c- g>GlobalEventHandlers</c-></a> {
-  <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler"><c- n>EventHandler</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="GlobalEventHandlers" data-dfn-type="attribute" data-export data-type="EventHandler" id="dom-globaleventhandlers-ontransitionrun"><code><c- g>ontransitionrun</c-></code></dfn>;
-  <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler①"><c- n>EventHandler</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="GlobalEventHandlers" data-dfn-type="attribute" data-export data-type="EventHandler" id="dom-globaleventhandlers-ontransitionstart"><code><c- g>ontransitionstart</c-></code></dfn>;
-  <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler②"><c- n>EventHandler</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="GlobalEventHandlers" data-dfn-type="attribute" data-export data-type="EventHandler" id="dom-globaleventhandlers-ontransitionend"><code><c- g>ontransitionend</c-></code></dfn>;
-  <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler③"><c- n>EventHandler</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="GlobalEventHandlers" data-dfn-type="attribute" data-export data-type="EventHandler" id="dom-globaleventhandlers-ontransitioncancel"><code><c- g>ontransitioncancel</c-></code></dfn>;
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler"><c- n>EventHandler</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="GlobalEventHandlers" data-dfn-type="attribute" data-export data-type="EventHandler" id="dom-globaleventhandlers-ontransitionrun"><code><c- g>ontransitionrun</c-></code></dfn>;
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler①"><c- n>EventHandler</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="GlobalEventHandlers" data-dfn-type="attribute" data-export data-type="EventHandler" id="dom-globaleventhandlers-ontransitionstart"><code><c- g>ontransitionstart</c-></code></dfn>;
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler②"><c- n>EventHandler</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="GlobalEventHandlers" data-dfn-type="attribute" data-export data-type="EventHandler" id="dom-globaleventhandlers-ontransitionend"><code><c- g>ontransitionend</c-></code></dfn>;
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler③"><c- n>EventHandler</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="GlobalEventHandlers" data-dfn-type="attribute" data-export data-type="EventHandler" id="dom-globaleventhandlers-ontransitioncancel"><code><c- g>ontransitioncancel</c-></code></dfn>;
 };
 </pre>
    <h2 class="heading settled" data-level="8" id="security"><span class="secno">8. </span><span class="content">Security Considerations</span><a class="self-link" href="#security"></a></h2>
@@ -1301,7 +2026,7 @@ even if the transitions were not run as continuous animations.
 However, it is probably poor practice for Web content to depend on
 such events to function correctly.</p>
    <h3 class="heading settled" data-level="10.2" id="accessibility-cascade"><span class="secno">10.2. </span><span class="content">Cascade</span><a class="self-link" href="#accessibility-cascade"></a></h3>
-   <p>The CSS <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-4/#cascade" id="ref-for-cascade">cascade</a> is a general mechanism in CSS
+   <p>The CSS <a data-link-type="dfn" href="https://drafts.csswg.org/css-cascade-5/#cascade" id="ref-for-cascade">cascade</a> is a general mechanism in CSS
 that allows user needs to interact with author styles.
 This specification interacts with the cascade,
 but since it only allows animation between values
@@ -1359,95 +2084,89 @@ Jasper St. Pierre,
 Estelle Weyl,
 and all the rest of the <a href="http://lists.w3.org/Archives/Public/www-style/">www-style</a> community.</p>
   </main>
-  <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
-  <h3 class="heading settled" id="document-conventions"><span class="content"> Document conventions</span><a class="self-link" href="#document-conventions"></a></h3>
+  <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content"> Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
+  <h3 class="no-ref heading settled" id="w3c-conventions"><span class="content"> Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
   <p>Conformance requirements are expressed with a combination of
-	descriptive assertions and RFC 2119 terminology. The key words “MUST”,
-	“MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
-	“RECOMMENDED”, “MAY”, and “OPTIONAL” in the normative parts of this
-	document are to be interpreted as described in RFC 2119.
-	However, for readability, these words do not appear in all uppercase
-	letters in this specification. </p>
+    descriptive assertions and RFC 2119 terminology. The key words “MUST”,
+    “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
+    “RECOMMENDED”, “MAY”, and “OPTIONAL” in the normative parts of this
+    document are to be interpreted as described in RFC 2119.
+    However, for readability, these words do not appear in all uppercase
+    letters in this specification. </p>
   <p>All of the text of this specification is normative except sections
-	explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a> </p>
+    explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a></p>
   <p>Examples in this specification are introduced with the words “for example”
-	or are set apart from the normative text with <code>class="example"</code>,
-	like this: </p>
+    or are set apart from the normative text with <code>class="example"</code>,
+    like this: </p>
   <div class="example" id="example-ae2b6bc0">
    <a class="self-link" href="#example-ae2b6bc0"></a> 
-   <p>This is an example of an informative example. </p>
+   <p>This is an example of an informative example.</p>
   </div>
   <p>Informative notes begin with the word “Note” and are set apart from the
-	normative text with <code>class="note"</code>, like this: </p>
-  <p class="note" role="note">Note, this is an informative note. </p>
+    normative text with <code>class="note"</code>, like this: </p>
+  <p class="note" role="note">Note, this is an informative note.</p>
   <p>Advisements are normative sections styled to evoke special attention and are
-	set apart from other normative text with <code>&lt;strong class="advisement"></code>, like
-	this: <strong class="advisement"> UAs MUST provide an accessible alternative. </strong> </p>
-  <h3 class="heading settled" id="conform-classes"><span class="content"> Conformance classes</span><a class="self-link" href="#conform-classes"></a></h3>
+    set apart from other normative text with <code>&lt;strong class="advisement"></code>, like
+    this: <strong class="advisement"> UAs MUST provide an accessible alternative. </strong> </p>
+  <h3 class="no-ref heading settled" id="w3c-conformance-classes"><span class="content"> Conformance classes</span><a class="self-link" href="#w3c-conformance-classes"></a></h3>
   <p>Conformance to this specification
-	is defined for three conformance classes: </p>
+    is defined for three conformance classes: </p>
   <dl>
    <dt>style sheet 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#style-sheet">CSS
-			style sheet</a>. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#style-sheet">CSS
+            style sheet</a>. 
    <dt>renderer 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#user-agent">UA</a> that interprets the semantics of a style sheet and renders
-			documents that use them. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#user-agent">UA</a> that interprets the semantics of a style sheet and renders
+            documents that use them. 
    <dt>authoring tool 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#user-agent">UA</a> that writes a style sheet. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#user-agent">UA</a> that writes a style sheet. 
   </dl>
   <p>A style sheet is conformant to this specification
-	if all of its statements that use syntax defined in this module are valid
-	according to the generic CSS grammar and the individual grammars of each
-	feature defined in this module. </p>
+    if all of its statements that use syntax defined in this module are valid
+    according to the generic CSS grammar and the individual grammars of each
+    feature defined in this module. </p>
   <p>A renderer is conformant to this specification
-	if, in addition to interpreting the style sheet as defined by the
-	appropriate specifications, it supports all the features defined
-	by this specification by parsing them correctly
-	and rendering the document accordingly. However, the inability of a
-	UA to correctly render a document due to limitations of the device
-	does not make the UA non-conformant. (For example, a UA is not
-	required to render color on a monochrome monitor.) </p>
+    if, in addition to interpreting the style sheet as defined by the
+    appropriate specifications, it supports all the features defined
+    by this specification by parsing them correctly
+    and rendering the document accordingly. However, the inability of a
+    UA to correctly render a document due to limitations of the device
+    does not make the UA non-conformant. (For example, a UA is not
+    required to render color on a monochrome monitor.) </p>
   <p>An authoring tool is conformant to this specification
-	if it writes style sheets that are syntactically correct according to the
-	generic CSS grammar and the individual grammars of each feature in
-	this module, and meet all other conformance requirements of style sheets
-	as described in this module. </p>
-  <h3 class="heading settled" id="conform-responsible"><span class="content"> Requirements for Responsible Implementation of CSS</span><a class="self-link" href="#conform-responsible"></a></h3>
-  <p>The following sections define several conformance requirements
-		for implementing CSS responsibly,
-		in a way that promotes interoperability in the present and future. </p>
-  <h4 class="heading settled" id="conform-partial"><span class="content"> Partial Implementations</span><a class="self-link" href="#conform-partial"></a></h4>
-  <p>So that authors can exploit the forward-compatible parsing rules to assign fallback values, <strong>CSS renderers <em>must</em> treat as invalid
-		(and <a href="http://www.w3.org/TR/CSS2/conform.html#ignore">ignore as appropriate</a>)
-		any at-rules, properties, property values, keywords, and other syntactic constructs
-		for which they have no usable level of support</strong>.
-		In particular, user agents <em>must not</em> selectively ignore
-		unsupported property values and honor supported values in a single multi-value property declaration:
-		if any value is considered invalid (as unsupported values must be),
-		CSS requires that the entire declaration be ignored. </p>
-  <h4 class="heading settled" id="conform-future-proofing"><span class="content"> Implementations of Unstable and Proprietary Features</span><a class="self-link" href="#conform-future-proofing"></a></h4>
+    if it writes style sheets that are syntactically correct according to the
+    generic CSS grammar and the individual grammars of each feature in
+    this module, and meet all other conformance requirements of style sheets
+    as described in this module. </p>
+  <h3 class="no-ref heading settled" id="w3c-partial"><span class="content"> Partial implementations</span><a class="self-link" href="#w3c-partial"></a></h3>
+  <p>So that authors can exploit the forward-compatible parsing rules to
+    assign fallback values, CSS renderers <strong>must</strong> treat as invalid (and <a href="http://www.w3.org/TR/CSS21/conform.html#ignore">ignore
+    as appropriate</a>) any at-rules, properties, property values, keywords,
+    and other syntactic constructs for which they have no usable level of
+    support. In particular, user agents <strong>must not</strong> selectively
+    ignore unsupported component values and honor supported values in a single
+    multi-value property declaration: if any value is considered invalid
+    (as unsupported values must be), CSS requires that the entire declaration
+    be ignored.</p>
+  <h4 class="heading settled" id="w3c-conform-future-proofing"><span class="content"> Implementations of Unstable and Proprietary Features</span><a class="self-link" href="#w3c-conform-future-proofing"></a></h4>
   <p>To avoid clashes with future stable CSS features,
-		the CSSWG recommends <a href="http://www.w3.org/TR/CSS/#future-proofing">following best practices</a> for the implementation of <a href="http://www.w3.org/TR/CSS/#unstable">unstable</a> features and <a href="http://www.w3.org/TR/CSS/#proprietary-extension">proprietary extensions</a> to CSS. </p>
-  <h4 class="heading settled" id="conform-testing"><span class="content"> Implementations of CR-level Features</span><a class="self-link" href="#conform-testing"></a></h4>
+        the CSSWG recommends <a href="http://www.w3.org/TR/CSS/#future-proofing">following best practices</a> for the implementation of <a href="http://www.w3.org/TR/CSS/#unstable">unstable</a> features and <a href="http://www.w3.org/TR/CSS/#proprietary-extension">proprietary extensions</a> to CSS. </p>
+  <h3 class="no-ref heading settled" id="w3c-testing"><span class="content"> Non-experimental implementations</span><a class="self-link" href="#w3c-testing"></a></h3>
   <p>Once a specification reaches the Candidate Recommendation stage,
-		implementers should release an <a data-link-type="dfn" href="http://www.w3.org/TR/CSS/#vendor-prefix">unprefixed</a> implementation
-		of any CR-level feature they can demonstrate
-		to be correctly implemented according to spec,
-		and should avoid exposing a prefixed variant of that feature. </p>
+    non-experimental implementations are possible, and implementors should
+    release an unprefixed implementation of any CR-level feature they
+    can demonstrate to be correctly implemented according to spec. </p>
   <p>To establish and maintain the interoperability of CSS across
-		implementations, the CSS Working Group requests that non-experimental
-		CSS renderers submit an implementation report (and, if necessary, the
-		testcases used for that implementation report) to the W3C before
-		releasing an unprefixed implementation of any CSS features. Testcases
-		submitted to W3C are subject to review and correction by the CSS
-		Working Group. </p>
-  <p>
-   Further information on submitting testcases and implementation reports
-		can be found from on the CSS Working Group’s website at <a href="http://www.w3.org/Style/CSS/Test/">http://www.w3.org/Style/CSS/Test/</a>.
-		Questions should be directed to the <a href="http://lists.w3.org/Archives/Public/public-css-testsuite">public-css-testsuite@w3.org</a> mailing list. 
+    implementations, the CSS Working Group requests that non-experimental
+    CSS renderers submit an implementation report (and, if necessary, the
+    testcases used for that implementation report) to the W3C before
+    releasing an unprefixed implementation of any CSS features. Testcases
+    submitted to W3C are subject to review and correction by the CSS
+    Working Group. </p>
+  <p>Further information on submitting testcases and implementation reports
+    can be found from on the CSS Working Group’s website at <a href="http://www.w3.org/Style/CSS/Test/">http://www.w3.org/Style/CSS/Test/</a>.
+    Questions should be directed to the <a href="http://lists.w3.org/Archives/Public/public-css-testsuite">public-css-testsuite@w3.org</a> mailing list.</p>
 <script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script>
-  </p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
@@ -1458,6 +2177,8 @@ and all the rest of the <a href="http://lists.w3.org/Archives/Public/www-style/"
    <li><a href="#transition-combined-duration">combined duration</a><span>, in §3</span>
    <li><a href="#dfn-complete">complete</a><span>, in §5</span>
    <li><a href="#completed-transition">completed transition</a><span>, in §3</span>
+   <li><a href="#dom-transitionevent-transitionevent">constructor(type)</a><span>, in §6.1.2</span>
+   <li><a href="#dom-transitionevent-transitionevent">constructor(type, transitionEventInitDict)</a><span>, in §6.1.2</span>
    <li><a href="#current-value">current value</a><span>, in §4</span>
    <li>
     elapsedTime
@@ -1524,32 +2245,32 @@ and all the rest of the <a href="http://lists.w3.org/Archives/Public/www-style/"
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-all">
-   <a href="https://drafts.csswg.org/css-cascade-4/#propdef-all">https://drafts.csswg.org/css-cascade-4/#propdef-all</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-cascade-5/#propdef-all">https://drafts.csswg.org/css-cascade-5/#propdef-all</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-all">2.1. The transition-property Property</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-cascade">
-   <a href="https://drafts.csswg.org/css-cascade-4/#cascade">https://drafts.csswg.org/css-cascade-4/#cascade</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-cascade-5/#cascade">https://drafts.csswg.org/css-cascade-5/#cascade</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-cascade">10.2. Cascade</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-computed-value">
-   <a href="https://drafts.csswg.org/css-cascade-4/#computed-value">https://drafts.csswg.org/css-cascade-4/#computed-value</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-cascade-5/#computed-value">https://drafts.csswg.org/css-cascade-5/#computed-value</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-computed-value">2. Transitions</a> <a href="#ref-for-computed-value①">(2)</a>
     <li><a href="#ref-for-computed-value②">3. Starting of transitions</a> <a href="#ref-for-computed-value③">(2)</a> <a href="#ref-for-computed-value④">(3)</a> <a href="#ref-for-computed-value⑤">(4)</a> <a href="#ref-for-computed-value⑥">(5)</a> <a href="#ref-for-computed-value⑦">(6)</a> <a href="#ref-for-computed-value⑧">(7)</a> <a href="#ref-for-computed-value⑨">(8)</a> <a href="#ref-for-computed-value①⓪">(9)</a> <a href="#ref-for-computed-value①①">(10)</a> <a href="#ref-for-computed-value①②">(11)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-valdef-all-inherit">
-   <a href="https://drafts.csswg.org/css-cascade-4/#valdef-all-inherit">https://drafts.csswg.org/css-cascade-4/#valdef-all-inherit</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-cascade-5/#valdef-all-inherit">https://drafts.csswg.org/css-cascade-5/#valdef-all-inherit</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-valdef-all-inherit">2.1. The transition-property Property</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-valdef-all-initial">
-   <a href="https://drafts.csswg.org/css-cascade-4/#valdef-all-initial">https://drafts.csswg.org/css-cascade-4/#valdef-all-initial</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-cascade-5/#valdef-all-initial">https://drafts.csswg.org/css-cascade-5/#valdef-all-initial</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-valdef-all-initial">2.1. The transition-property Property</a>
    </ul>
@@ -1610,6 +2331,12 @@ and all the rest of the <a href="http://lists.w3.org/Archives/Public/www-style/"
     <li><a href="#ref-for-identifier-value">2.1. The transition-property Property</a> <a href="#ref-for-identifier-value①">(2)</a> <a href="#ref-for-identifier-value②">(3)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-css-wide-keywords">
+   <a href="https://drafts.csswg.org/css-values-4/#css-wide-keywords">https://drafts.csswg.org/css-values-4/#css-wide-keywords</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-css-wide-keywords">1.1. Value Definitions</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-interpolation">
    <a href="https://drafts.csswg.org/css-values-4/#interpolation">https://drafts.csswg.org/css-values-4/#interpolation</a><b>Referenced in:</b>
    <ul>
@@ -1638,26 +2365,26 @@ and all the rest of the <a href="http://lists.w3.org/Archives/Public/www-style/"
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-background-color">
-   <a href="https://drafts.csswg.org/css2/colors.html#propdef-background-color">https://drafts.csswg.org/css2/colors.html#propdef-background-color</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css2/#propdef-background-color">https://drafts.csswg.org/css2/#propdef-background-color</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-background-color">2. Transitions</a> <a href="#ref-for-propdef-background-color①">(2)</a>
     <li><a href="#ref-for-propdef-background-color②">3. Starting of transitions</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-left">
-   <a href="https://drafts.csswg.org/css2/visuren.html#propdef-left">https://drafts.csswg.org/css2/visuren.html#propdef-left</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css2/#propdef-left">https://drafts.csswg.org/css2/#propdef-left</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-left">2. Transitions</a> <a href="#ref-for-propdef-left①">(2)</a> <a href="#ref-for-propdef-left②">(3)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-top">
-   <a href="https://drafts.csswg.org/css2/visuren.html#propdef-top">https://drafts.csswg.org/css2/visuren.html#propdef-top</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css2/#propdef-top">https://drafts.csswg.org/css2/#propdef-top</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-top">2. Transitions</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-width">
-   <a href="https://drafts.csswg.org/css2/visudet.html#propdef-width">https://drafts.csswg.org/css2/visudet.html#propdef-width</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css2/#propdef-width">https://drafts.csswg.org/css2/#propdef-width</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-width">2. Transitions</a>
    </ul>
@@ -1792,108 +2519,109 @@ and all the rest of the <a href="http://lists.w3.org/Archives/Public/www-style/"
    <li>
     <a data-link-type="biblio">[css-backgrounds-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-background-image" style="color:initial">background-image</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-box-shadow" style="color:initial">box-shadow</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-background-image">background-image</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-box-shadow">box-shadow</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[css-cascade-4]</a> defines the following terms:
+    <a data-link-type="biblio">[css-cascade-5]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-all" style="color:initial">all</span>
-     <li><span class="dfn-paneled" id="term-for-cascade" style="color:initial">cascade</span>
-     <li><span class="dfn-paneled" id="term-for-computed-value" style="color:initial">computed value</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-all-inherit" style="color:initial">inherit</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-all-initial" style="color:initial">initial</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-all">all</span>
+     <li><span class="dfn-paneled" id="term-for-cascade">cascade</span>
+     <li><span class="dfn-paneled" id="term-for-computed-value">computed value</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-all-inherit">inherit</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-all-initial">initial</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-color-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-opacity" style="color:initial">opacity</span>
+     <li><span class="dfn-paneled" id="term-for-opacity">opacity</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-easing-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-typedef-easing-function" style="color:initial">&lt;easing-function></span>
-     <li><span class="dfn-paneled" id="term-for-input-progress-value" style="color:initial">input progress value</span>
-     <li><span class="dfn-paneled" id="term-for-output-progress-value" style="color:initial">output progress value</span>
+     <li><span class="dfn-paneled" id="term-for-typedef-easing-function">&lt;easing-function></span>
+     <li><span class="dfn-paneled" id="term-for-input-progress-value">input progress value</span>
+     <li><span class="dfn-paneled" id="term-for-output-progress-value">output progress value</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-transforms-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-transform" style="color:initial">transform</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-transform">transform</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[css-values-3]</a> defines the following terms:
+    <a data-link-type="biblio">[CSS-VALUES-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-time-value" style="color:initial">&lt;time></span>
+     <li><span class="dfn-paneled" id="term-for-time-value">&lt;time></span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-values-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-mult-comma" style="color:initial">#</span>
-     <li><span class="dfn-paneled" id="term-for-identifier-value" style="color:initial">&lt;custom-ident></span>
-     <li><span class="dfn-paneled" id="term-for-interpolation" style="color:initial">interpolate</span>
-     <li><span class="dfn-paneled" id="term-for-interpolation①" style="color:initial">interpolation</span>
-     <li><span class="dfn-paneled" id="term-for-comb-one" style="color:initial">|</span>
-     <li><span class="dfn-paneled" id="term-for-comb-any" style="color:initial">||</span>
+     <li><span class="dfn-paneled" id="term-for-mult-comma">#</span>
+     <li><span class="dfn-paneled" id="term-for-identifier-value">&lt;custom-ident></span>
+     <li><span class="dfn-paneled" id="term-for-css-wide-keywords">css-wide keywords</span>
+     <li><span class="dfn-paneled" id="term-for-interpolation">interpolate</span>
+     <li><span class="dfn-paneled" id="term-for-interpolation①">interpolation</span>
+     <li><span class="dfn-paneled" id="term-for-comb-one">|</span>
+     <li><span class="dfn-paneled" id="term-for-comb-any">||</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS2]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-background-color" style="color:initial">background-color</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-left" style="color:initial">left</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-top" style="color:initial">top</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-width" style="color:initial">width</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-background-color">background-color</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-left">left</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-top">top</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-width">width</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS3-ANIMATIONS]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dom-animationevent-elapsedtime" style="color:initial">elapsedTime</span>
+     <li><span class="dfn-paneled" id="term-for-dom-animationevent-elapsedtime">elapsedTime</span>
     </ul>
    <li>
     <a data-link-type="biblio">[cssom-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-cssomstring" style="color:initial">CSSOMString</span>
+     <li><span class="dfn-paneled" id="term-for-cssomstring">CSSOMString</span>
     </ul>
    <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-event" style="color:initial">Event</span>
-     <li><span class="dfn-paneled" id="term-for-dictdef-eventinit" style="color:initial">EventInit</span>
+     <li><span class="dfn-paneled" id="term-for-event">Event</span>
+     <li><span class="dfn-paneled" id="term-for-dictdef-eventinit">EventInit</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-document" style="color:initial">Document</span>
-     <li><span class="dfn-paneled" id="term-for-eventhandler" style="color:initial">EventHandler</span>
-     <li><span class="dfn-paneled" id="term-for-globaleventhandlers" style="color:initial">GlobalEventHandlers</span>
-     <li><span class="dfn-paneled" id="term-for-window" style="color:initial">Window</span>
-     <li><span class="dfn-paneled" id="term-for-concept-event-dispatch" style="color:initial">dispatch</span>
-     <li><span class="dfn-paneled" id="term-for-event-handler-content-attributes" style="color:initial">event handler content attributes</span>
-     <li><span class="dfn-paneled" id="term-for-event-handler-event-type" style="color:initial">event handler event type</span>
-     <li><span class="dfn-paneled" id="term-for-event-handler-idl-attributes" style="color:initial">event handler idl attributes</span>
-     <li><span class="dfn-paneled" id="term-for-event-handlers" style="color:initial">event handlers</span>
-     <li><span class="dfn-paneled" id="term-for-html-elements" style="color:initial">html elements</span>
+     <li><span class="dfn-paneled" id="term-for-document">Document</span>
+     <li><span class="dfn-paneled" id="term-for-eventhandler">EventHandler</span>
+     <li><span class="dfn-paneled" id="term-for-globaleventhandlers">GlobalEventHandlers</span>
+     <li><span class="dfn-paneled" id="term-for-window">Window</span>
+     <li><span class="dfn-paneled" id="term-for-concept-event-dispatch">dispatch</span>
+     <li><span class="dfn-paneled" id="term-for-event-handler-content-attributes">event handler content attributes</span>
+     <li><span class="dfn-paneled" id="term-for-event-handler-event-type">event handler event type</span>
+     <li><span class="dfn-paneled" id="term-for-event-handler-idl-attributes">event handler idl attributes</span>
+     <li><span class="dfn-paneled" id="term-for-event-handlers">event handlers</span>
+     <li><span class="dfn-paneled" id="term-for-html-elements">html elements</span>
     </ul>
    <li>
     <a data-link-type="biblio">[web-animations-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-animation-type" style="color:initial">animation type</span>
-     <li><span class="dfn-paneled" id="term-for-combining-shadow-lists" style="color:initial">combining shadow lists</span>
-     <li><span class="dfn-paneled" id="term-for-discrete" style="color:initial">discrete</span>
-     <li><span class="dfn-paneled" id="term-for-not-animatable" style="color:initial">not animatable</span>
+     <li><span class="dfn-paneled" id="term-for-animation-type">animation type</span>
+     <li><span class="dfn-paneled" id="term-for-combining-shadow-lists">combining shadow lists</span>
+     <li><span class="dfn-paneled" id="term-for-discrete">discrete</span>
+     <li><span class="dfn-paneled" id="term-for-not-animatable">not animatable</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-Exposed" style="color:initial">Exposed</span>
-     <li><span class="dfn-paneled" id="term-for-idl-double" style="color:initial">double</span>
+     <li><span class="dfn-paneled" id="term-for-Exposed">Exposed</span>
+     <li><span class="dfn-paneled" id="term-for-idl-double">double</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
-   <dt id="biblio-css-cascade-4">[CSS-CASCADE-4]
-   <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://www.w3.org/TR/css-cascade-4/">CSS Cascading and Inheritance Level 4</a>. 28 August 2018. CR. URL: <a href="https://www.w3.org/TR/css-cascade-4/">https://www.w3.org/TR/css-cascade-4/</a>
+   <dt id="biblio-css-cascade-5">[CSS-CASCADE-5]
+   <dd>Elika Etemad; Miriam Suzanne; Tab Atkins Jr.. <a href="https://www.w3.org/TR/css-cascade-5/">CSS Cascading and Inheritance Level 5</a>. 19 January 2021. WD. URL: <a href="https://www.w3.org/TR/css-cascade-5/">https://www.w3.org/TR/css-cascade-5/</a>
    <dt id="biblio-css-color-3">[CSS-COLOR-3]
    <dd>Tantek Çelik; Chris Lilley; David Baron. <a href="https://www.w3.org/TR/css-color-3/">CSS Color Module Level 3</a>. 19 June 2018. REC. URL: <a href="https://www.w3.org/TR/css-color-3/">https://www.w3.org/TR/css-color-3/</a>
    <dt id="biblio-css-easing-1">[CSS-EASING-1]
@@ -1901,15 +2629,15 @@ and all the rest of the <a href="http://lists.w3.org/Archives/Public/www-style/"
    <dt id="biblio-css-transforms-1">[CSS-TRANSFORMS-1]
    <dd>Simon Fraser; et al. <a href="https://www.w3.org/TR/css-transforms-1/">CSS Transforms Module Level 1</a>. 14 February 2019. CR. URL: <a href="https://www.w3.org/TR/css-transforms-1/">https://www.w3.org/TR/css-transforms-1/</a>
    <dt id="biblio-css-values-3">[CSS-VALUES-3]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 31 January 2019. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 6 June 2019. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
    <dt id="biblio-css-values-4">[CSS-VALUES-4]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 31 January 2019. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 11 November 2020. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
    <dt id="biblio-css2">[CSS2]
-   <dd>Bert Bos; et al. <a href="https://www.w3.org/TR/CSS2/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. 7 June 2011. REC. URL: <a href="https://www.w3.org/TR/CSS2/">https://www.w3.org/TR/CSS2/</a>
+   <dd>Bert Bos; et al. <a href="https://www.w3.org/TR/CSS21/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. 7 June 2011. REC. URL: <a href="https://www.w3.org/TR/CSS21/">https://www.w3.org/TR/CSS21/</a>
    <dt id="biblio-css3-animations">[CSS3-ANIMATIONS]
    <dd>Dean Jackson; et al. <a href="https://www.w3.org/TR/css-animations-1/">CSS Animations Level 1</a>. 11 October 2018. WD. URL: <a href="https://www.w3.org/TR/css-animations-1/">https://www.w3.org/TR/css-animations-1/</a>
    <dt id="biblio-css3cascade">[CSS3CASCADE]
-   <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://www.w3.org/TR/css-cascade-3/">CSS Cascading and Inheritance Level 3</a>. 28 August 2018. CR. URL: <a href="https://www.w3.org/TR/css-cascade-3/">https://www.w3.org/TR/css-cascade-3/</a>
+   <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://www.w3.org/TR/css-cascade-3/">CSS Cascading and Inheritance Level 3</a>. 11 February 2021. REC. URL: <a href="https://www.w3.org/TR/css-cascade-3/">https://www.w3.org/TR/css-cascade-3/</a>
    <dt id="biblio-cssom-1">[CSSOM-1]
    <dd>Simon Pieters; Glenn Adams. <a href="https://www.w3.org/TR/cssom-1/">CSS Object Model (CSSOM)</a>. 17 March 2016. WD. URL: <a href="https://www.w3.org/TR/cssom-1/">https://www.w3.org/TR/cssom-1/</a>
    <dt id="biblio-dom">[DOM]
@@ -1926,7 +2654,7 @@ and all the rest of the <a href="http://lists.w3.org/Archives/Public/www-style/"
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
    <dt id="biblio-css-backgrounds-3">[CSS-BACKGROUNDS-3]
-   <dd>Bert Bos; Elika Etemad; Brad Kemper. <a href="https://www.w3.org/TR/css-backgrounds-3/">CSS Backgrounds and Borders Module Level 3</a>. 17 October 2017. CR. URL: <a href="https://www.w3.org/TR/css-backgrounds-3/">https://www.w3.org/TR/css-backgrounds-3/</a>
+   <dd>Bert Bos; Elika Etemad; Brad Kemper. <a href="https://www.w3.org/TR/css-backgrounds-3/">CSS Backgrounds and Borders Module Level 3</a>. 22 December 2020. CR. URL: <a href="https://www.w3.org/TR/css-backgrounds-3/">https://www.w3.org/TR/css-backgrounds-3/</a>
    <dt id="biblio-smil-animation">[SMIL-ANIMATION]
    <dd>Patrick Schmitz; Aaron Cohen. <a href="https://www.w3.org/TR/smil-animation/">SMIL Animation</a>. 4 September 2001. REC. URL: <a href="https://www.w3.org/TR/smil-animation/">https://www.w3.org/TR/smil-animation/</a>
    <dt id="biblio-svg11">[SVG11]
@@ -2008,25 +2736,25 @@ and all the rest of the <a href="http://lists.w3.org/Archives/Public/www-style/"
    </table>
   </div>
   <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
-<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①"><c- g>Exposed</c-></a>=<c- n>Window</c->,
- <a class="idl-code" data-link-type="constructor" href="#dom-transitionevent-transitionevent" id="ref-for-dom-transitionevent-transitionevent①"><c- g>Constructor</c-></a>(<a class="n" data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring⑦"><c- n>CSSOMString</c-></a> <a href="#dom-transitionevent-transitionevent-type-transitioneventinitdict-type"><code><c- g>type</c-></code></a>, <c- b>optional</c-> <a class="n" data-link-type="idl-name" href="#dictdef-transitioneventinit" id="ref-for-dictdef-transitioneventinit①"><c- n>TransitionEventInit</c-></a> <a href="#dom-transitionevent-transitionevent-type-transitioneventinitdict-transitioneventinitdict"><code><c- g>transitionEventInitDict</c-></code></a> = {})]
-<c- b>interface</c-> <a href="#transitionevent"><code><c- g>TransitionEvent</c-></code></a> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①"><c- n>Event</c-></a> {
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring①①"><c- n>CSSOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="CSSOMString" href="#Events-TransitionEvent-propertyName" id="ref-for-Events-TransitionEvent-propertyName①"><c- g>propertyName</c-></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-double" id="ref-for-idl-double③"><c- b>double</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="double" href="#Events-TransitionEvent-elapsedTime" id="ref-for-Events-TransitionEvent-elapsedTime⑤"><c- g>elapsedTime</c-></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring②①"><c- n>CSSOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="CSSOMString" href="#Events-TransitionEvent-pseudoElement" id="ref-for-Events-TransitionEvent-pseudoElement①"><c- g>pseudoElement</c-></a>;
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<c- b>interface</c-> <a href="#transitionevent"><code><c- g>TransitionEvent</c-></code></a> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#event"><c- n>Event</c-></a> {
+  <a class="idl-code" data-link-type="constructor" href="#dom-transitionevent-transitionevent"><c- g>constructor</c-></a>(<a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring"><c- n>CSSOMString</c-></a> <a href="#dom-transitionevent-transitionevent-type-transitioneventinitdict-type"><code><c- g>type</c-></code></a>, <c- b>optional</c-> <a data-link-type="idl-name" href="#dictdef-transitioneventinit"><c- n>TransitionEventInit</c-></a> <a href="#dom-transitionevent-transitionevent-type-transitioneventinitdict-transitioneventinitdict"><code><c- g>transitionEventInitDict</c-></code></a> = {});
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring"><c- n>CSSOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="CSSOMString" href="#Events-TransitionEvent-propertyName"><c- g>propertyName</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-double"><c- b>double</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="double" href="#Events-TransitionEvent-elapsedTime"><c- g>elapsedTime</c-></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring"><c- n>CSSOMString</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="CSSOMString" href="#Events-TransitionEvent-pseudoElement"><c- g>pseudoElement</c-></a>;
 };
 
-<c- b>dictionary</c-> <a href="#dictdef-transitioneventinit"><code><c- g>TransitionEventInit</c-></code></a> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#dictdef-eventinit" id="ref-for-dictdef-eventinit①"><c- n>EventInit</c-></a> {
-  <a class="n" data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring③①"><c- n>CSSOMString</c-></a> <a data-default="&quot;&quot;" data-type="CSSOMString " href="#dom-transitioneventinit-propertyname"><code><c- g>propertyName</c-></code></a> = "";
-  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-double" id="ref-for-idl-double①①"><c- b>double</c-></a> <a data-default="0.0" data-type="double " href="#dom-transitioneventinit-elapsedtime"><code><c- g>elapsedTime</c-></code></a> = 0.0;
-  <a class="n" data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring" id="ref-for-cssomstring④①"><c- n>CSSOMString</c-></a> <a data-default="&quot;&quot;" data-type="CSSOMString " href="#dom-transitioneventinit-pseudoelement"><code><c- g>pseudoElement</c-></code></a> = "";
+<c- b>dictionary</c-> <a href="#dictdef-transitioneventinit"><code><c- g>TransitionEventInit</c-></code></a> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#dictdef-eventinit"><c- n>EventInit</c-></a> {
+  <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring"><c- n>CSSOMString</c-></a> <a data-default="&quot;&quot;" data-type="CSSOMString " href="#dom-transitioneventinit-propertyname"><code><c- g>propertyName</c-></code></a> = "";
+  <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-double"><c- b>double</c-></a> <a data-default="0.0" data-type="double " href="#dom-transitioneventinit-elapsedtime"><code><c- g>elapsedTime</c-></code></a> = 0.0;
+  <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssomstring"><c- n>CSSOMString</c-></a> <a data-default="&quot;&quot;" data-type="CSSOMString " href="#dom-transitioneventinit-pseudoelement"><code><c- g>pseudoElement</c-></code></a> = "";
 };
 
-<c- b>partial</c-> <c- b>interface</c-> <c- b>mixin</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers" id="ref-for-globaleventhandlers①①"><c- g>GlobalEventHandlers</c-></a> {
-  <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler④"><c- n>EventHandler</c-></a> <a data-type="EventHandler" href="#dom-globaleventhandlers-ontransitionrun"><code><c- g>ontransitionrun</c-></code></a>;
-  <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler①①"><c- n>EventHandler</c-></a> <a data-type="EventHandler" href="#dom-globaleventhandlers-ontransitionstart"><code><c- g>ontransitionstart</c-></code></a>;
-  <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler②①"><c- n>EventHandler</c-></a> <a data-type="EventHandler" href="#dom-globaleventhandlers-ontransitionend"><code><c- g>ontransitionend</c-></code></a>;
-  <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler③①"><c- n>EventHandler</c-></a> <a data-type="EventHandler" href="#dom-globaleventhandlers-ontransitioncancel"><code><c- g>ontransitioncancel</c-></code></a>;
+<c- b>partial</c-> <c- b>interface</c-> <c- b>mixin</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/webappapis.html#globaleventhandlers"><c- g>GlobalEventHandlers</c-></a> {
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler"><c- n>EventHandler</c-></a> <a data-type="EventHandler" href="#dom-globaleventhandlers-ontransitionrun"><code><c- g>ontransitionrun</c-></code></a>;
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler"><c- n>EventHandler</c-></a> <a data-type="EventHandler" href="#dom-globaleventhandlers-ontransitionstart"><code><c- g>ontransitionstart</c-></code></a>;
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler"><c- n>EventHandler</c-></a> <a data-type="EventHandler" href="#dom-globaleventhandlers-ontransitionend"><code><c- g>ontransitionend</c-></code></a>;
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler"><c- n>EventHandler</c-></a> <a data-type="EventHandler" href="#dom-globaleventhandlers-ontransitioncancel"><code><c- g>ontransitioncancel</c-></code></a>;
 };
 
 </pre>
@@ -2371,3 +3099,11 @@ document.body.addEventListener("click", function(e) {
 
 });
 </script>
+<script>/* script-mdn-anno */
+
+            document.body.addEventListener("click", (e) => {
+                if(e.target.closest(".mdn-anno-btn")) {
+                    e.target.closest(".mdn-anno").classList.toggle("wrapped");
+                }
+            });
+            </script>

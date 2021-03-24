@@ -5,7 +5,7 @@ Status: ED
 ED: https://w3c.github.io/accelerometer/
 Shortname: accelerometer
 TR: https://www.w3.org/TR/accelerometer/
-Previous Version: https://www.w3.org/TR/2018/CR-accelerometer-20180320/
+Previous Version: https://www.w3.org/TR/2019/WD-accelerometer-20190307/
 Editor: Anssi Kostiainen 41974, Intel Corporation, http://intel.com/
 Former Editor: Alexander Shalamov 78335, Intel Corporation, http://intel.com/
 Group: dap
@@ -13,13 +13,13 @@ Abstract:
   This specification defines {{Accelerometer}}, {{LinearAccelerationSensor}} and {{GravitySensor}} interfaces for
   obtaining information about [=acceleration=] applied to the X, Y and Z axis
   of a device that hosts the sensor.
-Version History: https://github.com/w3c/accelerometer/commits/gh-pages/index.bs
+Version History: https://github.com/w3c/accelerometer/commits/main/index.bs
 !Bug Reports: <a href="https://www.github.com/w3c/accelerometer/issues/new">via the w3c/accelerometer repository on GitHub</a>
 Indent: 2
 Repository: w3c/accelerometer
 Markup Shorthands: markdown on
 Inline Github Issues: true
-!Test Suite: <a href="https://github.com/web-platform-tests/wpt/tree/master/accelerometer">web-platform-tests on GitHub</a>
+!Test Suite: <a href="https://github.com/web-platform-tests/wpt/tree/main/accelerometer">web-platform-tests on GitHub</a>
 Boilerplate: omit issues-index, omit conformance
 Default Biblio Status: current
 Note class: note
@@ -203,7 +203,7 @@ provide 0 (m/s<sup>2</sup>) [=acceleration=] value for each axis.
 The sign of the [=acceleration=] values must be according to the right-hand convention in a [=local coordinate
 system=] (see figure below).
 
-<img src="images/accelerometer_coordinate_system.svg" onerror="this.src='images/accelerometer_coordinate_system.png'" style="display: block;margin: auto;" alt="Accelerometer coordinate system.">
+<img src="images/accelerometer_coordinate_system.svg" onerror="if (/\.svg$/.test(this.src)) this.src='images/accelerometer_coordinate_system.png'" style="display: block;margin: auto;" alt="Accelerometer coordinate system.">
 
 The {{LinearAccelerationSensor}} class is an {{Accelerometer}}'s subclass. The {{LinearAccelerationSensor}}'s
 [=latest reading=] contains device's [=linear acceleration=] about the corresponding axes.
@@ -214,7 +214,9 @@ the sensor, without the contribution of a [=gravity=] force.
 The {{GravitySensor}} class is an {{Accelerometer}}'s subclass. The {{GravitySensor}}'s
 [=latest reading=] contains device's [=acceleration=] due to the effect of [=gravity=] force about the corresponding axes.
 
-The <dfn>gravity</dfn> is a force that attracts an object to the center of the earth, or towards any other physical object having mass.
+The <dfn>gravity</dfn> is the component of the device's acceleration that prevents its velocity from increasing toward nearby masses. Devices in free fall for more than a short period of time may compute incorrect values for the gravity.
+
+Note: The relationship between [=gravity=] and [=linear acceleration=] is discussed in [[MOTION-SENSORS#gravity-and-linear-acceleration]].
 
 Reference Frame {#reference-frame}
 ----------------

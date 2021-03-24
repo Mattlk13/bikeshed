@@ -16,7 +16,6 @@ Former Editor: Shane Stephens, shanestephens@google.com, w3cid 47691
 Editor: Robert O'Callahan, robert@ocallahan.org
 Editor: Rossen Atanassov, rossen.atanassov@microsoft.com, w3cid 49885
 Ignored Terms: LayoutWorklet
-Ignored Terms: create a workletglobalscope
 </pre>
 
 <style>
@@ -55,9 +54,6 @@ spec:css2; type:property; text:max-width
 </pre>
 
 <pre class="anchors">
-urlPrefix: https://heycam.github.io/webidl/; type: dfn;
-    urlPrefix: #dfn-;
-        url: throw; text: thrown
 urlPrefix: https://tc39.github.io/ecma262/#sec-; type: dfn;
     text: constructor
     text: Construct
@@ -66,10 +62,6 @@ urlPrefix: https://tc39.github.io/ecma262/#sec-; type: dfn;
     url: terms-and-definitions-function; text: function
     urlPrefix: native-error-types-used-in-this-standard-
         text: TypeError
-urlPrefix: https://drafts.csswg.org/css-sizing/#; type: dfn
-    text: intrinsic sizes
-urlPrefix: https://drafts.csswg.org/css-break/#; type: dfn
-    text: fragmentation break
 urlPrefix: https://www.w3.org/TR/CSS21/; type:dfn
     urlPrefix: box.html#;
         url: box-dimensions; text: box model edges
@@ -216,7 +208,7 @@ The {{LayoutWorkletGlobalScope}} is the global execution context of the {{layout
 <pre class='idl'>
 [Global=(Worklet,LayoutWorklet),Exposed=LayoutWorklet]
 interface LayoutWorkletGlobalScope : WorkletGlobalScope {
-    void registerLayout(DOMString name, VoidFunction layoutCtor);
+    undefined registerLayout(DOMString name, VoidFunction layoutCtor);
 };
 </pre>
 
@@ -1594,8 +1586,9 @@ dictionary FragmentResultOptions {
     BreakTokenOptions breakToken = null;
 };
 
-[Constructor(optional FragmentResultOptions options)]
+[Exposed=LayoutWorklet]
 interface FragmentResult {
+    constructor(optional FragmentResultOptions options = {});
     readonly attribute double inlineSize;
     readonly attribute double blockSize;
 };
@@ -1782,11 +1775,10 @@ context=] for a given |box|, |childBoxes| it <em>must</em> run the following ste
         <code>"invalid"</code>, then let |box| fallback to the [=flow layout=] and abort all these
         steps.
 
-    4. Let |workletGlobalScope| be a {{LayoutWorkletGlobalScope}} from the list of [=worklet's
-        WorkletGlobalScopes=] from the layout {{Worklet}}, following the rules defined in
-        [[#global-scope-selection]].
+    4. Let |workletGlobalScope| be a {{LayoutWorkletGlobalScope}} from the layout {{Worklet}}'s
+        [=Worklet/global scopes=], following the rules defined in [[#global-scope-selection]].
 
-        The user agent <em>may</em> also [=create a WorkletGlobalScope=] at this time, given the
+        The user agent <em>may</em> also [=create a worklet global scope=] at this time, given the
         layout {{Worklet}}.
 
     5. Run [=invoke an intrinsic sizes callback=] given |name|, |box|, |childBoxes|, and
@@ -1895,11 +1887,10 @@ it <em>must</em> run the following steps:
         <code>"invalid"</code>, then let |box| fallback to the [=flow layout=] and abort all these
         steps.
 
-    4. Let |workletGlobalScope| be a {{LayoutWorkletGlobalScope}} from the list of [=worklet's
-        WorkletGlobalScopes=] from the layout {{Worklet}}, following the rules defined in
-        [[#global-scope-selection]].
+    4. Let |workletGlobalScope| be a {{LayoutWorkletGlobalScope}} from the layout {{Worklet}}'s
+        [=Worklet/global scopes=], following the rules defined in [[#global-scope-selection]].
 
-        The user agent <em>may</em> also [=create a WorkletGlobalScope=] at this time, given the
+        The user agent <em>may</em> also [=create a worklet global scope=] at this time, given the
         layout {{Worklet}}.
 
     5. Run [=invoke a layout callback=] given |name|, |box|, |childBoxes|,
@@ -2027,8 +2018,8 @@ following steps:
 
 ### Global Scope Selection ### {#global-scope-selection}
 
-When the user agent needs to select a {{LayoutWorkletGlobalScope}} from the layout [=worklet's
-WorkletGlobalScopes=] [=list=] it <em>must</em>:
+When the user agent needs to select a {{LayoutWorkletGlobalScope}} from the layout {{Worklet}}'s
+[=Worklet/global scopes=] [=list=] it <em>must</em>:
 
     - Select from at <em>least</em> two {{LayoutWorkletGlobalScope}}s, unless the user agent is
         under memory constraints.
@@ -2039,7 +2030,9 @@ WorkletGlobalScopes=] [=list=] it <em>must</em>:
             over time.
 
 Note: These rules exist to ensure that authors do not rely on being able to store state on the
-    global object or non-regeneratable state on the class. See [[worklets-1#code-idempotency]].
+    global object or non-regeneratable state on the class. See
+    <a href="https://html.spec.whatwg.org/multipage/worklets.html#worklets-idempotent">the
+    discussion in the worklets specification about code idempotence</a>.
 
 ### Utility Algorithms ### {#utility-algorithms}
 

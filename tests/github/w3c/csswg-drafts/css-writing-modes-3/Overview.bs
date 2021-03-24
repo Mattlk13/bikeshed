@@ -8,6 +8,7 @@ Work Status: Testing
 Group: csswg
 ED: https://drafts.csswg.org/css-writing-modes-3/
 TR: https://www.w3.org/TR/css-writing-modes-3/
+Previous Version: https://www.w3.org/TR/2019/PR-css-writing-modes-3-20191024/
 Previous Version: https://www.w3.org/TR/2019/CR-css-writing-modes-3-20190903/
 Previous Version: https://www.w3.org/TR/2019/CR-css-writing-modes-3-20190730/
 Previous Version: https://www.w3.org/TR/2018/CR-css-writing-modes-3-20180524/
@@ -26,13 +27,13 @@ Link Defaults: css2 (property) display/min-height/max-height/min-width/max-width
 <pre class=link-defaults>
 spec:css2; type:property; text:float
 spec:css2; type:property; text:clear
-spec:css-multicol-1; type:property; text:column-gap
 spec:css-text-3; type:dfn; text:character
 </pre>
 
 <style>
 object { vertical-align: middle; }
 .sidebar { float: right; background: #eee; border: solid gray; margin: 1em; }
+@media (prefer-color-scheme: dark) { .sidebar { background: var(--borderedblock-bg, #eee); } }
 .sidebar .figure { margin: 1em; }
 .sidebar object { margin: 0 auto; display: block; }
 .figurepair { display: table; margin: 1em auto; }
@@ -161,15 +162,17 @@ Module Interactions</h3>
   or on font metrics that can depend on the <a>writing mode</a>.
 
 <h3 id="values">
-Value Types and Terminology</h3>
+Value Definitions and Terminology</h3>
 
-  This specification follows the <a href="https://www.w3.org/TR/CSS2/about.html#property-defs">CSS property definition conventions</a> from [[!CSS2]].
-  Value types not defined in this specification are defined in CSS Values & Units [[!CSS-VALUES-3]].
-  Other CSS modules may expand the definitions of these value types.
+
+  This specification follows the <a href="https://www.w3.org/TR/CSS2/about.html#property-defs">CSS property definition conventions</a> from [[!CSS2]]
+  using the <a href="https://www.w3.org/TR/css-values-3/#value-defs">value definition syntax</a> from [[!CSS-VALUES-3]].
+  Value types not defined in this specification are defined in CSS Values &amp; Units [[!CSS-VALUES-3]].
+  Combination with other CSS modules may expand the definitions of these value types.
 
   In addition to the property-specific values listed in their definitions,
   all properties defined in this specification
-  also accept the <a>CSS-wide keywords</a> keywords as their property value.
+  also accept the <a>CSS-wide keywords</a> as their property value.
   For readability they have not been repeated explicitly.
 
   <p>Other important terminology and concepts used in this specification
@@ -209,7 +212,7 @@ Inline Direction and Bidirectionality</h2>
     to its corresponding CSS styles.
 
   <p class="note">
-    The HTML specifications ([[HTML401]], section 8.2, and [[HTML5]], section 10.3.5) define
+    The HTML specifications ([[HTML401]], section 8.2, and [[HTML/rendering#bidi-rendering]]) define
     bidirectionality behavior for HTML elements.</p>
 
   <p class="advisement">
@@ -787,7 +790,7 @@ Block Flow Direction: the 'writing-mode' property</h3>
   Name: writing-mode
   Value: horizontal-tb | vertical-rl | vertical-lr
   Initial: horizontal-tb
-  Applies to: All elements except table row groups, table column groups, table rows, table columns, ruby base container, ruby annotation container
+  Applies to: All elements except table row groups, table column groups, table rows, table columns, ruby base containers, ruby annotation containers
   Inherited: yes
   Percentages: n/a
   Computed value: specified value
@@ -1043,10 +1046,11 @@ Text Baselines</h3>
 
     </dd>
     <dt>central</dt>
-    <dd>The <dfn>central baseline</dfn>, which typically crosses the center
-      of the em box. If the font is missing this baseline,
+    <dd>The ideographic <dfn>central baseline</dfn>,
+      which typically crosses the center of the em box.
+      If the font is missing this baseline,
       it is assumed to be halfway between the ascender (<a>over</a>)
-      and descender (<a>under</a>) edges of the em box.
+      and descender (<a>under</a>) edges of the ideographic em box.
     </dd>
   </dl>
 
@@ -1100,7 +1104,7 @@ Baseline Alignment</h3>
       'vertical-align' value.
       <div class="example">
         <p>Given following sample markup:
-        <pre>&lt;p&gt;&lt;span class="outer"&gt;Ap &lt;span class="inner"&gt;<i lt=''>ji</i>&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;</pre>
+        <pre>&lt;p&gt;&lt;span class="outer"&gt;Ap &lt;span class="inner"&gt;ਜੀ&lt;/span&gt;&lt;/span&gt;&lt;/p&gt;</pre>
         <p>And the following style rule:
         <pre>span.inner { font-size: .75em; }</pre>
         <p>The baseline tables of the parent (<code>.outer</code>) and the child
@@ -1311,7 +1315,7 @@ Vertical Typesetting and Font Features</h4>
   text is typeset either “upright” or “sideways” as defined below:
 
   <dl>
-    <dt id='typeset-upright'>upright typesetting
+    <dt><dfn id='typeset-upright' local-lt='upright' export>upright typesetting</dfn>
     <dd>
       <a>Typographic character units</a> are individually typeset upright
       in vertical lines with vertical font metrics.
@@ -1344,7 +1348,7 @@ Vertical Typesetting and Font Features</h4>
       the UA <em>may wish to</em> [[!RFC6919]] (but is not expected to)
       synthesize the missing glyphs by <a href="#typeset-sideways">typesetting them sideways</a> etc.
 
-    <dt id='typeset-sideways'>sideways typesetting
+    <dt><dfn id='typeset-sideways' local-lt='sideways' export>sideways typesetting
     <dd>
       <a>Typographic character units</a> typeset as a run
       rotated 90&deg; clockwise from their upright orientation,
@@ -1510,9 +1514,19 @@ Abstract Box Terminology</h2>
     are identical in both flow-relative and line-relative terms, so there
     is only one set of these terms.
 
+  <figure id="abstract-ltr-tb">
+    <img src="diagrams/sizing-ltr-tb.svg">
+    <figcaption>Physical & flow-relative terms as applicable to typical English text layout</figcaption>
+  </figure>
+  <figure id="abstract-ttb-rl">
+    <img src="diagrams/sizing-ttb-rl.svg">
+    <figcaption>Physical & flow-relative terms as applicable to vertical Chinese text layout</figcaption>
+  </figure>
+
   <p class="note">
-    Note: [[CSS3-FLEXBOX]] also defines <a href="https://www.w3.org/TR/css3-flexbox/#box-model">flex-relative terms</a>,
+    Note: [[CSS-FLEXBOX-1]] also defines <a href="https://www.w3.org/TR/css-flexbox/#box-model">flex-relative terms</a>,
     which are used in describing flex layout.
+
 
 <h3 id="abstract-axes">
 Abstract Dimensions</h3>
@@ -1576,7 +1590,7 @@ Flow-relative Directions</h3>
   </dl>
 
   <p>Where contextually unambiguous or encompassing both meanings,
-    the terms <dfn export>start</dfn> and <dfn export>end</dfn>
+    the terms <dfn export for=CSS>start</dfn> and <dfn export for=CSS>end</dfn>
     are used in place of <a>block-start</a>/<a>inline-start</a>
     and <a>block-end</a>/<a>inline-end</a>, respectively.
 
@@ -1584,19 +1598,6 @@ Flow-relative Directions</h3>
     <a>block-end</a> sides of a box depends only on the 'writing-mode' property,
     determining the <a>inline-start</a> and <a>inline-end</a> sides of a box depends
     not only on the 'writing-mode' property but also the 'direction' property.</p>
-
-  <div class="example">
-    <figure>
-      <img src="diagrams/sizing-ltr-tb.svg">
-      <figcaption>Physical/logical terms as applicable to typical English text layout</figcaption>
-    </figure>
-  </div>
-  <div class="example">
-    <figure>
-      <img src="diagrams/sizing-ttb-rl.svg">
-      <figcaption>Physical/logical terms as applicable to typical Chinese text layout</figcaption>
-    </figure>
-  </div>
 
 <h3 id="line-directions">
 Line-relative Directions</h3>
@@ -2033,6 +2034,7 @@ Available Space of Orthogonal Flows</h4>
       <li>the nearest ancestor <a>scrollport</a>’s inner size if that is fixed,
           else / capped by its inner <a>max size</a> if that is fixed,
           floored by its inner <a>min size</a> if that is fixed
+          <!-- https://lists.w3.org/Archives/Public/www-style/2014Dec/0301.html -->
       <li>the initial containing block’s size
     </ul>
 
@@ -2211,7 +2213,7 @@ Purely Physical Mappings</h3>
     and
     <code>&lt;video&gt;</code>
 
-  <p>Form elements elements contain text, therefore their contents should be
+  <p>Form elements contain text, therefore their contents should be
     affected by writing mode, in which case these attributes refer to the
     <em>logical</em> width and height. The UA may, however, choose not
     to rotate nor flip these elements in vertical writing modes if it is not
@@ -2288,9 +2290,9 @@ Propagation to the Initial Containing Block</h3>
   and the scrolling direction of the viewport.
 
 <h3 id="page-direction">
-Page Flow: the page progression direction</h2>
+Page Flow: the page progression direction</h3>
 
-  <p>In paged media CSS classifies all pages as either left or right pages.
+  <p>In [=paged media=] CSS classifies all pages as either left or right pages.
   The <a>page progression</a> direction (see [[CSS3PAGE]]),
   which determines whether the left or right page in a spread is first in the flow
   and whether the first page is by default a left or right page,
@@ -2331,7 +2333,7 @@ Horizontal-in-Vertical Composition: the 'text-combine-upright' property</h3>
   Name: text-combine-upright
   Value: none | all
   Initial: none
-  Applies to: non-replaced inline elements
+  Applies to: [=inline elements=] and text
   Inherited: yes
   Percentages: n/a
   Computed value: specified keyword
@@ -2351,7 +2353,7 @@ Horizontal-in-Vertical Composition: the 'text-combine-upright' property</h3>
 
     <dt><dfn value for=text-combine-upright>all</dfn>
     <dd>Attempt to typeset horizontally
-      all consecutive <a>typographic character units</a> within the box
+      all consecutive <a>typographic character units</a> within the box or text run
       such that they take up the space of a single <a>typographic character unit</a>
       within the vertical line box.
   </dl>
@@ -2505,6 +2507,24 @@ Privacy and Security Considerations {#priv-sec}
 
 <h2 class="no-num" id="changes">Changes</h2>
 
+  <h3 class="no-num" id="changes-2019">
+  Changes since the <a href="https://www.w3.org/TR/2019/REC-css-writing-modes-3-20191210/">December
+  2019 CSS Writing Modes Module Level 4 Recommendation</a></h3>
+
+  <ul class="informative">
+    <li>Updated “Applies to” line for 'text-combine-upright' to mention text
+      (since certain effects like ''display: contents'' can strip the box itself).
+  </ul>
+
+  <h3 class="no-num" id="changes-20190903">
+  Changes since the <a href="https://www.w3.org/TR/2019/CR-css-writing-modes-3-20190903">September
+  2019 CSS Writing Modes Module Level 3 Candidate Recommendation</a></h3>
+
+  <ul>
+    <li>Clarified that the [=central baseline=] is the [=ideographic central baseline=].
+      (<a href="https://github.com/w3c/csswg-drafts/issues/5177">Issue 5177</a>)
+  </ul>
+
   <h3 class="no-num" id="changes-20190903">
   Changes since the <a href="https://www.w3.org/TR/2019/CR-css-writing-modes-3-20190903">September
   2019 CSS Writing Modes Module Level 3 Candidate Recommendation</a></h3>
@@ -2538,7 +2558,7 @@ Privacy and Security Considerations {#priv-sec}
         (<a href="https://github.com/w3c/csswg-drafts/issues/3066">Issue 3066</a>)
     <li>Make the processing of white space
         in a 'text-combine-upright' combined text sequence
-        explicitely undefined in this level
+        explicitly undefined in this level
         (<a href="https://github.com/w3c/csswg-drafts/issues/4139">Issue 4139</a>)
         <blockquote>
           <p>When combining text as for ''text-combine-upright: all'',
@@ -2594,7 +2614,7 @@ Privacy and Security Considerations {#priv-sec}
       consistent with how CSS aliases are handled (see 'page-break-inside' for an example).
     <li>
       Added handling of degrees as integers in 'glyph-orientation-vertical',
-      as required for SVG backwards-compatiblity.
+      as required for SVG backwards-compatibility.
     <li>
       Removed statements about ''run-in'' boxes, since this value was removed from CSS2.1 and has a substantially different model in CSS Display Level 3.
       Replaced with a generalized statement about all display types, using new [[!CSS-DISPLAY-3]] terminology.
@@ -2687,6 +2707,6 @@ Vertical Scripts in Unicode</h2>
     rotation from this orientation.
 
   <p class="note">
-    Due to limitations in the current featureset of Unicode Technical Report 50 and CSS Writing Modes,
+    Due to limitations in the current feature set of Unicode Technical Report 50 and CSS Writing Modes,
     vertical ''mixed'' typesetting cannot automatically handle either Ogham or Old Turkic.
     For these scripts, ''sideways-lr'' (in <a href="http://www.w3.org/TR/css-writing-modes-4/">CSS Writing Modes Level 4</a>) can be used to typeset passages.

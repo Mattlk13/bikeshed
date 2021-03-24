@@ -1,18 +1,13 @@
-# -*- coding: utf-8 -*-
-from __future__ import division, unicode_literals
-import io
 import json
-import re
 import os
-import urllib2
+import re
 from collections import defaultdict
-from contextlib import closing
+
+import requests
 
 from .. import biblio
-from ..apiclient.apiclient import apiclient
 from ..DefaultOrderedDict import DefaultOrderedDict
 from ..messages import *
-
 
 
 def update(path, dryRun=False):
@@ -27,9 +22,9 @@ def update(path, dryRun=False):
         # Save each group to a file
         for group, biblios in groupedBiblios.items():
             try:
-                p = os.path.join(path, "biblio", "biblio-{0}.data".format(group))
+                p = os.path.join(path, "biblio", f"biblio-{group}.data")
                 writtenPaths.add(p)
-                with io.open(p, 'w', encoding="utf-8") as fh:
+                with open(p, "w", encoding="utf-8") as fh:
                     writeBiblioFile(fh, biblios)
             except Exception as e:
                 die("Couldn't save biblio database to disk.\n{0}", e)
@@ -76,8 +71,14 @@ def update(path, dryRun=False):
         try:
             p = os.path.join(path, "biblio-keys.json")
             writtenPaths.add(p)
-            with io.open(p, 'w', encoding="utf-8") as fh:
-                fh.write(unicode(json.dumps(reducedNames, indent=0, ensure_ascii=False, sort_keys=True)))
+            with open(p, "w", encoding="utf-8") as fh:
+                fh.write(
+                    str(
+                        json.dumps(
+                            reducedNames, indent=0, ensure_ascii=False, sort_keys=True
+                        )
+                    )
+                )
         except Exception as e:
             die("Couldn't save biblio database to disk.\n{0}", e)
             return
@@ -87,8 +88,14 @@ def update(path, dryRun=False):
         try:
             p = os.path.join(path, "biblio-numeric-suffixes.json")
             writtenPaths.add(p)
-            with io.open(p, 'w', encoding="utf-8") as fh:
-                fh.write(unicode(json.dumps(numberedNames, indent=0, ensure_ascii=False, sort_keys=True)))
+            with open(p, "w", encoding="utf-8") as fh:
+                fh.write(
+                    str(
+                        json.dumps(
+                            numberedNames, indent=0, ensure_ascii=False, sort_keys=True
+                        )
+                    )
+                )
         except Exception as e:
             die("Couldn't save biblio numeric-suffix information to disk.\n{0}", e)
     say("Success!")
@@ -97,23 +104,7 @@ def update(path, dryRun=False):
 
 def getSpecrefData():
     try:
-        with closing(urllib2.urlopen("https://api.specref.org/bibrefs")) as fh:
-            return unicode(fh.read(), encoding="utf-8")
-    except urllib2.URLError:
-        # SpecRef uses SNI, which old Pythons (pre-2.7.10) don't understand.
-        # First try the older herokuapp.com URL.
-        try:
-            with closing(urllib2.urlopen("https://specref.herokuapp.com/bibrefs")) as fh:
-                return unicode(fh.read(), encoding="utf-8")
-        except:
-            # Try the CSSWG proxy.
-            try:
-                with closing(urllib2.urlopen("https://api.csswg.org/bibrefs")) as fh:
-                    return unicode(fh.read(), encoding="utf-8")
-            except:
-                warn("Your Python is too old (pre-2.7.10) to talk to SpecRef over HTTPS, and something's wrong with the CSSWG proxy as well. Report this to the Bikeshed repo, please?")
-                raise
-                return "{}"
+        return requests.get("https://api.specref.org/bibrefs").text
     except Exception as e:
         die("Couldn't download the SpecRef biblio data.\n{0}", e)
         return "{}"
@@ -121,8 +112,7 @@ def getSpecrefData():
 
 def getWG21Data():
     try:
-        with closing(urllib2.urlopen("https://wg21.link/specref.json")) as fh:
-            return unicode(fh.read(), encoding="utf-8")
+        return requests.get("https://wg21.link/specref.json").text
     except Exception as e:
         die("Couldn't download the WG21 biblio data.\n{0}", e)
         return "{}"
@@ -130,8 +120,9 @@ def getWG21Data():
 
 def getCSSWGData():
     try:
-        with closing(urllib2.urlopen("https://raw.githubusercontent.com/w3c/csswg-drafts/master/biblio.ref")) as fh:
-            return [unicode(line, encoding="utf-8") for line in fh.readlines()]
+        return requests.get(
+            "https://raw.githubusercontent.com/w3c/csswg-drafts/master/biblio.ref"
+        ).text.splitlines()
     except Exception as e:
         die("Couldn't download the CSSWG biblio data.\n{0}", e)
         return []
@@ -141,7 +132,7 @@ def groupBiblios(biblios):
     # Group the biblios by the first two letters of their keys
     groupedBiblios = DefaultOrderedDict(DefaultOrderedDict)
     allNames = []
-    for k,v in sorted(biblios.items(), key=lambda x:x[0].lower()):
+    for k, v in sorted(biblios.items(), key=lambda x: x[0].lower()):
         allNames.append(k)
         group = k[0:2]
         groupedBiblios[group][k] = v
@@ -149,7 +140,7 @@ def groupBiblios(biblios):
 
 
 def writeBiblioFile(fh, biblios):
-    '''
+    """
     Each line is a value for a specific key, in the order:
 
     key
@@ -165,18 +156,25 @@ def writeBiblioFile(fh, biblios):
     authors* (each on a separate line, an indeterminate number of lines)
 
     Each entry (including last) is ended by a line containing a single - character.
-    '''
-    typePrefixes = {
-        "dict": "d",
-        "string": "s",
-        "alias": "a"
-    }
+    """
+    typePrefixes = {"dict": "d", "string": "s", "alias": "a"}
     for key, entries in biblios.items():
-        b = sorted(entries, key=lambda x:x['order'])[0]
-        format = b['biblioFormat']
-        fh.write("{prefix}:{key}\n".format(prefix=typePrefixes[format], key=key.lower()))
+        b = sorted(entries, key=lambda x: x["order"])[0]
+        format = b["biblioFormat"]
+        fh.write(
+            "{prefix}:{key}\n".format(prefix=typePrefixes[format], key=key.lower())
+        )
         if format == "dict":
-            for field in ["linkText", "date", "status", "title", "snapshot_url", "current_url", "obsoletedBy", "other"]:
+            for field in [
+                "linkText",
+                "date",
+                "status",
+                "title",
+                "snapshot_url",
+                "current_url",
+                "obsoletedBy",
+                "other",
+            ]:
                 fh.write(b.get(field, "") + "\n")
             if b.get("etAl", False):
                 fh.write("1\n")
@@ -185,22 +183,23 @@ def writeBiblioFile(fh, biblios):
             for author in b.get("authors", []):
                 fh.write(author + "\n")
         elif format == "string":
-            fh.write(b['linkText'] + "\n")
-            fh.write(b['data'] + "\n")
+            fh.write(b["linkText"] + "\n")
+            fh.write(b["data"] + "\n")
         elif format == "alias":
-            fh.write(b['linkText'] + "\n")
-            fh.write(b['aliasOf'] + "\n")
+            fh.write(b["linkText"] + "\n")
+            fh.write(b["aliasOf"] + "\n")
         else:
             die("The biblio key '{0}' has an unknown biblio type '{1}'.", key, format)
             continue
         fh.write("-" + "\n")
 
+
 def collectNumberedNames(names):
-    '''
+    """
     Collects the set of names that have numeric suffixes
     (excluding ones that look like dates)
     for better error-correction.
-    '''
+    """
 
     names = set(names)
     prefixes = defaultdict(list)
@@ -213,4 +212,5 @@ def collectNumberedNames(names):
                 prefix = prefix[:-1]
             if prefix in names:
                 prefixes[prefix].append(name)
+                prefixes[prefix] = sorted(prefixes[prefix])
     return prefixes

@@ -17,95 +17,10 @@ table, th, td {
   border: 1px solid black;
 }
 </style>
-<style>/* style-md-lists */
-
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}</style>
-<style>/* style-selflinks */
-
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: gray;
-    color: white;
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: black;
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
-<style>/* style-counters */
-
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}</style>
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
-    color: #005a9c;
+    color: var(--a-normal-text);
     font-size: inherit;
     font-family: inherit;
 }
@@ -164,8 +79,41 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
 <style>/* style-dfn-panel */
 
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
 .dfn-panel {
     position: absolute;
     z-index: 35;
@@ -177,14 +125,14 @@ pre .property::before, pre .property::after {
     overflow: auto;
     padding: 0.5em 0.75em;
     font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
     border: outset 0.2em;
 }
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
 .dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
+.dfn-panel a { color: var(--dfnpanel-text); }
 .dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
 .dfn-panel > b + b { margin-top: 0.25em; }
 .dfn-panel ul { padding: 0; }
@@ -201,11 +149,74 @@ pre .property::before, pre .property::after {
 
 .dfn-paneled { cursor: pointer; }
 </style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
 <style>/* style-syntax-highlighting */
 
-.highlight:not(.idl) { background: hsl(24, 20%, 95%); }
 code.highlight { padding: .1em; border-radius: .3em; }
 pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
 c-[a] { color: #990055 } /* Keyword.Declaration */
 c-[b] { color: #990055 } /* Keyword.Type */
 c-[c] { color: #708090 } /* Comment */
@@ -480,23 +491,23 @@ often are a result of noise. As it uses a big percentage of the existing value, 
 solution introduces a delay in registering the actual events.</p>
    <div class="example" id="example-f3515ccc">
     <a class="self-link" href="#example-f3515ccc"></a> 
-<pre class="highlight"><c- kr>class</c-> LowPassFilterData <c- p>{</c->
+<pre class="highlight"><c- a>class</c-> LowPassFilterData <c- p>{</c->
   constructor<c- p>(</c->reading<c- p>,</c-> bias<c- p>)</c-> <c- p>{</c->
     Object<c- p>.</c->assign<c- p>(</c-><c- k>this</c-><c- p>,</c-> <c- p>{</c-> x<c- o>:</c-> reading<c- p>.</c->x<c- p>,</c-> y<c- o>:</c-> reading<c- p>.</c->y<c- p>,</c-> z<c- o>:</c-> reading<c- p>.</c->z <c- p>});</c->
     <c- k>this</c-><c- p>.</c->bias <c- o>=</c-> bias<c- p>;</c->
   <c- p>}</c->
 
   update<c- p>(</c->reading<c- p>)</c-> <c- p>{</c->
-    <c- k>this</c-><c- p>.</c->x <c- o>=</c-> <c- k>this</c-><c- p>.</c->x <c- o>*</c-> <c- k>this</c-><c- p>.</c->bias <c- o>+</c-> reading<c- p>.</c->x <c- o>*</c-> <c- p>(</c-><c- mi>1</c-> <c- o>-</c-> <c- k>this</c-><c- p>.</c->bias<c- p>);</c->
-    <c- k>this</c-><c- p>.</c->y <c- o>=</c-> <c- k>this</c-><c- p>.</c->y <c- o>*</c-> <c- k>this</c-><c- p>.</c->bias <c- o>+</c-> reading<c- p>.</c->y <c- o>*</c-> <c- p>(</c-><c- mi>1</c-> <c- o>-</c-> <c- k>this</c-><c- p>.</c->bias<c- p>);</c->
-    <c- k>this</c-><c- p>.</c->z <c- o>=</c-> <c- k>this</c-><c- p>.</c->z <c- o>*</c-> <c- k>this</c-><c- p>.</c->bias <c- o>+</c-> reading<c- p>.</c->z <c- o>*</c-> <c- p>(</c-><c- mi>1</c-> <c- o>-</c-> <c- k>this</c-><c- p>.</c->bias<c- p>);</c->
+    <c- k>this</c-><c- p>.</c->x <c- o>=</c-> <c- k>this</c-><c- p>.</c->x <c- o>*</c-> <c- k>this</c-><c- p>.</c->bias <c- o>+</c-> reading<c- p>.</c->x <c- o>*</c-> <c- p>(</c-><c- mf>1</c-> <c- o>-</c-> <c- k>this</c-><c- p>.</c->bias<c- p>);</c->
+    <c- k>this</c-><c- p>.</c->y <c- o>=</c-> <c- k>this</c-><c- p>.</c->y <c- o>*</c-> <c- k>this</c-><c- p>.</c->bias <c- o>+</c-> reading<c- p>.</c->y <c- o>*</c-> <c- p>(</c-><c- mf>1</c-> <c- o>-</c-> <c- k>this</c-><c- p>.</c->bias<c- p>);</c->
+    <c- k>this</c-><c- p>.</c->z <c- o>=</c-> <c- k>this</c-><c- p>.</c->z <c- o>*</c-> <c- k>this</c-><c- p>.</c->bias <c- o>+</c-> reading<c- p>.</c->z <c- o>*</c-> <c- p>(</c-><c- mf>1</c-> <c- o>-</c-> <c- k>this</c-><c- p>.</c->bias<c- p>);</c->
   <c- p>}</c->
 <c- p>};</c->
 
-<c- kr>const</c-> accl <c- o>=</c-> <c- k>new</c-> Accelerometer<c- p>({</c-> frequency<c- o>:</c-> <c- mi>20</c-> <c- p>});</c->
+<c- a>const</c-> accl <c- o>=</c-> <c- k>new</c-> Accelerometer<c- p>({</c-> frequency<c- o>:</c-> <c- mf>20</c-> <c- p>});</c->
               
 <c- c1>// Isolate gravity with low-pass filter.</c->
-<c- kr>const</c-> filter <c- o>=</c-> <c- k>new</c-> LowPassFilterData<c- p>(</c->accl<c- p>,</c-> <c- mf>0.8</c-><c- p>);</c->
+<c- a>const</c-> filter <c- o>=</c-> <c- k>new</c-> LowPassFilterData<c- p>(</c->accl<c- p>,</c-> <c- mf>0.8</c-><c- p>);</c->
 
 accl<c- p>.</c->onreading <c- o>=</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
   filter<c- p>.</c->update<c- p>(</c->accl<c- p>);</c-> <c- c1>// Pass latest values through filter.</c->
@@ -512,7 +523,7 @@ accl<c- p>.</c->start<c- p>();</c->
 with <a data-link-type="dfn" href="#gyroscope" id="ref-for-gyroscope⑥">gyroscope</a> readings.</p>
    <div class="example" id="example-ab2bf684">
     <a class="self-link" href="#example-ab2bf684"></a> 
-<pre class="highlight"><c- kr>class</c-> HighPassFilterData <c- p>{</c->
+<pre class="highlight"><c- a>class</c-> HighPassFilterData <c- p>{</c->
   constructor<c- p>(</c->reading<c- p>,</c-> cutoffFrequency<c- p>)</c-> <c- p>{</c->
     Object<c- p>.</c->assign<c- p>(</c-><c- k>this</c-><c- p>,</c-> <c- p>{</c-> x<c- o>:</c-> reading<c- p>.</c->x<c- p>,</c-> y<c- o>:</c-> reading<c- p>.</c->y<c- p>,</c-> z<c- o>:</c-> reading<c- p>.</c->z <c- p>});</c->
     <c- k>this</c-><c- p>.</c->cutoff <c- o>=</c-> cutoffFrequency<c- p>;</c->
@@ -520,7 +531,7 @@ with <a data-link-type="dfn" href="#gyroscope" id="ref-for-gyroscope⑥">gyrosco
   <c- p>}</c->
 
   update<c- p>(</c->reading<c- p>)</c-> <c- p>{</c->
-    <c- a>let</c-> dt <c- o>=</c-> reading<c- p>.</c->timestamp <c- o>-</c-> <c- k>this</c-><c- p>.</c->timestamp <c- o>/</c-> <c- mi>1000</c-><c- p>;</c->
+    <c- a>let</c-> dt <c- o>=</c-> reading<c- p>.</c->timestamp <c- o>-</c-> <c- k>this</c-><c- p>.</c->timestamp <c- o>/</c-> <c- mf>1000</c-><c- p>;</c->
     <c- k>this</c-><c- p>.</c->timestamp <c- o>=</c-> reading<c- p>.</c->timestamp<c- p>;</c->
 
     <c- k>for</c-> <c- p>(</c-><c- a>let</c-> i <c- k>of</c-> <c- p>[</c-><c- u>"x"</c-><c- p>,</c-> <c- u>"y"</c-><c- p>,</c-> <c- u>"z"</c-><c- p>])</c-> <c- p>{</c->
@@ -530,10 +541,10 @@ with <a data-link-type="dfn" href="#gyroscope" id="ref-for-gyroscope⑥">gyrosco
   <c- p>}</c->
 <c- p>};</c->
 
-<c- kr>const</c-> gyro <c- o>=</c-> <c- k>new</c-> Gyroscope<c- p>({</c-> frequency<c- o>:</c-> <c- mi>20</c-> <c- p>});</c->
+<c- a>const</c-> gyro <c- o>=</c-> <c- k>new</c-> Gyroscope<c- p>({</c-> frequency<c- o>:</c-> <c- mf>20</c-> <c- p>});</c->
               
 <c- c1>// Remove drift with a  high pass filter.</c->
-<c- kr>const</c-> filter <c- o>=</c-> <c- k>new</c-> HighPassFilterData<c- p>(</c->gyro<c- p>,</c-> <c- mf>0.8</c-><c- p>);</c->
+<c- a>const</c-> filter <c- o>=</c-> <c- k>new</c-> HighPassFilterData<c- p>(</c->gyro<c- p>,</c-> <c- mf>0.8</c-><c- p>);</c->
 
 gyro<c- p>.</c->onreading <c- o>=</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
   filter<c- p>.</c->update<c- p>(</c->gyro<c- p>);</c-> <c- c1>// Pass latest values through filter.</c->
@@ -612,28 +623,28 @@ velocity</a> from <a data-link-type="dfn" href="#gyroscope" id="ref-for-gyroscop
   include the z component in the alpha, the result of this is that the orientation will
   just follow the <a data-link-type="dfn" href="#gyroscope" id="ref-for-gyroscope①⑤">gyroscope</a> and be stable. But as the origin of the heading depends on 
   the device position at start this a <i>device-relative orientation sensor</i>.</p>
-<pre class="highlight"><c- kr>const</c-> options <c- o>=</c-> <c- p>{</c-> frequency<c- o>:</c-> <c- mi>50</c-> <c- p>};</c->
+<pre class="highlight"><c- a>const</c-> options <c- o>=</c-> <c- p>{</c-> frequency<c- o>:</c-> <c- mf>50</c-> <c- p>};</c->
 
-<c- kr>const</c-> accl <c- o>=</c-> <c- k>new</c-> Accelerometer<c- p>(</c->options<c- p>);</c->
-<c- kr>const</c-> gyro <c- o>=</c-> <c- k>new</c-> Gyroscope<c- p>(</c->options<c- p>);</c->
+<c- a>const</c-> accl <c- o>=</c-> <c- k>new</c-> Accelerometer<c- p>(</c->options<c- p>);</c->
+<c- a>const</c-> gyro <c- o>=</c-> <c- k>new</c-> Gyroscope<c- p>(</c->options<c- p>);</c->
 
 <c- a>let</c-> timestamp <c- o>=</c-> <c- kc>null</c-><c- p>;</c->
-<c- a>let</c-> alpha <c- o>=</c-> beta <c- o>=</c-> gamma <c- o>=</c-> <c- mi>0</c-><c- p>;</c->
-<c- kr>const</c-> bias <c- o>=</c-> <c- mf>0.98</c-><c- p>;</c->
+<c- a>let</c-> alpha <c- o>=</c-> beta <c- o>=</c-> gamma <c- o>=</c-> <c- mf>0</c-><c- p>;</c->
+<c- a>const</c-> bias <c- o>=</c-> <c- mf>0.98</c-><c- p>;</c->
 
 gyro<c- p>.</c->onreading <c- o>=</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
-   <c- a>let</c-> dt <c- o>=</c-> timestamp <c- o>?</c-> <c- p>(</c->gyro<c- p>.</c->timestamp <c- o>-</c-> timestamp<c- p>)</c-> <c- o>/</c-> <c- mi>1000</c-> <c- o>:</c-> <c- mi>0</c-><c- p>;</c->
+   <c- a>let</c-> dt <c- o>=</c-> timestamp <c- o>?</c-> <c- p>(</c->gyro<c- p>.</c->timestamp <c- o>-</c-> timestamp<c- p>)</c-> <c- o>/</c-> <c- mf>1000</c-> <c- o>:</c-> <c- mf>0</c-><c- p>;</c->
    timestamp <c- o>=</c-> gyro<c- p>.</c->timestamp<c- p>;</c->
 
    <c- c1>// Treat the acceleration vector as an orientation vector by normalizing it.</c->
    <c- c1>// Keep in mind that the if the device is flipped, the vector will just be</c->
    <c- c1>// pointing in the other direction, so we have no way to know from the</c->
    <c- c1>// accelerometer data which way the device is oriented.</c->
-   <c- kr>const</c-> norm <c- o>=</c-> Math<c- p>.</c->sqrt<c- p>(</c->accl<c- p>.</c->x <c- o>**</c-> <c- mi>2</c-> <c- o>+</c-> accl<c- p>.</c->y <c- o>**</c-> <c- mi>2</c-> <c- o>+</c-> accl<c- p>.</c->z <c- o>**</c-> <c- mi>2</c-><c- p>);</c->
+   <c- a>const</c-> norm <c- o>=</c-> Math<c- p>.</c->sqrt<c- p>(</c->accl<c- p>.</c->x <c- o>**</c-> <c- mf>2</c-> <c- o>+</c-> accl<c- p>.</c->y <c- o>**</c-> <c- mf>2</c-> <c- o>+</c-> accl<c- p>.</c->z <c- o>**</c-> <c- mf>2</c-><c- p>);</c->
 
    <c- c1>// As we only can cover half (PI rad) of the full spectrum (2*PI rad) we multiply</c->
    <c- c1>// the unit vector with values from [-1, 1] with PI/2, covering [-PI/2, PI/2].</c->
-   <c- kr>const</c-> scale <c- o>=</c-> Math<c- p>.</c->PI <c- o>/</c-> <c- mi>2</c-><c- p>;</c->
+   <c- a>const</c-> scale <c- o>=</c-> Math<c- p>.</c->PI <c- o>/</c-> <c- mf>2</c-><c- p>;</c->
 
    alpha <c- o>=</c-> alpha <c- o>+</c-> gyro<c- p>.</c->z <c- o>*</c-> dt<c- p>;</c->
    beta <c- o>=</c-> bias <c- o>*</c-> <c- p>(</c->beta <c- o>+</c-> gyro<c- p>.</c->x <c- o>*</c-> dt<c- p>)</c-> <c- o>+</c-> <c- p>(</c-><c- mf>1.0</c-> <c- o>-</c-> bias<c- p>)</c-> <c- o>*</c-> <c- p>(</c->accl<c- p>.</c->x <c- o>*</c-> scale <c- o>/</c-> norm<c- p>);</c->
@@ -657,8 +668,8 @@ gyro<c- p>.</c->onreading <c- o>=</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
   might move and turn around while playing. That would more or less work like driving
   a real car.</p>
     <p>Changing one line in the above accomplishes that.</p>
-<pre class="highlight"><c- kr>const</c-> zeroBias <c- o>=</c-> <c- mf>0.02</c-><c- p>;</c->
-alpha <c- o>=</c-> <c- p>(</c-><c- mi>1</c-> <c- o>-</c-> zeroBias<c- p>)</c-> <c- o>*</c-> <c- p>(</c->alpha <c- o>+</c-> gyro<c- p>.</c->z <c- o>*</c-> dt<c- p>);</c->
+<pre class="highlight"><c- a>const</c-> zeroBias <c- o>=</c-> <c- mf>0.02</c-><c- p>;</c->
+alpha <c- o>=</c-> <c- p>(</c-><c- mf>1</c-> <c- o>-</c-> zeroBias<c- p>)</c-> <c- o>*</c-> <c- p>(</c->alpha <c- o>+</c-> gyro<c- p>.</c->z <c- o>*</c-> dt<c- p>);</c->
 </pre>
     <p>With the above 2% of the alpha consists of the value 0. Thus, when the device is being
   held more or less steady, the heading will move towards 0, meaning being adjusted to
@@ -813,45 +824,45 @@ processing algorithms have enough samples to provide accurate results.</p>
    <li>
     <a data-link-type="biblio">[ACCELEROMETER]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-acceleration" style="color:initial">acceleration</span>
-     <li><span class="dfn-paneled" id="term-for-accelerometer-interface" style="color:initial">accelerometer interface</span>
-     <li><span class="dfn-paneled" id="term-for-gravity" style="color:initial">gravity</span>
-     <li><span class="dfn-paneled" id="term-for-gravitysensor-interface" style="color:initial">gravitysensor interface</span>
-     <li><span class="dfn-paneled" id="term-for-linear-acceleration" style="color:initial">linear acceleration</span>
-     <li><span class="dfn-paneled" id="term-for-linearaccelerationsensor-interface" style="color:initial">linearaccelerationsensor interface</span>
+     <li><span class="dfn-paneled" id="term-for-acceleration">acceleration</span>
+     <li><span class="dfn-paneled" id="term-for-accelerometer-interface">accelerometer interface</span>
+     <li><span class="dfn-paneled" id="term-for-gravity">gravity</span>
+     <li><span class="dfn-paneled" id="term-for-gravitysensor-interface">gravitysensor interface</span>
+     <li><span class="dfn-paneled" id="term-for-linear-acceleration">linear acceleration</span>
+     <li><span class="dfn-paneled" id="term-for-linearaccelerationsensor-interface">linearaccelerationsensor interface</span>
     </ul>
    <li>
     <a data-link-type="biblio">[GENERIC-SENSOR]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-calibration" style="color:initial">calibration</span>
+     <li><span class="dfn-paneled" id="term-for-calibration">calibration</span>
     </ul>
    <li>
     <a data-link-type="biblio">[GYROSCOPE]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-angular-velocity" style="color:initial">angular velocity</span>
-     <li><span class="dfn-paneled" id="term-for-gyroscope-interface" style="color:initial">gyroscope interface</span>
+     <li><span class="dfn-paneled" id="term-for-angular-velocity">angular velocity</span>
+     <li><span class="dfn-paneled" id="term-for-gyroscope-interface">gyroscope interface</span>
     </ul>
    <li>
     <a data-link-type="biblio">[MAGNETOMETER]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-magnetic-field" style="color:initial">magnetic field</span>
-     <li><span class="dfn-paneled" id="term-for-magnetometer-interface" style="color:initial">magnetometer interface</span>
+     <li><span class="dfn-paneled" id="term-for-magnetic-field">magnetic field</span>
+     <li><span class="dfn-paneled" id="term-for-magnetometer-interface">magnetometer interface</span>
     </ul>
    <li>
     <a data-link-type="biblio">[ORIENTATION-SENSOR]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-absoluteorientationsensor-interface" style="color:initial">absoluteorientationsensor interface</span>
+     <li><span class="dfn-paneled" id="term-for-absoluteorientationsensor-interface">absoluteorientationsensor interface</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
    <dt id="biblio-accelerometer">[ACCELEROMETER]
-   <dd>Anssi Kostiainen. <a href="https://www.w3.org/TR/accelerometer/">Accelerometer</a>. 7 March 2019. WD. URL: <a href="https://www.w3.org/TR/accelerometer/">https://www.w3.org/TR/accelerometer/</a>
+   <dd>Anssi Kostiainen. <a href="https://www.w3.org/TR/accelerometer/">Accelerometer</a>. 12 December 2019. CR. URL: <a href="https://www.w3.org/TR/accelerometer/">https://www.w3.org/TR/accelerometer/</a>
    <dt id="biblio-generic-sensor">[GENERIC-SENSOR]
-   <dd>Mikhail Pozdnyakov; Alexander Shalamov; Tobie Langel. <a href="https://www.w3.org/TR/generic-sensor/">Generic Sensor API</a>. 7 March 2019. WD. URL: <a href="https://www.w3.org/TR/generic-sensor/">https://www.w3.org/TR/generic-sensor/</a>
+   <dd>Rick Waldron. <a href="https://www.w3.org/TR/generic-sensor/">Generic Sensor API</a>. 12 December 2019. CR. URL: <a href="https://www.w3.org/TR/generic-sensor/">https://www.w3.org/TR/generic-sensor/</a>
    <dt id="biblio-gyroscope">[GYROSCOPE]
-   <dd>Anssi Kostiainen. <a href="https://www.w3.org/TR/gyroscope/">Gyroscope</a>. 7 March 2019. WD. URL: <a href="https://www.w3.org/TR/gyroscope/">https://www.w3.org/TR/gyroscope/</a>
+   <dd>Anssi Kostiainen. <a href="https://www.w3.org/TR/gyroscope/">Gyroscope</a>. 12 December 2019. CR. URL: <a href="https://www.w3.org/TR/gyroscope/">https://www.w3.org/TR/gyroscope/</a>
    <dt id="biblio-magnetometer">[MAGNETOMETER]
    <dd>Anssi Kostiainen; Rijubrata Bhaumik. <a href="https://www.w3.org/TR/magnetometer/">Magnetometer</a>. 7 March 2019. WD. URL: <a href="https://www.w3.org/TR/magnetometer/">https://www.w3.org/TR/magnetometer/</a>
    <dt id="biblio-orientation-sensor">[ORIENTATION-SENSOR]

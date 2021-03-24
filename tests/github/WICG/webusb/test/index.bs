@@ -1,11 +1,11 @@
 <pre class="metadata">
 Title: WebUSB Testing API
-Status: ED
+Status: w3c/CG-DRAFT
 ED: https://wicg.github.io/webusb/test/
 Shortname: webusb-test
 Level: 1
 Editor: Reilly Grant 83788, Google LLC https://www.google.com, reillyg@google.com
-Editor: Ovidio Henriquez 106543, Google LLC https://www.google.com, odejesush@google.com
+Editor: Ovidio Ruiz-Henríquez 106543, Google LLC https://www.google.com, odejesush@google.com
 Abstract: This document describes an API for testing a User Agent's implementation of the WebUSB API.
 Group: wicg
 Repository: https://github.com/WICG/webusb/
@@ -155,16 +155,16 @@ two benefits,
   interface USBDeviceRequestEvent : Event {
     attribute FrozenArray<USBDeviceFilter> filters;
 
-    void respondWith(Promise<FakeUSBDevice> result);
+    undefined respondWith(Promise<FakeUSBDevice> result);
   };
 
   interface USBTest {
     attribute EventHandler onrequestdevice;
 
-    Promise<void> initialize();
-    Promise<void> attachToContext((HTMLIFrameElement or Worker) context);
+    Promise<undefined> initialize();
+    Promise<undefined> attachToContext((HTMLIFrameElement or Worker) context);
     FakeUSBDevice addFakeDevice(FakeUSBDeviceInit deviceInit);
-    Promise<void> reset();
+    Promise<undefined> reset();
   };
 </xmp>
 
@@ -268,7 +268,7 @@ device to be added.
   interface FakeUSBDevice : EventTarget {
     attribute EventHandler onclose;
 
-    void disconnect();
+    undefined disconnect();
   };
 
   dictionary FakeUSBDeviceInit {
@@ -414,5 +414,5 @@ spec: ECMAScript; urlPrefix: https://tc39.github.io/ecma262/#
 
 <pre class="link-defaults">
 spec:html; type:dfn; for:/; text:global object
-spec:promises-guide-1; type:dfn; text:resolve
+spec:webidl; type:dfn; text:resolve
 </pre>

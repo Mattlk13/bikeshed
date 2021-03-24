@@ -1,8 +1,6 @@
-# -*- coding: utf-8 -*-
-from __future__ import division, unicode_literals
-
 from .DefaultOrderedDict import DefaultOrderedDict
-from .htmlhelpers import *
+from .h import *
+
 
 def addDfnPanels(doc, dfns):
     # Constructs "dfn panels" which show all the local references to a term
@@ -28,74 +26,116 @@ def addDfnPanels(doc, dfns):
                 refs[section].append(link)
         if not refs:
             # Just insert a self-link instead
-            appendChild(dfn,
-                        E.a({"href": "#" + escapeUrlFrag(id), "class":"self-link"}))
+            # unless it already has a self-link, of course
+            if find(".self-link", dfn) is None:
+                appendChild(
+                    dfn, E.a({"href": "#" + escapeUrlFrag(id), "class": "self-link"})
+                )
             continue
         addClass(dfn, "dfn-paneled")
         atLeastOnePanel = True
-        panel = E.aside({"class": "dfn-panel", "data-for": id},
-                        E.b(E.a({"href":"#" + escapeUrlFrag(id)}, "#" + id)),
-                        E.b("Referenced in:"))
+        panel = E.aside(
+            {"class": "dfn-panel", "data-for": id},
+            E.b(E.a({"href": "#" + escapeUrlFrag(id)}, "#" + id)),
+            E.b("Referenced in:"),
+        )
         ul = appendChild(panel, E.ul())
-        for text,els in refs.items():
+        for text, els in refs.items():
             li = appendChild(ul, E.li())
-            for i,el in enumerate(els):
+            for i, el in enumerate(els):
                 refID = el.get("id")
                 if refID is None:
-                    refID = "ref-for-{0}".format(id)
+                    refID = f"ref-for-{id}"
                     el.set("id", safeID(doc, refID))
                 if i == 0:
-                    if text is None:
-                        print [outerHTML(el) for el in els]
-                    appendChild(li,
-                                E.a({"href": "#" + escapeUrlFrag(refID), "data-silently-dedup": ""}, text))
+                    appendChild(
+                        li,
+                        E.a(
+                            {
+                                "href": "#" + escapeUrlFrag(refID),
+                                "data-silently-dedup": "",
+                            },
+                            text,
+                        ),
+                    )
                 else:
-                    appendChild(li,
-                                " ",
-                                E.a({"href": "#" + escapeUrlFrag(refID), "data-silently-dedup": ""}, "(" + str(i + 1) + ")"))
+                    appendChild(
+                        li,
+                        " ",
+                        E.a(
+                            {
+                                "href": "#" + escapeUrlFrag(refID),
+                                "data-silently-dedup": "",
+                            },
+                            "(" + str(i + 1) + ")",
+                        ),
+                    )
         appendChild(doc.body, panel)
     if atLeastOnePanel:
-        doc.extraScripts['script-dfn-panel'] = dfnPanelScript
-        doc.extraStyles['style-dfn-panel'] = dfnPanelStyle
+        doc.extraScripts["script-dfn-panel"] = dfnPanelScript
+        doc.extraStyles["style-dfn-panel"] = dfnPanelStyle
+
 
 def addExternalDfnPanel(termEl, ref, elsFromHref, doc):
     # Constructs "dfn panels" which show all the local references to an external term
     # Gather all the <a href>s together
     refs = DefaultOrderedDict(list)
     for el in elsFromHref[ref.url]:
-        section = sectionName(el)
-        if section is not None:
-            refs[section].append(el)
-    addClass(termEl, "dfn-paneled")
-    _,_,refID = ref.url.partition("#")
-    termID = "term-for-{0}".format(refID)
-    termEl.set("id", termID)
-    termEl.set("data-silently-dedup", "")
-    panel = E.aside({"class": "dfn-panel", "data-for": termID},
-                    E.a({"href":ref.url}, ref.url),
-                    E.b("Referenced in:"))
-    ul = appendChild(panel, E.ul())
-    for text,els in refs.items():
-        li = appendChild(ul, E.li())
-        for i,el in enumerate(els):
-            linkID = el.get("id")
-            if linkID is None:
-                linkID = "termref-for-".format(refID)
-                el.set("id", safeID(doc, linkID))
-                el.set("data-silently-dedup", "")
-            if i == 0:
-                appendChild(li,
-                            E.a({"href": "#" + escapeUrlFrag(linkID), "data-silently-dedup": ""}, text))
-            else:
-                appendChild(li,
-                            " ",
-                            E.a({"href": "#" + escapeUrlFrag(linkID), "data-silently-dedup": ""}, "(" + str(i + 1) + ")"))
-    appendChild(doc.body, panel)
-    doc.extraScripts['script-dfn-panel'] = dfnPanelScript
-    doc.extraStyles['style-dfn-panel'] = dfnPanelStyle
+        section = sectionName(el) or "Unnumbered Section"
+        refs[section].append(el)
+    if len(refs) > 0:
+        addClass(termEl, "dfn-paneled")
+        _, _, refID = ref.url.partition("#")
+        termID = f"term-for-{refID}"
+        termEl.set("id", termID)
+        termEl.set("data-silently-dedup", "")
+        panel = E.aside(
+            {"class": "dfn-panel", "data-for": termID},
+            E.a({"href": ref.url}, ref.url),
+            E.b("Referenced in:"),
+        )
+        ul = appendChild(panel, E.ul())
+        for text, els in refs.items():
+            li = appendChild(ul, E.li())
+            for i, el in enumerate(els):
+                linkID = el.get("id")
+                if linkID is None:
+                    linkID = f"termref-for-{refID}"
+                    el.set("id", safeID(doc, linkID))
+                    el.set("data-silently-dedup", "")
+                if i == 0:
+                    appendChild(
+                        li,
+                        E.a(
+                            {
+                                "href": "#" + escapeUrlFrag(linkID),
+                                "data-silently-dedup": "",
+                            },
+                            text,
+                        ),
+                    )
+                else:
+                    appendChild(
+                        li,
+                        " ",
+                        E.a(
+                            {
+                                "href": "#" + escapeUrlFrag(linkID),
+                                "data-silently-dedup": "",
+                            },
+                            "(" + str(i + 1) + ")",
+                        ),
+                    )
+        appendChild(doc.body, panel)
 
 
-dfnPanelScript = '''
+def addExternalDfnPanelStyles(doc):
+    doc.extraScripts["script-dfn-panel"] = dfnPanelScript
+    doc.extraStyles["style-dfn-panel"] = dfnPanelStyle
+    doc.extraStyles["style-darkmode"] += dfnPanelDarkmodeStyle
+
+
+dfnPanelScript = """
 document.body.addEventListener("click", function(e) {
     var queryAll = function(sel) { return [].slice.call(document.querySelectorAll(sel)); }
     // Find the dfn element or panel, if any, that was clicked on.
@@ -149,9 +189,13 @@ document.body.addEventListener("click", function(e) {
     }
 
 });
-'''
+"""
 
-dfnPanelStyle = '''
+dfnPanelStyle = """
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
 .dfn-panel {
     position: absolute;
     z-index: 35;
@@ -163,14 +207,14 @@ dfnPanelStyle = '''
     overflow: auto;
     padding: 0.5em 0.75em;
     font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
     border: outset 0.2em;
 }
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
 .dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
+.dfn-panel a { color: var(--dfnpanel-text); }
 .dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
 .dfn-panel > b + b { margin-top: 0.25em; }
 .dfn-panel ul { padding: 0; }
@@ -186,4 +230,12 @@ dfnPanelStyle = '''
 }
 
 .dfn-paneled { cursor: pointer; }
-'''
+"""
+
+dfnPanelDarkmodeStyle = """
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}"""

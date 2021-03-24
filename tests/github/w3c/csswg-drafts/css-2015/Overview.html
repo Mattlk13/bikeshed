@@ -4,138 +4,16 @@
   <title>CSS Snapshot 2015</title>
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <meta content="completed" name="csswg-work-status">
-  <meta content="NOTE" name="w3c-status">
+  <meta content="ED" name="w3c-status">
   <meta content="This document collects together into one definition all the specs that  	together form the current state of Cascading Style Sheets (CSS) as of 2015.  	The primary audience is CSS implementers, not CSS authors, as this definition  	includes modules by specification stability, not Web browser adoption rate." name="abstract">
   <link href="../default.css" rel="stylesheet" type="text/css">
   <link href="../csslogo.ico" rel="shortcut icon" type="image/x-icon">
-  <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-NOTE" rel="stylesheet" type="text/css">
+  <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <link href="https://www.w3.org/TR/CSS/" rel="canonical">
-<style>/* style-md-lists */
-
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}</style>
-<style>/* style-counters */
-
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}</style>
-<style>/* style-dfn-panel */
-
-.dfn-panel {
-    position: absolute;
-    z-index: 35;
-    height: auto;
-    width: -webkit-fit-content;
-    width: fit-content;
-    max-width: 300px;
-    max-height: 500px;
-    overflow: auto;
-    padding: 0.5em 0.75em;
-    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
-    border: outset 0.2em;
-}
-.dfn-panel:not(.on) { display: none; }
-.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
-.dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
-.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
-.dfn-panel > b + b { margin-top: 0.25em; }
-.dfn-panel ul { padding: 0; }
-.dfn-panel li { list-style: inside; }
-.dfn-panel.activated {
-    display: inline-block;
-    position: fixed;
-    left: .5em;
-    bottom: 2em;
-    margin: 0 auto;
-    max-width: calc(100vw - 1.5em - .4em - .5em);
-    max-height: 30vh;
-}
-
-.dfn-paneled { cursor: pointer; }
-</style>
-<style>/* style-selflinks */
-
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: gray;
-    color: white;
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: black;
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
-    color: #005a9c;
+    color: var(--a-normal-text);
     font-size: inherit;
     font-family: inherit;
 }
@@ -194,33 +72,402 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #707070;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #bbb;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
+<style>/* style-dfn-panel */
+
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    height: auto;
+    width: -webkit-fit-content;
+    width: fit-content;
+    max-width: 300px;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
+    border: outset 0.2em;
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0; }
+.dfn-panel li { list-style: inside; }
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: .5em;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+}
+
+.dfn-paneled { cursor: pointer; }
+</style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
    <h1 class="p-name no-ref" id="title">CSS Snapshot 2015</h1>
-   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">W3C Note, <time class="dt-updated" datetime="1970-01-01">1 January 1970</time></span></h2>
-   <div data-fill-with="spec-metadata">
-    <dl>
-     <dt>This version:
-     <dd><a class="u-url" href="https://www.w3.org/TR/1970/NOTE-css-2015-0-19700101/">https://www.w3.org/TR/1970/NOTE-css-2015-0-19700101/</a>
-     <dt>Latest published version:
-     <dd><a href="https://www.w3.org/TR/CSS/">https://www.w3.org/TR/CSS/</a>
-     <dt>Editor's Draft:
-     <dd><a href="https://drafts.csswg.org/css-2015/">https://drafts.csswg.org/css-2015/</a>
-     <dt>Previous Versions:
-     <dd><a href="https://www.w3.org/TR/2015/NOTE-css-2015-20151013/" rel="prev">https://www.w3.org/TR/2015/NOTE-css-2015-20151013/</a>
-     <dt class="editor">Editors:
-     <dd class="editor p-author h-card vcard" data-editor-id="42199"><a class="p-name fn u-url url" href="http://xanthir.com/">Tab Atkins Jr.</a> (<span class="p-org org">Google</span>)
-     <dd class="editor p-author h-card vcard" data-editor-id="35400"><a class="p-name fn u-url url" href="http://fantasai.inkedblade.net/contact">Elika J. Etemad / fantasai</a> (<span class="p-org org">Invited Expert</span>)
-     <dd class="editor p-author h-card vcard" data-editor-id="43241"><a class="p-name fn u-url url" href="https://florian.rivoal.net">Florian Rivoal</a> (<span class="p-org org">Invited Expert</span>)
-     <dt>Suggest an Edit for this Spec:
-     <dd><a href="https://github.com/w3c/csswg-drafts/blob/master/css-2015-0/Overview.bs">GitHub Editor</a>
-     <dt>Issue Tracking:
-     <dd><a href="https://github.com/w3c/csswg-drafts/labels/css-2015-0">GitHub Issues</a>
-    </dl>
-   </div>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Editor’s Draft, <time class="dt-updated" datetime="1970-01-01">1 January 1970</time></span></h2>
+   <details>
+    <summary>Specification Metadata</summary>
+    <div data-fill-with="spec-metadata">
+     <dl>
+      <dt>This version:
+      <dd><a class="u-url" href="https://drafts.csswg.org/css-2015/">https://drafts.csswg.org/css-2015/</a>
+      <dt>Latest published version:
+      <dd><a href="https://www.w3.org/TR/CSS/">https://www.w3.org/TR/CSS/</a>
+      <dt>Previous Versions:
+      <dd><a href="https://www.w3.org/TR/2015/NOTE-css-2015-20151013/" rel="prev">https://www.w3.org/TR/2015/NOTE-css-2015-20151013/</a>
+      <dt>Issue Tracking:
+      <dd><a href="https://github.com/w3c/csswg-drafts/labels/css-2015">CSSWG Issues Repository</a>
+      <dt class="editor">Editors:
+      <dd class="editor p-author h-card vcard" data-editor-id="42199"><a class="p-name fn u-url url" href="http://xanthir.com/">Tab Atkins Jr.</a> (<span class="p-org org">Google</span>)
+      <dd class="editor p-author h-card vcard" data-editor-id="35400"><a class="p-name fn u-url url" href="http://fantasai.inkedblade.net/contact">Elika J. Etemad / fantasai</a> (<span class="p-org org">Invited Expert</span>)
+      <dd class="editor p-author h-card vcard" data-editor-id="43241"><a class="p-name fn u-url url" href="https://florian.rivoal.net">Florian Rivoal</a> (<span class="p-org org">Invited Expert</span>)
+      <dt>Suggest an Edit for this Spec:
+      <dd><a href="https://github.com/w3c/csswg-drafts/blob/master/css-2015/Overview.bs">GitHub Editor</a>
+     </dl>
+    </div>
+   </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -277,17 +524,16 @@ on screen, on paper, etc.
      </ol>
     <li><a href="#acks"><span class="secno">5</span> <span class="content">Acknowledgements</span></a>
     <li>
-     <a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
+     <a href="#w3c-conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
      <ol class="toc">
-      <li><a href="#document-conventions"><span class="secno"></span> <span class="content"> Document conventions</span></a>
-      <li><a href="#conform-classes"><span class="secno"></span> <span class="content"> Conformance classes</span></a>
+      <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content"> Document conventions</span></a>
+      <li><a href="#w3c-conformance-classes"><span class="secno"></span> <span class="content"> Conformance classes</span></a>
       <li>
-       <a href="#conform-responsible"><span class="secno"></span> <span class="content"> Requirements for Responsible Implementation of CSS</span></a>
+       <a href="#w3c-partial"><span class="secno"></span> <span class="content"> Partial implementations</span></a>
        <ol class="toc">
-        <li><a href="#conform-partial"><span class="secno"></span> <span class="content"> Partial Implementations</span></a>
-        <li><a href="#conform-future-proofing"><span class="secno"></span> <span class="content"> Implementations of Unstable and Proprietary Features</span></a>
-        <li><a href="#conform-testing"><span class="secno"></span> <span class="content"> Implementations of CR-level Features</span></a>
+        <li><a href="#w3c-conform-future-proofing"><span class="secno"></span> <span class="content"> Implementations of Unstable and Proprietary Features</span></a>
        </ol>
+      <li><a href="#w3c-testing"><span class="secno"></span> <span class="content"> Non-experimental implementations</span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -361,7 +607,7 @@ on screen, on paper, etc.
      <p>The transition to the next stage is “Proposed Recommendation” (PR).
 			During this phase the W3C Advisory Committee must approve the transition to REC.</p>
     <dt>Recommendation (REC) 
-    <dd> This is the completed state of a W3C spec and represents a maintainance phase.
+    <dd> This is the completed state of a W3C spec and represents a maintenance phase.
 			At this point the WG only maintains an errata document
 			and occasionally publishes an updated edition that incorporates the errata back into the spec. 
    </dl>
@@ -405,7 +651,7 @@ on screen, on paper, etc.
     <dt><a href="https://www.w3.org/TR/css3-color/">CSS Color Level 3</a> <a data-link-type="biblio" href="#biblio-css3-color">[CSS3-COLOR]</a> 
     <dd> Replaces CSS2§4.3.6, CSS2§14.1, and CSS2§18.2,
 			defining an extended range of color values.
-			Also introduces the <a class="property" data-link-type="propdesc" href="https://www.w3.org/TR/css-color-4/#propdef-opacity" id="ref-for-propdef-opacity">opacity</a> property. 
+			Also introduces the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-color-4/#propdef-opacity" id="ref-for-propdef-opacity">opacity</a> property. 
     <dt><a href="https://www.w3.org/TR/css3-background/">CSS Backgrounds and Borders Level 3</a> <a data-link-type="biblio" href="#biblio-css3-background">[CSS3-BACKGROUND]</a> 
     <dd> Replaces CSS2§8.5 and CSS2§14.2,
 			providing more control of backgrounds and borders,
@@ -423,7 +669,7 @@ on screen, on paper, etc.
     <dd> Introduces multi-column flows to CSS layout. 
     <dt><a href="https://www.w3.org/TR/css3-ui/">CSS User Interface Module Level 3</a> <a data-link-type="biblio" href="#biblio-css-ui-3">[CSS-UI-3]</a> 
     <dd> Replaces CSS2§18.1 and CSS2§18.4,
-			defining <a class="property" data-link-type="propdesc" href="https://www.w3.org/TR/css3-ui/#propdef-cursor" id="ref-for-propdef-cursor">cursor</a>, <a class="property" data-link-type="propdesc" href="https://www.w3.org/TR/css3-ui/#propdef-outline" id="ref-for-propdef-outline">outline</a>, and several new CSS features that also enhance the user interface. 
+			defining <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-ui-4/#propdef-cursor" id="ref-for-propdef-cursor">cursor</a>, <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-ui-4/#propdef-outline" id="ref-for-propdef-outline">outline</a>, and several new CSS features that also enhance the user interface. 
     <dt><a href="https://www.w3.org/TR/compositing-1/">CSS Compositing and Blending Level 1</a> <a data-link-type="biblio" href="#biblio-compositing">[COMPOSITING]</a> 
     <dd> Defines the compositing and blending of overlaid content
 			and introduces features to control their modes. 
@@ -447,7 +693,7 @@ on screen, on paper, etc.
 		but have not received much testing and implementation experience yet: 
     <dl>
      <dt><a href="https://www.w3.org/TR/css-counter-styles-3/">CSS Counter Styles Level 3</a> <a data-link-type="biblio" href="#biblio-css-counter-styles-3">[CSS-COUNTER-STYLES-3]</a> 
-     <dd> Expands the possible values of <a class="production css" data-link-type="type" href="https://www.w3.org/TR/css-counter-styles-3/#typedef-counter-style" id="ref-for-typedef-counter-style" title="Expands to: simp-chinese-formal | simp-chinese-informal | japanese-informal | trad-chinese-formal | cjk-ideographic | japanese-formal | trad-chinese-informal">&lt;counter-style></a> and provides an <a class="css" data-link-type="maybe" href="https://www.w3.org/TR/css-counter-styles-3/#at-ruledef-counter-style" id="ref-for-at-ruledef-counter-style">@counter-style</a> syntax for customized counter styles. 
+     <dd> Expands the possible values of <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-counter-styles-3/#typedef-counter-style" id="ref-for-typedef-counter-style" title="Expands to: cjk-ideographic | japanese-formal | japanese-informal | simp-chinese-formal | simp-chinese-informal | trad-chinese-formal | trad-chinese-informal">&lt;counter-style></a> and provides an <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-counter-styles-3/#at-ruledef-counter-style" id="ref-for-at-ruledef-counter-style">@counter-style</a> syntax for customized counter styles. 
      <dt><a href="https://www.w3.org/TR/css-masking-1/">CSS Masking Level 1</a> <a data-link-type="biblio" href="#biblio-css-masking-1">[CSS-MASKING-1]</a> 
      <dd> Replaces CSS2§11.1.2
 				and introduces more powerful ways of clipping and masking content. 
@@ -459,13 +705,12 @@ on screen, on paper, etc.
 				and adding the ability to specify text emphasis marks
 				and text shadows. 
      <dt><a href="https://www.w3.org/TR/css-will-change-1/">CSS Will Change Level 1</a> <a data-link-type="biblio" href="#biblio-css-will-change-1">[CSS-WILL-CHANGE-1]</a> 
-     <dd> Introduces a performance hint property called <a class="property" data-link-type="propdesc" href="https://www.w3.org/TR/css-will-change-1/#propdef-will-change" id="ref-for-propdef-will-change">will-change</a>. 
-    </dl>
-    <dt><a href="https://www.w3.org/TR/css3-speech/">CSS Speech Module Level 1</a> <a data-link-type="biblio" href="#biblio-css3-speech">[CSS3-SPEECH]</a> 
-    <dd>
-      Replaces CSS2§A,
+     <dd> Introduces a performance hint property called <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-will-change-1/#propdef-will-change" id="ref-for-propdef-will-change">will-change</a>. 
+     <dt><a href="https://www.w3.org/TR/css3-speech/">CSS Speech Module Level 1</a> <a data-link-type="biblio" href="#biblio-css3-speech">[CSS3-SPEECH]</a> 
+     <dd> Replaces CSS2§A,
 				overhauling the (non-normative) speech rendering chapter. 
-     <p>We hope to incorporate them into a future snapshot.</p>
+    </dl>
+    <p>We hope to incorporate them into a future snapshot.</p>
    </div>
    <p><strong class="advisement"> A list of all CSS modules, stable and in-progress,
 	and their statuses
@@ -581,8 +826,8 @@ on screen, on paper, etc.
     <li>CSS Animations <a data-link-type="biblio" href="#biblio-css3-animations">[CSS3-ANIMATIONS]</a> 
     <li>CSS Transitions <a data-link-type="biblio" href="#biblio-css3-transitions">[CSS3-TRANSITIONS]</a> 
     <li>CSS Transforms <a data-link-type="biblio" href="#biblio-css3-transforms">[CSS3-TRANSFORMS]</a> 
-    <li>The <a class="css" data-link-type="maybe" href="https://www.w3.org/TR/css-sizing-3/#valdef-width-min-content" id="ref-for-valdef-width-min-content">min-content</a>, <a class="css" data-link-type="maybe" href="https://www.w3.org/TR/css-sizing-3/#valdef-width-max-content" id="ref-for-valdef-width-max-content">max-content</a>, and <span class="css">fit-content</span> keywords from <a data-link-type="biblio" href="#biblio-css-sizing-3">[CSS-SIZING-3]</a> 
-    <li>The <a class="css" data-link-type="maybe" href="https://www.w3.org/TR/selectors4/#dir-pseudo" id="ref-for-dir-pseudo">:dir()</a> and <a class="css" data-link-type="maybe" href="https://www.w3.org/TR/selectors4/#lang-pseudo" id="ref-for-lang-pseudo">:lang()</a> selectors from <a data-link-type="biblio" href="#biblio-selectors4">[SELECTORS4]</a> 
+    <li>The <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-sizing-3/#valdef-width-min-content" id="ref-for-valdef-width-min-content">min-content</a>, <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-sizing-3/#valdef-width-max-content" id="ref-for-valdef-width-max-content">max-content</a>, and <span class="css">fit-content</span> keywords from <a data-link-type="biblio" href="#biblio-css-sizing-3">[CSS-SIZING-3]</a> 
+    <li>The <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/selectors-4/#dir-pseudo" id="ref-for-dir-pseudo">:dir()</a> and <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css2/#selectordef-lang" id="ref-for-selectordef-lang">:lang()</a> selectors from <a data-link-type="biblio" href="#biblio-selectors4">[SELECTORS4]</a> 
    </ul>
    <h4 class="heading settled" data-level="3.2.2" id="proprietary"><span class="secno">3.2.2. </span><span class="content"> Proprietary and Non-standardized Features</span><a class="self-link" href="#proprietary"></a></h4>
    <p>To avoid clashes with future CSS features,
@@ -658,7 +903,7 @@ that this feature should exist and be released,</p>
 		This in turn allows UA vendors to retire
 		their prefixed syntax once the feature is stable,
 		with a lower risk of breaking existing content.
-		It also reduces the need occasionally felt by by some vendors
+		It also reduces the need occasionally felt by some vendors
 		to support a feature with the prefix of another vendor,
 		due to content depending on that syntax.</p>
    </details>
@@ -965,95 +1210,89 @@ that this feature should exist and be released,</p>
    <h2 class="heading settled" data-level="5" id="acks"><span class="secno">5. </span><span class="content">Acknowledgements</span><a class="self-link" href="#acks"></a></h2>
    <p>Special thanks to Florian Rivoal for creating the initial draft of the <a href="#experimental">§ 3.2.1 Experimentation and Unstable Features</a> recommendations.</p>
   </main>
-  <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
-  <h3 class="heading settled" id="document-conventions"><span class="content"> Document conventions</span><a class="self-link" href="#document-conventions"></a></h3>
+  <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content"> Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
+  <h3 class="no-ref heading settled" id="w3c-conventions"><span class="content"> Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
   <p>Conformance requirements are expressed with a combination of
-	descriptive assertions and RFC 2119 terminology. The key words “MUST”,
-	“MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
-	“RECOMMENDED”, “MAY”, and “OPTIONAL” in the normative parts of this
-	document are to be interpreted as described in RFC 2119.
-	However, for readability, these words do not appear in all uppercase
-	letters in this specification. </p>
+    descriptive assertions and RFC 2119 terminology. The key words “MUST”,
+    “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
+    “RECOMMENDED”, “MAY”, and “OPTIONAL” in the normative parts of this
+    document are to be interpreted as described in RFC 2119.
+    However, for readability, these words do not appear in all uppercase
+    letters in this specification. </p>
   <p>All of the text of this specification is normative except sections
-	explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a> </p>
+    explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a></p>
   <p>Examples in this specification are introduced with the words “for example”
-	or are set apart from the normative text with <code>class="example"</code>,
-	like this: </p>
+    or are set apart from the normative text with <code>class="example"</code>,
+    like this: </p>
   <div class="example" id="example-ae2b6bc0">
    <a class="self-link" href="#example-ae2b6bc0"></a> 
-   <p>This is an example of an informative example. </p>
+   <p>This is an example of an informative example.</p>
   </div>
   <p>Informative notes begin with the word “Note” and are set apart from the
-	normative text with <code>class="note"</code>, like this: </p>
-  <p class="note" role="note">Note, this is an informative note. </p>
+    normative text with <code>class="note"</code>, like this: </p>
+  <p class="note" role="note">Note, this is an informative note.</p>
   <p>Advisements are normative sections styled to evoke special attention and are
-	set apart from other normative text with <code>&lt;strong class="advisement"></code>, like
-	this: <strong class="advisement"> UAs MUST provide an accessible alternative. </strong> </p>
-  <h3 class="heading settled" id="conform-classes"><span class="content"> Conformance classes</span><a class="self-link" href="#conform-classes"></a></h3>
+    set apart from other normative text with <code>&lt;strong class="advisement"></code>, like
+    this: <strong class="advisement"> UAs MUST provide an accessible alternative. </strong> </p>
+  <h3 class="no-ref heading settled" id="w3c-conformance-classes"><span class="content"> Conformance classes</span><a class="self-link" href="#w3c-conformance-classes"></a></h3>
   <p>Conformance to this specification
-	is defined for three conformance classes: </p>
+    is defined for three conformance classes: </p>
   <dl>
    <dt>style sheet 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#style-sheet">CSS
-			style sheet</a>. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#style-sheet">CSS
+            style sheet</a>. 
    <dt>renderer 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#user-agent">UA</a> that interprets the semantics of a style sheet and renders
-			documents that use them. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#user-agent">UA</a> that interprets the semantics of a style sheet and renders
+            documents that use them. 
    <dt>authoring tool 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#user-agent">UA</a> that writes a style sheet. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#user-agent">UA</a> that writes a style sheet. 
   </dl>
   <p>A style sheet is conformant to this specification
-	if all of its statements that use syntax defined in this module are valid
-	according to the generic CSS grammar and the individual grammars of each
-	feature defined in this module. </p>
+    if all of its statements that use syntax defined in this module are valid
+    according to the generic CSS grammar and the individual grammars of each
+    feature defined in this module. </p>
   <p>A renderer is conformant to this specification
-	if, in addition to interpreting the style sheet as defined by the
-	appropriate specifications, it supports all the features defined
-	by this specification by parsing them correctly
-	and rendering the document accordingly. However, the inability of a
-	UA to correctly render a document due to limitations of the device
-	does not make the UA non-conformant. (For example, a UA is not
-	required to render color on a monochrome monitor.) </p>
+    if, in addition to interpreting the style sheet as defined by the
+    appropriate specifications, it supports all the features defined
+    by this specification by parsing them correctly
+    and rendering the document accordingly. However, the inability of a
+    UA to correctly render a document due to limitations of the device
+    does not make the UA non-conformant. (For example, a UA is not
+    required to render color on a monochrome monitor.) </p>
   <p>An authoring tool is conformant to this specification
-	if it writes style sheets that are syntactically correct according to the
-	generic CSS grammar and the individual grammars of each feature in
-	this module, and meet all other conformance requirements of style sheets
-	as described in this module. </p>
-  <h3 class="heading settled" id="conform-responsible"><span class="content"> Requirements for Responsible Implementation of CSS</span><a class="self-link" href="#conform-responsible"></a></h3>
-  <p>The following sections define several conformance requirements
-		for implementing CSS responsibly,
-		in a way that promotes interoperability in the present and future. </p>
-  <h4 class="heading settled" id="conform-partial"><span class="content"> Partial Implementations</span><a class="self-link" href="#conform-partial"></a></h4>
-  <p>So that authors can exploit the forward-compatible parsing rules to assign fallback values, <strong>CSS renderers <em>must</em> treat as invalid
-		(and <a href="http://www.w3.org/TR/CSS2/conform.html#ignore">ignore as appropriate</a>)
-		any at-rules, properties, property values, keywords, and other syntactic constructs
-		for which they have no usable level of support</strong>.
-		In particular, user agents <em>must not</em> selectively ignore
-		unsupported property values and honor supported values in a single multi-value property declaration:
-		if any value is considered invalid (as unsupported values must be),
-		CSS requires that the entire declaration be ignored. </p>
-  <h4 class="heading settled" id="conform-future-proofing"><span class="content"> Implementations of Unstable and Proprietary Features</span><a class="self-link" href="#conform-future-proofing"></a></h4>
+    if it writes style sheets that are syntactically correct according to the
+    generic CSS grammar and the individual grammars of each feature in
+    this module, and meet all other conformance requirements of style sheets
+    as described in this module. </p>
+  <h3 class="no-ref heading settled" id="w3c-partial"><span class="content"> Partial implementations</span><a class="self-link" href="#w3c-partial"></a></h3>
+  <p>So that authors can exploit the forward-compatible parsing rules to
+    assign fallback values, CSS renderers <strong>must</strong> treat as invalid (and <a href="http://www.w3.org/TR/CSS21/conform.html#ignore">ignore
+    as appropriate</a>) any at-rules, properties, property values, keywords,
+    and other syntactic constructs for which they have no usable level of
+    support. In particular, user agents <strong>must not</strong> selectively
+    ignore unsupported component values and honor supported values in a single
+    multi-value property declaration: if any value is considered invalid
+    (as unsupported values must be), CSS requires that the entire declaration
+    be ignored.</p>
+  <h4 class="heading settled" id="w3c-conform-future-proofing"><span class="content"> Implementations of Unstable and Proprietary Features</span><a class="self-link" href="#w3c-conform-future-proofing"></a></h4>
   <p>To avoid clashes with future stable CSS features,
-		the CSSWG recommends <a href="http://www.w3.org/TR/CSS/#future-proofing">following best practices</a> for the implementation of <a href="http://www.w3.org/TR/CSS/#unstable">unstable</a> features and <a href="http://www.w3.org/TR/CSS/#proprietary-extension">proprietary extensions</a> to CSS. </p>
-  <h4 class="heading settled" id="conform-testing"><span class="content"> Implementations of CR-level Features</span><a class="self-link" href="#conform-testing"></a></h4>
+        the CSSWG recommends <a href="http://www.w3.org/TR/CSS/#future-proofing">following best practices</a> for the implementation of <a href="http://www.w3.org/TR/CSS/#unstable">unstable</a> features and <a href="http://www.w3.org/TR/CSS/#proprietary-extension">proprietary extensions</a> to CSS. </p>
+  <h3 class="no-ref heading settled" id="w3c-testing"><span class="content"> Non-experimental implementations</span><a class="self-link" href="#w3c-testing"></a></h3>
   <p>Once a specification reaches the Candidate Recommendation stage,
-		implementers should release an <a data-link-type="dfn" href="http://www.w3.org/TR/CSS/#vendor-prefix">unprefixed</a> implementation
-		of any CR-level feature they can demonstrate
-		to be correctly implemented according to spec,
-		and should avoid exposing a prefixed variant of that feature. </p>
+    non-experimental implementations are possible, and implementors should
+    release an unprefixed implementation of any CR-level feature they
+    can demonstrate to be correctly implemented according to spec. </p>
   <p>To establish and maintain the interoperability of CSS across
-		implementations, the CSS Working Group requests that non-experimental
-		CSS renderers submit an implementation report (and, if necessary, the
-		testcases used for that implementation report) to the W3C before
-		releasing an unprefixed implementation of any CSS features. Testcases
-		submitted to W3C are subject to review and correction by the CSS
-		Working Group. </p>
-  <p>
-   Further information on submitting testcases and implementation reports
-		can be found from on the CSS Working Group’s website at <a href="http://www.w3.org/Style/CSS/Test/">http://www.w3.org/Style/CSS/Test/</a>.
-		Questions should be directed to the <a href="http://lists.w3.org/Archives/Public/public-css-testsuite">public-css-testsuite@w3.org</a> mailing list. 
+    implementations, the CSS Working Group requests that non-experimental
+    CSS renderers submit an implementation report (and, if necessary, the
+    testcases used for that implementation report) to the W3C before
+    releasing an unprefixed implementation of any CSS features. Testcases
+    submitted to W3C are subject to review and correction by the CSS
+    Working Group. </p>
+  <p>Further information on submitting testcases and implementation reports
+    can be found from on the CSS Working Group’s website at <a href="http://www.w3.org/Style/CSS/Test/">http://www.w3.org/Style/CSS/Test/</a>.
+    Questions should be directed to the <a href="http://lists.w3.org/Archives/Public/public-css-testsuite">public-css-testsuite@w3.org</a> mailing list.</p>
 <script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script>
-  </p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
@@ -1073,53 +1312,60 @@ that this feature should exist and be released,</p>
    <li><a href="#vendor-prefix">vendor-prefixed</a><span>, in §3.2.2</span>
   </ul>
   <aside class="dfn-panel" data-for="term-for-propdef-opacity">
-   <a href="https://www.w3.org/TR/css-color-4/#propdef-opacity">https://www.w3.org/TR/css-color-4/#propdef-opacity</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-color-4/#propdef-opacity">https://drafts.csswg.org/css-color-4/#propdef-opacity</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-opacity">2. Cascading Style Sheets (CSS) — The Official Definition</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-typedef-counter-style">
-   <a href="https://www.w3.org/TR/css-counter-styles-3/#typedef-counter-style">https://www.w3.org/TR/css-counter-styles-3/#typedef-counter-style</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-counter-styles-3/#typedef-counter-style">https://drafts.csswg.org/css-counter-styles-3/#typedef-counter-style</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-typedef-counter-style">2. Cascading Style Sheets (CSS) — The Official Definition</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-at-ruledef-counter-style">
-   <a href="https://www.w3.org/TR/css-counter-styles-3/#at-ruledef-counter-style">https://www.w3.org/TR/css-counter-styles-3/#at-ruledef-counter-style</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-counter-styles-3/#at-ruledef-counter-style">https://drafts.csswg.org/css-counter-styles-3/#at-ruledef-counter-style</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-at-ruledef-counter-style">2. Cascading Style Sheets (CSS) — The Official Definition</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-valdef-width-max-content">
-   <a href="https://www.w3.org/TR/css-sizing-3/#valdef-width-max-content">https://www.w3.org/TR/css-sizing-3/#valdef-width-max-content</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-sizing-3/#valdef-width-max-content">https://drafts.csswg.org/css-sizing-3/#valdef-width-max-content</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-valdef-width-max-content">3.2.1. 
 Experimentation and Unstable Features</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-valdef-width-min-content">
-   <a href="https://www.w3.org/TR/css-sizing-3/#valdef-width-min-content">https://www.w3.org/TR/css-sizing-3/#valdef-width-min-content</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-sizing-3/#valdef-width-min-content">https://drafts.csswg.org/css-sizing-3/#valdef-width-min-content</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-valdef-width-min-content">3.2.1. 
 Experimentation and Unstable Features</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-cursor">
-   <a href="https://www.w3.org/TR/css3-ui/#propdef-cursor">https://www.w3.org/TR/css3-ui/#propdef-cursor</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-ui-4/#propdef-cursor">https://drafts.csswg.org/css-ui-4/#propdef-cursor</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-cursor">2. Cascading Style Sheets (CSS) — The Official Definition</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-outline">
-   <a href="https://www.w3.org/TR/css3-ui/#propdef-outline">https://www.w3.org/TR/css3-ui/#propdef-outline</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-ui-4/#propdef-outline">https://drafts.csswg.org/css-ui-4/#propdef-outline</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-outline">2. Cascading Style Sheets (CSS) — The Official Definition</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-will-change">
-   <a href="https://www.w3.org/TR/css-will-change-1/#propdef-will-change">https://www.w3.org/TR/css-will-change-1/#propdef-will-change</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-will-change-1/#propdef-will-change">https://drafts.csswg.org/css-will-change-1/#propdef-will-change</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-propdef-will-change">2. Cascading Style Sheets (CSS) — The Official Definition</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-selectordef-lang">
+   <a href="https://drafts.csswg.org/css2/#selectordef-lang">https://drafts.csswg.org/css2/#selectordef-lang</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-selectordef-lang">3.2.1. 
+Experimentation and Unstable Features</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-at-ruledef-media">
@@ -1135,16 +1381,9 @@ Experimentation and Unstable Features</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dir-pseudo">
-   <a href="https://www.w3.org/TR/selectors4/#dir-pseudo">https://www.w3.org/TR/selectors4/#dir-pseudo</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/selectors-4/#dir-pseudo">https://drafts.csswg.org/selectors-4/#dir-pseudo</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dir-pseudo">3.2.1. 
-Experimentation and Unstable Features</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-lang-pseudo">
-   <a href="https://www.w3.org/TR/selectors4/#lang-pseudo">https://www.w3.org/TR/selectors4/#lang-pseudo</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-lang-pseudo">3.2.1. 
 Experimentation and Unstable Features</a>
    </ul>
   </aside>
@@ -1153,42 +1392,46 @@ Experimentation and Unstable Features</a>
    <li>
     <a data-link-type="biblio">[css-color-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-opacity" style="color:initial">opacity</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-opacity">opacity</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS-COUNTER-STYLES-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-typedef-counter-style" style="color:initial">&lt;counter-style></span>
-     <li><span class="dfn-paneled" id="term-for-at-ruledef-counter-style" style="color:initial">@counter-style</span>
+     <li><span class="dfn-paneled" id="term-for-typedef-counter-style">&lt;counter-style></span>
+     <li><span class="dfn-paneled" id="term-for-at-ruledef-counter-style">@counter-style</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS-SIZING-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-valdef-width-max-content" style="color:initial">max-content</span>
-     <li><span class="dfn-paneled" id="term-for-valdef-width-min-content" style="color:initial">min-content</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-width-max-content">max-content</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-width-min-content">min-content</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[CSS-UI-3]</a> defines the following terms:
+    <a data-link-type="biblio">[css-ui-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-cursor" style="color:initial">cursor</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-outline" style="color:initial">outline</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-cursor">cursor</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-outline">outline</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS-WILL-CHANGE-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-will-change" style="color:initial">will-change</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-will-change">will-change</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[CSS2]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-selectordef-lang">:lang()</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS3-CONDITIONAL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-at-ruledef-media" style="color:initial">@media</span>
-     <li><span class="dfn-paneled" id="term-for-at-ruledef-supports" style="color:initial">@supports</span>
+     <li><span class="dfn-paneled" id="term-for-at-ruledef-media">@media</span>
+     <li><span class="dfn-paneled" id="term-for-at-ruledef-supports">@supports</span>
     </ul>
    <li>
     <a data-link-type="biblio">[SELECTORS4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dir-pseudo" style="color:initial">:dir()</span>
-     <li><span class="dfn-paneled" id="term-for-lang-pseudo" style="color:initial">:lang()</span>
+     <li><span class="dfn-paneled" id="term-for-dir-pseudo">:dir()</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -1197,37 +1440,39 @@ Experimentation and Unstable Features</a>
    <dt id="biblio-compositing">[COMPOSITING]
    <dd>Rik Cabanier; Nikos Andronikos. <a href="https://www.w3.org/TR/compositing-1/">Compositing and Blending Level 1</a>. 13 January 2015. CR. URL: <a href="https://www.w3.org/TR/compositing-1/">https://www.w3.org/TR/compositing-1/</a>
    <dt id="biblio-css-cascade-3">[CSS-CASCADE-3]
-   <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://www.w3.org/TR/css-cascade-3/">CSS Cascading and Inheritance Level 3</a>. 28 August 2018. CR. URL: <a href="https://www.w3.org/TR/css-cascade-3/">https://www.w3.org/TR/css-cascade-3/</a>
+   <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://www.w3.org/TR/css-cascade-3/">CSS Cascading and Inheritance Level 3</a>. 11 February 2021. REC. URL: <a href="https://www.w3.org/TR/css-cascade-3/">https://www.w3.org/TR/css-cascade-3/</a>
    <dt id="biblio-css-color-4">[CSS-COLOR-4]
-   <dd>Tab Atkins Jr.; Chris Lilley. <a href="https://www.w3.org/TR/css-color-4/">CSS Color Module Level 4</a>. 5 March 2019. WD. URL: <a href="https://www.w3.org/TR/css-color-4/">https://www.w3.org/TR/css-color-4/</a>
+   <dd>Tab Atkins Jr.; Chris Lilley. <a href="https://www.w3.org/TR/css-color-4/">CSS Color Module Level 4</a>. 12 November 2020. WD. URL: <a href="https://www.w3.org/TR/css-color-4/">https://www.w3.org/TR/css-color-4/</a>
    <dt id="biblio-css-fonts-3">[CSS-FONTS-3]
    <dd>John Daggett; Myles Maxfield; Chris Lilley. <a href="https://www.w3.org/TR/css-fonts-3/">CSS Fonts Module Level 3</a>. 20 September 2018. REC. URL: <a href="https://www.w3.org/TR/css-fonts-3/">https://www.w3.org/TR/css-fonts-3/</a>
    <dt id="biblio-css-sizing-3">[CSS-SIZING-3]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-sizing-3/">CSS Intrinsic &amp; Extrinsic Sizing Module Level 3</a>. 22 May 2019. WD. URL: <a href="https://www.w3.org/TR/css-sizing-3/">https://www.w3.org/TR/css-sizing-3/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-sizing-3/">CSS Box Sizing Module Level 3</a>. 18 December 2020. WD. URL: <a href="https://www.w3.org/TR/css-sizing-3/">https://www.w3.org/TR/css-sizing-3/</a>
    <dt id="biblio-css-style-attr">[CSS-STYLE-ATTR]
    <dd>Tantek Çelik; Elika Etemad. <a href="https://www.w3.org/TR/css-style-attr/">CSS Style Attributes</a>. 7 November 2013. REC. URL: <a href="https://www.w3.org/TR/css-style-attr/">https://www.w3.org/TR/css-style-attr/</a>
    <dt id="biblio-css-syntax-3">[CSS-SYNTAX-3]
-   <dd>Tab Atkins Jr.; Simon Sapin. <a href="https://www.w3.org/TR/css-syntax-3/">CSS Syntax Module Level 3</a>. 20 February 2014. CR. URL: <a href="https://www.w3.org/TR/css-syntax-3/">https://www.w3.org/TR/css-syntax-3/</a>
+   <dd>Tab Atkins Jr.; Simon Sapin. <a href="https://www.w3.org/TR/css-syntax-3/">CSS Syntax Module Level 3</a>. 16 July 2019. CR. URL: <a href="https://www.w3.org/TR/css-syntax-3/">https://www.w3.org/TR/css-syntax-3/</a>
    <dt id="biblio-css-ui-3">[CSS-UI-3]
    <dd>Tantek Çelik; Florian Rivoal. <a href="https://www.w3.org/TR/css-ui-3/">CSS Basic User Interface Module Level 3 (CSS3 UI)</a>. 21 June 2018. REC. URL: <a href="https://www.w3.org/TR/css-ui-3/">https://www.w3.org/TR/css-ui-3/</a>
+   <dt id="biblio-css-ui-4">[CSS-UI-4]
+   <dd>Florian Rivoal. <a href="https://www.w3.org/TR/css-ui-4/">CSS Basic User Interface Module Level 4</a>. 24 January 2020. WD. URL: <a href="https://www.w3.org/TR/css-ui-4/">https://www.w3.org/TR/css-ui-4/</a>
    <dt id="biblio-css-values-3">[CSS-VALUES-3]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 31 January 2019. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 6 June 2019. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
    <dt id="biblio-css2">[CSS2]
-   <dd>Bert Bos; et al. <a href="https://www.w3.org/TR/CSS2/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. 7 June 2011. REC. URL: <a href="https://www.w3.org/TR/CSS2/">https://www.w3.org/TR/CSS2/</a>
+   <dd>Bert Bos; et al. <a href="https://www.w3.org/TR/CSS21/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. 7 June 2011. REC. URL: <a href="https://www.w3.org/TR/CSS21/">https://www.w3.org/TR/CSS21/</a>
    <dt id="biblio-css3-animations">[CSS3-ANIMATIONS]
    <dd>Dean Jackson; et al. <a href="https://www.w3.org/TR/css-animations-1/">CSS Animations Level 1</a>. 11 October 2018. WD. URL: <a href="https://www.w3.org/TR/css-animations-1/">https://www.w3.org/TR/css-animations-1/</a>
    <dt id="biblio-css3-background">[CSS3-BACKGROUND]
-   <dd>Bert Bos; Elika Etemad; Brad Kemper. <a href="https://www.w3.org/TR/css-backgrounds-3/">CSS Backgrounds and Borders Module Level 3</a>. 17 October 2017. CR. URL: <a href="https://www.w3.org/TR/css-backgrounds-3/">https://www.w3.org/TR/css-backgrounds-3/</a>
+   <dd>Bert Bos; Elika Etemad; Brad Kemper. <a href="https://www.w3.org/TR/css-backgrounds-3/">CSS Backgrounds and Borders Module Level 3</a>. 22 December 2020. CR. URL: <a href="https://www.w3.org/TR/css-backgrounds-3/">https://www.w3.org/TR/css-backgrounds-3/</a>
    <dt id="biblio-css3-color">[CSS3-COLOR]
    <dd>Tantek Çelik; Chris Lilley; David Baron. <a href="https://www.w3.org/TR/css-color-3/">CSS Color Module Level 3</a>. 19 June 2018. REC. URL: <a href="https://www.w3.org/TR/css-color-3/">https://www.w3.org/TR/css-color-3/</a>
    <dt id="biblio-css3-conditional">[CSS3-CONDITIONAL]
-   <dd>David Baron. <a href="https://www.w3.org/TR/css3-conditional/">CSS Conditional Rules Module Level 3</a>. 4 April 2013. CR. URL: <a href="https://www.w3.org/TR/css3-conditional/">https://www.w3.org/TR/css3-conditional/</a>
+   <dd>David Baron; Elika Etemad; Chris Lilley. <a href="https://www.w3.org/TR/css-conditional-3/">CSS Conditional Rules Module Level 3</a>. 8 December 2020. CR. URL: <a href="https://www.w3.org/TR/css-conditional-3/">https://www.w3.org/TR/css-conditional-3/</a>
    <dt id="biblio-css3-images">[CSS3-IMAGES]
-   <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://www.w3.org/TR/css3-images/">CSS Image Values and Replaced Content Module Level 3</a>. 17 April 2012. CR. URL: <a href="https://www.w3.org/TR/css3-images/">https://www.w3.org/TR/css3-images/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad; Lea Verou. <a href="https://www.w3.org/TR/css-images-3/">CSS Images Module Level 3</a>. 17 December 2020. CR. URL: <a href="https://www.w3.org/TR/css-images-3/">https://www.w3.org/TR/css-images-3/</a>
    <dt id="biblio-css3-mediaqueries">[CSS3-MEDIAQUERIES]
    <dd>Florian Rivoal; et al. <a href="https://www.w3.org/TR/css3-mediaqueries/">Media Queries</a>. 19 June 2012. REC. URL: <a href="https://www.w3.org/TR/css3-mediaqueries/">https://www.w3.org/TR/css3-mediaqueries/</a>
    <dt id="biblio-css3-multicol">[CSS3-MULTICOL]
-   <dd>Florian Rivoal; Rachel Andrew. <a href="https://www.w3.org/TR/css-multicol-1/">CSS Multi-column Layout Module Level 1</a>. 28 May 2018. WD. URL: <a href="https://www.w3.org/TR/css-multicol-1/">https://www.w3.org/TR/css-multicol-1/</a>
+   <dd>Håkon Wium Lie; Florian Rivoal; Rachel Andrew. <a href="https://www.w3.org/TR/css-multicol-1/">CSS Multi-column Layout Module Level 1</a>. 12 February 2021. WD. URL: <a href="https://www.w3.org/TR/css-multicol-1/">https://www.w3.org/TR/css-multicol-1/</a>
    <dt id="biblio-css3-namespace">[CSS3-NAMESPACE]
    <dd>Elika Etemad. <a href="https://www.w3.org/TR/css-namespaces-3/">CSS Namespaces Module Level 3</a>. 20 March 2014. REC. URL: <a href="https://www.w3.org/TR/css-namespaces-3/">https://www.w3.org/TR/css-namespaces-3/</a>
    <dt id="biblio-css3-transforms">[CSS3-TRANSFORMS]
@@ -1252,11 +1497,11 @@ Experimentation and Unstable Features</a>
    <dt id="biblio-css-shapes-1">[CSS-SHAPES-1]
    <dd>Vincent Hardy; Rossen Atanassov; Alan Stearns. <a href="https://www.w3.org/TR/css-shapes-1/">CSS Shapes Module Level 1</a>. 20 March 2014. CR. URL: <a href="https://www.w3.org/TR/css-shapes-1/">https://www.w3.org/TR/css-shapes-1/</a>
    <dt id="biblio-css-text-decor-3">[CSS-TEXT-DECOR-3]
-   <dd>Elika Etemad; Koji Ishii. <a href="https://www.w3.org/TR/css-text-decor-3/">CSS Text Decoration Module Level 3</a>. 3 July 2018. CR. URL: <a href="https://www.w3.org/TR/css-text-decor-3/">https://www.w3.org/TR/css-text-decor-3/</a>
+   <dd>Elika Etemad; Koji Ishii. <a href="https://www.w3.org/TR/css-text-decor-3/">CSS Text Decoration Module Level 3</a>. 13 August 2019. CR. URL: <a href="https://www.w3.org/TR/css-text-decor-3/">https://www.w3.org/TR/css-text-decor-3/</a>
    <dt id="biblio-css-will-change-1">[CSS-WILL-CHANGE-1]
    <dd>Tab Atkins Jr.. <a href="https://www.w3.org/TR/css-will-change-1/">CSS Will Change Module Level 1</a>. 3 December 2015. CR. URL: <a href="https://www.w3.org/TR/css-will-change-1/">https://www.w3.org/TR/css-will-change-1/</a>
    <dt id="biblio-css3-speech">[CSS3-SPEECH]
-   <dd>Daniel Weck. <a href="https://www.w3.org/TR/css3-speech/">CSS Speech Module</a>. 5 June 2018. NOTE. URL: <a href="https://www.w3.org/TR/css3-speech/">https://www.w3.org/TR/css3-speech/</a>
+   <dd>Daniel Weck. <a href="https://www.w3.org/TR/css-speech-1/">CSS Speech Module</a>. 10 March 2020. CR. URL: <a href="https://www.w3.org/TR/css-speech-1/">https://www.w3.org/TR/css-speech-1/</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="issues-index"><span class="content">Issues Index</span><a class="self-link" href="#issues-index"></a></h2>
   <div style="counter-reset:issue">

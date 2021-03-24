@@ -1,3 +1,13 @@
+%evalerror.prototype%
+dfn
+html
+html
+1
+snapshot
+https://html.spec.whatwg.org/multipage/infrastructure.html#evalerror.prototype
+
+1
+-
 EvalError
 exception
 webidl
@@ -8,17 +18,6 @@ https://heycam.github.io/webidl/#exceptiondef-evalerror
 1
 1
 -
-Evaluate
-abstract-op
-webidl
-webidl
-1
-current
-https://heycam.github.io/webidl/#abstract-opdef-synthetic-module-record-evaluate
-1
-1
-Synthetic Module Record
--
 Event
 interface
 dom
@@ -27,6 +26,16 @@ dom
 snapshot
 https://dom.spec.whatwg.org/#event
 1
+1
+-
+Event and derived interfaces constructor behavior
+interface
+html
+html
+1
+snapshot
+https://html.spec.whatwg.org/multipage/infrastructure.html#dom-event-constructor
+
 1
 -
 Event(type)
@@ -132,7 +141,7 @@ https://html.spec.whatwg.org/multipage/server-sent-events.html#eventsource
 1
 -
 EventSource(url, eventSourceInitDict)
-interface
+constructor
 html
 html
 1
@@ -140,6 +149,7 @@ snapshot
 https://html.spec.whatwg.org/multipage/server-sent-events.html#dom-eventsource
 1
 1
+EventSource
 -
 EventSourceInit
 dictionary
@@ -181,6 +191,28 @@ snapshot
 https://html.spec.whatwg.org/multipage/infrastructure.html#eval()
 
 1
+-
+evaluate
+method
+dom
+dom
+1
+snapshot
+https://dom.spec.whatwg.org/#dom-xpathexpression-evaluate
+1
+1
+XPathExpression
+-
+evaluate
+method
+dom
+dom
+1
+snapshot
+https://dom.spec.whatwg.org/#dom-xpathevaluatorbase-evaluate
+1
+1
+XPathEvaluatorBase
 -
 evaluate
 dfn
@@ -232,13 +264,90 @@ https://html.spec.whatwg.org/multipage/infrastructure.html#evaluate-media-querie
 
 1
 -
+evaluate(contextNode)
+method
+dom
+dom
+1
+snapshot
+https://dom.spec.whatwg.org/#dom-xpathexpression-evaluate
+1
+1
+XPathExpression
+-
+evaluate(contextNode, type)
+method
+dom
+dom
+1
+snapshot
+https://dom.spec.whatwg.org/#dom-xpathexpression-evaluate
+1
+1
+XPathExpression
+-
+evaluate(contextNode, type, result)
+method
+dom
+dom
+1
+snapshot
+https://dom.spec.whatwg.org/#dom-xpathexpression-evaluate
+1
+1
+XPathExpression
+-
+evaluate(expression, contextNode)
+method
+dom
+dom
+1
+snapshot
+https://dom.spec.whatwg.org/#dom-xpathevaluatorbase-evaluate
+1
+1
+XPathEvaluatorBase
+-
+evaluate(expression, contextNode, resolver)
+method
+dom
+dom
+1
+snapshot
+https://dom.spec.whatwg.org/#dom-xpathevaluatorbase-evaluate
+1
+1
+XPathEvaluatorBase
+-
+evaluate(expression, contextNode, resolver, type)
+method
+dom
+dom
+1
+snapshot
+https://dom.spec.whatwg.org/#dom-xpathevaluatorbase-evaluate
+1
+1
+XPathEvaluatorBase
+-
+evaluate(expression, contextNode, resolver, type, result)
+method
+dom
+dom
+1
+snapshot
+https://dom.spec.whatwg.org/#dom-xpathevaluatorbase-evaluate
+1
+1
+XPathEvaluatorBase
+-
 evaluating a selector
 dfn
 selectors-4
 selectors
 4
 snapshot
-https://www.w3.org/TR/selectors4/#evaluating-selectors
+https://www.w3.org/TR/selectors-4/#evaluating-selectors
 
 1
 -
@@ -276,17 +385,6 @@ clip-rule
 -
 evenodd
 value
-css-shapes-2
-css-shapes
-2
-current
-https://drafts.csswg.org/css-shapes-2/#valdef-path-evenodd
-1
-1
-path()
--
-evenodd
-value
 fill-stroke-3
 fill-stroke
 3
@@ -308,7 +406,7 @@ https://drafts.fxtf.org/fill-stroke-3/#valdef-fill-rule-evenodd
 fill-rule
 -
 evenodd
-attribute
+enum-value
 html
 html
 1
@@ -316,7 +414,7 @@ snapshot
 https://html.spec.whatwg.org/multipage/canvas.html#dom-context-2d-fillrule-evenodd
 1
 1
-context-2d-fillrule
+CanvasFillRule
 -
 event
 dfn
@@ -380,6 +478,7 @@ snapshot
 https://html.spec.whatwg.org/multipage/obsolete.html#attr-script-event
 1
 1
+script
 -
 event
 attribute
@@ -408,7 +507,7 @@ svg2
 svg
 2
 snapshot
-https://www.w3.org/TR/svg2/interact.html#TermEventAttribute
+https://www.w3.org/TR/SVG2/interact.html#TermEventAttribute
 1
 1
 -
@@ -462,16 +561,6 @@ https://www.w3.org/TR/uievents/#event-handler
 
 1
 -
-event handler attributes
-dfn
-appmanifest
-appmanifest
-1
-snapshot
-https://www.w3.org/TR/appmanifest/#dfn-event-handler-attributes
-
-1
--
 event handler content attribute
 dfn
 html
@@ -494,16 +583,6 @@ https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-event-type
 -
 event handler idl attribute
 dfn
-appmanifest
-appmanifest
-1
-snapshot
-https://www.w3.org/TR/appmanifest/#dfn-event-handler-attributes
-
-1
--
-event handler idl attribute
-dfn
 html
 html
 1
@@ -519,16 +598,6 @@ html
 1
 snapshot
 https://html.spec.whatwg.org/multipage/webappapis.html#event-handler-map
-
-1
--
-event interface
-dfn
-appmanifest
-appmanifest
-1
-snapshot
-https://www.w3.org/TR/appmanifest/#dfn-event-interface
 
 1
 -
@@ -579,27 +648,18 @@ html
 html
 1
 snapshot
+https://html.spec.whatwg.org/multipage/webappapis.html#concept-agent-event-loop
+1
+1
+agent
+-
+event loop
+dfn
+html
+html
+1
+snapshot
 https://html.spec.whatwg.org/multipage/webappapis.html#event-loop
-1
-1
--
-event loop begin
-dfn
-html
-html
-1
-snapshot
-https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-begin
-1
-1
--
-event loop end
-dfn
-html
-html
-1
-snapshot
-https://html.spec.whatwg.org/multipage/webappapis.html#event-loop-end
 1
 1
 -
@@ -655,7 +715,7 @@ https://www.w3.org/TR/uievents/#event-type
 -
 eventInitDict
 argument
-csp-3
+csp3
 csp
 3
 snapshot
@@ -666,7 +726,7 @@ SecurityPolicyViolationEvent/SecurityPolicyViolationEvent(type, eventInitDict)
 -
 eventInitDict
 argument
-csp-3
+csp3
 csp
 3
 current
@@ -674,6 +734,9 @@ https://w3c.github.io/webappsec-csp/#dom-securitypolicyviolationevent-securitypo
 1
 1
 SecurityPolicyViolationEvent/SecurityPolicyViolationEvent(type, eventInitDict)
+SecurityPolicyViolationEvent/constructor(type, eventInitDict)
+SecurityPolicyViolationEvent/SecurityPolicyViolationEvent(type)
+SecurityPolicyViolationEvent/constructor(type)
 -
 eventInitDict
 argument
@@ -696,6 +759,9 @@ https://drafts.csswg.org/css-font-loading-3/#dom-fontfacesetloadevent-fontfacese
 1
 1
 FontFaceSetLoadEvent/FontFaceSetLoadEvent(type, eventInitDict)
+FontFaceSetLoadEvent/constructor(type, eventInitDict)
+FontFaceSetLoadEvent/FontFaceSetLoadEvent(type)
+FontFaceSetLoadEvent/constructor(type)
 -
 eventInitDict
 argument
@@ -703,10 +769,11 @@ css-nav-1
 css-nav
 1
 snapshot
-https://w3.org/TR/css-nav-1/#dom-navigationevent-navigationevent-type-eventinitdict-eventinitdict
+https://www.w3.org/TR/css-nav-1/#dom-navigationevent-constructor-type-eventinitdict-eventinitdict
 1
 1
-NavigationEvent/NavigationEvent(type, eventInitDict)
+NavigationEvent/constructor(type, eventInitDict)
+NavigationEvent/constructor(type)
 -
 eventInitDict
 argument
@@ -718,6 +785,9 @@ https://drafts.csswg.org/css-nav-1/#dom-navigationevent-navigationevent-type-eve
 1
 1
 NavigationEvent/NavigationEvent(type, eventInitDict)
+NavigationEvent/constructor(type, eventInitDict)
+NavigationEvent/NavigationEvent(type)
+NavigationEvent/constructor(type)
 -
 eventInitDict
 argument
@@ -740,6 +810,9 @@ https://drafts.csswg.org/cssom-view-1/#dom-mediaquerylistevent-mediaquerylisteve
 1
 1
 MediaQueryListEvent/MediaQueryListEvent(type, eventInitDict)
+MediaQueryListEvent/constructor(type, eventInitDict)
+MediaQueryListEvent/MediaQueryListEvent(type)
+MediaQueryListEvent/constructor(type)
 -
 eventInitDict
 argument
@@ -751,6 +824,9 @@ https://dom.spec.whatwg.org/#dom-event-event-type-eventinitdict-eventinitdict
 1
 1
 Event/Event(type, eventInitDict)
+Event/constructor(type, eventInitDict)
+Event/Event(type)
+Event/constructor(type)
 -
 eventInitDict
 argument
@@ -762,6 +838,9 @@ https://dom.spec.whatwg.org/#dom-customevent-customevent-type-eventinitdict-even
 1
 1
 CustomEvent/CustomEvent(type, eventInitDict)
+CustomEvent/constructor(type, eventInitDict)
+CustomEvent/CustomEvent(type)
+CustomEvent/constructor(type)
 -
 eventInitDict
 argument
@@ -773,6 +852,21 @@ https://w3c.github.io/IndexedDB/#dom-idbversionchangeevent-idbversionchangeevent
 1
 1
 IDBVersionChangeEvent/IDBVersionChangeEvent(type, eventInitDict)
+IDBVersionChangeEvent/constructor(type, eventInitDict)
+IDBVersionChangeEvent/IDBVersionChangeEvent(type)
+IDBVersionChangeEvent/constructor(type)
+-
+eventInitDict
+argument
+notifications
+notifications
+1
+current
+https://notifications.spec.whatwg.org/#dom-notificationevent-notificationevent-type-eventinitdict-eventinitdict
+1
+1
+NotificationEvent/NotificationEvent(type, eventInitDict)
+NotificationEvent/constructor(type, eventInitDict)
 -
 eventInitDict
 argument
@@ -780,10 +874,11 @@ service-workers
 service-workers
 1
 snapshot
-https://www.w3.org/TR/service-workers-1/#dom-extendableevent-extendableevent-type-eventinitdict-eventinitdict
+https://www.w3.org/TR/service-workers-1/#dom-extendableevent-constructor-type-eventinitdict-eventinitdict
 1
 1
-ExtendableEvent/ExtendableEvent(type, eventInitDict)
+ExtendableEvent/constructor(type, eventInitDict)
+ExtendableEvent/constructor(type)
 -
 eventInitDict
 argument
@@ -791,10 +886,10 @@ service-workers
 service-workers
 1
 snapshot
-https://www.w3.org/TR/service-workers-1/#dom-fetchevent-fetchevent-type-eventinitdict-eventinitdict
+https://www.w3.org/TR/service-workers-1/#dom-fetchevent-constructor-type-eventinitdict-eventinitdict
 1
 1
-FetchEvent/FetchEvent(type, eventInitDict)
+FetchEvent/constructor(type, eventInitDict)
 -
 eventInitDict
 argument
@@ -802,10 +897,11 @@ service-workers
 service-workers
 1
 snapshot
-https://www.w3.org/TR/service-workers-1/#dom-extendablemessageevent-extendablemessageevent-type-eventinitdict-eventinitdict
+https://www.w3.org/TR/service-workers-1/#dom-extendablemessageevent-constructor-type-eventinitdict-eventinitdict
 1
 1
-ExtendableMessageEvent/ExtendableMessageEvent(type, eventInitDict)
+ExtendableMessageEvent/constructor(type, eventInitDict)
+ExtendableMessageEvent/constructor(type)
 -
 eventInitDict
 argument
@@ -817,6 +913,9 @@ https://w3c.github.io/ServiceWorker/#dom-extendableevent-extendableevent-type-ev
 1
 1
 ExtendableEvent/ExtendableEvent(type, eventInitDict)
+ExtendableEvent/constructor(type, eventInitDict)
+ExtendableEvent/ExtendableEvent(type)
+ExtendableEvent/constructor(type)
 -
 eventInitDict
 argument
@@ -828,6 +927,7 @@ https://w3c.github.io/ServiceWorker/#dom-fetchevent-fetchevent-type-eventinitdic
 1
 1
 FetchEvent/FetchEvent(type, eventInitDict)
+FetchEvent/constructor(type, eventInitDict)
 -
 eventInitDict
 argument
@@ -839,6 +939,9 @@ https://w3c.github.io/ServiceWorker/#dom-extendablemessageevent-extendablemessag
 1
 1
 ExtendableMessageEvent/ExtendableMessageEvent(type, eventInitDict)
+ExtendableMessageEvent/constructor(type, eventInitDict)
+ExtendableMessageEvent/ExtendableMessageEvent(type)
+ExtendableMessageEvent/constructor(type)
 -
 eventInitDict
 argument
@@ -938,6 +1041,57 @@ https://drafts.csswg.org/web-animations-1/#dom-animationplaybackevent-animationp
 1
 1
 AnimationPlaybackEvent/AnimationPlaybackEvent(type, eventInitDict)
+AnimationPlaybackEvent/constructor(type, eventInitDict)
+AnimationPlaybackEvent/AnimationPlaybackEvent(type)
+AnimationPlaybackEvent/constructor(type)
+-
+eventInitDict
+argument
+webaudio
+webaudio
+1
+snapshot
+https://www.w3.org/TR/webaudio/#dom-offlineaudiocompletionevent-offlineaudiocompletionevent-type-eventinitdict-eventinitdict
+1
+1
+OfflineAudioCompletionEvent/OfflineAudioCompletionEvent(type, eventInitDict)
+OfflineAudioCompletionEvent/constructor(type, eventInitDict)
+-
+eventInitDict
+argument
+webaudio
+webaudio
+1
+snapshot
+https://www.w3.org/TR/webaudio/#dom-audioprocessingevent-audioprocessingevent-type-eventinitdict-eventinitdict
+1
+1
+AudioProcessingEvent/AudioProcessingEvent(type, eventInitDict)
+AudioProcessingEvent/constructor(type, eventInitDict)
+-
+eventInitDict
+argument
+webaudio
+webaudio
+1
+current
+https://webaudio.github.io/web-audio-api/#dom-offlineaudiocompletionevent-offlineaudiocompletionevent-type-eventinitdict-eventinitdict
+1
+1
+OfflineAudioCompletionEvent/OfflineAudioCompletionEvent(type, eventInitDict)
+OfflineAudioCompletionEvent/constructor(type, eventInitDict)
+-
+eventInitDict
+argument
+webaudio
+webaudio
+1
+current
+https://webaudio.github.io/web-audio-api/#dom-audioprocessingevent-audioprocessingevent-type-eventinitdict-eventinitdict
+1
+1
+AudioProcessingEvent/AudioProcessingEvent(type, eventInitDict)
+AudioProcessingEvent/constructor(type, eventInitDict)
 -
 eventInitDict
 argument
@@ -949,6 +1103,115 @@ https://wicg.github.io/webusb/#dom-usbconnectionevent-usbconnectionevent-type-ev
 1
 1
 USBConnectionEvent/USBConnectionEvent(type, eventInitDict)
+USBConnectionEvent/constructor(type, eventInitDict)
+-
+eventInitDict
+argument
+webxr-1
+webxr
+1
+snapshot
+https://www.w3.org/TR/webxr/#dom-xrsessionevent-xrsessionevent-type-eventinitdict-eventinitdict
+1
+1
+XRSessionEvent/XRSessionEvent(type, eventInitDict)
+XRSessionEvent/constructor(type, eventInitDict)
+-
+eventInitDict
+argument
+webxr-1
+webxr
+1
+snapshot
+https://www.w3.org/TR/webxr/#dom-xrinputsourceevent-xrinputsourceevent-type-eventinitdict-eventinitdict
+1
+1
+XRInputSourceEvent/XRInputSourceEvent(type, eventInitDict)
+XRInputSourceEvent/constructor(type, eventInitDict)
+-
+eventInitDict
+argument
+webxr-1
+webxr
+1
+snapshot
+https://www.w3.org/TR/webxr/#dom-xrinputsourceschangeevent-xrinputsourceschangeevent-type-eventinitdict-eventinitdict
+1
+1
+XRInputSourcesChangeEvent/XRInputSourcesChangeEvent(type, eventInitDict)
+XRInputSourcesChangeEvent/constructor(type, eventInitDict)
+-
+eventInitDict
+argument
+webxr-1
+webxr
+1
+snapshot
+https://www.w3.org/TR/webxr/#dom-xrreferencespaceevent-xrreferencespaceevent-type-eventinitdict-eventinitdict
+1
+1
+XRReferenceSpaceEvent/XRReferenceSpaceEvent(type, eventInitDict)
+XRReferenceSpaceEvent/constructor(type, eventInitDict)
+-
+eventInitDict
+argument
+webxr-1
+webxr
+1
+current
+https://immersive-web.github.io/webxr/#dom-xrsessionevent-xrsessionevent-type-eventinitdict-eventinitdict
+1
+1
+XRSessionEvent/XRSessionEvent(type, eventInitDict)
+XRSessionEvent/constructor(type, eventInitDict)
+-
+eventInitDict
+argument
+webxr-1
+webxr
+1
+current
+https://immersive-web.github.io/webxr/#dom-xrinputsourceevent-xrinputsourceevent-type-eventinitdict-eventinitdict
+1
+1
+XRInputSourceEvent/XRInputSourceEvent(type, eventInitDict)
+XRInputSourceEvent/constructor(type, eventInitDict)
+-
+eventInitDict
+argument
+webxr-1
+webxr
+1
+current
+https://immersive-web.github.io/webxr/#dom-xrinputsourceschangeevent-xrinputsourceschangeevent-type-eventinitdict-eventinitdict
+1
+1
+XRInputSourcesChangeEvent/XRInputSourcesChangeEvent(type, eventInitDict)
+XRInputSourcesChangeEvent/constructor(type, eventInitDict)
+-
+eventInitDict
+argument
+webxr-1
+webxr
+1
+current
+https://immersive-web.github.io/webxr/#dom-xrreferencespaceevent-xrreferencespaceevent-type-eventinitdict-eventinitdict
+1
+1
+XRReferenceSpaceEvent/XRReferenceSpaceEvent(type, eventInitDict)
+XRReferenceSpaceEvent/constructor(type, eventInitDict)
+-
+eventInitDict
+argument
+webxr-layers-1
+webxr-layers
+1
+current
+https://immersive-web.github.io/layers/#dom-xrlayerevent-xrlayerevent-type-eventinitdict-eventinitdict
+1
+1
+XRLayerEvent/XRLayerEvent(type, eventInitDict)
+XRLayerEvent/constructor(type, eventInitDict)
 -
 eventInitDict
 argument
@@ -960,6 +1223,9 @@ https://xhr.spec.whatwg.org/#dom-progressevent-progressevent-type-eventinitdict-
 1
 1
 ProgressEvent/ProgressEvent(type, eventInitDict)
+ProgressEvent/constructor(type, eventInitDict)
+ProgressEvent/ProgressEvent(type)
+ProgressEvent/constructor(type)
 -
 eventPhase
 attribute

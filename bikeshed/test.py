@@ -1,70 +1,69 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import division, unicode_literals
 import difflib
-import io
+import glob
 import os
-import pipes
 import re
-import subprocess
 from itertools import *
-from . import config
-from .htmlhelpers import parseDocument, outerHTML, nodeIter, isElement, findAll
-from .messages import *
 
+from . import config
+from .messages import *
+from .Spec import Spec
 
 TEST_DIR = os.path.abspath(os.path.join(config.scriptPath(), "..", "tests"))
 
 
 def findTestFiles(manualOnly=False):
-    for root, dirnames, filenames in os.walk(TEST_DIR):
+    for root, _, filenames in os.walk(TEST_DIR):
         for filename in filenames:
             filePath = testNameForPath(os.path.join(root, filename))
-            if manualOnly and re.match("github/", filePath):
+            pathSegs = splitPath(filePath)
+            if manualOnly and pathSegs[0] == "github":
                 continue
-            if re.match("[^/]*\d{3}-files/", filePath):
+            if re.search(r"\d{3}-files$", pathSegs[0]):
                 # support files for a manual test
                 continue
-            if filename.endswith(".bs"):
+            if os.path.splitext(filePath)[1] == ".bs":
                 yield os.path.join(root, filename)
+
+
+def splitPath(path, reverseSegs=None):
+    if reverseSegs is None:
+        reverseSegs = []
+    [head, tail] = os.path.split(path)
+    reverseSegs.append(tail)
+    if head in ["", "/"]:
+        return list(reversed(reverseSegs))
+    return splitPath(head, reverseSegs)
 
 
 # The test name will be the path relative to the tests directory, or the path as
 # given if the test is outside of that directory.
 def testNameForPath(path):
     if path.startswith(TEST_DIR):
-        return path[len(TEST_DIR)+1:]
+        return path[len(TEST_DIR) + 1 :]
     return path
 
 
 def sortTests(tests):
-    return sorted(tests, key=lambda x:("/" in testNameForPath(x), x))
+    return sorted(tests, key=lambda x: ("/" in testNameForPath(x), x))
 
 
-def runAllTests(Spec, testFiles=None, manualOnly=False, md=None):
-    fileRequester = config.DataFileRequester(type="readonly")
-    if not testFiles:
-        testFiles = list(sortTests(findTestFiles(manualOnly=manualOnly)))
-        if len(testFiles) == 0:
-            p("No tests were found")
-            return True
-    else:
-        testFiles = [os.path.join(TEST_DIR, x) for x in testFiles]
+def runAllTests(
+    patterns=None, manualOnly=False, md=None
+):  # pylint: disable=unused-argument
+    paths = testPaths(patterns)
+    if len(paths) == 0:
+        p("No tests were found")
+        return True
     numPassed = 0
     total = 0
     fails = []
-    for i,testPath in enumerate(testFiles, 1):
-        justifiedI = unicode(i).rjust(len(str(len(testFiles))))
-        testName = testNameForPath(testPath)
-        p("{0}/{1}: {2}".format(justifiedI, len(testFiles), testName))
+    for i, path in enumerate(paths, 1):
+        testName = testNameForPath(path)
+        p(f"{ratio(i,len(paths))}: {testName}")
         total += 1
-        doc = Spec(inputFilename=testPath, fileRequester=fileRequester)
-        if md is not None:
-            doc.mdCommandLine = md
-        addTestMetadata(doc)
-        doc.preprocess()
+        doc = processTest(path, md)
         outputText = doc.serialize()
-        with io.open(testPath[:-2] + "html", encoding="utf-8") as golden:
+        with open(path[:-2] + "html", encoding="utf-8") as golden:
             goldenText = golden.read()
         if compare(outputText, goldenText):
             numPassed += 1
@@ -73,17 +72,27 @@ def runAllTests(Spec, testFiles=None, manualOnly=False, md=None):
     if numPassed == total:
         p(printColor("✔ All tests passed.", color="green"))
         return True
-    else:
-        p(printColor("✘ {0}/{1} tests passed.".format(numPassed, total), color="red"))
-        p(printColor("Failed Tests:", color="red"))
-        for fail in fails:
-            p("* " + fail)
+    p(printColor(f"✘ {numPassed}/{total} tests passed.", color="red"))
+    p(printColor("Failed Tests:", color="red"))
+    for fail in fails:
+        p("* " + fail)
+
+
+def processTest(path, md=None, fileRequester=config.DataFileRequester(type="readonly")):
+    doc = Spec(inputFilename=path, fileRequester=fileRequester, testing=True)
+    if md is not None:
+        doc.mdCommandLine = md
+    addTestMetadata(doc)
+    doc.preprocess()
+    return doc
 
 
 def compare(suspect, golden):
     if suspect == golden:
         return True
-    for line in difflib.unified_diff(golden.split(), suspect.split(), fromfile="golden", tofile="suspect", lineterm=""):
+    for line in difflib.unified_diff(
+        golden.split("\n"), suspect.split("\n"), fromfile="golden", tofile="suspect"
+    ):
         if line[0] == "-":
             p(printColor(line, color="red"))
         elif line[0] == "+":
@@ -93,46 +102,47 @@ def compare(suspect, golden):
     p("")
     return False
 
-def compareDicts(a, b):
-    aKeys = set(a.keys())
-    bKeys = set(b.keys())
-    if aKeys != bKeys:
-        return False
-    for key in aKeys:
-        if a[key] != b[key]:
-            return False
-    return True
 
-def equalOrEmpty(a, b):
-    if a == b:
+def rebase(patterns=None, md=None):
+    paths = testPaths(patterns)
+    if len(paths) == 0:
+        p("No tests were found.")
         return True
-    if a is not None and b is not None and "" == a.strip() == b.strip():
-        return True
-    return False
-
-
-def rebase(Spec, files=None, md=None):
-    fileRequester = config.DataFileRequester(type="readonly")
-    if not files:
-        files = list(sortTests(findTestFiles()))
-        if len(files) == 0:
-            p("No tests were found")
-            return True
-    else:
-        files = [os.path.join(TEST_DIR, x) for x in files]
-    for i,path in enumerate(files, 1):
-        justifiedI = unicode(i).rjust(len(str(len(files))))
-        resetSeenMessages()
+    for i, path in enumerate(paths, 1):
         name = testNameForPath(path)
-        p("{0}/{1}: Rebasing {2}".format(justifiedI, len(files), name))
-        doc = Spec(path, fileRequester=fileRequester)
-        if md:
-            doc.mdCommandLine = md
-        addTestMetadata(doc)
-        doc.preprocess()
-        doc.finish()
+        resetSeenMessages()
+        p(f"{ratio(i,len(paths))}: Rebasing {name}")
+        doc = processTest(path, md)
+        doc.finish(newline="\n")
+
+
+def ratio(i, total):
+    justifiedI = str(i).rjust(len(str(total)))
+    return f"{justifiedI}/{total}"
+
+
+def testPaths(patterns=None):
+    # if None, get all the test paths
+    # otherwise, glob the provided paths, rooted at the test dir
+    if not patterns:
+        return list(sortTests(findTestFiles()))
+    return [
+        path
+        for pattern in patterns
+        for path in glob.glob(os.path.join(TEST_DIR, pattern))
+        if path.endswith(".bs")
+    ]
+
 
 def addTestMetadata(doc):
-    doc.mdBaseline.addData("Boilerplate", "omit feedback-header, omit generator, omit document-revision")
-    doc.mdCommandLine.addData("Date", "1970-01-01")
-    doc.mdCommandLine.addData("Inline Github Issues", "no")
+    from . import metadata
+
+    doc.mdBaseline.addData(
+        "Boilerplate", "omit feedback-header, omit generator, omit document-revision"
+    )
+    doc.mdBaseline.addData("Repository", "test/test")
+    _, md = metadata.parse(lines=doc.lines)
+    if "Date" not in md.manuallySetKeys:
+        doc.mdCommandLine.addData("Date", "1970-01-01")
+    if "Inline Github Issue" not in md.manuallySetKeys:
+        doc.mdCommandLine.addData("Inline Github Issues", "no")

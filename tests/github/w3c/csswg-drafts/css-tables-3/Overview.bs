@@ -88,6 +88,18 @@ spec:css-sizing-3; type:property; text:box-sizing
 	Authors wishing to use more complex layouts
 		are encouraged to rely on more modern CSS modules such as CSS Grid.
 
+<h3 id="values">Value Definitions</h3>
+
+	This specification follows the <a href="https://www.w3.org/TR/CSS2/about.html#property-defs">CSS property definition conventions</a> from [[!CSS2]]
+	using the <a href="https://www.w3.org/TR/css-values-3/#value-defs">value definition syntax</a> from [[!CSS-VALUES-3]].
+	Value types not defined in this specification are defined in CSS Values &amp; Units [[!CSS-VALUES-3]].
+	Combination with other CSS modules may expand the definitions of these value types.
+
+	In addition to the property-specific values listed in their definitions,
+	all properties defined in this specification
+	also accept the <a>CSS-wide keywords</a> as their property value.
+	For readability they have not been repeated explicitly.
+
 <!--
  ██████   ███████  ██    ██ ████████ ████████ ██    ██ ████████       ██     ██  ███████  ████████  ████████ ██
 ██    ██ ██     ██ ███   ██    ██    ██       ███   ██    ██          ███   ███ ██     ██ ██     ██ ██       ██
@@ -125,7 +137,7 @@ spec:css-sizing-3; type:property; text:box-sizing
 		<li>Its <a href="#table-root-element">table-root</a> containing:
 		<ul>
 			<li>Zero, one or more <a href="#table-row">table rows</a>, optionally in <a href="#table-row-group">row groups</a>,
-				<ul><li>Each of them contaning one or more <a href="#table-cell">table cells</a></li></ul>
+				<ul><li>Each of them containing one or more <a href="#table-cell">table cells</a></li></ul>
 			<li>Optionally: one or more <a href="#table-column">table columns</a>,
 				optionally in <a href="#table-column-group">column groups</a>
 			<li>Optionally: one or more <a href="#table-caption">table caption</a>.
@@ -297,8 +309,8 @@ spec:css-sizing-3; type:property; text:box-sizing
 				Table-cells which cover more than one slot do so densely, 
 					meaning the set of slots they cover can always be described as a set of four strictly-positive integers <code>(rowStart, colStart, rowSpan, colSpan)</code>
 					such that a slot <code>(r,c)</code> is covered by the table-cell 
-						if and only if <code>r</code> lies in the interval between <code>rowStart</code> (included) and <code>rowStart+rowSpan</code> (exculded), 
-						and <code>c</code> lies in the interval between <code>colStart</code> (included) and <code>colStart+colSpan</code> (exculded);
+						if and only if <code>r</code> lies in the interval between <code>rowStart</code> (included) and <code>rowStart+rowSpan</code> (excluded), 
+						and <code>c</code> lies in the interval between <code>colStart</code> (included) and <code>colStart+colSpan</code> (excluded);
 				
 				Such table-cell is said to <dfn>originate</dfn> from row <code>rowStart</code> and column <code>colStart</code>.
 				Also:
@@ -454,7 +466,7 @@ spec:css-sizing-3; type:property; text:box-sizing
 					their computed padding is “0px”,
 					their computed border-style is “none”.
 					
-				It is also woth reminding that an <a>anonymous box</a> inherits property values through the box tree.
+				It is also worth reminding that an <a>anonymous box</a> inherits property values through the box tree.
 
 			</div>
 
@@ -641,7 +653,7 @@ spec:css-sizing-3; type:property; text:box-sizing
 		Apply the <a href="https://www.w3.org/TR/html5/tabular-data.html#forming-a-table">HTML5 Table Formatting algorithm</a>,
 			where boxes act like <a href="#display-types">the HTML element equivalent to their display type</a>,
 			and use the attributes of their originating element if and only if it is an HTML element of the same type
-			(otherwise, they act like if they didnt't have any attribute).
+			(otherwise, they act like if they didn't have any attribute).
 
 		<div class="example">
 			<xmp class="lang-markup">
@@ -774,7 +786,7 @@ spec:css-sizing-3; type:property; text:box-sizing
 			A table-root is said to be laid out <dfn>in fixed mode</dfn>
 				whenever the computed value of the 'table-layout' property is equal to <code>fixed</code>,
 				and the specified width of the table root is either
-					a <code>&lt;length-percentage&gt</code>,
+					a <code>&lt;length-percentage&gt;</code>,
 					<code>min-content</code> or
 					<code>fit-content</code>.
 			When the specified width is not one of those values,
@@ -808,14 +820,14 @@ spec:css-sizing-3; type:property; text:box-sizing
 			(see [[#border-collapsing]]).
 
 			A <a>table-root</a> is said to be laid out <dfn>in collapsed-borders mode</dfn> in this case.
-			Otherwhise, the <a>table-root</a> is said to be laid out <dfn>in separated-borders mode</dfn>.
+			Otherwise, the <a>table-root</a> is said to be laid out <dfn>in separated-borders mode</dfn>.
 
 			<!--——————————————————————————————————————————————————————————————————————————-->
 			<h5 id="border-spacing-property">The Border-Spacing property</h5>
 
 			<pre class='propdef'>
 				Name: border-spacing
-				Value: <​length​>{1,2}
+				Value: <<length>>{1,2}
 				Initial: 0px 0px
 				Inherited: yes
 				Applies To: <a>table grid boxes</a> when 'border-collapse' is ''border-collapse/separate''
@@ -939,7 +951,7 @@ spec:css-sizing-3; type:property; text:box-sizing
 				<li>The 'border-spacing' of the <a>table-root</a> is ignored (as if it was set to 0px).
 
 				<li>The 'border-radius' of both <a>table-root</a> and <a>table-non-root</a> boxes
-					is ignored (as it it was set to 0px).
+					is ignored (as if it was set to 0px).
 				<li>The values used for the layout and rendering of the borders of the <a>table-root</a>
 						and the <a>table-cell</a> boxes it owns are
 						determined using a special conflict resolution algorithm described in [[#border-collapsing]].
@@ -1050,7 +1062,7 @@ spec:css-sizing-3; type:property; text:box-sizing
 
 		<ul>
 			<li>Harmonize the <a>table-root</a> border-{top,bottom,left,right}
-					with the corresponding border of all cells forming the border of the table (indenpendently),
+					with the corresponding border of all cells forming the border of the table (independently),
 					without actually modifying the border properties of the <a>table-root</a>.<br>
 				<br>
 				If the table and the cell border styles have the same specificity,
@@ -1235,7 +1247,7 @@ spec:css-sizing-3; type:property; text:box-sizing
 							<div class="note">
 								When the table is laid out <a>in collapsed-borders mode</a>, 
 								the border value to deduce is half the value of the winning border value on each side
-								(see <a href="#border-conflict-resolution-algorithm">conflict resolution explaination note</a>)
+								(see <a href="#border-conflict-resolution-algorithm">conflict resolution explanation note</a>)
 							</div>
 					</ul>
 					
@@ -1627,7 +1639,7 @@ spec:css-sizing-3; type:property; text:box-sizing
 			<p id="width-distribution-principles-r3">
 				<b>Rule 3: </b>
 				<span>
-					The sum of width assgined to all columns should be equal to the <a>assignable table width</a>.
+					The sum of width assigned to all columns should be equal to the <a>assignable table width</a>.
 				</span>
 
 			<style>
@@ -2190,7 +2202,7 @@ spec:css-sizing-3; type:property; text:box-sizing
 					</style>
 
 					<p id="min-content-and-percentages">
-						Intersting test cases about min-content and content using percentage sizes:
+						Interesting test cases about min-content and content using percentage sizes:
 						<ul class="compact">
 							<li><a href="https://jsfiddle.net/gzapbyeg/1/">Case 10</a>.
 							<li><a href="https://jsfiddle.net/gzapbyeg/2/">Case 11</a>.
@@ -2517,7 +2529,7 @@ With a table-root as containing block</h3>
 
 		<figure style="margin: 0">
 			<figcaption style="text-align: left; font-style: normal;">
-				The figure below shows how a box absolutely-positioned relative to a table should be rendred. <br/><br>
+				The figure below shows how a box absolutely-positioned relative to a table should be rendered. <br/><br>
 				The <b>yellow</b> area is the table content edge, yellow arrows the table margins. <br/>
 				The <b>green</b> area is the table caption, green arrows the caption margins. <br/>
 				The <b>blue</b> area is the table background area, and the darker blue area where the table border area. <br/>
@@ -2661,7 +2673,7 @@ With a table-internal box as non-containing block parent</h3>
 			<ul>
 				<li>Backgrounds, borders and outlines painted relative to the content-box of a table-root are painted relative to the rectangular area occupied by the table grid and its border spacings.
 				<li>Backgrounds, borders and outlines painted relative to the padding-box of a table-root are painted relative to the rectangular area occupied by the table grid and its border spacings, extended on each side by the table-root padding.
-				<li>Backgrounds, borders and outlines painted relative to the border-box of a table-root are painted relative to the rectangular area occuped by the table grid and its border spacings, extended on each side by the table-root padding and border-width.
+				<li>Backgrounds, borders and outlines painted relative to the border-box of a table-root are painted relative to the rectangular area occupied by the table grid and its border spacings, extended on each side by the table-root padding and border-width.
 			</ul>
 
 			<div class="note">
@@ -2679,7 +2691,7 @@ With a table-internal box as non-containing block parent</h3>
 
 			<p class="note">
 				The rules for background and borders painting defined in [[#drawing-backgrounds-and-borders]]
-					still apply if they are not overriden.
+					still apply if they are not overridden.
 
 			Borders of a non-<a href="#empty-table">empty</a> <a>table-root</a> are not painted <a>in collapsed-borders mode</a>,
 				except if the 'border-image' property is set.
@@ -2879,7 +2891,7 @@ With a table-internal box as non-containing block parent</h3>
 	<!--——————————————————————————————————————————————————————————————————————————-->
 	<h3 id="repeated-headers">Repeating headers across pages</h3>
 
-		When rendering the document into a paged media,
+		When rendering the document into a [=paged media=],
 			user agents must repeat
 				<a href="#table-header-group">header rows</a> and
 				<a href="#table-footer-group">footer rows</a>
@@ -2976,7 +2988,7 @@ Using CSS Tables does not incur any privacy risk to mitigate.
 			</a>
 		</summary><aside>
 			Also <a href="https://jsfiddle.net/6L94pxgn/3/">@lt;fieldset></a>.
-			This specification says that Chrome and Firefox are worng.<br/>
+			This specification says that Chrome and Firefox are wrong.<br/>
 			[[#style-overrides]]
 		</aside></details>
 	</li>
@@ -3175,7 +3187,7 @@ Using CSS Tables does not incur any privacy risk to mitigate.
 		The default style sheet for HTML4 illustrates how its model maps to css properties and values:
 
 		<div class="note">
-			Some extensions to CSS have been used for contraints not mappable to current CSS constructs
+			Some extensions to CSS have been used for constraints not mappable to current CSS constructs
 			</div>
 
 		<pre class="lang-css">
@@ -3229,13 +3241,13 @@ Using CSS Tables does not incur any privacy risk to mitigate.
 	RULES (part 1/3)
 	http://codepen.io/FremyCompany/pen/GopJMp
 -->
-	table:matches([rules=all i], [rules=rows i], [rules=cols i], [rules=groups i], [rules=none i]) {
+	table:is([rules=all i], [rules=rows i], [rules=cols i], [rules=groups i], [rules=none i]) {
 		border-collapse: collapse;
 		border-style: hidden;
 	}
 
-	table:matches([rules=all i], [rules=rows i], [rules=cols i], [rules=groups i], [rules=none i]),
-	table:matches([rules=all i], [rules=rows i], [rules=cols i], [rules=groups i], [rules=none i]) > :matches(thead,tbody,tfoot) > tr > :matches(th,td) {
+	table:is([rules=all i], [rules=rows i], [rules=cols i], [rules=groups i], [rules=none i]),
+	table:is([rules=all i], [rules=rows i], [rules=cols i], [rules=groups i], [rules=none i]) > :is(thead,tbody,tfoot) > tr > :is(th,td) {
 		border-color: black;
 	}
 
@@ -3246,7 +3258,7 @@ Using CSS Tables does not incur any privacy risk to mitigate.
 	table[border=$border] /* if(parseInt($border) > 0) */ {
 		border: /*(parseInt($border) * 1px)*/ outset rgb(128, 128, 128);
 	}
-	table[border=$border] > :matches(thead,tbody,tfoot) > tr > :matches(th,td) /* if(parseInt($border) > 0) */ {
+	table[border=$border] > :is(thead,tbody,tfoot) > tr > :is(th,td) /* if(parseInt($border) > 0) */ {
 		border: 1px inset rgb(128, 128, 128);
 	}
 
@@ -3254,20 +3266,20 @@ Using CSS Tables does not incur any privacy risk to mitigate.
 	RULES (part 2/3)
 	http://codepen.io/FremyCompany/pen/GopJMp
 -->
-	table[rules=all i] > :matches(thead,tbody,tfoot) > tr > :matches(th,td) {
+	table[rules=all i] > :is(thead,tbody,tfoot) > tr > :is(th,td) {
 		border: 1px solid grey;
 	}
-	table[rules=rows i] > :matches(thead,tbody,tfoot) > tr > :matches(th,td) {
+	table[rules=rows i] > :is(thead,tbody,tfoot) > tr > :is(th,td) {
 		border: 1px solid grey;
 		border-left: none;
 		border-right: none;
 	}
-	table[rules=cols i] > :matches(thead,tbody,tfoot) > tr > :matches(th,td) {
+	table[rules=cols i] > :is(thead,tbody,tfoot) > tr > :is(th,td) {
 		border: 1px solid grey;
 		border-top: none;
 		border-bottom: none;
 	}
-	table[rules=none i] > :matches(thead,tbody,tfoot) > tr > :matches(th,td) {
+	table[rules=none i] > :is(thead,tbody,tfoot) > tr > :is(th,td) {
 		border: none;
 	}
 
@@ -3276,7 +3288,7 @@ Using CSS Tables does not incur any privacy risk to mitigate.
 	http://codepen.io/FremyCompany/pen/jWbPXY
 	https://jsfiddle.net/ewv08n0r/
 -->
-	table[rules=groups i] > :matches(thead,tbody,tfoot) {
+	table[rules=groups i] > :is(thead,tbody,tfoot) {
 		border-top-width: 1px; border-top-style: solid;
 		border-bottom-width: 1px; border-bottom-style: solid;
 	}
@@ -3308,7 +3320,7 @@ Using CSS Tables does not incur any privacy risk to mitigate.
 <!--
 	Others:
 -->
-	table[cellpadding=$x] > :matches(thead,tbody,tfoot) > tr > :matches(th,td) /* if(parseInt($x)>0) */ {
+	table[cellpadding=$x] > :is(thead,tbody,tfoot) > tr > :is(th,td) /* if(parseInt($x)>0) */ {
 		padding: /*(parseInt($x) * 1px)*/;
 	}
 	table[cellspacing=$x] /* if(parseInt($x)>0) */ {
@@ -3333,10 +3345,10 @@ Using CSS Tables does not incur any privacy risk to mitigate.
 	table[bordercolor=$color] {
 		border-color: /*parseHTMLColor($color)*/;
 	}
-	table[bordercolor] > :matches(tbody, thead, tfoot, tr, colgroup, col),
-	table[bordercolor] > :matches(tbody, thead, tfoot) > tr,
-	table[bordercolor] > :matches(tbody, thead, tfoot) > tr > :matches(td, th),
-	table[bordercolor] > tr > :matches(td, th)
+	table[bordercolor] > :is(tbody, thead, tfoot, tr, colgroup, col),
+	table[bordercolor] > :is(tbody, thead, tfoot) > tr,
+	table[bordercolor] > :is(tbody, thead, tfoot) > tr > :is(td, th),
+	table[bordercolor] > tr > :is(td, th)
 	table[bordercolor] > colgroup > col
 	) {
 		border-color: inherit;
@@ -3359,29 +3371,29 @@ Using CSS Tables does not incur any privacy risk to mitigate.
 	NON-TABLE ATTRIBUTES:
 -->
 	caption[align=bottom i] { caption-side: bottom; }
-	:matches(thead,tbody,tfoot,tr,td,th)[valign=top i] {
+	:is(thead,tbody,tfoot,tr,td,th)[valign=top i] {
 		vertical-align: top;
 	}
-	:matches(thead,tbody,tfoot,tr,td,th)[valign=middle i] {
+	:is(thead,tbody,tfoot,tr,td,th)[valign=middle i] {
 		vertical-align: middle;
 	}
-	:matches(thead,tbody,tfoot,tr,td,th)[valign=bottom i] {
+	:is(thead,tbody,tfoot,tr,td,th)[valign=bottom i] {
 		vertical-align: bottom;
 	}
-	:matches(thead,tbody,tfoot,tr,td,th)[valign=baseline i] {
+	:is(thead,tbody,tfoot,tr,td,th)[valign=baseline i] {
 		vertical-align: baseline;
 	}
 
-	:matches(thead,tbody,tfoot,tr,td,th)[align=absmiddle i] {
+	:is(thead,tbody,tfoot,tr,td,th)[align=absmiddle i] {
 		text-align: center;
 	}
 
-	:matches(colgroup,col,thead,tbody,tfoot,tr,td,th)[hidden] {
+	:is(colgroup,col,thead,tbody,tfoot,tr,td,th)[hidden] {
 		visibility: collapse;
 	}
 
-	:matches(td,th)[nowrap] { white-space: nowrap; }
-	:matches(td,th)[nowrap][width=$w] /* if(quirksMode && parseInt($w) > 0) */ {
+	:is(td,th)[nowrap] { white-space: nowrap; }
+	:is(td,th)[nowrap][width=$w] /* if(quirksMode && parseInt($w) > 0) */ {
 		white-space: normal;
 	}
 

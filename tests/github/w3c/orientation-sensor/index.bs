@@ -5,7 +5,7 @@ Level: none
 ED: https://w3c.github.io/orientation-sensor/
 Shortname: orientation-sensor
 TR: https://www.w3.org/TR/orientation-sensor/
-Previous Version: https://www.w3.org/TR/2018/CR-orientation-sensor-20180320/
+Previous Version: https://www.w3.org/TR/2019/WD-orientation-sensor-20190307/
 Editor: Kenneth Rohde Christiansen 57705, Intel Corporation, https://intel.com/
 Editor: Anssi Kostiainen 41974, Intel Corporation, https://intel.com/
 Former Editor: Mikhail Pozdnyakov 78325, Intel Corporation, https://intel.com/
@@ -14,13 +14,13 @@ Group: dap
 Abstract:
   This specification defines a base orientation sensor interface and concrete sensor subclasses to monitor the device's
   physical orientation in relation to a stationary three dimensional Cartesian coordinate system.
-Version History: https://github.com/w3c/orientation-sensor/commits/gh-pages/index.bs
+Version History: https://github.com/w3c/orientation-sensor/commits/main/index.bs
 !Bug Reports: <a href="https://www.github.com/w3c/orientation-sensor/issues/new">via the w3c/orientation-sensor repository on GitHub</a>
 Indent: 2
 Repository: w3c/orientation-sensor
 Markup Shorthands: markdown on
 Inline Github Issues: true
-!Test Suite: <a href="https://github.com/web-platform-tests/wpt/tree/master/orientation-sensor">web-platform-tests on GitHub</a>
+!Test Suite: <a href="https://github.com/web-platform-tests/wpt/tree/main/orientation-sensor">web-platform-tests on GitHub</a>
 Boilerplate: omit issues-index, omit conformance
 Ignored Vars: sensor_instance, targetMatrix, x, y, z, w
 </pre>
@@ -347,7 +347,7 @@ The OrientationSensor Interface {#orientationsensor-interface}
   [SecureContext, Exposed=Window]
   interface OrientationSensor : Sensor {
     readonly attribute FrozenArray&lt;double>? quaternion;
-    void populateMatrix(RotationMatrixType targetMatrix);
+    undefined populateMatrix(RotationMatrixType targetMatrix);
   };
 
   enum OrientationSensorLocalCoordinateSystem { "device", "screen" };
@@ -437,8 +437,9 @@ The AbsoluteOrientationSensor Interface {#absoluteorientationsensor-interface}
 -------------------------------------
 
 <pre class="idl">
-  [Constructor(optional OrientationSensorOptions sensorOptions = {}), SecureContext, Exposed=Window]
+  [SecureContext, Exposed=Window]
   interface AbsoluteOrientationSensor : OrientationSensor {
+    constructor(optional OrientationSensorOptions sensorOptions = {});
   };
 </pre>
 
@@ -453,8 +454,9 @@ The RelativeOrientationSensor Interface {#relativeorientationsensor-interface}
 -------------------------------------
 
 <pre class="idl">
-  [Constructor(optional OrientationSensorOptions sensorOptions = {}), SecureContext, Exposed=Window]
+  [SecureContext, Exposed=Window]
   interface RelativeOrientationSensor : OrientationSensor {
+    constructor(optional OrientationSensorOptions sensorOptions = {});
   };
 </pre>
 

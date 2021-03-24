@@ -3,1307 +3,13 @@
   <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
   <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
   <title>Picture-in-Picture</title>
-<style data-fill-with="stylesheet">/******************************************************************************
- *                   Style sheet for the W3C specifications                   *
- *
- * Special classes handled by this style sheet include:
- *
- * Indices
- *   - .toc for the Table of Contents (<ol class="toc">)
- *     + <span class="secno"> for the section numbers
- *   - #toc for the Table of Contents (<nav id="toc">)
- *   - ul.index for Indices (<a href="#ref">term</a><span>, in §N.M</span>)
- *   - table.index for Index Tables (e.g. for properties or elements)
- *
- * Structural Markup
- *   - table.data for general data tables
- *     -> use 'scope' attribute, <colgroup>, <thead>, and <tbody> for best results !
- *     -> use <table class='complex data'> for extra-complex tables
- *     -> use <td class='long'> for paragraph-length cell content
- *     -> use <td class='pre'> when manual line breaks/indentation would help readability
- *   - dl.switch for switch statements
- *   - ol.algorithm for algorithms (helps to visualize nesting)
- *   - .figure and .caption (HTML4) and figure and figcaption (HTML5)
- *     -> .sidefigure for right-floated figures
- *   - ins/del
- *
- * Code
- *   - pre and code
- *
- * Special Sections
- *   - .note       for informative notes             (div, p, span, aside, details)
- *   - .example    for informative examples          (div, p, pre, span)
- *   - .issue      for issues                        (div, p, span)
- *   - .assertion  for assertions                    (div, p, span)
- *   - .advisement for loud normative statements     (div, p, strong)
- *   - .annoying-warning for spec obsoletion notices (div, aside, details)
- *
- * Definition Boxes
- *   - pre.def   for WebIDL definitions
- *   - table.def for tables that define other entities (e.g. CSS properties)
- *   - dl.def    for definition lists that define other entitles (e.g. HTML elements)
- *
- * Numbering
- *   - .secno for section numbers in .toc and headings (<span class='secno'>3.2</span>)
- *   - .marker for source-inserted example/figure/issue numbers (<span class='marker'>Issue 4</span>)
- *   - ::before styled for CSS-generated issue/example/figure numbers:
- *     -> Documents wishing to use this only need to add
- *        figcaption::before,
- *        .caption::before { content: "Figure "  counter(figure) " ";  }
- *        .example::before { content: "Example " counter(example) " "; }
- *        .issue::before   { content: "Issue "   counter(issue) " ";   }
- *
- * Header Stuff (ignore, just don't conflict with these classes)
- *   - .head for the header
- *   - .copyright for the copyright
- *
- * Miscellaneous
- *   - .overlarge for things that should be as wide as possible, even if
- *     that overflows the body text area. This can be used on an item or
- *     on its container, depending on the effect desired.
- *     Note that this styling basically doesn't help at all when printing,
- *     since A4 paper isn't much wider than the max-width here.
- *     It's better to design things to fit into a narrower measure if possible.
- *   - js-added ToC jump links (see fixup.js)
- *
- ******************************************************************************/
-
-/******************************************************************************/
-/*                                   Body                                     */
-/******************************************************************************/
-
-	body {
-		counter-reset: example figure issue;
-
-		/* Layout */
-		max-width: 50em;               /* limit line length to 50em for readability   */
-		margin: 0 auto;                /* center text within page                     */
-		padding: 1.6em 1.5em 2em 50px; /* assume 16px font size for downlevel clients */
-		padding: 1.6em 1.5em 2em calc(26px + 1.5em); /* leave space for status flag     */
-
-		/* Typography */
-		line-height: 1.5;
-		font-family: sans-serif;
-		widows: 2;
-		orphans: 2;
-		word-wrap: break-word;
-		overflow-wrap: break-word;
-		hyphens: auto;
-
-		/* Colors */
-		color: black;
-		background: white top left fixed no-repeat;
-		background-size: 25px auto;
-	}
-
-
-/******************************************************************************/
-/*                         Front Matter & Navigation                          */
-/******************************************************************************/
-
-/** Header ********************************************************************/
-
-	div.head { margin-bottom: 1em }
-	div.head hr { border-style: solid; }
-
-	div.head h1 {
-		font-weight: bold;
-		margin: 0 0 .1em;
-		font-size: 220%;
-	}
-
-	div.head h2 { margin-bottom: 1.5em;}
-
-/** W3C Logo ******************************************************************/
-
-	.head .logo {
-		float: right;
-		margin: 0.4rem 0 0.2rem .4rem;
-	}
-
-	.head img[src*="logos/W3C"] {
-		display: block;
-		border: solid #1a5e9a;
-		border-width: .65rem .7rem .6rem;
-		border-radius: .4rem;
-		background: #1a5e9a;
-		color: white;
-		font-weight: bold;
-	}
-
-	.head a:hover > img[src*="logos/W3C"],
-	.head a:focus > img[src*="logos/W3C"] {
-		opacity: .8;
-	}
-
-	.head a:active > img[src*="logos/W3C"] {
-		background: #c00;
-		border-color: #c00;
-	}
-
-	/* see also additional rules in Link Styling section */
-
-/** Copyright *****************************************************************/
-
-	p.copyright,
-	p.copyright small { font-size: small }
-
-/** Back to Top / ToC Toggle **************************************************/
-
-	@media print {
-		#toc-nav {
-			display: none;
-		}
-	}
-	@media not print {
-		#toc-nav {
-			position: fixed;
-			z-index: 2;
-			bottom: 0; left: 0;
-			margin: 0;
-			min-width: 1.33em;
-			border-top-right-radius: 2rem;
-			box-shadow: 0 0 2px;
-			font-size: 1.5em;
-			color: black;
-		}
-		#toc-nav > a {
-			display: block;
-			white-space: nowrap;
-
-			height: 1.33em;
-			padding: .1em 0.3em;
-			margin: 0;
-
-			background: white;
-			box-shadow: 0 0 2px;
-			border: none;
-			border-top-right-radius: 1.33em;
-			background: white;
-		}
-		#toc-nav > #toc-jump {
-			padding-bottom: 2em;
-			margin-bottom: -1.9em;
-		}
-
-		#toc-nav > a:hover,
-		#toc-nav > a:focus {
-			background: #f8f8f8;
-		}
-		#toc-nav > a:not(:hover):not(:focus) {
-			color: #707070;
-		}
-
-		/* statusbar gets in the way on keyboard focus; remove once browsers fix */
-		#toc-nav > a[href="#toc"]:not(:hover):focus:last-child {
-			padding-bottom: 1.5rem;
-		}
-
-		#toc-nav:not(:hover) > a:not(:focus) > span + span {
-			/* Ideally this uses :focus-within on #toc-nav */
-			display: none;
-		}
-		#toc-nav > a > span + span {
-			padding-right: 0.2em;
-		}
-
-		#toc-toggle-inline {
-			vertical-align: 0.05em;
-			font-size: 80%;
-			color: gray;
-			color: hsla(203,20%,40%,.7);
-			border-style: none;
-			background: transparent;
-			position: relative;
-		}
-		#toc-toggle-inline:hover:not(:active),
-		#toc-toggle-inline:focus:not(:active) {
-			text-shadow: 1px 1px silver;
-			top: -1px;
-			left: -1px;
-		}
-
-		#toc-nav :active {
-			color: #C00;
-		}
-	}
-
-/** ToC Sidebar ***************************************************************/
-
-	/* Floating sidebar */
-	@media screen {
-		body.toc-sidebar #toc {
-			position: fixed;
-			top: 0; bottom: 0;
-			left: 0;
-			width: 23.5em;
-			max-width: 80%;
-			max-width: calc(100% - 2em - 26px);
-			overflow: auto;
-			padding: 0 1em;
-			padding-left: 42px;
-			padding-left: calc(1em + 26px);
-			background: inherit;
-			background-color: #f7f8f9;
-			z-index: 1;
-			box-shadow: -.1em 0 .25em rgba(0,0,0,.1) inset;
-		}
-		body.toc-sidebar #toc h2 {
-			margin-top: .8rem;
-			font-variant: small-caps;
-			font-variant: all-small-caps;
-			text-transform: lowercase;
-			font-weight: bold;
-			color: gray;
-			color: hsla(203,20%,40%,.7);
-		}
-		body.toc-sidebar #toc-jump:not(:focus) {
-			width: 0;
-			height: 0;
-			padding: 0;
-			position: absolute;
-			overflow: hidden;
-		}
-	}
-	/* Hide main scroller when only the ToC is visible anyway */
-	@media screen and (max-width: 28em) {
-		body.toc-sidebar {
-			overflow: hidden;
-		}
-	}
-
-	/* Sidebar with its own space */
-	@media screen and (min-width: 78em) {
-		body:not(.toc-inline) #toc {
-			position: fixed;
-			top: 0; bottom: 0;
-			left: 0;
-			width: 23.5em;
-			overflow: auto;
-			padding: 0 1em;
-			padding-left: 42px;
-			padding-left: calc(1em + 26px);
-			background: inherit;
-			background-color: #f7f8f9;
-			z-index: 1;
-			box-shadow: -.1em 0 .25em rgba(0,0,0,.1) inset;
-		}
-		body:not(.toc-inline) #toc h2 {
-			margin-top: .8rem;
-			font-variant: small-caps;
-			font-variant: all-small-caps;
-			text-transform: lowercase;
-			font-weight: bold;
-			color: gray;
-			color: hsla(203,20%,40%,.7);
-		}
-
-		body:not(.toc-inline) {
-			padding-left: 29em;
-		}
-		/* See also Overflow section at the bottom */
-
-		body:not(.toc-inline) #toc-jump:not(:focus) {
-			width: 0;
-			height: 0;
-			padding: 0;
-			position: absolute;
-			overflow: hidden;
-		}
-	}
-	@media screen and (min-width: 90em) {
-		body:not(.toc-inline) {
-			margin: 0 4em;
-		}
-	}
-
-/******************************************************************************/
-/*                                Sectioning                                  */
-/******************************************************************************/
-
-/** Headings ******************************************************************/
-
-	h1, h2, h3, h4, h5, h6, dt {
-		page-break-after: avoid;
-		page-break-inside: avoid;
-		font: 100% sans-serif;   /* Reset all font styling to clear out UA styles */
-		font-family: inherit;    /* Inherit the font family. */
-		line-height: 1.2;        /* Keep wrapped headings compact */
-		hyphens: manual;         /* Hyphenated headings look weird */
-	}
-
-	h2, h3, h4, h5, h6 {
-		margin-top: 3rem;
-	}
-
-	h1, h2, h3 {
-		color: #005A9C;
-		background: transparent;
-	}
-
-	h1 { font-size: 170%; }
-	h2 { font-size: 140%; }
-	h3 { font-size: 120%; }
-	h4 { font-weight: bold; }
-	h5 { font-style: italic; }
-	h6 { font-variant: small-caps; }
-	dt { font-weight: bold; }
-
-/** Subheadings ***************************************************************/
-
-	h1 + h2,
-	#subtitle {
-		/* #subtitle is a subtitle in an H2 under the H1 */
-		margin-top: 0;
-	}
-	h2 + h3,
-	h3 + h4,
-	h4 + h5,
-	h5 + h6 {
-		margin-top: 1.2em; /* = 1 x line-height */
-	}
-
-/** Section divider ***********************************************************/
-
-	:not(.head) > hr {
-		font-size: 1.5em;
-		text-align: center;
-		margin: 1em auto;
-		height: auto;
-		border: transparent solid 0;
-		background: transparent;
-	}
-	:not(.head) > hr::before {
-		content: "\2727\2003\2003\2727\2003\2003\2727";
-	}
-
-/******************************************************************************/
-/*                            Paragraphs and Lists                            */
-/******************************************************************************/
-
-	p {
-		margin: 1em 0;
-	}
-
-	dd > p:first-child,
-	li > p:first-child {
-		margin-top: 0;
-	}
-
-	ul, ol {
-		margin-left: 0;
-		padding-left: 2em;
-	}
-
-	li {
-		margin: 0.25em 0 0.5em;
-		padding: 0;
-	}
-
-	dl dd {
-		margin: 0 0 .5em 2em;
-	}
-
-	.head dd + dd { /* compact for header */
-		margin-top: -.5em;
-	}
-
-	/* Style for algorithms */
-	ol.algorithm ol:not(.algorithm),
-	.algorithm > ol ol:not(.algorithm) {
-	 border-left: 0.5em solid #DEF;
-	}
-
-	/* Put nice boxes around each algorithm. */
-	[data-algorithm]:not(.heading) {
-	  padding: .5em;
-	  border: thin solid #ddd; border-radius: .5em;
-	  margin: .5em calc(-0.5em - 1px);
-	}
-	[data-algorithm]:not(.heading) > :first-child {
-	  margin-top: 0;
-	}
-	[data-algorithm]:not(.heading) > :last-child {
-	  margin-bottom: 0;
-	}
-
-	/* Style for switch/case <dl>s */
-	dl.switch > dd > ol.only,
-	dl.switch > dd > .only > ol {
-	 margin-left: 0;
-	}
-	dl.switch > dd > ol.algorithm,
-	dl.switch > dd > .algorithm > ol {
-	 margin-left: -2em;
-	}
-	dl.switch {
-	 padding-left: 2em;
-	}
-	dl.switch > dt {
-	 text-indent: -1.5em;
-	 margin-top: 1em;
-	}
-	dl.switch > dt + dt {
-	 margin-top: 0;
-	}
-	dl.switch > dt::before {
-	 content: '\21AA';
-	 padding: 0 0.5em 0 0;
-	 display: inline-block;
-	 width: 1em;
-	 text-align: right;
-	 line-height: 0.5em;
-	}
-
-/** Terminology Markup ********************************************************/
-
-
-/******************************************************************************/
-/*                                 Inline Markup                              */
-/******************************************************************************/
-
-/** Terminology Markup ********************************************************/
-	dfn   { /* Defining instance */
-		font-weight: bolder;
-	}
-	a > i { /* Instance of term */
-		font-style: normal;
-	}
-	dt dfn code, code.idl {
-		font-size: medium;
-	}
-	dfn var {
-		font-style: normal;
-	}
-
-/** Change Marking ************************************************************/
-
-	del { color: red;  text-decoration: line-through; }
-	ins { color: #080; text-decoration: underline;    }
-
-/** Miscellaneous improvements to inline formatting ***************************/
-
-	sup {
-		vertical-align: super;
-		font-size: 80%
-	}
-
-/******************************************************************************/
-/*                                    Code                                    */
-/******************************************************************************/
-
-/** General monospace/pre rules ***********************************************/
-
-	pre, code, samp {
-		font-family: Menlo, Consolas, "DejaVu Sans Mono", Monaco, monospace;
-		font-size: .9em;
-		page-break-inside: avoid;
-		hyphens: none;
-		text-transform: none;
-	}
-	pre code,
-	code code {
-		font-size: 100%;
-	}
-
-	pre {
-		margin-top: 1em;
-		margin-bottom: 1em;
-		overflow: auto;
-	}
-
-/** Inline Code fragments *****************************************************/
-
-  /* Do something nice. */
-
-/******************************************************************************/
-/*                                    Links                                   */
-/******************************************************************************/
-
-/** General Hyperlinks ********************************************************/
-
-	/* We hyperlink a lot, so make it less intrusive */
-	a[href] {
-		color: #034575;
-		text-decoration: none;
-		border-bottom: 1px solid #707070;
-		/* Need a bit of extending for it to look okay */
-		padding: 0 1px 0;
-		margin: 0 -1px 0;
-	}
-	a:visited {
-		border-bottom-color: #BBB;
-	}
-
-	/* Use distinguishing colors when user is interacting with the link */
-	a[href]:focus,
-	a[href]:hover {
-		background: #f8f8f8;
-		background: rgba(75%, 75%, 75%, .25);
-		border-bottom-width: 3px;
-		margin-bottom: -2px;
-	}
-	a[href]:active {
-		color: #C00;
-		border-color: #C00;
-	}
-
-	/* Backout above styling for W3C logo */
-	.head .logo,
-	.head .logo a {
-		border: none;
-		text-decoration: none;
-		background: transparent;
-	}
-
-/******************************************************************************/
-/*                                    Images                                  */
-/******************************************************************************/
-
-	img {
-		border-style: none;
-	}
-
-	/* For autogen numbers, add
-	   .caption::before, figcaption::before { content: "Figure " counter(figure) ". "; }
-	*/
-
-	figure, .figure, .sidefigure {
-		page-break-inside: avoid;
-		text-align: center;
-		margin: 2.5em 0;
-	}
-	.figure img,    .sidefigure img,    figure img,
-	.figure object, .sidefigure object, figure object {
-		max-width: 100%;
-		margin: auto;
-	}
-	.figure pre, .sidefigure pre, figure pre {
-		text-align: left;
-		display: table;
-		margin: 1em auto;
-	}
-	.figure table, figure table {
-		margin: auto;
-	}
-	@media screen and (min-width: 20em) {
-		.sidefigure {
-			float: right;
-			width: 50%;
-			margin: 0 0 0.5em 0.5em
-		}
-	}
-	.caption, figcaption, caption {
-		font-style: italic;
-		font-size: 90%;
-	}
-	.caption::before, figcaption::before, figcaption > .marker {
-		font-weight: bold;
-	}
-	.caption, figcaption {
-		counter-increment: figure;
-	}
-
-	/* DL list is indented 2em, but figure inside it is not */
-	dd > .figure, dd > figure { margin-left: -2em }
-
-/******************************************************************************/
-/*                             Colored Boxes                                  */
-/******************************************************************************/
-
-	.issue, .note, .example, .assertion, .advisement, blockquote {
-		padding: .5em;
-		border: .5em;
-		border-left-style: solid;
-		page-break-inside: avoid;
-	}
-	span.issue, span.note {
-		padding: .1em .5em .15em;
-		border-right-style: solid;
-	}
-
-	.issue,
-	.note,
-	.example,
-	.advisement,
-	.assertion,
-	blockquote {
-		margin: 1em auto;
-	}
-	.note  > p:first-child,
-	.issue > p:first-child,
-	blockquote > :first-child {
-		margin-top: 0;
-	}
-	blockquote > :last-child {
-		margin-bottom: 0;
-	}
-
-/** Blockquotes ***************************************************************/
-
-	blockquote {
-		border-color: silver;
-	}
-
-/** Open issue ****************************************************************/
-
-	.issue {
-		border-color: #E05252;
-		background: #FBE9E9;
-		counter-increment: issue;
-		overflow: auto;
-	}
-	.issue::before, .issue > .marker {
-		text-transform: uppercase;
-		color: #AE1E1E;
-		padding-right: 1em;
-		text-transform: uppercase;
-	}
-	/* Add .issue::before { content: "Issue " counter(issue) " "; } for autogen numbers,
-	   or use class="marker" to mark up the issue number in source. */
-
-/** Example *******************************************************************/
-
-	.example {
-		border-color: #E0CB52;
-		background: #FCFAEE;
-		counter-increment: example;
-		overflow: auto;
-		clear: both;
-	}
-	.example::before, .example > .marker {
-		text-transform: uppercase;
-		color: #827017;
-		min-width: 7.5em;
-		display: block;
-	}
-	/* Add .example::before { content: "Example " counter(example) " "; } for autogen numbers,
-	   or use class="marker" to mark up the example number in source. */
-
-/** Non-normative Note ********************************************************/
-
-	.note {
-		border-color: #52E052;
-		background: #E9FBE9;
-		overflow: auto;
-	}
-
-	.note::before, .note > .marker,
-	details.note > summary::before,
-	details.note > summary > .marker {
-		text-transform: uppercase;
-		display: block;
-		color: hsl(120, 70%, 30%);
-	}
-	/* Add .note::before { content: "Note"; } for autogen label,
-	   or use class="marker" to mark up the label in source. */
-
-	details.note > summary {
-		display: block;
-		color: hsl(120, 70%, 30%);
-	}
-	details.note[open] > summary {
-		border-bottom: 1px silver solid;
-	}
-
-/** Assertion Box *************************************************************/
-	/*  for assertions in algorithms */
-
-	.assertion {
-		border-color: #AAA;
-		background: #EEE;
-	}
-
-/** Advisement Box ************************************************************/
-	/*  for attention-grabbing normative statements */
-
-	.advisement {
-		border-color: orange;
-		border-style: none solid;
-		background: #FFEECC;
-	}
-	strong.advisement {
-		display: block;
-		text-align: center;
-	}
-	.advisement > .marker {
-		color: #B35F00;
-	}
-
-/** Spec Obsoletion Notice ****************************************************/
-	/* obnoxious obsoletion notice for older/abandoned specs. */
-
-	details {
-		display: block;
-	}
-	summary {
-		font-weight: bolder;
-	}
-
-	.annoying-warning:not(details),
-	details.annoying-warning:not([open]) > summary,
-	details.annoying-warning[open] {
-		background: #fdd;
-		color: red;
-		font-weight: bold;
-		padding: .75em 1em;
-		border: thick red;
-		border-style: solid;
-		border-radius: 1em;
-	}
-	.annoying-warning :last-child {
-		margin-bottom: 0;
-	}
-
-@media not print {
-	details.annoying-warning[open] {
-		position: fixed;
-		left: 1em;
-		right: 1em;
-		bottom: 1em;
-		z-index: 1000;
-	}
-}
-
-	details.annoying-warning:not([open]) > summary {
-		text-align: center;
-	}
-
-/** Entity Definition Boxes ***************************************************/
-
-	.def {
-		padding: .5em 1em;
-		background: #DEF;
-		margin: 1.2em 0;
-		border-left: 0.5em solid #8CCBF2;
-	}
-
-/******************************************************************************/
-/*                                    Tables                                  */
-/******************************************************************************/
-
-	th, td {
-		text-align: left;
-		text-align: start;
-	}
-
-/** Property/Descriptor Definition Tables *************************************/
-
-	table.def {
-		/* inherits .def box styling, see above */
-		width: 100%;
-		border-spacing: 0;
-	}
-
-	table.def td,
-	table.def th {
-		padding: 0.5em;
-		vertical-align: baseline;
-		border-bottom: 1px solid #bbd7e9;
-	}
-
-	table.def > tbody > tr:last-child th,
-	table.def > tbody > tr:last-child td {
-		border-bottom: 0;
-	}
-
-	table.def th {
-		font-style: italic;
-		font-weight: normal;
-		padding-left: 1em;
-		width: 3em;
-	}
-
-	/* For when values are extra-complex and need formatting for readability */
-	table td.pre {
-		white-space: pre-wrap;
-	}
-
-	/* A footnote at the bottom of a def table */
-	table.def           td.footnote {
-		padding-top: 0.6em;
-	}
-	table.def           td.footnote::before {
-		content: " ";
-		display: block;
-		height: 0.6em;
-		width: 4em;
-		border-top: thin solid;
-	}
-
-/** Data tables (and properly marked-up index tables) *************************/
-	/*
-		 <table class="data"> highlights structural relationships in a table
-		 when correct markup is used (e.g. thead/tbody, th vs. td, scope attribute)
-
-		 Use class="complex data" for particularly complicated tables --
-		 (This will draw more lines: busier, but clearer.)
-
-		 Use class="long" on table cells with paragraph-like contents
-		 (This will adjust text alignment accordingly.)
-		 Alternately use class="longlastcol" on tables, to have the last column assume "long".
-	*/
-
-	table {
-		word-wrap: normal;
-		overflow-wrap: normal;
-		hyphens: manual;
-	}
-
-	table.data,
-	table.index {
-		margin: 1em auto;
-		border-collapse: collapse;
-		border: hidden;
-		width: 100%;
-	}
-	table.data caption,
-	table.index caption {
-		max-width: 50em;
-		margin: 0 auto 1em;
-	}
-
-	table.data td,  table.data th,
-	table.index td, table.index th {
-		padding: 0.5em 1em;
-		border-width: 1px;
-		border-color: silver;
-		border-top-style: solid;
-	}
-
-	table.data thead td:empty {
-		padding: 0;
-		border: 0;
-	}
-
-	table.data  thead,
-	table.index thead,
-	table.data  tbody,
-	table.index tbody {
-		border-bottom: 2px solid;
-	}
-
-	table.data colgroup,
-	table.index colgroup {
-		border-left: 2px solid;
-	}
-
-	table.data  tbody th:first-child,
-	table.index tbody th:first-child  {
-		border-right: 2px solid;
-		border-top: 1px solid silver;
-		padding-right: 1em;
-	}
-
-	table.data th[colspan],
-	table.data td[colspan] {
-		text-align: center;
-	}
-
-	table.complex.data th,
-	table.complex.data td {
-		border: 1px solid silver;
-		text-align: center;
-	}
-
-	table.data.longlastcol td:last-child,
-	table.data td.long {
-	 vertical-align: baseline;
-	 text-align: left;
-	}
-
-	table.data img {
-		vertical-align: middle;
-	}
-
-
-/*
-Alternate table alignment rules
-
-	table.data,
-	table.index {
-		text-align: center;
-	}
-
-	table.data  thead th[scope="row"],
-	table.index thead th[scope="row"] {
-		text-align: right;
-	}
-
-	table.data  tbody th:first-child,
-	table.index tbody th:first-child  {
-		text-align: right;
-	}
-
-Possible extra rowspan handling
-
-	table.data  tbody th[rowspan]:not([rowspan='1']),
-	table.index tbody th[rowspan]:not([rowspan='1']),
-	table.data  tbody td[rowspan]:not([rowspan='1']),
-	table.index tbody td[rowspan]:not([rowspan='1']) {
-		border-left: 1px solid silver;
-	}
-
-	table.data  tbody th[rowspan]:first-child,
-	table.index tbody th[rowspan]:first-child,
-	table.data  tbody td[rowspan]:first-child,
-	table.index tbody td[rowspan]:first-child{
-		border-left: 0;
-		border-right: 1px solid silver;
-	}
-*/
-
-/******************************************************************************/
-/*                                  Indices                                   */
-/******************************************************************************/
-
-
-/** Table of Contents *********************************************************/
-
-	.toc a {
-		/* More spacing; use padding to make it part of the click target. */
-		padding-top: 0.1rem;
-		/* Larger, more consistently-sized click target */
-		display: block;
-		/* Reverse color scheme */
-		color: black;
-		border-color: #3980B5;
-		border-bottom-width: 3px !important;
-		margin-bottom: 0px !important;
-	}
-	.toc a:visited {
-		border-color: #054572;
-	}
-	.toc a:not(:focus):not(:hover) {
-		/* Allow colors to cascade through from link styling */
-		border-bottom-color: transparent;
-	}
-
-	.toc, .toc ol, .toc ul, .toc li {
-		list-style: none; /* Numbers must be inlined into source */
-		/* because generated content isn't search/selectable and markers can't do multilevel yet */
-		margin:  0;
-		padding: 0;
-		line-height: 1.1rem; /* consistent spacing */
-	}
-
-	/* ToC not indented until third level, but font style & margins show hierarchy */
-	.toc > li             { font-weight: bold;   }
-	.toc > li li          { font-weight: normal; }
-	.toc > li li li       { font-size:   95%;    }
-	.toc > li li li li    { font-size:   90%;    }
-	.toc > li li li li .secno { font-size: 85%; }
-	.toc > li li li li li { font-size:   85%;    }
-	.toc > li li li li li .secno { font-size: 100%; }
-
-	/* @supports not (display:grid) { */
-		.toc > li             { margin: 1.5rem 0;    }
-		.toc > li li          { margin: 0.3rem 0;    }
-		.toc > li li li       { margin-left: 2rem;   }
-
-		/* Section numbers in a column of their own */
-		.toc .secno {
-			float: left;
-			width: 4rem;
-			white-space: nowrap;
-		}
-
-		.toc li {
-			clear: both;
-		}
-
-		:not(li) > .toc              { margin-left:  5rem; }
-		.toc .secno                  { margin-left: -5rem; }
-		.toc > li li li .secno       { margin-left: -7rem; }
-		.toc > li li li li .secno    { margin-left: -9rem; }
-		.toc > li li li li li .secno { margin-left: -11rem; }
-
-		/* Tighten up indentation in narrow ToCs */
-		@media (max-width: 30em) {
-			:not(li) > .toc              { margin-left:  4rem; }
-			.toc .secno                  { margin-left: -4rem; }
-			.toc > li li li              { margin-left:  1rem; }
-			.toc > li li li .secno       { margin-left: -5rem; }
-			.toc > li li li li .secno    { margin-left: -6rem; }
-			.toc > li li li li li .secno { margin-left: -7rem; }
-		}
-	/* } */
-
-	@supports (display:grid) and (display:contents) {
-		/* Use #toc over .toc to override non-@supports rules. */
-		#toc {
-			display: grid;
-			align-content: start;
-			grid-template-columns: auto 1fr;
-			grid-column-gap: 1rem;
-			column-gap: 1rem;
-			grid-row-gap: .6rem;
-			row-gap: .6rem;
-		}
-		#toc h2 {
-			grid-column: 1 / -1;
-			margin-bottom: 0;
-		}
-		#toc ol,
-		#toc li,
-		#toc a {
-			display: contents;
-			/* Switch <a> to subgrid when supported */
-		}
-		#toc span {
-			margin: 0;
-		}
-		#toc > .toc > li > a > span {
-			/* The spans of the top-level list,
-			   comprising the first items of each top-level section. */
-			margin-top: 1.1rem;
-		}
-		#toc#toc .secno { /* Ugh, need more specificity to override base.css */
-			grid-column: 1;
-			width: auto;
-			margin-left: 0;
-		}
-		#toc .content {
-			grid-column: 2;
-			width: auto;
-			margin-right: 1rem;
-		}
-		#toc .content:hover {
-			background: rgba(75%, 75%, 75%, .25);
-			border-bottom: 3px solid #054572;
-			margin-bottom: -3px;
-		}
-		#toc li li li .content {
-			margin-left: 1rem;
-		}
-		#toc li li li li .content {
-			margin-left: 2rem;
-		}
-	}
-
-
-/** Index *********************************************************************/
-
-	/* Index Lists: Layout */
-	ul.index       { margin-left: 0; columns: 15em; text-indent: 1em hanging; }
-	ul.index li    { margin-left: 0; list-style: none; break-inside: avoid; }
-	ul.index li li { margin-left: 1em }
-	ul.index dl    { margin-top: 0; }
-	ul.index dt    { margin: .2em 0 .2em 20px;}
-	ul.index dd    { margin: .2em 0 .2em 40px;}
-	/* Index Lists: Typography */
-	ul.index ul,
-	ul.index dl { font-size: smaller; }
-	@media not print {
-		ul.index li span {
-			white-space: nowrap;
-			color: transparent; }
-		ul.index li a:hover + span,
-		ul.index li a:focus + span {
-			color: #707070;
-		}
-	}
-
-/** Index Tables *****************************************************/
-	/* See also the data table styling section, which this effectively subclasses */
-
-	table.index {
-		font-size: small;
-		border-collapse: collapse;
-		border-spacing: 0;
-		text-align: left;
-		margin: 1em 0;
-	}
-
-	table.index td,
-	table.index th {
-		padding: 0.4em;
-	}
-
-	table.index tr:hover td:not([rowspan]),
-	table.index tr:hover th:not([rowspan]) {
-		background: #f7f8f9;
-	}
-
-	/* The link in the first column in the property table (formerly a TD) */
-	table.index th:first-child a {
-		font-weight: bold;
-	}
-
-/******************************************************************************/
-/*                                    Print                                   */
-/******************************************************************************/
-
-	@media print {
-		/* Pages have their own margins. */
-		html {
-			margin: 0;
-		}
-		/* Serif for print. */
-		body {
-			font-family: serif;
-		}
-	}
-	@page {
-		margin: 1.5cm 1.1cm;
-	}
-
-/******************************************************************************/
-/*                                    Legacy                                  */
-/******************************************************************************/
-
-	/* This rule is inherited from past style sheets. No idea what it's for. */
-	.hide { display: none }
-
-
-
-/******************************************************************************/
-/*                             Overflow Control                               */
-/******************************************************************************/
-
-	.figure .caption, .sidefigure .caption, figcaption {
-		/* in case figure is overlarge, limit caption to 50em */
-		max-width: 50rem;
-		margin-left: auto;
-		margin-right: auto;
-	}
-	.overlarge > table {
-		/* limit preferred width of table */
-		max-width: 50em;
-		margin-left: auto;
-		margin-right: auto;
-	}
-
-	@media (min-width: 55em) {
-		.overlarge {
-			margin-left: calc(13px + 26.5rem - 50vw);
-			margin-right: calc(13px + 26.5rem - 50vw);
-			max-width: none;
-		}
-	}
-	@media screen and (min-width: 78em) {
-		body:not(.toc-inline) .overlarge {
-			/* 30.5em body padding 50em content area */
-			margin-left: calc(40em - 50vw) !important;
-			margin-right: calc(40em - 50vw) !important;
-		}
-	}
-	@media screen and (min-width: 90em) {
-		body:not(.toc-inline) .overlarge {
-			/* 4em html margin 30.5em body padding 50em content area */
-			margin-left: 0 !important;
-			margin-right: calc(84.5em - 100vw) !important;
-		}
-	}
-
-	@media not print {
-		.overlarge {
-			overflow-x: auto;
-			/* See Lea Verou's explanation background-attachment:
-			 * http://lea.verou.me/2012/04/background-attachment-local/
-			 *
-			background: top left  / 4em 100% linear-gradient(to right,  #ffffff, rgba(255, 255, 255, 0)) local,
-			            top right / 4em 100% linear-gradient(to left, #ffffff, rgba(255, 255, 255, 0)) local,
-			            top left  / 1em 100% linear-gradient(to right,  #c3c3c5, rgba(195, 195, 197, 0)) scroll,
-			            top right / 1em 100% linear-gradient(to left, #c3c3c5, rgba(195, 195, 197, 0)) scroll,
-			            white;
-			background-repeat: no-repeat;
-			*/
-		}
-	}
-</style>
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
-  <link href="https://w3c.github.io/picture-in-picture" rel="canonical">
+  <link href="https://www.w3.org/TR/picture-in-picture/" rel="canonical">
   <link href="https://raw.githubusercontent.com/google/material-design-icons/master/action/2x_web/ic_picture_in_picture_alt_black_48dp.png" rel="icon">
-<style>/* style-md-lists */
-
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}</style>
-<style>/* style-selflinks */
-
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: gray;
-    color: white;
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: black;
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
-<style>/* style-counters */
-
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}</style>
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
-    color: #005a9c;
+    color: var(--a-normal-text);
     font-size: inherit;
     font-family: inherit;
 }
@@ -1362,8 +68,150 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #707070;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #bbb;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
 <style>/* style-dfn-panel */
 
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
 .dfn-panel {
     position: absolute;
     z-index: 35;
@@ -1375,14 +223,14 @@ pre .property::before, pre .property::after {
     overflow: auto;
     padding: 0.5em 0.75em;
     font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
     border: outset 0.2em;
 }
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
 .dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
+.dfn-panel a { color: var(--dfnpanel-text); }
 .dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
 .dfn-panel > b + b { margin-top: 0.25em; }
 .dfn-panel ul { padding: 0; }
@@ -1399,11 +247,78 @@ pre .property::before, pre .property::after {
 
 .dfn-paneled { cursor: pointer; }
 </style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
 <style>/* style-syntax-highlighting */
-pre.idl.highlight { color: #708090; }
-.highlight:not(.idl) { background: hsl(24, 20%, 95%); }
+
+            pre.idl.highlight {
+                background: var(--borderedblock-bg, var(--def-bg));
+            }
+            
 code.highlight { padding: .1em; border-radius: .3em; }
 pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
 c-[a] { color: #990055 } /* Keyword.Declaration */
 c-[b] { color: #990055 } /* Keyword.Type */
 c-[c] { color: #708090 } /* Comment */
@@ -1457,6 +372,196 @@ c-[vg] { color: #0077aa } /* Name.Variable.Global */
 c-[vi] { color: #0077aa } /* Name.Variable.Instance */
 c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
+
+    c-[a] { color: #d33682 } /* Keyword.Declaration */
+    c-[b] { color: #d33682 } /* Keyword.Type */
+    c-[c] { color: #2aa198 } /* Comment */
+    c-[d] { color: #2aa198 } /* Comment.Multiline */
+    c-[e] { color: #268bd2 } /* Name.Attribute */
+    c-[f] { color: #b58900 } /* Name.Tag */
+    c-[g] { color: #cb4b16 } /* Name.Variable */
+    c-[k] { color: #d33682 } /* Keyword */
+    c-[l] { color: #657b83 } /* Literal */
+    c-[m] { color: #657b83 } /* Literal.Number */
+    c-[n] { color: #268bd2 } /* Name */
+    c-[o] { color: #657b83 } /* Operator */
+    c-[p] { color: #657b83 } /* Punctuation */
+    c-[s] { color: #6c71c4 } /* Literal.String */
+    c-[t] { color: #6c71c4 } /* Literal.String.Single */
+    c-[u] { color: #6c71c4 } /* Literal.String.Double */
+    c-[ch] { color: #2aa198 } /* Comment.Hashbang */
+    c-[cp] { color: #2aa198 } /* Comment.Preproc */
+    c-[cpf] { color: #2aa198 } /* Comment.PreprocFile */
+    c-[c1] { color: #2aa198 } /* Comment.Single */
+    c-[cs] { color: #2aa198 } /* Comment.Special */
+    c-[kc] { color: #d33682 } /* Keyword.Constant */
+    c-[kn] { color: #d33682 } /* Keyword.Namespace */
+    c-[kp] { color: #d33682 } /* Keyword.Pseudo */
+    c-[kr] { color: #d33682 } /* Keyword.Reserved */
+    c-[ld] { color: #657b83 } /* Literal.Date */
+    c-[nc] { color: #268bd2 } /* Name.Class */
+    c-[no] { color: #268bd2 } /* Name.Constant */
+    c-[nd] { color: #268bd2 } /* Name.Decorator */
+    c-[ni] { color: #268bd2 } /* Name.Entity */
+    c-[ne] { color: #268bd2 } /* Name.Exception */
+    c-[nf] { color: #268bd2 } /* Name.Function */
+    c-[nl] { color: #268bd2 } /* Name.Label */
+    c-[nn] { color: #268bd2 } /* Name.Namespace */
+    c-[py] { color: #268bd2 } /* Name.Property */
+    c-[ow] { color: #657b83 } /* Operator.Word */
+    c-[mb] { color: #657b83 } /* Literal.Number.Bin */
+    c-[mf] { color: #657b83 } /* Literal.Number.Float */
+    c-[mh] { color: #657b83 } /* Literal.Number.Hex */
+    c-[mi] { color: #657b83 } /* Literal.Number.Integer */
+    c-[mo] { color: #657b83 } /* Literal.Number.Oct */
+    c-[sa] { color: #6c71c4 } /* Literal.String.Affix */
+    c-[sb] { color: #6c71c4 } /* Literal.String.Backtick */
+    c-[sc] { color: #6c71c4 } /* Literal.String.Char */
+    c-[dl] { color: #6c71c4 } /* Literal.String.Delimiter */
+    c-[sd] { color: #6c71c4 } /* Literal.String.Doc */
+    c-[se] { color: #6c71c4 } /* Literal.String.Escape */
+    c-[sh] { color: #6c71c4 } /* Literal.String.Heredoc */
+    c-[si] { color: #6c71c4 } /* Literal.String.Interpol */
+    c-[sx] { color: #6c71c4 } /* Literal.String.Other */
+    c-[sr] { color: #6c71c4 } /* Literal.String.Regex */
+    c-[ss] { color: #6c71c4 } /* Literal.String.Symbol */
+    c-[fm] { color: #268bd2 } /* Name.Function.Magic */
+    c-[vc] { color: #cb4b16 } /* Name.Variable.Class */
+    c-[vg] { color: #cb4b16 } /* Name.Variable.Global */
+    c-[vi] { color: #cb4b16 } /* Name.Variable.Instance */
+    c-[vm] { color: #cb4b16 } /* Name.Variable.Magic */
+    c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
+}
+</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
@@ -1465,7 +570,11 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
    <div data-fill-with="spec-metadata">
     <dl>
      <dt>This version:
-     <dd><a class="u-url" href="https://w3c.github.io/picture-in-picture">https://w3c.github.io/picture-in-picture</a>
+     <dd><a class="u-url" href="https://w3c.github.io/picture-in-picture/">https://w3c.github.io/picture-in-picture/</a>
+     <dt>Latest published version:
+     <dd><a href="https://www.w3.org/TR/picture-in-picture/">https://www.w3.org/TR/picture-in-picture/</a>
+     <dt>Previous Versions:
+     <dd><a href="https://www.w3.org/TR/2020/WD-picture-in-picture-20200130/" rel="prev">https://www.w3.org/TR/2020/WD-picture-in-picture-20200130/</a>
      <dt class="editor">Editors:
      <dd class="editor p-author h-card vcard" data-editor-id="81174"><a class="p-name fn u-email email" href="mailto:fbeaufort@google.com">François Beaufort</a> (<a class="p-org org" href="https://www.google.com">Google LLC</a>)
      <dd class="editor p-author h-card vcard" data-editor-id="45389"><a class="p-name fn u-email email" href="mailto:mlamouri@google.com">Mounir Lamouri</a> (<a class="p-org org" href="https://www.google.com">Google LLC</a>)
@@ -1503,7 +612,7 @@ content sites, or applications on their device.</p>
     includes instructions for disclosing a patent. An individual who has actual knowledge of a
     patent which the individual believes contains <a href="http://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential
     Claim(s)</a> must disclose the information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the <abbr title="World Wide Web Consortium">W3C</abbr> Patent Policy</a>. </p>
-   <p> This document is governed by the <a href="https://www.w3.org/2019/Process-20190301/" id="w3c_process_revision">1 March 2019 W3C Process Document</a>. </p>
+   <p> This document is governed by the <a href="https://www.w3.org/2020/Process-20200915/" id="w3c_process_revision">15 September 2020 W3C Process Document</a>. </p>
    <p></p>
   </div>
   <div data-fill-with="at-risk"></div>
@@ -1525,10 +634,11 @@ content sites, or applications on their device.</p>
       <li><a href="#exit-pip"><span class="secno">3.2</span> <span class="content">Exit Picture-in-Picture</span></a>
       <li><a href="#disable-pip"><span class="secno">3.3</span> <span class="content">Disable Picture-in-Picture</span></a>
       <li><a href="#auto-pip"><span class="secno">3.4</span> <span class="content">Auto Picture-in-Picture</span></a>
-      <li><a href="#remote-playback"><span class="secno">3.5</span> <span class="content">Interaction with Remote Playback</span></a>
-      <li><a href="#media-session"><span class="secno">3.6</span> <span class="content">Interaction with Media Session</span></a>
-      <li><a href="#page-visibility"><span class="secno">3.7</span> <span class="content">Interaction with Page Visibility</span></a>
-      <li><a href="#one-pip-window"><span class="secno">3.8</span> <span class="content">One Picture-in-Picture window</span></a>
+      <li><a href="#fullscreen"><span class="secno">3.5</span> <span class="content">Interaction with Fullscreen</span></a>
+      <li><a href="#remote-playback"><span class="secno">3.6</span> <span class="content">Interaction with Remote Playback</span></a>
+      <li><a href="#media-session"><span class="secno">3.7</span> <span class="content">Interaction with Media Session</span></a>
+      <li><a href="#page-visibility"><span class="secno">3.8</span> <span class="content">Interaction with Page Visibility</span></a>
+      <li><a href="#one-pip-window"><span class="secno">3.9</span> <span class="content">One Picture-in-Picture window</span></a>
      </ol>
     <li>
      <a href="#api"><span class="secno">4</span> <span class="content">API</span></a>
@@ -1544,7 +654,8 @@ content sites, or applications on their device.</p>
     <li>
      <a href="#security-considerations"><span class="secno">5</span> <span class="content">Security considerations</span></a>
      <ol class="toc">
-      <li><a href="#feature-policy"><span class="secno">5.1</span> <span class="content">Feature Policy</span></a>
+      <li><a href="#secure-context"><span class="secno">5.1</span> <span class="content">Secure Context</span></a>
+      <li><a href="#feature-policy"><span class="secno">5.2</span> <span class="content">Feature Policy</span></a>
      </ol>
     <li><a href="#acknowledgments"><span class="secno">6</span> <span class="content">Acknowledgments</span></a>
     <li>
@@ -1569,7 +680,7 @@ content sites, or applications on their device.</p>
 content, sites, or applications on their device. A common UI affordance for
 this type of activity is Picture-in-Picture (PiP), where the video is contained
 in a separate miniature window that is always on top of other windows. This
-window stays visible even when user agent is not visible.
+window stays visible even when the user agent is not visible.
 Picture-in-Picture is a common platform-level feature among desktop and mobile
 OSs.</p>
    <p>This specification aims to allow websites to initiate and control this behavior
@@ -1598,26 +709,24 @@ extensible.</p>
 <c- p>&lt;</c-><c- f>button</c-> <c- e>id</c-><c- o>=</c-><c- s>"togglePipButton"</c-><c- p>>&lt;/</c-><c- f>button</c-><c- p>></c->
 
 <c- p>&lt;</c-><c- f>script</c-><c- p>></c->
-  <c- kr>const</c-> video <c- o>=</c-> document<c- p>.</c->getElementById<c- p>(</c-><c- t>'video'</c-><c- p>);</c->
-  <c- kr>const</c-> togglePipButton <c- o>=</c-> document<c- p>.</c->getElementById<c- p>(</c-><c- t>'togglePipButton'</c-><c- p>);</c->
+  <c- a>const</c-> video <c- o>=</c-> document<c- p>.</c->getElementById<c- p>(</c-><c- u>"video"</c-><c- p>);</c->
+  <c- a>const</c-> togglePipButton <c- o>=</c-> document<c- p>.</c->getElementById<c- p>(</c-><c- u>"togglePipButton"</c-><c- p>);</c->
 
   <c- c1>// Hide button if Picture-in-Picture is not supported or disabled.</c->
-  togglePipButton<c- p>.</c->hidden <c- o>=</c-> <c- o>!</c->document<c- p>.</c->pictureInPictureEnabled <c- o>||</c->
-    video<c- p>.</c->disablePictureInPicture<c- p>;</c->
+  togglePipButton<c- p>.</c->hidden <c- o>=</c->
+    <c- o>!</c->document<c- p>.</c->pictureInPictureEnabled <c- o>||</c-> video<c- p>.</c->disablePictureInPicture<c- p>;</c->
 
-  togglePipButton<c- p>.</c->addEventListener<c- p>(</c-><c- t>'click'</c-><c- p>,</c-> <c- a>function</c-><c- p>()</c-> <c- p>{</c->
+  togglePipButton<c- p>.</c->addEventListener<c- p>(</c-><c- u>"click"</c-><c- p>,</c-> <c- k>async</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
     <c- c1>// If there is no element in Picture-in-Picture yet, let’s request</c->
     <c- c1>// Picture-in-Picture for the video, otherwise leave it.</c->
-    <c- k>if</c-> <c- p>(</c-><c- o>!</c->document<c- p>.</c->pictureInPictureElement<c- p>)</c-> <c- p>{</c->
-      video<c- p>.</c->requestPictureInPicture<c- p>()</c->
-      <c- p>.</c-><c- k>catch</c-><c- p>(</c->error <c- p>=></c-> <c- p>{</c->
-        <c- c1>// Video failed to enter Picture-in-Picture mode.</c->
-      <c- p>});</c->
-    <c- p>}</c-> <c- k>else</c-> <c- p>{</c->
-      document<c- p>.</c->exitPictureInPicture<c- p>()</c->
-      <c- p>.</c-><c- k>catch</c-><c- p>(</c->error <c- p>=></c-> <c- p>{</c->
-        <c- c1>// Video failed to leave Picture-in-Picture mode.</c->
-      <c- p>});</c->
+    <c- k>try</c-> <c- p>{</c->
+      <c- k>if</c-> <c- p>(</c->document<c- p>.</c->pictureInPictureElement<c- p>)</c-> <c- p>{</c->
+        <c- k>await</c-> video<c- p>.</c->requestPictureInPicture<c- p>();</c->
+      <c- p>}</c-> <c- k>else</c-> <c- p>{</c->
+        <c- k>await</c-> document<c- p>.</c->exitPictureInPicture<c- p>();</c->
+      <c- p>}</c->
+    <c- p>}</c-> <c- k>catch</c-> <c- p>(</c->err<c- p>)</c-> <c- p>{</c->
+      <c- c1>// Video failed to enter/leave Picture-in-Picture mode.</c->
     <c- p>}</c->
   <c- p>});</c->
 <c- p>&lt;/</c-><c- f>script</c-><c- p>></c->
@@ -1626,16 +735,16 @@ extensible.</p>
 <pre class="language-html highlight"><c- p>&lt;</c-><c- f>video</c-> <c- e>id</c-><c- o>=</c-><c- s>"video"</c-> <c- e>src</c-><c- o>=</c-><c- s>"https://example.com/file.mp4"</c-><c- p>>&lt;/</c-><c- f>video</c-><c- p>></c->
 
 <c- p>&lt;</c-><c- f>script</c-><c- p>></c->
-  <c- kr>const</c-> video <c- o>=</c-> document<c- p>.</c->getElementById<c- p>(</c-><c- t>'video'</c-><c- p>);</c->
+  <c- a>const</c-> video <c- o>=</c-> document<c- p>.</c->getElementById<c- p>(</c-><c- u>"video"</c-><c- p>);</c->
 
-  video<c- p>.</c->addEventListener<c- p>(</c-><c- t>'enterpictureinpicture'</c-><c- p>,</c-> <c- a>function</c-><c- p>(</c->event<c- p>)</c-> <c- p>{</c->
+  video<c- p>.</c->addEventListener<c- p>(</c-><c- u>"enterpictureinpicture"</c-><c- p>,</c-> <c- p>(</c->event<c- p>)</c-> <c- p>=></c-> <c- p>{</c->
     <c- c1>// Video entered Picture-in-Picture mode.</c->
-    <c- kr>const</c-> pipWindow <c- o>=</c-> event<c- p>.</c->pictureInPictureWindow<c- p>;</c->
-    console<c- p>.</c->log<c- p>(</c-><c- t>'Picture-in-Picture window width: '</c-> <c- o>+</c-> pipWindow<c- p>.</c->width<c- p>);</c->
-    console<c- p>.</c->log<c- p>(</c-><c- t>'Picture-in-Picture window height: '</c-> <c- o>+</c-> pipWindow<c- p>.</c->height<c- p>);</c->
+    <c- a>const</c-> pipWindow <c- o>=</c-> event<c- p>.</c->pictureInPictureWindow<c- p>;</c->
+    console<c- p>.</c->log<c- p>(</c-><c- o>&lt;</c->code data<c- o>-</c->opaque bs<c- o>-</c->autolink<c- o>-</c->syntax<c- o>=</c-><c- t>'`Picture-in-Picture window width: ${pipWindow.width}`'</c-><c- o>></c->Picture<c- o>-</c-><c- k>in</c-><c- o>-</c->Picture window width<c- o>:</c-> $<c- p>{</c->pipWindow<c- p>.</c->width<c- p>}</c-><c- o>&lt;</c->/code>);
+    console<c- p>.</c->log<c- p>(</c-><c- o>&lt;</c->code data<c- o>-</c->opaque bs<c- o>-</c->autolink<c- o>-</c->syntax<c- o>=</c-><c- t>'`Picture-in-Picture window height: ${pipWindow.height}`'</c-><c- o>></c->Picture<c- o>-</c-><c- k>in</c-><c- o>-</c->Picture window height<c- o>:</c-> $<c- p>{</c->pipWindow<c- p>.</c->height<c- p>}</c-><c- o>&lt;</c->/code>);
   <c- p>});</c->
 
-  video<c- p>.</c->addEventListener<c- p>(</c-><c- t>'leavepictureinpicture'</c-><c- p>,</c-> <c- a>function</c-><c- p>()</c-> <c- p>{</c->
+  video<c- p>.</c->addEventListener<c- p>(</c-><c- u>"leavepictureinpicture"</c-><c- p>,</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
     <c- c1>// Video left Picture-in-Picture mode.</c->
   <c- p>});</c->
 <c- p>&lt;/</c-><c- f>script</c-><c- p>></c->
@@ -1646,32 +755,34 @@ extensible.</p>
 <c- p>&lt;</c-><c- f>button</c-> <c- e>id</c-><c- o>=</c-><c- s>"pipButton"</c-><c- p>>&lt;/</c-><c- f>button</c-><c- p>></c->
 
 <c- p>&lt;</c-><c- f>script</c-><c- p>></c->
-  <c- a>let</c-> pipWindow<c- p>;</c->
-  <c- kr>const</c-> video <c- o>=</c-> document<c- p>.</c->getElementById<c- p>(</c-><c- t>'video'</c-><c- p>);</c->
-  <c- kr>const</c-> pipButton <c- o>=</c-> document<c- p>.</c->getElementById<c- p>(</c-><c- t>'pipButton'</c-><c- p>);</c->
+  <c- a>const</c-> video <c- o>=</c-> document<c- p>.</c->getElementById<c- p>(</c-><c- u>"video"</c-><c- p>);</c->
+  <c- a>const</c-> pipButton <c- o>=</c-> document<c- p>.</c->getElementById<c- p>(</c-><c- u>"pipButton"</c-><c- p>);</c->
 
-  pipButton<c- p>.</c->addEventListener<c- p>(</c-><c- t>'click'</c-><c- p>,</c-> <c- a>function</c-><c- p>()</c-> <c- p>{</c->
-    video<c- p>.</c->requestPictureInPicture<c- p>()</c->
-    <c- p>.</c-><c- k>catch</c-><c- p>(</c->error <c- p>=></c-> <c- p>{</c->
+  pipButton<c- p>.</c->addEventListener<c- p>(</c-><c- u>"click"</c-><c- p>,</c-> <c- k>async</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
+    <c- k>try</c-> <c- p>{</c->
+      <c- k>await</c-> video<c- p>.</c->requestPictureInPicture<c- p>();</c->
+    <c- p>}</c-> <c- k>catch</c-> <c- p>(</c->error<c- p>)</c-> <c- p>{</c->
       <c- c1>// Video failed to enter Picture-in-Picture mode.</c->
-    <c- p>});</c->
+    <c- p>}</c->
   <c- p>});</c->
 
-  video<c- p>.</c->addEventListener<c- p>(</c-><c- t>'enterpictureinpicture'</c-><c- p>,</c-> <c- a>function</c-><c- p>(</c->event<c- p>)</c-> <c- p>{</c->
+  video<c- p>.</c->addEventListener<c- p>(</c-><c- u>"enterpictureinpicture"</c-><c- p>,</c-> <c- p>(</c->event<c- p>)</c-> <c- p>=></c-> <c- p>{</c->
     <c- c1>// Video entered Picture-in-Picture mode.</c->
-    pipWindow <c- o>=</c-> event<c- p>.</c->pictureInPictureWindow<c- p>;</c->
+    <c- a>const</c-> pipWindow <c- o>=</c-> event<c- p>.</c->pictureInPictureWindow<c- p>;</c->
     updateVideoSize<c- p>(</c->pipWindow<c- p>.</c->width<c- p>,</c-> pipWindow<c- p>.</c->height<c- p>);</c->
-    pipWindow<c- p>.</c->addEventListener<c- p>(</c-><c- t>'resize'</c-><c- p>,</c-> onPipWindowResize<c- p>);</c->
+    pipWindow<c- p>.</c->addEventListener<c- p>(</c-><c- u>"resize"</c-><c- p>,</c-> onPipWindowResize<c- p>);</c->
   <c- p>});</c->
 
-  video<c- p>.</c->addEventListener<c- p>(</c-><c- t>'leavepictureinpicture'</c-><c- p>,</c-> <c- a>function</c-><c- p>()</c-> <c- p>{</c->
+  video<c- p>.</c->addEventListener<c- p>(</c-><c- u>"leavepictureinpicture"</c-><c- p>,</c-> <c- p>(</c->event<c- p>)</c-> <c- p>=></c-> <c- p>{</c->
     <c- c1>// Video left Picture-in-Picture mode.</c->
-    pipWindow<c- p>.</c->removeEventListener<c- p>(</c-><c- t>'resize'</c-><c- p>,</c-> onPipWindowResize<c- p>);</c->
+    <c- a>const</c-> pipWindow <c- o>=</c-> event<c- p>.</c->pictureInPictureWindow<c- p>;</c->
+    pipWindow<c- p>.</c->removeEventListener<c- p>(</c-><c- u>"resize"</c-><c- p>,</c-> onPipWindowResize<c- p>);</c->
   <c- p>});</c->
 
   <c- a>function</c-> onPipWindowResize<c- p>(</c->event<c- p>)</c-> <c- p>{</c->
     <c- c1>// Picture-in-Picture window has been resized.</c->
-    updateVideoSize<c- p>(</c->event<c- p>.</c->target<c- p>.</c->width<c- p>,</c-> event<c- p>.</c->target<c- p>.</c->height<c- p>);</c->
+    <c- a>const</c-> <c- p>{</c-> width<c- p>,</c-> height <c- p>}</c-> <c- o>=</c-> event<c- p>.</c->target<c- p>;</c->
+    updateVideoSize<c- p>(</c->width<c- p>,</c-> height<c- p>);</c->
   <c- p>}</c->
 
   <c- a>function</c-> updateVideoSize<c- p>(</c->width<c- p>,</c-> height<c- p>)</c-> <c- p>{</c->
@@ -1687,7 +798,7 @@ run the following steps:</p>
     <li data-md>
      <p>If <a data-link-type="dfn" href="#picture-in-picture-support" id="ref-for-picture-in-picture-support">Picture-in-Picture support</a> is <code>false</code>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notsupportederror" id="ref-for-notsupportederror">NotSupportedError</a></code> and abort these steps.</p>
     <li data-md>
-     <p>If the document is not allowed to use the <a data-link-type="dfn" href="https://wicg.github.io/feature-policy/#policy-controlled-feature" id="ref-for-policy-controlled-feature">policy-controlled feature</a> named <code>"picture-in-picture"</code>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#securityerror" id="ref-for-securityerror">SecurityError</a></code> and abort these
+     <p>If the document is not <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use" id="ref-for-allowed-to-use">allowed to use</a> the <a data-link-type="dfn" href="https://w3c.github.io/webappsec-permissions-policy/#policy-controlled-feature" id="ref-for-policy-controlled-feature">policy-controlled feature</a> named <code>"picture-in-picture"</code>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#securityerror" id="ref-for-securityerror">SecurityError</a></code> and abort these
 steps.</p>
     <li data-md>
      <p>If <var>video</var>’s <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#dom-media-readystate" id="ref-for-dom-media-readystate">readyState</a></code> attribute is <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#dom-media-have_nothing" id="ref-for-dom-media-have_nothing">HAVE_NOTHING</a></code>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror">InvalidStateError</a></code> and abort these steps.</p>
@@ -1695,10 +806,10 @@ steps.</p>
      <p>If <var>video</var> has no video track, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror①">InvalidStateError</a></code> and abort
 these steps.</p>
     <li data-md>
-     <p>OPTIONALLY, if the <code class="idl"><a data-link-type="idl" href="#dom-htmlvideoelement-disablepictureinpicture" id="ref-for-dom-htmlvideoelement-disablepictureinpicture">disablePictureInPicture</a></code> attribute is present on <var>video</var>, throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror②">InvalidStateError</a></code> and abort these steps.</p>
+     <p>OPTIONALLY, if <var>video</var>’s <code class="idl"><a data-link-type="idl" href="#dom-htmlvideoelement-disablepictureinpicture" id="ref-for-dom-htmlvideoelement-disablepictureinpicture">disablePictureInPicture</a></code> is true,
+throw an <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror②">InvalidStateError</a></code> and abort these steps.</p>
     <li data-md>
-     <p>If <var>userActivationRequired</var> is <code>true</code> and the algorithm is not <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/interaction.html#triggered-by-user-activation" id="ref-for-triggered-by-user-activation">triggered by user activation</a>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notallowederror" id="ref-for-notallowederror">NotAllowedError</a></code> and
-abort these steps.</p>
+     <p>If <var>userActivationRequired</var> is <code>true</code> and the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global" id="ref-for-concept-relevant-global">relevant global object</a> of <a data-link-type="dfn" href="https://heycam.github.io/webidl/#this" id="ref-for-this">this</a> does not have <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation" id="ref-for-transient-activation">transient activation</a>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#notallowederror" id="ref-for-notallowederror">NotAllowedError</a></code> and abort these steps.</p>
     <li data-md>
      <p>If <var>video</var> is <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement">pictureInPictureElement</a></code>, abort these steps.</p>
     <li data-md>
@@ -1708,7 +819,10 @@ abort these steps.</p>
     <li data-md>
      <p>Let <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="picture-in-picture-window">Picture-in-Picture window</dfn> be a new instance of <code class="idl"><a data-link-type="idl" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow">PictureInPictureWindow</a></code> associated with <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement②">pictureInPictureElement</a></code>.</p>
     <li data-md>
-     <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task">Queue a task</a> to <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire">fire an event</a> with the name <code class="idl"><a data-link-type="idl" href="#eventdef-htmlvideoelement-enterpictureinpicture" id="ref-for-eventdef-htmlvideoelement-enterpictureinpicture">enterpictureinpicture</a></code> using <code class="idl"><a data-link-type="idl" href="#enterpictureinpictureevent" id="ref-for-enterpictureinpictureevent">EnterPictureInPictureEvent</a></code> at the <var>video</var> with its <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-bubbles" id="ref-for-dom-event-bubbles">bubbles</a></code> attribute initialized to <code>true</code> and its <code class="idl"><a data-link-type="idl" href="#dom-enterpictureinpictureevent-pictureinpicturewindow" id="ref-for-dom-enterpictureinpictureevent-pictureinpicturewindow">pictureInPictureWindow</a></code> attribute initialized to <a data-link-type="dfn" href="#picture-in-picture-window" id="ref-for-picture-in-picture-window">Picture-in-Picture window</a>.</p>
+     <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task">Queue a task</a> to <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire">fire an event</a> with the name <code class="idl"><a data-link-type="idl" href="#eventdef-htmlvideoelement-enterpictureinpicture" id="ref-for-eventdef-htmlvideoelement-enterpictureinpicture">enterpictureinpicture</a></code> using <code class="idl"><a data-link-type="idl" href="#pictureinpictureevent" id="ref-for-pictureinpictureevent">PictureInPictureEvent</a></code> at the <var>video</var> with its <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-bubbles" id="ref-for-dom-event-bubbles">bubbles</a></code> attribute initialized to <code>true</code> and its <code class="idl"><a data-link-type="idl" href="#dom-pictureinpictureevent-pictureinpicturewindow" id="ref-for-dom-pictureinpictureevent-pictureinpicturewindow">pictureInPictureWindow</a></code> attribute initialized to <a data-link-type="dfn" href="#picture-in-picture-window" id="ref-for-picture-in-picture-window">Picture-in-Picture window</a>.</p>
+    <li data-md>
+     <p>If <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement③">pictureInPictureElement</a></code> is <a data-link-type="dfn" href="https://fullscreen.spec.whatwg.org#dom-document-fullscreenelement" id="ref-for-dom-document-fullscreenelement">fullscreenElement</a>, it is
+RECOMMENDED to <a data-link-type="dfn" href="https://fullscreen.spec.whatwg.org#fully-exit-fullscreen" id="ref-for-fully-exit-fullscreen">exit fullscreen</a>.</p>
    </ol>
    <p>It is RECOMMENDED that video frames are not rendered in the page and in the
 Picture-in-Picture window at the same time but if they are, they MUST be kept
@@ -1729,16 +843,15 @@ a half of one dimension of the screen.</p>
 the user agent MUST run the following steps:</p>
    <ol>
     <li data-md>
-     <p>If <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement③">pictureInPictureElement</a></code> is <code>null</code>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror③">InvalidStateError</a></code> and
+     <p>If <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement④">pictureInPictureElement</a></code> is <code>null</code>, throw a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror③">InvalidStateError</a></code> and
 abort these steps.</p>
     <li data-md>
      <p>Run the <a data-link-type="dfn" href="#close-window-algorithm" id="ref-for-close-window-algorithm">close window algorithm</a> with the <a data-link-type="dfn" href="#picture-in-picture-window" id="ref-for-picture-in-picture-window①">Picture-in-Picture
-window</a> associated with <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement④">pictureInPictureElement</a></code>.</p>
+window</a> associated with <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement⑤">pictureInPictureElement</a></code>.</p>
     <li data-md>
-     <p>Unset <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement⑤">pictureInPictureElement</a></code>.</p>
+     <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">Queue a task</a> to <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire①">fire an event</a> with the name <code class="idl"><a data-link-type="idl" href="#eventdef-htmlvideoelement-leavepictureinpicture" id="ref-for-eventdef-htmlvideoelement-leavepictureinpicture">leavepictureinpicture</a></code> using <code class="idl"><a data-link-type="idl" href="#pictureinpictureevent" id="ref-for-pictureinpictureevent①">PictureInPictureEvent</a></code> at the <var>video</var> with its <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-bubbles" id="ref-for-dom-event-bubbles①">bubbles</a></code> attribute initialized to <code>true</code> and its <code class="idl"><a data-link-type="idl" href="#dom-pictureinpictureevent-pictureinpicturewindow" id="ref-for-dom-pictureinpictureevent-pictureinpicturewindow①">pictureInPictureWindow</a></code> attribute initialized to <a data-link-type="dfn" href="#picture-in-picture-window" id="ref-for-picture-in-picture-window②">Picture-in-Picture window</a> associated with <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement⑥">pictureInPictureElement</a></code>.</p>
     <li data-md>
-     <p><a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task①">Queue a task</a> to <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire①">fire an event</a> with the name <code class="idl"><a data-link-type="idl" href="#eventdef-htmlvideoelement-leavepictureinpicture" id="ref-for-eventdef-htmlvideoelement-leavepictureinpicture">leavepictureinpicture</a></code> at the <var>video</var> with its <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#dom-event-bubbles" id="ref-for-dom-event-bubbles①">bubbles</a></code> attribute
-initialized to <code>true</code>.</p>
+     <p>Unset <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement⑦">pictureInPictureElement</a></code>.</p>
    </ol>
    <p>It is NOT RECOMMENDED that the video playback state changes when the <a data-link-type="dfn" href="#exit-picture-in-picture-algorithm" id="ref-for-exit-picture-in-picture-algorithm">exit
 Picture-in-Picture algorithm</a> is invoked. The website SHOULD be in control
@@ -1752,7 +865,7 @@ Picture-in-Picture algorithm</a>.</p>
 example, they may want to prevent the user agent from suggesting a
 Picture-in-Picture context menu or to request Picture-in-Picture automatically
 in some cases. To support these use cases, a new <code class="idl"><a data-link-type="idl" href="#dom-htmlvideoelement-disablepictureinpicture" id="ref-for-dom-htmlvideoelement-disablepictureinpicture①">disablePictureInPicture</a></code> attribute is added to the list of content attributes for video elements.</p>
-   <p>The <code class="idl"><a data-link-type="idl" href="#dom-htmlvideoelement-disablepictureinpicture" id="ref-for-dom-htmlvideoelement-disablepictureinpicture②">disablePictureInPicture</a></code> IDL attribute MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#reflect" id="ref-for-reflect">reflect</a> the content
+   <p>The <code class="idl"><a data-link-type="idl" href="#dom-htmlvideoelement-disablepictureinpicture" id="ref-for-dom-htmlvideoelement-disablepictureinpicture②">disablePictureInPicture</a></code> IDL attribute MUST <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-reflect" id="ref-for-concept-reflect">reflect</a> the content
 attribute of the same name.</p>
    <p>If the <code class="idl"><a data-link-type="idl" href="#dom-htmlvideoelement-disablepictureinpicture" id="ref-for-dom-htmlvideoelement-disablepictureinpicture③">disablePictureInPicture</a></code> attribute is present on the video element,
 the user agent SHOULD NOT play the video element in Picture-in-Picture or
@@ -1763,7 +876,7 @@ the user agent SHOULD run these steps:</p>
     <li data-md>
      <p>Reject any pending promises returned by the <code class="idl"><a data-link-type="idl" href="#dom-htmlvideoelement-requestpictureinpicture" id="ref-for-dom-htmlvideoelement-requestpictureinpicture">requestPictureInPicture()</a></code> method with <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#invalidstateerror" id="ref-for-invalidstateerror④">InvalidStateError</a></code>.</p>
     <li data-md>
-     <p>If <var>video</var> is <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement⑥">pictureInPictureElement</a></code>, run the <a data-link-type="dfn" href="#exit-picture-in-picture-algorithm" id="ref-for-exit-picture-in-picture-algorithm②">exit
+     <p>If <var>video</var> is <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement⑧">pictureInPictureElement</a></code>, run the <a data-link-type="dfn" href="#exit-picture-in-picture-algorithm" id="ref-for-exit-picture-in-picture-algorithm②">exit
 Picture-in-Picture algorithm</a>.</p>
    </ol>
    <h3 class="heading settled" data-level="3.4" id="auto-pip"><span class="secno">3.4. </span><span class="content">Auto Picture-in-Picture</span><a class="self-link" href="#auto-pip"></a></h3>
@@ -1773,7 +886,7 @@ some automatic Picture-in-Picture behavior when the user switches back and forth
 between the web app and other applications/tabs.
 To support these use cases, a new <code class="idl"><a data-link-type="idl" href="#dom-htmlvideoelement-autopictureinpicture" id="ref-for-dom-htmlvideoelement-autopictureinpicture">autoPictureInPicture</a></code> attribute is
 added to the list of content attributes for video elements.</p>
-   <p>The <code class="idl"><a data-link-type="idl" href="#dom-htmlvideoelement-autopictureinpicture" id="ref-for-dom-htmlvideoelement-autopictureinpicture①">autoPictureInPicture</a></code> IDL attribute MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#reflect" id="ref-for-reflect①">reflect</a> the content
+   <p>The <code class="idl"><a data-link-type="idl" href="#dom-htmlvideoelement-autopictureinpicture" id="ref-for-dom-htmlvideoelement-autopictureinpicture①">autoPictureInPicture</a></code> IDL attribute MUST <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-reflect" id="ref-for-concept-reflect①">reflect</a> the content
 attribute of the same name.</p>
    <p>The <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="autopictureinpictureelement">autoPictureInPictureElement</dfn> is the video element, among all
 video elements with the <code class="idl"><a data-link-type="idl" href="#dom-htmlvideoelement-autopictureinpicture" id="ref-for-dom-htmlvideoelement-autopictureinpicture②">autoPictureInPicture</a></code> attribute currently set,
@@ -1785,7 +898,7 @@ switches from "visible" to "hidden", the user agent MAY run these steps:</p>
     <li data-md>
      <p>If <a data-link-type="dfn" href="#autopictureinpictureelement" id="ref-for-autopictureinpictureelement①">autoPictureInPictureElement</a> is <code>null</code>, abort these steps.</p>
     <li data-md>
-     <p>If <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement⑦">pictureInPictureElement</a></code> is set, abort these steps.</p>
+     <p>If <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement⑨">pictureInPictureElement</a></code> is set, abort these steps.</p>
     <li data-md>
      <p>Let <var>video</var> be <a data-link-type="dfn" href="#autopictureinpictureelement" id="ref-for-autopictureinpictureelement②">autoPictureInPictureElement</a>.</p>
     <li data-md>
@@ -1801,25 +914,27 @@ switches from "hidden" to "visible", the user agent MAY run these steps:</p>
     <li data-md>
      <p>If <a data-link-type="dfn" href="#autopictureinpictureelement" id="ref-for-autopictureinpictureelement③">autoPictureInPictureElement</a> is <code>null</code>, abort these steps.</p>
     <li data-md>
-     <p>If <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement⑧">pictureInPictureElement</a></code> is <a data-link-type="dfn" href="#autopictureinpictureelement" id="ref-for-autopictureinpictureelement④">autoPictureInPictureElement</a>, run
+     <p>If <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①⓪">pictureInPictureElement</a></code> is <a data-link-type="dfn" href="#autopictureinpictureelement" id="ref-for-autopictureinpictureelement④">autoPictureInPictureElement</a>, run
 the <a data-link-type="dfn" href="#exit-picture-in-picture-algorithm" id="ref-for-exit-picture-in-picture-algorithm③">exit Picture-in-Picture algorithm</a>.</p>
    </ol>
-   <h3 class="heading settled" data-level="3.5" id="remote-playback"><span class="secno">3.5. </span><span class="content">Interaction with Remote Playback</span><a class="self-link" href="#remote-playback"></a></h3>
+   <h3 class="heading settled" data-level="3.5" id="fullscreen"><span class="secno">3.5. </span><span class="content">Interaction with Fullscreen</span><a class="self-link" href="#fullscreen"></a></h3>
+   <p>It is RECOMMENDED to run the <a data-link-type="dfn" href="#exit-picture-in-picture-algorithm" id="ref-for-exit-picture-in-picture-algorithm④">exit Picture-in-Picture algorithm</a> when the <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①①">pictureInPictureElement</a></code> <a data-link-type="dfn" href="https://fullscreen.spec.whatwg.org#fullscreen-flag" id="ref-for-fullscreen-flag">fullscreen flag</a> is set.</p>
+   <h3 class="heading settled" data-level="3.6" id="remote-playback"><span class="secno">3.6. </span><span class="content">Interaction with Remote Playback</span><a class="self-link" href="#remote-playback"></a></h3>
    <p>The <a data-link-type="biblio" href="#biblio-remote-playback">[Remote-Playback]</a> specification defines a <a data-link-type="dfn" href="https://w3c.github.io/remote-playback/#dfn-local-playback-device" id="ref-for-dfn-local-playback-device">local playback device</a> and a <a data-link-type="dfn" href="https://w3c.github.io/remote-playback/#dfn-local-playback-state" id="ref-for-dfn-local-playback-state">local playback state</a>. For the purpose of Picture-in-Picture, the
 playback is local and regardless of whether it is played in page or in
 Picture-in-Picture.</p>
-   <h3 class="heading settled" data-level="3.6" id="media-session"><span class="secno">3.6. </span><span class="content">Interaction with Media Session</span><a class="self-link" href="#media-session"></a></h3>
+   <h3 class="heading settled" data-level="3.7" id="media-session"><span class="secno">3.7. </span><span class="content">Interaction with Media Session</span><a class="self-link" href="#media-session"></a></h3>
    <p>The API will have to be used with the <a data-link-type="biblio" href="#biblio-mediasession">[MediaSession]</a> API for customizing the
 available controls on the Picture-in-Picture window.</p>
-   <h3 class="heading settled" data-level="3.7" id="page-visibility"><span class="secno">3.7. </span><span class="content">Interaction with Page Visibility</span><a class="self-link" href="#page-visibility"></a></h3>
-   <p>When <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement⑨">pictureInPictureElement</a></code> is set, the Picture-in-Picture window MUST
+   <h3 class="heading settled" data-level="3.8" id="page-visibility"><span class="secno">3.8. </span><span class="content">Interaction with Page Visibility</span><a class="self-link" href="#page-visibility"></a></h3>
+   <p>When <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①②">pictureInPictureElement</a></code> is set, the Picture-in-Picture window MUST
 be visible, even when the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-document" id="ref-for-concept-document">Document</a> is not in focus or hidden. The user
 agent SHOULD provide a way for users to manually close the Picture-in-Picture
 window.</p>
    <p>The <a data-link-type="biblio" href="#biblio-page-visibility">[Page-Visibility]</a> specification defines a <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/page-visibility/#dom-visibilitystate" id="ref-for-dom-visibilitystate">visibilityState</a></code> attribute used to determine the visibility state of a <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#top-level-browsing-context" id="ref-for-top-level-browsing-context②">top-level browsing
 context</a>. The Picture-in-Picture window visibility MUST NOT be taken into
 account when determining the value returned by <code class="idl"><a data-link-type="idl" href="https://www.w3.org/TR/page-visibility/#dom-visibilitystate" id="ref-for-dom-visibilitystate①">visibilityState</a></code>.</p>
-   <h3 class="heading settled" data-level="3.8" id="one-pip-window"><span class="secno">3.8. </span><span class="content">One Picture-in-Picture window</span><a class="self-link" href="#one-pip-window"></a></h3>
+   <h3 class="heading settled" data-level="3.9" id="one-pip-window"><span class="secno">3.9. </span><span class="content">One Picture-in-Picture window</span><a class="self-link" href="#one-pip-window"></a></h3>
    <p>Operating systems with a Picture-in-Picture API usually restrict
 Picture-in-Picture mode to only one window.  Whether only one window is allowed
 in Picture-in-Picture mode will be left to the implementation and the platform.
@@ -1835,23 +950,23 @@ in order to notify the website of the Picture-in-Picture status changes.</p>
    <h2 class="heading settled" data-level="4" id="api"><span class="secno">4. </span><span class="content">API</span><a class="self-link" href="#api"></a></h2>
    <h3 class="heading settled" data-level="4.1" id="htmlvideoelement-extensions"><span class="secno">4.1. </span><span class="content">Extensions to <code>HTMLVideoElement</code></span><a class="self-link" href="#htmlvideoelement-extensions"></a></h3>
 <pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/media.html#htmlvideoelement" id="ref-for-htmlvideoelement①"><c- g>HTMLVideoElement</c-></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#NewObject" id="ref-for-NewObject"><c- g>NewObject</c-></a>] <c- b>Promise</c->&lt;<a class="n" data-link-type="idl-name" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow①"><c- n>PictureInPictureWindow</c-></a>> <dfn class="dfn-paneled idl-code" data-dfn-for="HTMLVideoElement" data-dfn-type="method" data-export data-lt="requestPictureInPicture()" id="dom-htmlvideoelement-requestpictureinpicture"><code><c- g>requestPictureInPicture</c-></code></dfn>();
+  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#NewObject" id="ref-for-NewObject"><c- g>NewObject</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise" id="ref-for-idl-promise"><c- b>Promise</c-></a>&lt;<a data-link-type="idl-name" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow①"><c- n>PictureInPictureWindow</c-></a>> <dfn class="dfn-paneled idl-code" data-dfn-for="HTMLVideoElement" data-dfn-type="method" data-export data-lt="requestPictureInPicture()" id="dom-htmlvideoelement-requestpictureinpicture"><code><c- g>requestPictureInPicture</c-></code></dfn>();
 
-  <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler"><c- n>EventHandler</c-></a> <dfn class="idl-code" data-dfn-for="HTMLVideoElement" data-dfn-type="attribute" data-export data-type="EventHandler" id="dom-htmlvideoelement-onenterpictureinpicture"><code><c- g>onenterpictureinpicture</c-></code><a class="self-link" href="#dom-htmlvideoelement-onenterpictureinpicture"></a></dfn>;
-  <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler①"><c- n>EventHandler</c-></a> <dfn class="idl-code" data-dfn-for="HTMLVideoElement" data-dfn-type="attribute" data-export data-type="EventHandler" id="dom-htmlvideoelement-onleavepictureinpicture"><code><c- g>onleavepictureinpicture</c-></code><a class="self-link" href="#dom-htmlvideoelement-onleavepictureinpicture"></a></dfn>;
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler"><c- n>EventHandler</c-></a> <dfn class="idl-code" data-dfn-for="HTMLVideoElement" data-dfn-type="attribute" data-export data-type="EventHandler" id="dom-htmlvideoelement-onenterpictureinpicture"><code><c- g>onenterpictureinpicture</c-></code><a class="self-link" href="#dom-htmlvideoelement-onenterpictureinpicture"></a></dfn>;
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler①"><c- n>EventHandler</c-></a> <dfn class="idl-code" data-dfn-for="HTMLVideoElement" data-dfn-type="attribute" data-export data-type="EventHandler" id="dom-htmlvideoelement-onleavepictureinpicture"><code><c- g>onleavepictureinpicture</c-></code><a class="self-link" href="#dom-htmlvideoelement-onleavepictureinpicture"></a></dfn>;
 
   [<a class="idl-code" data-link-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/custom-elements.html#cereactions" id="ref-for-cereactions"><c- g>CEReactions</c-></a>] <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean"><c- b>boolean</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="HTMLVideoElement" data-dfn-type="attribute" data-export data-type="boolean" id="dom-htmlvideoelement-autopictureinpicture"><code><c- g>autoPictureInPicture</c-></code></dfn>;
   [<a class="idl-code" data-link-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/custom-elements.html#cereactions" id="ref-for-cereactions①"><c- g>CEReactions</c-></a>] <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①"><c- b>boolean</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="HTMLVideoElement" data-dfn-type="attribute" data-export data-type="boolean" id="dom-htmlvideoelement-disablepictureinpicture"><code><c- g>disablePictureInPicture</c-></code></dfn>;
 };
 </pre>
    <p>The <code class="idl"><a data-link-type="idl" href="#dom-htmlvideoelement-requestpictureinpicture" id="ref-for-dom-htmlvideoelement-requestpictureinpicture①">requestPictureInPicture()</a></code> method, when invoked, MUST
-return <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#a-new-promise" id="ref-for-a-new-promise">a new promise</a> <var>promise</var> and run the following steps <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-in-parallel">in
+return <a data-link-type="dfn" href="https://heycam.github.io/webidl/#a-new-promise" id="ref-for-a-new-promise">a new promise</a> <var>promise</var> and run the following steps <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-in-parallel">in
 parallel</a>:</p>
    <ol>
     <li data-md>
      <p>Let <var>video</var> be the video element on which the method was invoked.</p>
     <li data-md>
-     <p>Let <var>userActivationRequired</var> be <code>true</code> if <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①⓪">pictureInPictureElement</a></code> is <code>null</code>. It is <code>false</code> otherwise.</p>
+     <p>Let <var>userActivationRequired</var> be <code>true</code> if <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①③">pictureInPictureElement</a></code> is <code>null</code>. It is <code>false</code> otherwise.</p>
     <li data-md>
      <p>Let <var>playingRequired</var> be <code>false</code>.</p>
     <li data-md>
@@ -1860,24 +975,24 @@ parallel</a>:</p>
      <p>If the previous step threw an exception, reject <var>promise</var> with that
 exception and abort these steps.</p>
     <li data-md>
-     <p>Return <var>promise</var> with the <a data-link-type="dfn" href="#picture-in-picture-window" id="ref-for-picture-in-picture-window②">Picture-in-Picture window</a> associated with <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①①">pictureInPictureElement</a></code>.</p>
+     <p>Return <var>promise</var> with the <a data-link-type="dfn" href="#picture-in-picture-window" id="ref-for-picture-in-picture-window③">Picture-in-Picture window</a> associated with <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①④">pictureInPictureElement</a></code>.</p>
    </ol>
    <h3 class="heading settled" data-level="4.2" id="document-extensions"><span class="secno">4.2. </span><span class="content">Extensions to <code>Document</code></span><a class="self-link" href="#document-extensions"></a></h3>
 <pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①"><c- g>Document</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean②"><c- b>boolean</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="Document" data-dfn-type="attribute" data-export data-readonly data-type="boolean" id="dom-document-pictureinpictureenabled"><code><c- g>pictureInPictureEnabled</c-></code></dfn>;
 
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#NewObject" id="ref-for-NewObject①"><c- g>NewObject</c-></a>] <c- b>Promise</c->&lt;<c- b>void</c->> <dfn class="dfn-paneled idl-code" data-dfn-for="Document" data-dfn-type="method" data-export data-lt="exitPictureInPicture()" id="dom-document-exitpictureinpicture"><code><c- g>exitPictureInPicture</c-></code></dfn>();
+  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#NewObject" id="ref-for-NewObject①"><c- g>NewObject</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise" id="ref-for-idl-promise①"><c- b>Promise</c-></a>&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-undefined" id="ref-for-idl-undefined"><c- b>undefined</c-></a>> <dfn class="dfn-paneled idl-code" data-dfn-for="Document" data-dfn-type="method" data-export data-lt="exitPictureInPicture()" id="dom-document-exitpictureinpicture"><code><c- g>exitPictureInPicture</c-></code></dfn>();
 };
 </pre>
-   <p>The <code class="idl"><a data-link-type="idl" href="#dom-document-pictureinpictureenabled" id="ref-for-dom-document-pictureinpictureenabled">pictureInPictureEnabled</a></code> attribute’s getter must return <code>true</code> if <a data-link-type="dfn" href="#picture-in-picture-support" id="ref-for-picture-in-picture-support①">Picture-in-Picture support</a> is <code>true</code> and the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object">context object</a> is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use" id="ref-for-allowed-to-use">allowed to use</a> the feature indicated by attribute name <code>picture-in-picture</code>, and <code>false</code> otherwise.</p>
+   <p>The <code class="idl"><a data-link-type="idl" href="#dom-document-pictureinpictureenabled" id="ref-for-dom-document-pictureinpictureenabled">pictureInPictureEnabled</a></code> attribute’s getter must return <code>true</code> if <a data-link-type="dfn" href="#picture-in-picture-support" id="ref-for-picture-in-picture-support①">Picture-in-Picture support</a> is <code>true</code> and the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object">context object</a> is <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use" id="ref-for-allowed-to-use①">allowed to use</a> the feature indicated by attribute name <code>picture-in-picture</code>, and <code>false</code> otherwise.</p>
    <p><dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="picture-in-picture-support">Picture-in-Picture support</dfn> is <code>false</code> if there’s a user preference
 that disables it or a platform limitation. It is <code>true</code> otherwise.</p>
    <p>The <code class="idl"><a data-link-type="idl" href="#dom-document-exitpictureinpicture" id="ref-for-dom-document-exitpictureinpicture">exitPictureInPicture()</a></code> method, when invoked, MUST
-return <a data-link-type="dfn" href="https://www.w3.org/2001/tag/doc/promises-guide/#a-new-promise" id="ref-for-a-new-promise①">a new promise</a> <var>promise</var> and run the following steps <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-in-parallel①">in
+return <a data-link-type="dfn" href="https://heycam.github.io/webidl/#a-new-promise" id="ref-for-a-new-promise①">a new promise</a> <var>promise</var> and run the following steps <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/infrastructure.html#in-parallel" id="ref-for-in-parallel①">in
 parallel</a>:</p>
    <ol>
     <li data-md>
-     <p>Run the <a data-link-type="dfn" href="#exit-picture-in-picture-algorithm" id="ref-for-exit-picture-in-picture-algorithm④">exit Picture-in-Picture algorithm</a>.</p>
+     <p>Run the <a data-link-type="dfn" href="#exit-picture-in-picture-algorithm" id="ref-for-exit-picture-in-picture-algorithm⑤">exit Picture-in-Picture algorithm</a>.</p>
     <li data-md>
      <p>If the previous step threw an exception, reject <var>promise</var> with that
 exception and abort these steps.</p>
@@ -1886,10 +1001,10 @@ exception and abort these steps.</p>
    </ol>
    <h3 class="heading settled" data-level="4.3" id="documentorshadowroot-extension"><span class="secno">4.3. </span><span class="content">Extension to <code>DocumentOrShadowRoot</code></span><a class="self-link" href="#documentorshadowroot-extension"></a></h3>
 <pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <c- b>mixin</c-> <a class="idl-code" data-link-type="interface" href="https://dom.spec.whatwg.org/#documentorshadowroot" id="ref-for-documentorshadowroot"><c- g>DocumentOrShadowRoot</c-></a> {
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#element" id="ref-for-element"><c- n>Element</c-></a>? <dfn class="dfn-paneled idl-code" data-dfn-for="DocumentOrShadowRoot" data-dfn-type="attribute" data-export data-readonly data-type="Element?" id="dom-documentorshadowroot-pictureinpictureelement"><code><c- g>pictureInPictureElement</c-></code></dfn>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#element" id="ref-for-element"><c- n>Element</c-></a>? <dfn class="dfn-paneled idl-code" data-dfn-for="DocumentOrShadowRoot" data-dfn-type="attribute" data-export data-readonly data-type="Element?" id="dom-documentorshadowroot-pictureinpictureelement"><code><c- g>pictureInPictureElement</c-></code></dfn>;
 };
 </pre>
-   <p>The <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①②">pictureInPictureElement</a></code> attribute’s getter must run these steps:</p>
+   <p>The <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①⑤">pictureInPictureElement</a></code> attribute’s getter must run these steps:</p>
    <ol>
     <li data-md>
      <p>If the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#context-object" id="ref-for-context-object①">context object</a> is not <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#connected" id="ref-for-connected">connected</a>, return <code>null</code> and abort
@@ -1905,41 +1020,37 @@ return <var>candidate</var> and abort these steps.</p>
    </ol>
    <h3 class="heading settled" data-level="4.4" id="interface-picture-in-picture-window"><span class="secno">4.4. </span><span class="content">Interface <code>PictureInPictureWindow</code></span><a class="self-link" href="#interface-picture-in-picture-window"></a></h3>
 <pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
-<c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="pictureinpicturewindow"><code><c- g>PictureInPictureWindow</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget"><c- n>EventTarget</c-></a> {
+<c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="pictureinpicturewindow"><code><c- g>PictureInPictureWindow</c-></code></dfn> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget"><c- n>EventTarget</c-></a> {
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long"><c- b>long</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="PictureInPictureWindow" data-dfn-type="attribute" data-export data-readonly data-type="long" id="dom-pictureinpicturewindow-width"><code><c- g>width</c-></code></dfn>;
   <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long①"><c- b>long</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="PictureInPictureWindow" data-dfn-type="attribute" data-export data-readonly data-type="long" id="dom-pictureinpicturewindow-height"><code><c- g>height</c-></code></dfn>;
 
-  <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler②"><c- n>EventHandler</c-></a> <dfn class="idl-code" data-dfn-for="PictureInPictureWindow" data-dfn-type="attribute" data-export data-type="EventHandler" id="dom-pictureinpicturewindow-onresize"><code><c- g>onresize</c-></code><a class="self-link" href="#dom-pictureinpicturewindow-onresize"></a></dfn>;
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler②"><c- n>EventHandler</c-></a> <dfn class="idl-code" data-dfn-for="PictureInPictureWindow" data-dfn-type="attribute" data-export data-type="EventHandler" id="dom-pictureinpicturewindow-onresize"><code><c- g>onresize</c-></code><a class="self-link" href="#dom-pictureinpicturewindow-onresize"></a></dfn>;
 };
 </pre>
-   <p>A <code class="idl"><a data-link-type="idl" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow②">PictureInPictureWindow</a></code> instance represents a <a data-link-type="dfn" href="#picture-in-picture-window" id="ref-for-picture-in-picture-window③">Picture-in-Picture
+   <p>A <code class="idl"><a data-link-type="idl" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow②">PictureInPictureWindow</a></code> instance represents a <a data-link-type="dfn" href="#picture-in-picture-window" id="ref-for-picture-in-picture-window④">Picture-in-Picture
 window</a> associated with an <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#htmlvideoelement" id="ref-for-htmlvideoelement②">HTMLVideoElement</a></code>. When instantiated, an
-instance of <code class="idl"><a data-link-type="idl" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow③">PictureInPictureWindow</a></code> has its <var>state</var> set to <var>opened</var>.</p>
-   <p>When the <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="close-window-algorithm">close window algorithm</dfn> with an instance of <code class="idl"><a data-link-type="idl" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow④">PictureInPictureWindow</a></code> is invoked, its <var>state</var> is set to <var>closed</var>.</p>
-   <p>The <code class="idl"><a data-link-type="idl" href="#dom-pictureinpicturewindow-width" id="ref-for-dom-pictureinpicturewindow-width">width</a></code> attribute MUST return the width in <a class="css" data-link-type="value" href="https://drafts.csswg.org/css-values-4/#px" id="ref-for-px">CSS pixels</a> of the <a data-link-type="dfn" href="#picture-in-picture-window" id="ref-for-picture-in-picture-window④">Picture-in-Picture window</a> associated with <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①③">pictureInPictureElement</a></code> if
-the <var>state</var> is <var>opened</var>. Otherwise, it MUST return 0.</p>
-   <p>The <code class="idl"><a data-link-type="idl" href="#dom-pictureinpicturewindow-height" id="ref-for-dom-pictureinpicturewindow-height">height</a></code> attribute MUST return the height in <a class="css" data-link-type="value" href="https://drafts.csswg.org/css-values-4/#px" id="ref-for-px①">CSS pixels</a> of the <a data-link-type="dfn" href="#picture-in-picture-window" id="ref-for-picture-in-picture-window⑤">Picture-in-Picture window</a> associated with <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①④">pictureInPictureElement</a></code> if
-the <var>state</var> is <var>opened</var>. Otherwise, it MUST return 0.</p>
-   <p>When the size of the <a data-link-type="dfn" href="#picture-in-picture-window" id="ref-for-picture-in-picture-window⑥">Picture-in-Picture window</a> associated with <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①⑤">pictureInPictureElement</a></code> changes, the user agent MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task②">queue a task</a> to <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire②">fire an event</a> with the name <code class="idl"><a data-link-type="idl" href="#eventdef-pictureinpicturewindow-resize" id="ref-for-eventdef-pictureinpicturewindow-resize">resize</a></code> at <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①⑥">pictureInPictureElement</a></code>.</p>
+instance of <code class="idl"><a data-link-type="idl" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow③">PictureInPictureWindow</a></code> has its <var>state</var> set to <code>opened</code>.</p>
+   <p>When the <dfn class="dfn-paneled" data-dfn-type="dfn" data-noexport id="close-window-algorithm">close window algorithm</dfn> with an instance of <code class="idl"><a data-link-type="idl" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow④">PictureInPictureWindow</a></code> is invoked, its <var>state</var> is set to <code>closed</code>.</p>
+   <p>The <code class="idl"><a data-link-type="idl" href="#dom-pictureinpicturewindow-width" id="ref-for-dom-pictureinpicturewindow-width">width</a></code> attribute MUST return the width in <a class="css" data-link-type="value" href="https://drafts.csswg.org/css-values-4/#px" id="ref-for-px">CSS pixels</a> of the <a data-link-type="dfn" href="#picture-in-picture-window" id="ref-for-picture-in-picture-window⑤">Picture-in-Picture window</a> associated with <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①⑥">pictureInPictureElement</a></code> if
+the <var>state</var> is <code>opened</code>. Otherwise, it MUST return 0.</p>
+   <p>The <code class="idl"><a data-link-type="idl" href="#dom-pictureinpicturewindow-height" id="ref-for-dom-pictureinpicturewindow-height">height</a></code> attribute MUST return the height in <a class="css" data-link-type="value" href="https://drafts.csswg.org/css-values-4/#px" id="ref-for-px①">CSS pixels</a> of the <a data-link-type="dfn" href="#picture-in-picture-window" id="ref-for-picture-in-picture-window⑥">Picture-in-Picture window</a> associated with <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①⑦">pictureInPictureElement</a></code> if
+the <var>state</var> is <code>opened</code>. Otherwise, it MUST return 0.</p>
+   <p>When the size of the <a data-link-type="dfn" href="#picture-in-picture-window" id="ref-for-picture-in-picture-window⑦">Picture-in-Picture window</a> associated with <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①⑧">pictureInPictureElement</a></code> changes, the user agent MUST <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#queue-a-task" id="ref-for-queue-a-task②">queue a task</a> to <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-event-fire" id="ref-for-concept-event-fire②">fire an event</a> with the name <code class="idl"><a data-link-type="idl" href="#eventdef-pictureinpicturewindow-resize" id="ref-for-eventdef-pictureinpicturewindow-resize">resize</a></code> at <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①⑨">pictureInPictureElement</a></code>.</p>
    <h3 class="heading settled" data-level="4.5" id="event-types"><span class="secno">4.5. </span><span class="content">Event types</span><a class="self-link" href="#event-types"></a></h3>
+<pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="pictureinpictureevent"><code><c- g>PictureInPictureEvent</c-></code></dfn> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#event" id="ref-for-event"><c- n>Event</c-></a> {
+    <dfn class="idl-code" data-dfn-for="PictureInPictureEvent" data-dfn-type="constructor" data-export data-lt="PictureInPictureEvent(type, eventInitDict)|constructor(type, eventInitDict)" id="dom-pictureinpictureevent-pictureinpictureevent"><code><c- g>constructor</c-></code><a class="self-link" href="#dom-pictureinpictureevent-pictureinpictureevent"></a></dfn>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="PictureInPictureEvent/PictureInPictureEvent(type, eventInitDict), PictureInPictureEvent/constructor(type, eventInitDict)" data-dfn-type="argument" data-export id="dom-pictureinpictureevent-pictureinpictureevent-type-eventinitdict-type"><code><c- g>type</c-></code><a class="self-link" href="#dom-pictureinpictureevent-pictureinpictureevent-type-eventinitdict-type"></a></dfn>, <a data-link-type="idl-name" href="#dictdef-pictureinpictureeventinit" id="ref-for-dictdef-pictureinpictureeventinit"><c- n>PictureInPictureEventInit</c-></a> <dfn class="idl-code" data-dfn-for="PictureInPictureEvent/PictureInPictureEvent(type, eventInitDict), PictureInPictureEvent/constructor(type, eventInitDict)" data-dfn-type="argument" data-export id="dom-pictureinpictureevent-pictureinpictureevent-type-eventinitdict-eventinitdict"><code><c- g>eventInitDict</c-></code><a class="self-link" href="#dom-pictureinpictureevent-pictureinpictureevent-type-eventinitdict-eventinitdict"></a></dfn>);
+    [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow⑤"><c- n>PictureInPictureWindow</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="PictureInPictureEvent" data-dfn-type="attribute" data-export data-readonly data-type="PictureInPictureWindow" id="dom-pictureinpictureevent-pictureinpicturewindow"><code><c- g>pictureInPictureWindow</c-></code></dfn>;
+};
+
+<c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-pictureinpictureeventinit"><code><c- g>PictureInPictureEventInit</c-></code></dfn> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#dictdef-eventinit" id="ref-for-dictdef-eventinit"><c- n>EventInit</c-></a> {
+    <c- b>required</c-> <a data-link-type="idl-name" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow⑥"><c- n>PictureInPictureWindow</c-></a> <dfn class="idl-code" data-dfn-for="PictureInPictureEventInit" data-dfn-type="dict-member" data-export data-type="PictureInPictureWindow " id="dom-pictureinpictureeventinit-pictureinpicturewindow"><code><c- g>pictureInPictureWindow</c-></code><a class="self-link" href="#dom-pictureinpictureeventinit-pictureinpicturewindow"></a></dfn>;
+};
+</pre>
    <dl>
     <dt data-md><dfn class="dfn-paneled idl-code" data-dfn-for="HTMLVideoElement" data-dfn-type="event" data-export id="eventdef-htmlvideoelement-enterpictureinpicture"><code>enterpictureinpicture</code></dfn>
     <dd data-md>
      <p>Fired on a <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#htmlvideoelement" id="ref-for-htmlvideoelement③">HTMLVideoElement</a></code> when it enters Picture-in-Picture.</p>
-   </dl>
-<pre class="idl highlight def">[
-    <dfn class="idl-code" data-dfn-for="EnterPictureInPictureEvent" data-dfn-type="constructor" data-export data-lt="EnterPictureInPictureEvent(type, eventInitDict)" id="dom-enterpictureinpictureevent-enterpictureinpictureevent"><code><c- g>Constructor</c-></code><a class="self-link" href="#dom-enterpictureinpictureevent-enterpictureinpictureevent"></a></dfn>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString"><c- b>DOMString</c-></a> <dfn class="idl-code" data-dfn-for="EnterPictureInPictureEvent/EnterPictureInPictureEvent(type, eventInitDict)" data-dfn-type="argument" data-export id="dom-enterpictureinpictureevent-enterpictureinpictureevent-type-eventinitdict-type"><code><c- g>type</c-></code><a class="self-link" href="#dom-enterpictureinpictureevent-enterpictureinpictureevent-type-eventinitdict-type"></a></dfn>, <a class="n" data-link-type="idl-name" href="#dictdef-enterpictureinpictureeventinit" id="ref-for-dictdef-enterpictureinpictureeventinit"><c- n>EnterPictureInPictureEventInit</c-></a> <dfn class="idl-code" data-dfn-for="EnterPictureInPictureEvent/EnterPictureInPictureEvent(type, eventInitDict)" data-dfn-type="argument" data-export id="dom-enterpictureinpictureevent-enterpictureinpictureevent-type-eventinitdict-eventinitdict"><code><c- g>eventInitDict</c-></code><a class="self-link" href="#dom-enterpictureinpictureevent-enterpictureinpictureevent-type-eventinitdict-eventinitdict"></a></dfn>),
-    <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①"><c- g>Exposed</c-></a>=<c- n>Window</c->
-]
-<c- b>interface</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="enterpictureinpictureevent"><code><c- g>EnterPictureInPictureEvent</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#event" id="ref-for-event"><c- n>Event</c-></a> {
-    [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow⑤"><c- n>PictureInPictureWindow</c-></a> <dfn class="dfn-paneled idl-code" data-dfn-for="EnterPictureInPictureEvent" data-dfn-type="attribute" data-export data-readonly data-type="PictureInPictureWindow" id="dom-enterpictureinpictureevent-pictureinpicturewindow"><code><c- g>pictureInPictureWindow</c-></code></dfn>;
-};
-
-<c- b>dictionary</c-> <dfn class="dfn-paneled idl-code" data-dfn-type="dictionary" data-export id="dictdef-enterpictureinpictureeventinit"><code><c- g>EnterPictureInPictureEventInit</c-></code></dfn> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#dictdef-eventinit" id="ref-for-dictdef-eventinit"><c- n>EventInit</c-></a> {
-    <c- b>required</c-> <a class="n" data-link-type="idl-name" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow⑥"><c- n>PictureInPictureWindow</c-></a> <dfn class="idl-code" data-dfn-for="EnterPictureInPictureEventInit" data-dfn-type="dict-member" data-export data-type="PictureInPictureWindow " id="dom-enterpictureinpictureeventinit-pictureinpicturewindow"><code><c- g>pictureInPictureWindow</c-></code><a class="self-link" href="#dom-enterpictureinpictureeventinit-pictureinpicturewindow"></a></dfn>;
-};
-</pre>
-   <dl>
     <dt data-md><dfn class="dfn-paneled idl-code" data-dfn-for="HTMLVideoElement" data-dfn-type="event" data-export id="eventdef-htmlvideoelement-leavepictureinpicture"><code>leavepictureinpicture</code></dfn>
     <dd data-md>
      <p>Fired on a <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#htmlvideoelement" id="ref-for-htmlvideoelement④">HTMLVideoElement</a></code> when it leaves Picture-in-Picture mode.</p>
@@ -1951,18 +1062,21 @@ the <var>state</var> is <var>opened</var>. Otherwise, it MUST return 0.</p>
    <p>The <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/webappapis.html#task-source" id="ref-for-task-source">task source</a> for all the tasks queued in this specification is the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/media.html#media-element-event-task-source" id="ref-for-media-element-event-task-source">media element event task source</a> of the video element in question.</p>
    <h3 class="heading settled" data-level="4.7" id="css-pseudo-class"><span class="secno">4.7. </span><span class="content">CSS pseudo-class</span><a class="self-link" href="#css-pseudo-class"></a></h3>
    <p>The <code>:picture-in-picture</code> <a data-link-type="dfn" href="https://drafts.csswg.org/selectors-4/#pseudo-class" id="ref-for-pseudo-class">pseudo-class</a> MUST match the Picture-in-Picture
-element. It is different from the <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement①⑦">pictureInPictureElement</a></code> as it does NOT
+element. It is different from the <code class="idl"><a data-link-type="idl" href="#dom-documentorshadowroot-pictureinpictureelement" id="ref-for-dom-documentorshadowroot-pictureinpictureelement②⓪">pictureInPictureElement</a></code> as it does NOT
 apply to the shadow host chain.</p>
    <h2 class="heading settled" data-level="5" id="security-considerations"><span class="secno">5. </span><span class="content">Security considerations</span><a class="self-link" href="#security-considerations"></a></h2>
    <p><em>This section is non-normative.</em></p>
    <p>The API applies only to <code class="idl"><a data-link-type="idl" href="https://html.spec.whatwg.org/multipage/media.html#htmlvideoelement" id="ref-for-htmlvideoelement⑤">HTMLVideoElement</a></code> in order to start on a minimal
 viable product that has limited security issues. Later versions of this
 specification may allow PIP-ing arbitrary HTML content.</p>
-   <h3 class="heading settled" data-level="5.1" id="feature-policy"><span class="secno">5.1. </span><span class="content">Feature Policy</span><a class="self-link" href="#feature-policy"></a></h3>
-   <p>This specification defines a <a data-link-type="dfn" href="https://wicg.github.io/feature-policy/#policy-controlled-feature" id="ref-for-policy-controlled-feature①">policy-controlled feature</a> that controls
-whether the <a data-link-type="dfn" href="#request-picture-in-picture-algorithm" id="ref-for-request-picture-in-picture-algorithm③">request Picture-in-Picture algorithm</a> may return a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#securityerror" id="ref-for-securityerror①">SecurityError</a></code> and whether <code class="idl"><a data-link-type="idl" href="#dom-document-pictureinpictureenabled" id="ref-for-dom-document-pictureinpictureenabled①">pictureInPictureEnabled</a></code> is <code>true</code> or <code>false</code>.</p>
-   <p>The <a data-link-type="dfn" href="https://wicg.github.io/feature-policy/#feature-name" id="ref-for-feature-name">feature name</a> for this feature is <code>"picture-in-picture"</code>.</p>
-   <p>The <a data-link-type="dfn" href="https://wicg.github.io/feature-policy/#default-allowlist" id="ref-for-default-allowlist">default allowlist</a> for this feature is <code>*</code>.</p>
+   <h3 class="heading settled" data-level="5.1" id="secure-context"><span class="secno">5.1. </span><span class="content">Secure Context</span><a class="self-link" href="#secure-context"></a></h3>
+   <p>The API is not limited to <a data-link-type="biblio" href="#biblio-secure-contexts">[SECURE-CONTEXTS]</a> because it exposes a feature
+to web applications that user agents usually offer natively on all media
+regardless of the <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context" id="ref-for-browsing-context">browsing context</a>.</p>
+   <h3 class="heading settled" data-level="5.2" id="feature-policy"><span class="secno">5.2. </span><span class="content">Feature Policy</span><a class="self-link" href="#feature-policy"></a></h3>
+   <p>This specification defines a <a data-link-type="dfn" href="https://w3c.github.io/webappsec-permissions-policy/#policy-controlled-feature" id="ref-for-policy-controlled-feature①">policy-controlled feature</a> named <code>"picture-in-picture"</code> that controls whether the <a data-link-type="dfn" href="#request-picture-in-picture-algorithm" id="ref-for-request-picture-in-picture-algorithm③">request Picture-in-Picture
+algorithm</a> may return a <code class="idl"><a data-link-type="idl" href="https://heycam.github.io/webidl/#securityerror" id="ref-for-securityerror①">SecurityError</a></code> and whether <code class="idl"><a data-link-type="idl" href="#dom-document-pictureinpictureenabled" id="ref-for-dom-document-pictureinpictureenabled①">pictureInPictureEnabled</a></code> is <code>true</code> or <code>false</code>.</p>
+   <p>The <a data-link-type="dfn" href="https://w3c.github.io/webappsec-permissions-policy/#default-allowlist" id="ref-for-default-allowlist">default allowlist</a> for this feature is <code>*</code>.</p>
    <h2 class="heading settled" data-level="6" id="acknowledgments"><span class="secno">6. </span><span class="content">Acknowledgments</span><a class="self-link" href="#acknowledgments"></a></h2>
    <p>Thanks to Jennifer Apacible, Zouhir Chahoud, Marcos Cáceres, Philip Jägenstedt,
 Jeremy Jones, Chris Needham, Jer Noble, Justin Uberti, Yoav Weiss, and Eckhart
@@ -1976,11 +1090,9 @@ Wörner for their contributions to this document.</p>
    <li><a href="#dom-htmlvideoelement-autopictureinpicture">autoPictureInPicture</a><span>, in §4.1</span>
    <li><a href="#autopictureinpictureelement">autoPictureInPictureElement</a><span>, in §3.4</span>
    <li><a href="#close-window-algorithm">close window algorithm</a><span>, in §4.4</span>
+   <li><a href="#dom-pictureinpictureevent-pictureinpictureevent">constructor(type, eventInitDict)</a><span>, in §4.5</span>
    <li><a href="#dom-htmlvideoelement-disablepictureinpicture">disablePictureInPicture</a><span>, in §4.1</span>
    <li><a href="#eventdef-htmlvideoelement-enterpictureinpicture">enterpictureinpicture</a><span>, in §4.5</span>
-   <li><a href="#enterpictureinpictureevent">EnterPictureInPictureEvent</a><span>, in §4.5</span>
-   <li><a href="#dictdef-enterpictureinpictureeventinit">EnterPictureInPictureEventInit</a><span>, in §4.5</span>
-   <li><a href="#dom-enterpictureinpictureevent-enterpictureinpictureevent">EnterPictureInPictureEvent(type, eventInitDict)</a><span>, in §4.5</span>
    <li><a href="#dom-document-exitpictureinpicture">exitPictureInPicture()</a><span>, in §4.2</span>
    <li><a href="#exit-picture-in-picture-algorithm">exit Picture-in-Picture algorithm</a><span>, in §3.2</span>
    <li><a href="#dom-pictureinpicturewindow-height">height</a><span>, in §4.4</span>
@@ -1990,15 +1102,18 @@ Wörner for their contributions to this document.</p>
    <li><a href="#dom-pictureinpicturewindow-onresize">onresize</a><span>, in §4.4</span>
    <li><a href="#dom-documentorshadowroot-pictureinpictureelement">pictureInPictureElement</a><span>, in §4.3</span>
    <li><a href="#dom-document-pictureinpictureenabled">pictureInPictureEnabled</a><span>, in §4.2</span>
+   <li><a href="#pictureinpictureevent">PictureInPictureEvent</a><span>, in §4.5</span>
+   <li><a href="#dictdef-pictureinpictureeventinit">PictureInPictureEventInit</a><span>, in §4.5</span>
+   <li><a href="#dom-pictureinpictureevent-pictureinpictureevent">PictureInPictureEvent(type, eventInitDict)</a><span>, in §4.5</span>
    <li><a href="#picture-in-picture-support">Picture-in-Picture support</a><span>, in §4.2</span>
+   <li><a href="#picture-in-picture-window">Picture-in-Picture window</a><span>, in §3.1</span>
+   <li><a href="#pictureinpicturewindow">PictureInPictureWindow</a><span>, in §4.4</span>
    <li>
     pictureInPictureWindow
     <ul>
-     <li><a href="#dom-enterpictureinpictureevent-pictureinpicturewindow">attribute for EnterPictureInPictureEvent</a><span>, in §4.5</span>
-     <li><a href="#dom-enterpictureinpictureeventinit-pictureinpicturewindow">dict-member for EnterPictureInPictureEventInit</a><span>, in §4.5</span>
+     <li><a href="#dom-pictureinpictureevent-pictureinpicturewindow">attribute for PictureInPictureEvent</a><span>, in §4.5</span>
+     <li><a href="#dom-pictureinpictureeventinit-pictureinpicturewindow">dict-member for PictureInPictureEventInit</a><span>, in §4.5</span>
     </ul>
-   <li><a href="#pictureinpicturewindow">PictureInPictureWindow</a><span>, in §4.4</span>
-   <li><a href="#picture-in-picture-window">Picture-in-Picture window</a><span>, in §3.1</span>
    <li><a href="#dom-htmlvideoelement-requestpictureinpicture">requestPictureInPicture()</a><span>, in §4.1</span>
    <li><a href="#request-picture-in-picture-algorithm">request Picture-in-Picture algorithm</a><span>, in §3.1</span>
    <li><a href="#eventdef-pictureinpicturewindow-resize">resize</a><span>, in §4.5</span>
@@ -2013,7 +1128,7 @@ Wörner for their contributions to this document.</p>
   <aside class="dfn-panel" data-for="term-for-document">
    <a href="https://dom.spec.whatwg.org/#document">https://dom.spec.whatwg.org/#document</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-document">3.8. One Picture-in-Picture window</a>
+    <li><a href="#ref-for-document">3.9. One Picture-in-Picture window</a>
     <li><a href="#ref-for-document①">4.2. Extensions to Document</a>
    </ul>
   </aside>
@@ -2070,7 +1185,7 @@ Wörner for their contributions to this document.</p>
   <aside class="dfn-panel" data-for="term-for-concept-document">
    <a href="https://dom.spec.whatwg.org/#concept-document">https://dom.spec.whatwg.org/#concept-document</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-concept-document">3.7. Interaction with Page Visibility</a>
+    <li><a href="#ref-for-concept-document">3.8. Interaction with Page Visibility</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-concept-event-fire">
@@ -2079,6 +1194,13 @@ Wörner for their contributions to this document.</p>
     <li><a href="#ref-for-concept-event-fire">3.1. Request Picture-in-Picture</a>
     <li><a href="#ref-for-concept-event-fire①">3.2. Exit Picture-in-Picture</a>
     <li><a href="#ref-for-concept-event-fire②">4.4. Interface PictureInPictureWindow</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-concept-reflect">
+   <a href="https://dom.spec.whatwg.org/#concept-reflect">https://dom.spec.whatwg.org/#concept-reflect</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-reflect">3.3. Disable Picture-in-Picture</a>
+    <li><a href="#ref-for-concept-reflect①">3.4. Auto Picture-in-Picture</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-retarget">
@@ -2093,23 +1215,22 @@ Wörner for their contributions to this document.</p>
     <li><a href="#ref-for-concept-tree">4.3. Extension to DocumentOrShadowRoot</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-default-allowlist">
-   <a href="https://wicg.github.io/feature-policy/#default-allowlist">https://wicg.github.io/feature-policy/#default-allowlist</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-fully-exit-fullscreen">
+   <a href="https://fullscreen.spec.whatwg.org#fully-exit-fullscreen">https://fullscreen.spec.whatwg.org#fully-exit-fullscreen</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-default-allowlist">5.1. Feature Policy</a>
+    <li><a href="#ref-for-fully-exit-fullscreen">3.1. Request Picture-in-Picture</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-feature-name">
-   <a href="https://wicg.github.io/feature-policy/#feature-name">https://wicg.github.io/feature-policy/#feature-name</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-fullscreen-flag">
+   <a href="https://fullscreen.spec.whatwg.org#fullscreen-flag">https://fullscreen.spec.whatwg.org#fullscreen-flag</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-feature-name">5.1. Feature Policy</a>
+    <li><a href="#ref-for-fullscreen-flag">3.5. Interaction with Fullscreen</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-policy-controlled-feature">
-   <a href="https://wicg.github.io/feature-policy/#policy-controlled-feature">https://wicg.github.io/feature-policy/#policy-controlled-feature</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-dom-document-fullscreenelement">
+   <a href="https://fullscreen.spec.whatwg.org#dom-document-fullscreenelement">https://fullscreen.spec.whatwg.org#dom-document-fullscreenelement</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-policy-controlled-feature">3.1. Request Picture-in-Picture</a>
-    <li><a href="#ref-for-policy-controlled-feature①">5.1. Feature Policy</a>
+    <li><a href="#ref-for-dom-document-fullscreenelement">3.1. Request Picture-in-Picture</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-cereactions">
@@ -2144,7 +1265,14 @@ Wörner for their contributions to this document.</p>
   <aside class="dfn-panel" data-for="term-for-allowed-to-use">
    <a href="https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use">https://html.spec.whatwg.org/multipage/iframe-embed-object.html#allowed-to-use</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-allowed-to-use">4.2. Extensions to Document</a>
+    <li><a href="#ref-for-allowed-to-use">3.1. Request Picture-in-Picture</a>
+    <li><a href="#ref-for-allowed-to-use①">4.2. Extensions to Document</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-browsing-context">
+   <a href="https://html.spec.whatwg.org/multipage/browsers.html#browsing-context">https://html.spec.whatwg.org/multipage/browsers.html#browsing-context</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-browsing-context">5.1. Secure Context</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-in-parallel">
@@ -2180,11 +1308,10 @@ Wörner for their contributions to this document.</p>
     <li><a href="#ref-for-dom-media-readystate">3.1. Request Picture-in-Picture</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-reflect">
-   <a href="https://html.spec.whatwg.org/multipage/infrastructure.html#reflect">https://html.spec.whatwg.org/multipage/infrastructure.html#reflect</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-concept-relevant-global">
+   <a href="https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global">https://html.spec.whatwg.org/multipage/webappapis.html#concept-relevant-global</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-reflect">3.3. Disable Picture-in-Picture</a>
-    <li><a href="#ref-for-reflect①">3.4. Auto Picture-in-Picture</a>
+    <li><a href="#ref-for-concept-relevant-global">3.1. Request Picture-in-Picture</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-task-source">
@@ -2197,13 +1324,13 @@ Wörner for their contributions to this document.</p>
    <a href="https://html.spec.whatwg.org/multipage/browsers.html#top-level-browsing-context">https://html.spec.whatwg.org/multipage/browsers.html#top-level-browsing-context</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-top-level-browsing-context">3.4. Auto Picture-in-Picture</a> <a href="#ref-for-top-level-browsing-context①">(2)</a>
-    <li><a href="#ref-for-top-level-browsing-context②">3.7. Interaction with Page Visibility</a>
+    <li><a href="#ref-for-top-level-browsing-context②">3.8. Interaction with Page Visibility</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-triggered-by-user-activation">
-   <a href="https://html.spec.whatwg.org/multipage/interaction.html#triggered-by-user-activation">https://html.spec.whatwg.org/multipage/interaction.html#triggered-by-user-activation</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-transient-activation">
+   <a href="https://html.spec.whatwg.org/multipage/interaction.html#transient-activation">https://html.spec.whatwg.org/multipage/interaction.html#transient-activation</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-triggered-by-user-activation">3.1. Request Picture-in-Picture</a>
+    <li><a href="#ref-for-transient-activation">3.1. Request Picture-in-Picture</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-unloading-document-cleanup-steps">
@@ -2215,26 +1342,32 @@ Wörner for their contributions to this document.</p>
   <aside class="dfn-panel" data-for="term-for-dom-visibilitystate">
    <a href="https://www.w3.org/TR/page-visibility/#dom-visibilitystate">https://www.w3.org/TR/page-visibility/#dom-visibilitystate</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-visibilitystate">3.7. Interaction with Page Visibility</a> <a href="#ref-for-dom-visibilitystate①">(2)</a>
+    <li><a href="#ref-for-dom-visibilitystate">3.8. Interaction with Page Visibility</a> <a href="#ref-for-dom-visibilitystate①">(2)</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-a-new-promise">
-   <a href="https://www.w3.org/2001/tag/doc/promises-guide/#a-new-promise">https://www.w3.org/2001/tag/doc/promises-guide/#a-new-promise</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-default-allowlist">
+   <a href="https://w3c.github.io/webappsec-permissions-policy/#default-allowlist">https://w3c.github.io/webappsec-permissions-policy/#default-allowlist</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-a-new-promise">4.1. Extensions to HTMLVideoElement</a>
-    <li><a href="#ref-for-a-new-promise①">4.2. Extensions to Document</a>
+    <li><a href="#ref-for-default-allowlist">5.2. Feature Policy</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-policy-controlled-feature">
+   <a href="https://w3c.github.io/webappsec-permissions-policy/#policy-controlled-feature">https://w3c.github.io/webappsec-permissions-policy/#policy-controlled-feature</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-policy-controlled-feature">3.1. Request Picture-in-Picture</a>
+    <li><a href="#ref-for-policy-controlled-feature①">5.2. Feature Policy</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-local-playback-device">
    <a href="https://w3c.github.io/remote-playback/#dfn-local-playback-device">https://w3c.github.io/remote-playback/#dfn-local-playback-device</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-local-playback-device">3.5. Interaction with Remote Playback</a>
+    <li><a href="#ref-for-dfn-local-playback-device">3.6. Interaction with Remote Playback</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-dfn-local-playback-state">
    <a href="https://w3c.github.io/remote-playback/#dfn-local-playback-state">https://w3c.github.io/remote-playback/#dfn-local-playback-state</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dfn-local-playback-state">3.5. Interaction with Remote Playback</a>
+    <li><a href="#ref-for-dfn-local-playback-state">3.6. Interaction with Remote Playback</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-pseudo-class">
@@ -2283,6 +1416,13 @@ Wörner for their contributions to this document.</p>
     <li><a href="#ref-for-notsupportederror">3.1. Request Picture-in-Picture</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-idl-promise">
+   <a href="https://heycam.github.io/webidl/#idl-promise">https://heycam.github.io/webidl/#idl-promise</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-idl-promise">4.1. Extensions to HTMLVideoElement</a>
+    <li><a href="#ref-for-idl-promise①">4.2. Extensions to Document</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-SameObject">
    <a href="https://heycam.github.io/webidl/#SameObject">https://heycam.github.io/webidl/#SameObject</a><b>Referenced in:</b>
    <ul>
@@ -2293,7 +1433,14 @@ Wörner for their contributions to this document.</p>
    <a href="https://heycam.github.io/webidl/#securityerror">https://heycam.github.io/webidl/#securityerror</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-securityerror">3.1. Request Picture-in-Picture</a>
-    <li><a href="#ref-for-securityerror①">5.1. Feature Policy</a>
+    <li><a href="#ref-for-securityerror①">5.2. Feature Policy</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-a-new-promise">
+   <a href="https://heycam.github.io/webidl/#a-new-promise">https://heycam.github.io/webidl/#a-new-promise</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-a-new-promise">4.1. Extensions to HTMLVideoElement</a>
+    <li><a href="#ref-for-a-new-promise①">4.2. Extensions to Document</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-idl-boolean">
@@ -2309,105 +1456,126 @@ Wörner for their contributions to this document.</p>
     <li><a href="#ref-for-idl-long">4.4. Interface PictureInPictureWindow</a> <a href="#ref-for-idl-long①">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-this">
+   <a href="https://heycam.github.io/webidl/#this">https://heycam.github.io/webidl/#this</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-this">3.1. Request Picture-in-Picture</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-idl-undefined">
+   <a href="https://heycam.github.io/webidl/#idl-undefined">https://heycam.github.io/webidl/#idl-undefined</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-idl-undefined">4.2. Extensions to Document</a>
+   </ul>
+  </aside>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
    <li>
     <a data-link-type="biblio">[css-values-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-px" style="color:initial">px</span>
+     <li><span class="dfn-paneled" id="term-for-px">px</span>
     </ul>
    <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-document" style="color:initial">Document</span>
-     <li><span class="dfn-paneled" id="term-for-documentorshadowroot" style="color:initial">DocumentOrShadowRoot</span>
-     <li><span class="dfn-paneled" id="term-for-element" style="color:initial">Element</span>
-     <li><span class="dfn-paneled" id="term-for-event" style="color:initial">Event</span>
-     <li><span class="dfn-paneled" id="term-for-dictdef-eventinit" style="color:initial">EventInit</span>
-     <li><span class="dfn-paneled" id="term-for-eventtarget" style="color:initial">EventTarget</span>
-     <li><span class="dfn-paneled" id="term-for-dom-event-bubbles" style="color:initial">bubbles</span>
-     <li><span class="dfn-paneled" id="term-for-connected" style="color:initial">connected</span>
-     <li><span class="dfn-paneled" id="term-for-context-object" style="color:initial">context object</span>
-     <li><span class="dfn-paneled" id="term-for-concept-document" style="color:initial">document</span>
-     <li><span class="dfn-paneled" id="term-for-concept-event-fire" style="color:initial">fire an event</span>
-     <li><span class="dfn-paneled" id="term-for-retarget" style="color:initial">retargeting</span>
-     <li><span class="dfn-paneled" id="term-for-concept-tree" style="color:initial">tree</span>
+     <li><span class="dfn-paneled" id="term-for-document">Document</span>
+     <li><span class="dfn-paneled" id="term-for-documentorshadowroot">DocumentOrShadowRoot</span>
+     <li><span class="dfn-paneled" id="term-for-element">Element</span>
+     <li><span class="dfn-paneled" id="term-for-event">Event</span>
+     <li><span class="dfn-paneled" id="term-for-dictdef-eventinit">EventInit</span>
+     <li><span class="dfn-paneled" id="term-for-eventtarget">EventTarget</span>
+     <li><span class="dfn-paneled" id="term-for-dom-event-bubbles">bubbles</span>
+     <li><span class="dfn-paneled" id="term-for-connected">connected</span>
+     <li><span class="dfn-paneled" id="term-for-context-object">context object</span>
+     <li><span class="dfn-paneled" id="term-for-concept-document">document</span>
+     <li><span class="dfn-paneled" id="term-for-concept-event-fire">fire an event</span>
+     <li><span class="dfn-paneled" id="term-for-concept-reflect">reflect</span>
+     <li><span class="dfn-paneled" id="term-for-retarget">retargeting</span>
+     <li><span class="dfn-paneled" id="term-for-concept-tree">tree</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[feature policy]</a> defines the following terms:
+    <a data-link-type="biblio">[Fullscreen]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-default-allowlist" style="color:initial">default allowlist</span>
-     <li><span class="dfn-paneled" id="term-for-feature-name" style="color:initial">feature name</span>
-     <li><span class="dfn-paneled" id="term-for-policy-controlled-feature" style="color:initial">policy-controlled feature</span>
+     <li><span class="dfn-paneled" id="term-for-fully-exit-fullscreen">exit fullscreen</span>
+     <li><span class="dfn-paneled" id="term-for-fullscreen-flag">fullscreen flag</span>
+     <li><span class="dfn-paneled" id="term-for-dom-document-fullscreenelement">fullscreenelement</span>
     </ul>
    <li>
     <a data-link-type="biblio">[HTML]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-cereactions" style="color:initial">CEReactions</span>
-     <li><span class="dfn-paneled" id="term-for-eventhandler" style="color:initial">EventHandler</span>
-     <li><span class="dfn-paneled" id="term-for-dom-media-have_nothing" style="color:initial">HAVE_NOTHING</span>
-     <li><span class="dfn-paneled" id="term-for-htmlvideoelement" style="color:initial">HTMLVideoElement</span>
-     <li><span class="dfn-paneled" id="term-for-allowed-to-use" style="color:initial">allowed to use</span>
-     <li><span class="dfn-paneled" id="term-for-in-parallel" style="color:initial">in parallel</span>
-     <li><span class="dfn-paneled" id="term-for-media-element-event-task-source" style="color:initial">media element event task source</span>
-     <li><span class="dfn-paneled" id="term-for-dom-media-paused" style="color:initial">paused</span>
-     <li><span class="dfn-paneled" id="term-for-queue-a-task" style="color:initial">queue a task</span>
-     <li><span class="dfn-paneled" id="term-for-dom-media-readystate" style="color:initial">readyState</span>
-     <li><span class="dfn-paneled" id="term-for-reflect" style="color:initial">reflect</span>
-     <li><span class="dfn-paneled" id="term-for-task-source" style="color:initial">task source</span>
-     <li><span class="dfn-paneled" id="term-for-top-level-browsing-context" style="color:initial">top-level browsing context</span>
-     <li><span class="dfn-paneled" id="term-for-triggered-by-user-activation" style="color:initial">triggered by user activation</span>
-     <li><span class="dfn-paneled" id="term-for-unloading-document-cleanup-steps" style="color:initial">unloading document cleanup steps</span>
+     <li><span class="dfn-paneled" id="term-for-cereactions">CEReactions</span>
+     <li><span class="dfn-paneled" id="term-for-eventhandler">EventHandler</span>
+     <li><span class="dfn-paneled" id="term-for-dom-media-have_nothing">HAVE_NOTHING</span>
+     <li><span class="dfn-paneled" id="term-for-htmlvideoelement">HTMLVideoElement</span>
+     <li><span class="dfn-paneled" id="term-for-allowed-to-use">allowed to use</span>
+     <li><span class="dfn-paneled" id="term-for-browsing-context">browsing context</span>
+     <li><span class="dfn-paneled" id="term-for-in-parallel">in parallel</span>
+     <li><span class="dfn-paneled" id="term-for-media-element-event-task-source">media element event task source</span>
+     <li><span class="dfn-paneled" id="term-for-dom-media-paused">paused</span>
+     <li><span class="dfn-paneled" id="term-for-queue-a-task">queue a task</span>
+     <li><span class="dfn-paneled" id="term-for-dom-media-readystate">readyState</span>
+     <li><span class="dfn-paneled" id="term-for-concept-relevant-global">relevant global object</span>
+     <li><span class="dfn-paneled" id="term-for-task-source">task source</span>
+     <li><span class="dfn-paneled" id="term-for-top-level-browsing-context">top-level browsing context</span>
+     <li><span class="dfn-paneled" id="term-for-transient-activation">transient activation</span>
+     <li><span class="dfn-paneled" id="term-for-unloading-document-cleanup-steps">unloading document cleanup steps</span>
     </ul>
    <li>
     <a data-link-type="biblio">[Page-Visibility]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dom-visibilitystate" style="color:initial">visibilityState</span>
+     <li><span class="dfn-paneled" id="term-for-dom-visibilitystate">visibilityState</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[promises-guide]</a> defines the following terms:
+    <a data-link-type="biblio">[permissions-policy-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-a-new-promise" style="color:initial">a new promise</span>
+     <li><span class="dfn-paneled" id="term-for-default-allowlist">default allowlist</span>
+     <li><span class="dfn-paneled" id="term-for-policy-controlled-feature">policy-controlled feature</span>
     </ul>
    <li>
     <a data-link-type="biblio">[Remote-Playback]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-dfn-local-playback-device" style="color:initial">local playback device</span>
-     <li><span class="dfn-paneled" id="term-for-dfn-local-playback-state" style="color:initial">local playback state</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-local-playback-device">local playback device</span>
+     <li><span class="dfn-paneled" id="term-for-dfn-local-playback-state">local playback state</span>
     </ul>
    <li>
     <a data-link-type="biblio">[selectors-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-pseudo-class" style="color:initial">pseudo-class</span>
+     <li><span class="dfn-paneled" id="term-for-pseudo-class">pseudo-class</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-idl-DOMString" style="color:initial">DOMString</span>
-     <li><span class="dfn-paneled" id="term-for-Exposed" style="color:initial">Exposed</span>
-     <li><span class="dfn-paneled" id="term-for-invalidstateerror" style="color:initial">InvalidStateError</span>
-     <li><span class="dfn-paneled" id="term-for-NewObject" style="color:initial">NewObject</span>
-     <li><span class="dfn-paneled" id="term-for-notallowederror" style="color:initial">NotAllowedError</span>
-     <li><span class="dfn-paneled" id="term-for-notsupportederror" style="color:initial">NotSupportedError</span>
-     <li><span class="dfn-paneled" id="term-for-SameObject" style="color:initial">SameObject</span>
-     <li><span class="dfn-paneled" id="term-for-securityerror" style="color:initial">SecurityError</span>
-     <li><span class="dfn-paneled" id="term-for-idl-boolean" style="color:initial">boolean</span>
-     <li><span class="dfn-paneled" id="term-for-idl-long" style="color:initial">long</span>
+     <li><span class="dfn-paneled" id="term-for-idl-DOMString">DOMString</span>
+     <li><span class="dfn-paneled" id="term-for-Exposed">Exposed</span>
+     <li><span class="dfn-paneled" id="term-for-invalidstateerror">InvalidStateError</span>
+     <li><span class="dfn-paneled" id="term-for-NewObject">NewObject</span>
+     <li><span class="dfn-paneled" id="term-for-notallowederror">NotAllowedError</span>
+     <li><span class="dfn-paneled" id="term-for-notsupportederror">NotSupportedError</span>
+     <li><span class="dfn-paneled" id="term-for-idl-promise">Promise</span>
+     <li><span class="dfn-paneled" id="term-for-SameObject">SameObject</span>
+     <li><span class="dfn-paneled" id="term-for-securityerror">SecurityError</span>
+     <li><span class="dfn-paneled" id="term-for-a-new-promise">a new promise</span>
+     <li><span class="dfn-paneled" id="term-for-idl-boolean">boolean</span>
+     <li><span class="dfn-paneled" id="term-for-idl-long">long</span>
+     <li><span class="dfn-paneled" id="term-for-this">this</span>
+     <li><span class="dfn-paneled" id="term-for-idl-undefined">undefined</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
    <dt id="biblio-css-values-4">[CSS-VALUES-4]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 31 January 2019. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 11 November 2020. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
    <dt id="biblio-dom">[DOM]
    <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/">DOM Standard</a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
+   <dt id="biblio-fullscreen">[Fullscreen]
+   <dd>Philip Jägenstedt. <a href="https://fullscreen.spec.whatwg.org/">Fullscreen API Standard</a>. Living Standard. URL: <a href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a>
    <dt id="biblio-html">[HTML]
    <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
    <dt id="biblio-page-visibility">[Page-Visibility]
    <dd>Jatinder Mann; Arvind Jain. <a href="https://www.w3.org/TR/page-visibility/">Page Visibility (Second Edition)</a>. 29 October 2013. REC. URL: <a href="https://www.w3.org/TR/page-visibility/">https://www.w3.org/TR/page-visibility/</a>
-   <dt id="biblio-promises-guide">[PROMISES-GUIDE]
-   <dd>Domenic Denicola. <a href="https://www.w3.org/2001/tag/doc/promises-guide">Writing Promise-Using Specifications</a>. 9 November 2018. TAG Finding. URL: <a href="https://www.w3.org/2001/tag/doc/promises-guide">https://www.w3.org/2001/tag/doc/promises-guide</a>
+   <dt id="biblio-permissions-policy-1">[PERMISSIONS-POLICY-1]
+   <dd>Ian Clelland. <a href="https://www.w3.org/TR/permissions-policy-1/">Permissions Policy</a>. 16 July 2020. WD. URL: <a href="https://www.w3.org/TR/permissions-policy-1/">https://www.w3.org/TR/permissions-policy-1/</a>
    <dt id="biblio-remote-playback">[Remote-Playback]
    <dd>Mounir Lamouri; Anton Vayvod. <a href="https://www.w3.org/TR/remote-playback/">Remote Playback API</a>. 19 October 2017. CR. URL: <a href="https://www.w3.org/TR/remote-playback/">https://www.w3.org/TR/remote-playback/</a>
    <dt id="biblio-selectors-4">[SELECTORS-4]
@@ -2417,50 +1585,48 @@ Wörner for their contributions to this document.</p>
   </dl>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
-   <dt id="biblio-fullscreen">[Fullscreen]
-   <dd>Philip Jägenstedt. <a href="https://fullscreen.spec.whatwg.org/">Fullscreen API Standard</a>. Living Standard. URL: <a href="https://fullscreen.spec.whatwg.org/">https://fullscreen.spec.whatwg.org/</a>
    <dt id="biblio-mediasession">[MediaSession]
-   <dd><a href="https://wicg.github.io/mediasession/">Media Session</a>. Living Standard. URL: <a href="https://wicg.github.io/mediasession/">https://wicg.github.io/mediasession/</a>
+   <dd>Mounir Lamouri; Becca Hughes. <a href="https://www.w3.org/TR/mediasession/">Media Session Standard</a>. 30 January 2020. WD. URL: <a href="https://www.w3.org/TR/mediasession/">https://www.w3.org/TR/mediasession/</a>
+   <dt id="biblio-secure-contexts">[SECURE-CONTEXTS]
+   <dd>Mike West. <a href="https://www.w3.org/TR/secure-contexts/">Secure Contexts</a>. 15 September 2016. CR. URL: <a href="https://www.w3.org/TR/secure-contexts/">https://www.w3.org/TR/secure-contexts/</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
-<pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/media.html#htmlvideoelement" id="ref-for-htmlvideoelement①①"><c- g>HTMLVideoElement</c-></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#NewObject" id="ref-for-NewObject②"><c- g>NewObject</c-></a>] <c- b>Promise</c->&lt;<a class="n" data-link-type="idl-name" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow①①"><c- n>PictureInPictureWindow</c-></a>> <a href="#dom-htmlvideoelement-requestpictureinpicture"><code><c- g>requestPictureInPicture</c-></code></a>();
+<pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://html.spec.whatwg.org/multipage/media.html#htmlvideoelement"><c- g>HTMLVideoElement</c-></a> {
+  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#NewObject"><c- g>NewObject</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise"><c- b>Promise</c-></a>&lt;<a data-link-type="idl-name" href="#pictureinpicturewindow"><c- n>PictureInPictureWindow</c-></a>> <a href="#dom-htmlvideoelement-requestpictureinpicture"><code><c- g>requestPictureInPicture</c-></code></a>();
 
-  <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler③"><c- n>EventHandler</c-></a> <a data-type="EventHandler" href="#dom-htmlvideoelement-onenterpictureinpicture"><code><c- g>onenterpictureinpicture</c-></code></a>;
-  <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler①①"><c- n>EventHandler</c-></a> <a data-type="EventHandler" href="#dom-htmlvideoelement-onleavepictureinpicture"><code><c- g>onleavepictureinpicture</c-></code></a>;
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler"><c- n>EventHandler</c-></a> <a data-type="EventHandler" href="#dom-htmlvideoelement-onenterpictureinpicture"><code><c- g>onenterpictureinpicture</c-></code></a>;
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler"><c- n>EventHandler</c-></a> <a data-type="EventHandler" href="#dom-htmlvideoelement-onleavepictureinpicture"><code><c- g>onleavepictureinpicture</c-></code></a>;
 
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/custom-elements.html#cereactions" id="ref-for-cereactions②"><c- g>CEReactions</c-></a>] <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean③"><c- b>boolean</c-></a> <a data-type="boolean" href="#dom-htmlvideoelement-autopictureinpicture"><code><c- g>autoPictureInPicture</c-></code></a>;
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/custom-elements.html#cereactions" id="ref-for-cereactions①①"><c- g>CEReactions</c-></a>] <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean①①"><c- b>boolean</c-></a> <a data-type="boolean" href="#dom-htmlvideoelement-disablepictureinpicture"><code><c- g>disablePictureInPicture</c-></code></a>;
+  [<a class="idl-code" data-link-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/custom-elements.html#cereactions"><c- g>CEReactions</c-></a>] <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a data-type="boolean" href="#dom-htmlvideoelement-autopictureinpicture"><code><c- g>autoPictureInPicture</c-></code></a>;
+  [<a class="idl-code" data-link-type="extended-attribute" href="https://html.spec.whatwg.org/multipage/custom-elements.html#cereactions"><c- g>CEReactions</c-></a>] <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a data-type="boolean" href="#dom-htmlvideoelement-disablepictureinpicture"><code><c- g>disablePictureInPicture</c-></code></a>;
 };
 
-<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://dom.spec.whatwg.org/#document" id="ref-for-document①①"><c- g>Document</c-></a> {
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean" id="ref-for-idl-boolean②①"><c- b>boolean</c-></a> <a data-readonly data-type="boolean" href="#dom-document-pictureinpictureenabled"><code><c- g>pictureInPictureEnabled</c-></code></a>;
+<c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://dom.spec.whatwg.org/#document"><c- g>Document</c-></a> {
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-boolean"><c- b>boolean</c-></a> <a data-readonly data-type="boolean" href="#dom-document-pictureinpictureenabled"><code><c- g>pictureInPictureEnabled</c-></code></a>;
 
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#NewObject" id="ref-for-NewObject①①"><c- g>NewObject</c-></a>] <c- b>Promise</c->&lt;<c- b>void</c->> <a href="#dom-document-exitpictureinpicture"><code><c- g>exitPictureInPicture</c-></code></a>();
+  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#NewObject"><c- g>NewObject</c-></a>] <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-promise"><c- b>Promise</c-></a>&lt;<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-undefined"><c- b>undefined</c-></a>> <a href="#dom-document-exitpictureinpicture"><code><c- g>exitPictureInPicture</c-></code></a>();
 };
 
-<c- b>partial</c-> <c- b>interface</c-> <c- b>mixin</c-> <a class="idl-code" data-link-type="interface" href="https://dom.spec.whatwg.org/#documentorshadowroot" id="ref-for-documentorshadowroot①"><c- g>DocumentOrShadowRoot</c-></a> {
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#element" id="ref-for-element①"><c- n>Element</c-></a>? <a data-readonly data-type="Element?" href="#dom-documentorshadowroot-pictureinpictureelement"><code><c- g>pictureInPictureElement</c-></code></a>;
+<c- b>partial</c-> <c- b>interface</c-> <c- b>mixin</c-> <a class="idl-code" data-link-type="interface" href="https://dom.spec.whatwg.org/#documentorshadowroot"><c- g>DocumentOrShadowRoot</c-></a> {
+  <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#element"><c- n>Element</c-></a>? <a data-readonly data-type="Element?" href="#dom-documentorshadowroot-pictureinpictureelement"><code><c- g>pictureInPictureElement</c-></code></a>;
 };
 
-[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed②"><c- g>Exposed</c-></a>=<c- n>Window</c->]
-<c- b>interface</c-> <a href="#pictureinpicturewindow"><code><c- g>PictureInPictureWindow</c-></code></a> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#eventtarget" id="ref-for-eventtarget①"><c- n>EventTarget</c-></a> {
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long②"><c- b>long</c-></a> <a data-readonly data-type="long" href="#dom-pictureinpicturewindow-width"><code><c- g>width</c-></code></a>;
-  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long" id="ref-for-idl-long①①"><c- b>long</c-></a> <a data-readonly data-type="long" href="#dom-pictureinpicturewindow-height"><code><c- g>height</c-></code></a>;
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<c- b>interface</c-> <a href="#pictureinpicturewindow"><code><c- g>PictureInPictureWindow</c-></code></a> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#eventtarget"><c- n>EventTarget</c-></a> {
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long"><c- b>long</c-></a> <a data-readonly data-type="long" href="#dom-pictureinpicturewindow-width"><code><c- g>width</c-></code></a>;
+  <c- b>readonly</c-> <c- b>attribute</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-long"><c- b>long</c-></a> <a data-readonly data-type="long" href="#dom-pictureinpicturewindow-height"><code><c- g>height</c-></code></a>;
 
-  <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler" id="ref-for-eventhandler②①"><c- n>EventHandler</c-></a> <a data-type="EventHandler" href="#dom-pictureinpicturewindow-onresize"><code><c- g>onresize</c-></code></a>;
+  <c- b>attribute</c-> <a data-link-type="idl-name" href="https://html.spec.whatwg.org/multipage/webappapis.html#eventhandler"><c- n>EventHandler</c-></a> <a data-type="EventHandler" href="#dom-pictureinpicturewindow-onresize"><code><c- g>onresize</c-></code></a>;
 };
 
-[
-    <a href="#dom-enterpictureinpictureevent-enterpictureinpictureevent"><code><c- g>Constructor</c-></code></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString" id="ref-for-idl-DOMString①"><c- b>DOMString</c-></a> <a href="#dom-enterpictureinpictureevent-enterpictureinpictureevent-type-eventinitdict-type"><code><c- g>type</c-></code></a>, <a class="n" data-link-type="idl-name" href="#dictdef-enterpictureinpictureeventinit" id="ref-for-dictdef-enterpictureinpictureeventinit①"><c- n>EnterPictureInPictureEventInit</c-></a> <a href="#dom-enterpictureinpictureevent-enterpictureinpictureevent-type-eventinitdict-eventinitdict"><code><c- g>eventInitDict</c-></code></a>),
-    <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①①"><c- g>Exposed</c-></a>=<c- n>Window</c->
-]
-<c- b>interface</c-> <a href="#enterpictureinpictureevent"><code><c- g>EnterPictureInPictureEvent</c-></code></a> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#event" id="ref-for-event①"><c- n>Event</c-></a> {
-    [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject①"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow⑤①"><c- n>PictureInPictureWindow</c-></a> <a data-readonly data-type="PictureInPictureWindow" href="#dom-enterpictureinpictureevent-pictureinpicturewindow"><code><c- g>pictureInPictureWindow</c-></code></a>;
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<c- b>interface</c-> <a href="#pictureinpictureevent"><code><c- g>PictureInPictureEvent</c-></code></a> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#event"><c- n>Event</c-></a> {
+    <a href="#dom-pictureinpictureevent-pictureinpictureevent"><code><c- g>constructor</c-></code></a>(<a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-DOMString"><c- b>DOMString</c-></a> <a href="#dom-pictureinpictureevent-pictureinpictureevent-type-eventinitdict-type"><code><c- g>type</c-></code></a>, <a data-link-type="idl-name" href="#dictdef-pictureinpictureeventinit"><c- n>PictureInPictureEventInit</c-></a> <a href="#dom-pictureinpictureevent-pictureinpictureevent-type-eventinitdict-eventinitdict"><code><c- g>eventInitDict</c-></code></a>);
+    [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject"><c- g>SameObject</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="#pictureinpicturewindow"><c- n>PictureInPictureWindow</c-></a> <a data-readonly data-type="PictureInPictureWindow" href="#dom-pictureinpictureevent-pictureinpicturewindow"><code><c- g>pictureInPictureWindow</c-></code></a>;
 };
 
-<c- b>dictionary</c-> <a href="#dictdef-enterpictureinpictureeventinit"><code><c- g>EnterPictureInPictureEventInit</c-></code></a> : <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#dictdef-eventinit" id="ref-for-dictdef-eventinit①"><c- n>EventInit</c-></a> {
-    <c- b>required</c-> <a class="n" data-link-type="idl-name" href="#pictureinpicturewindow" id="ref-for-pictureinpicturewindow⑥①"><c- n>PictureInPictureWindow</c-></a> <a data-type="PictureInPictureWindow " href="#dom-enterpictureinpictureeventinit-pictureinpicturewindow"><code><c- g>pictureInPictureWindow</c-></code></a>;
+<c- b>dictionary</c-> <a href="#dictdef-pictureinpictureeventinit"><code><c- g>PictureInPictureEventInit</c-></code></a> : <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#dictdef-eventinit"><c- n>EventInit</c-></a> {
+    <c- b>required</c-> <a data-link-type="idl-name" href="#pictureinpicturewindow"><c- n>PictureInPictureWindow</c-></a> <a data-type="PictureInPictureWindow " href="#dom-pictureinpictureeventinit-pictureinpicturewindow"><code><c- g>pictureInPictureWindow</c-></code></a>;
 };
 
 </pre>
@@ -2469,16 +1635,16 @@ Wörner for their contributions to this document.</p>
    <ul>
     <li><a href="#ref-for-request-picture-in-picture-algorithm">3.4. Auto Picture-in-Picture</a> <a href="#ref-for-request-picture-in-picture-algorithm①">(2)</a>
     <li><a href="#ref-for-request-picture-in-picture-algorithm②">4.1. Extensions to HTMLVideoElement</a>
-    <li><a href="#ref-for-request-picture-in-picture-algorithm③">5.1. Feature Policy</a>
+    <li><a href="#ref-for-request-picture-in-picture-algorithm③">5.2. Feature Policy</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="picture-in-picture-window">
    <b><a href="#picture-in-picture-window">#picture-in-picture-window</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-picture-in-picture-window">3.1. Request Picture-in-Picture</a>
-    <li><a href="#ref-for-picture-in-picture-window①">3.2. Exit Picture-in-Picture</a>
-    <li><a href="#ref-for-picture-in-picture-window②">4.1. Extensions to HTMLVideoElement</a>
-    <li><a href="#ref-for-picture-in-picture-window③">4.4. Interface PictureInPictureWindow</a> <a href="#ref-for-picture-in-picture-window④">(2)</a> <a href="#ref-for-picture-in-picture-window⑤">(3)</a> <a href="#ref-for-picture-in-picture-window⑥">(4)</a>
+    <li><a href="#ref-for-picture-in-picture-window①">3.2. Exit Picture-in-Picture</a> <a href="#ref-for-picture-in-picture-window②">(2)</a>
+    <li><a href="#ref-for-picture-in-picture-window③">4.1. Extensions to HTMLVideoElement</a>
+    <li><a href="#ref-for-picture-in-picture-window④">4.4. Interface PictureInPictureWindow</a> <a href="#ref-for-picture-in-picture-window⑤">(2)</a> <a href="#ref-for-picture-in-picture-window⑥">(3)</a> <a href="#ref-for-picture-in-picture-window⑦">(4)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="exit-picture-in-picture-algorithm">
@@ -2487,7 +1653,8 @@ Wörner for their contributions to this document.</p>
     <li><a href="#ref-for-exit-picture-in-picture-algorithm">3.2. Exit Picture-in-Picture</a> <a href="#ref-for-exit-picture-in-picture-algorithm①">(2)</a>
     <li><a href="#ref-for-exit-picture-in-picture-algorithm②">3.3. Disable Picture-in-Picture</a>
     <li><a href="#ref-for-exit-picture-in-picture-algorithm③">3.4. Auto Picture-in-Picture</a>
-    <li><a href="#ref-for-exit-picture-in-picture-algorithm④">4.2. Extensions to Document</a>
+    <li><a href="#ref-for-exit-picture-in-picture-algorithm④">3.5. Interaction with Fullscreen</a>
+    <li><a href="#ref-for-exit-picture-in-picture-algorithm⑤">4.2. Extensions to Document</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="autopictureinpictureelement">
@@ -2521,7 +1688,7 @@ Wörner for their contributions to this document.</p>
    <b><a href="#dom-document-pictureinpictureenabled">#dom-document-pictureinpictureenabled</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-dom-document-pictureinpictureenabled">4.2. Extensions to Document</a>
-    <li><a href="#ref-for-dom-document-pictureinpictureenabled①">5.1. Feature Policy</a>
+    <li><a href="#ref-for-dom-document-pictureinpictureenabled①">5.2. Feature Policy</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="dom-document-exitpictureinpicture">
@@ -2540,15 +1707,16 @@ Wörner for their contributions to this document.</p>
   <aside class="dfn-panel" data-for="dom-documentorshadowroot-pictureinpictureelement">
    <b><a href="#dom-documentorshadowroot-pictureinpictureelement">#dom-documentorshadowroot-pictureinpictureelement</a></b><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement">3.1. Request Picture-in-Picture</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①">(2)</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement②">(3)</a>
-    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement③">3.2. Exit Picture-in-Picture</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement④">(2)</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement⑤">(3)</a>
-    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement⑥">3.3. Disable Picture-in-Picture</a>
-    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement⑦">3.4. Auto Picture-in-Picture</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement⑧">(2)</a>
-    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement⑨">3.7. Interaction with Page Visibility</a>
-    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①⓪">4.1. Extensions to HTMLVideoElement</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①①">(2)</a>
-    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①②">4.3. Extension to DocumentOrShadowRoot</a>
-    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①③">4.4. Interface PictureInPictureWindow</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①④">(2)</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①⑤">(3)</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①⑥">(4)</a>
-    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①⑦">4.7. CSS pseudo-class</a>
+    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement">3.1. Request Picture-in-Picture</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①">(2)</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement②">(3)</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement③">(4)</a>
+    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement④">3.2. Exit Picture-in-Picture</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement⑤">(2)</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement⑥">(3)</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement⑦">(4)</a>
+    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement⑧">3.3. Disable Picture-in-Picture</a>
+    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement⑨">3.4. Auto Picture-in-Picture</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①⓪">(2)</a>
+    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①①">3.5. Interaction with Fullscreen</a>
+    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①②">3.8. Interaction with Page Visibility</a>
+    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①③">4.1. Extensions to HTMLVideoElement</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①④">(2)</a>
+    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①⑤">4.3. Extension to DocumentOrShadowRoot</a>
+    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①⑥">4.4. Interface PictureInPictureWindow</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①⑦">(2)</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①⑧">(3)</a> <a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement①⑨">(4)</a>
+    <li><a href="#ref-for-dom-documentorshadowroot-pictureinpictureelement②⓪">4.7. CSS pseudo-class</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="pictureinpicturewindow">
@@ -2578,28 +1746,30 @@ Wörner for their contributions to this document.</p>
     <li><a href="#ref-for-close-window-algorithm">3.2. Exit Picture-in-Picture</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="pictureinpictureevent">
+   <b><a href="#pictureinpictureevent">#pictureinpictureevent</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-pictureinpictureevent">3.1. Request Picture-in-Picture</a>
+    <li><a href="#ref-for-pictureinpictureevent①">3.2. Exit Picture-in-Picture</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dom-pictureinpictureevent-pictureinpicturewindow">
+   <b><a href="#dom-pictureinpictureevent-pictureinpicturewindow">#dom-pictureinpictureevent-pictureinpicturewindow</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dom-pictureinpictureevent-pictureinpicturewindow">3.1. Request Picture-in-Picture</a>
+    <li><a href="#ref-for-dom-pictureinpictureevent-pictureinpicturewindow①">3.2. Exit Picture-in-Picture</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="dictdef-pictureinpictureeventinit">
+   <b><a href="#dictdef-pictureinpictureeventinit">#dictdef-pictureinpictureeventinit</a></b><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-dictdef-pictureinpictureeventinit">4.5. Event types</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="eventdef-htmlvideoelement-enterpictureinpicture">
    <b><a href="#eventdef-htmlvideoelement-enterpictureinpicture">#eventdef-htmlvideoelement-enterpictureinpicture</a></b><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-eventdef-htmlvideoelement-enterpictureinpicture">3.1. Request Picture-in-Picture</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="enterpictureinpictureevent">
-   <b><a href="#enterpictureinpictureevent">#enterpictureinpictureevent</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-enterpictureinpictureevent">3.1. Request Picture-in-Picture</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dom-enterpictureinpictureevent-pictureinpicturewindow">
-   <b><a href="#dom-enterpictureinpictureevent-pictureinpicturewindow">#dom-enterpictureinpictureevent-pictureinpicturewindow</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dom-enterpictureinpictureevent-pictureinpicturewindow">3.1. Request Picture-in-Picture</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="dictdef-enterpictureinpictureeventinit">
-   <b><a href="#dictdef-enterpictureinpictureeventinit">#dictdef-enterpictureinpictureeventinit</a></b><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-dictdef-enterpictureinpictureeventinit">4.5. Event types</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="eventdef-htmlvideoelement-leavepictureinpicture">

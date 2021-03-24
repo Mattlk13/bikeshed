@@ -10,12 +10,15 @@
 <link href="[LOGO]" rel="icon">
 <script src=https://resources.whatwg.org/file-issue.js async></script>
 <script src=https://resources.whatwg.org/commit-snapshot-shortcut-key.js async></script>
+<script src="https://resources.whatwg.org/standard-mdn-annos.js" defer></script>
 
 <body class="h-entry status-[STATUS]">
 <div class="head">
-  <p data-fill-with="logo"></p>
+  <a href="https://whatwg.org/" class="logo">
+    <img alt="WHATWG" height="100" src="[LOGO]">
+  </a>
   <hgroup>
-    <h1 id="title" class="p-name no-ref">[SPECTITLE]</h1>
+    <h1 id="title" class="p-name no-ref">[H1]</h1>
     <h2 id="subtitle" class="no-num no-toc no-ref">[LONGSTATUS] — Last Updated <time class="dt-updated" datetime="[ISODATE]">[DATE]</time></h2>
   </hgroup>
   <div data-fill-with="spec-metadata"></div>

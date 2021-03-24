@@ -1,0 +1,1107 @@
+<!doctype html><html lang="en">
+ <head>
+  <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+  <title>Priority Hints</title>
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+  <link href="https://www.w3.org/StyleSheets/TR/2016/cg-draft" rel="stylesheet">
+  <link href="https://wicg.github.io/priority-hints" rel="canonical">
+<style>/* style-autolinks */
+
+.css.css, .property.property, .descriptor.descriptor {
+    color: var(--a-normal-text);
+    font-size: inherit;
+    font-family: inherit;
+}
+.css::before, .property::before, .descriptor::before {
+    content: "‘";
+}
+.css::after, .property::after, .descriptor::after {
+    content: "’";
+}
+.property, .descriptor {
+    /* Don't wrap property and descriptor names */
+    white-space: nowrap;
+}
+.type { /* CSS value <type> */
+    font-style: italic;
+}
+pre .property::before, pre .property::after {
+    content: "";
+}
+[data-link-type="property"]::before,
+[data-link-type="propdesc"]::before,
+[data-link-type="descriptor"]::before,
+[data-link-type="value"]::before,
+[data-link-type="function"]::before,
+[data-link-type="at-rule"]::before,
+[data-link-type="selector"]::before,
+[data-link-type="maybe"]::before {
+    content: "‘";
+}
+[data-link-type="property"]::after,
+[data-link-type="propdesc"]::after,
+[data-link-type="descriptor"]::after,
+[data-link-type="value"]::after,
+[data-link-type="function"]::after,
+[data-link-type="at-rule"]::after,
+[data-link-type="selector"]::after,
+[data-link-type="maybe"]::after {
+    content: "’";
+}
+
+[data-link-type].production::before,
+[data-link-type].production::after,
+.prod [data-link-type]::before,
+.prod [data-link-type]::after {
+    content: "";
+}
+
+[data-link-type=element],
+[data-link-type=element-attr] {
+    font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+    font-size: .9em;
+}
+[data-link-type=element]::before { content: "<" }
+[data-link-type=element]::after  { content: ">" }
+
+[data-link-type=biblio] {
+    white-space: pre;
+}</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #707070;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #bbb;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
+<style>/* style-dfn-panel */
+
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    height: auto;
+    width: -webkit-fit-content;
+    width: fit-content;
+    max-width: 300px;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
+    border: outset 0.2em;
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0; }
+.dfn-panel li { list-style: inside; }
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: .5em;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+}
+
+.dfn-paneled { cursor: pointer; }
+</style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
+<style>/* style-syntax-highlighting */
+
+code.highlight { padding: .1em; border-radius: .3em; }
+pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
+c-[a] { color: #990055 } /* Keyword.Declaration */
+c-[b] { color: #990055 } /* Keyword.Type */
+c-[c] { color: #708090 } /* Comment */
+c-[d] { color: #708090 } /* Comment.Multiline */
+c-[e] { color: #0077aa } /* Name.Attribute */
+c-[f] { color: #669900 } /* Name.Tag */
+c-[g] { color: #222222 } /* Name.Variable */
+c-[k] { color: #990055 } /* Keyword */
+c-[l] { color: #000000 } /* Literal */
+c-[m] { color: #000000 } /* Literal.Number */
+c-[n] { color: #0077aa } /* Name */
+c-[o] { color: #999999 } /* Operator */
+c-[p] { color: #999999 } /* Punctuation */
+c-[s] { color: #a67f59 } /* Literal.String */
+c-[t] { color: #a67f59 } /* Literal.String.Single */
+c-[u] { color: #a67f59 } /* Literal.String.Double */
+c-[cp] { color: #708090 } /* Comment.Preproc */
+c-[c1] { color: #708090 } /* Comment.Single */
+c-[cs] { color: #708090 } /* Comment.Special */
+c-[kc] { color: #990055 } /* Keyword.Constant */
+c-[kn] { color: #990055 } /* Keyword.Namespace */
+c-[kp] { color: #990055 } /* Keyword.Pseudo */
+c-[kr] { color: #990055 } /* Keyword.Reserved */
+c-[ld] { color: #000000 } /* Literal.Date */
+c-[nc] { color: #0077aa } /* Name.Class */
+c-[no] { color: #0077aa } /* Name.Constant */
+c-[nd] { color: #0077aa } /* Name.Decorator */
+c-[ni] { color: #0077aa } /* Name.Entity */
+c-[ne] { color: #0077aa } /* Name.Exception */
+c-[nf] { color: #0077aa } /* Name.Function */
+c-[nl] { color: #0077aa } /* Name.Label */
+c-[nn] { color: #0077aa } /* Name.Namespace */
+c-[py] { color: #0077aa } /* Name.Property */
+c-[ow] { color: #999999 } /* Operator.Word */
+c-[mb] { color: #000000 } /* Literal.Number.Bin */
+c-[mf] { color: #000000 } /* Literal.Number.Float */
+c-[mh] { color: #000000 } /* Literal.Number.Hex */
+c-[mi] { color: #000000 } /* Literal.Number.Integer */
+c-[mo] { color: #000000 } /* Literal.Number.Oct */
+c-[sb] { color: #a67f59 } /* Literal.String.Backtick */
+c-[sc] { color: #a67f59 } /* Literal.String.Char */
+c-[sd] { color: #a67f59 } /* Literal.String.Doc */
+c-[se] { color: #a67f59 } /* Literal.String.Escape */
+c-[sh] { color: #a67f59 } /* Literal.String.Heredoc */
+c-[si] { color: #a67f59 } /* Literal.String.Interpol */
+c-[sx] { color: #a67f59 } /* Literal.String.Other */
+c-[sr] { color: #a67f59 } /* Literal.String.Regex */
+c-[ss] { color: #a67f59 } /* Literal.String.Symbol */
+c-[vc] { color: #0077aa } /* Name.Variable.Class */
+c-[vg] { color: #0077aa } /* Name.Variable.Global */
+c-[vi] { color: #0077aa } /* Name.Variable.Instance */
+c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
+</style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
+
+    c-[a] { color: #d33682 } /* Keyword.Declaration */
+    c-[b] { color: #d33682 } /* Keyword.Type */
+    c-[c] { color: #2aa198 } /* Comment */
+    c-[d] { color: #2aa198 } /* Comment.Multiline */
+    c-[e] { color: #268bd2 } /* Name.Attribute */
+    c-[f] { color: #b58900 } /* Name.Tag */
+    c-[g] { color: #cb4b16 } /* Name.Variable */
+    c-[k] { color: #d33682 } /* Keyword */
+    c-[l] { color: #657b83 } /* Literal */
+    c-[m] { color: #657b83 } /* Literal.Number */
+    c-[n] { color: #268bd2 } /* Name */
+    c-[o] { color: #657b83 } /* Operator */
+    c-[p] { color: #657b83 } /* Punctuation */
+    c-[s] { color: #6c71c4 } /* Literal.String */
+    c-[t] { color: #6c71c4 } /* Literal.String.Single */
+    c-[u] { color: #6c71c4 } /* Literal.String.Double */
+    c-[ch] { color: #2aa198 } /* Comment.Hashbang */
+    c-[cp] { color: #2aa198 } /* Comment.Preproc */
+    c-[cpf] { color: #2aa198 } /* Comment.PreprocFile */
+    c-[c1] { color: #2aa198 } /* Comment.Single */
+    c-[cs] { color: #2aa198 } /* Comment.Special */
+    c-[kc] { color: #d33682 } /* Keyword.Constant */
+    c-[kn] { color: #d33682 } /* Keyword.Namespace */
+    c-[kp] { color: #d33682 } /* Keyword.Pseudo */
+    c-[kr] { color: #d33682 } /* Keyword.Reserved */
+    c-[ld] { color: #657b83 } /* Literal.Date */
+    c-[nc] { color: #268bd2 } /* Name.Class */
+    c-[no] { color: #268bd2 } /* Name.Constant */
+    c-[nd] { color: #268bd2 } /* Name.Decorator */
+    c-[ni] { color: #268bd2 } /* Name.Entity */
+    c-[ne] { color: #268bd2 } /* Name.Exception */
+    c-[nf] { color: #268bd2 } /* Name.Function */
+    c-[nl] { color: #268bd2 } /* Name.Label */
+    c-[nn] { color: #268bd2 } /* Name.Namespace */
+    c-[py] { color: #268bd2 } /* Name.Property */
+    c-[ow] { color: #657b83 } /* Operator.Word */
+    c-[mb] { color: #657b83 } /* Literal.Number.Bin */
+    c-[mf] { color: #657b83 } /* Literal.Number.Float */
+    c-[mh] { color: #657b83 } /* Literal.Number.Hex */
+    c-[mi] { color: #657b83 } /* Literal.Number.Integer */
+    c-[mo] { color: #657b83 } /* Literal.Number.Oct */
+    c-[sa] { color: #6c71c4 } /* Literal.String.Affix */
+    c-[sb] { color: #6c71c4 } /* Literal.String.Backtick */
+    c-[sc] { color: #6c71c4 } /* Literal.String.Char */
+    c-[dl] { color: #6c71c4 } /* Literal.String.Delimiter */
+    c-[sd] { color: #6c71c4 } /* Literal.String.Doc */
+    c-[se] { color: #6c71c4 } /* Literal.String.Escape */
+    c-[sh] { color: #6c71c4 } /* Literal.String.Heredoc */
+    c-[si] { color: #6c71c4 } /* Literal.String.Interpol */
+    c-[sx] { color: #6c71c4 } /* Literal.String.Other */
+    c-[sr] { color: #6c71c4 } /* Literal.String.Regex */
+    c-[ss] { color: #6c71c4 } /* Literal.String.Symbol */
+    c-[fm] { color: #268bd2 } /* Name.Function.Magic */
+    c-[vc] { color: #cb4b16 } /* Name.Variable.Class */
+    c-[vg] { color: #cb4b16 } /* Name.Variable.Global */
+    c-[vi] { color: #cb4b16 } /* Name.Variable.Instance */
+    c-[vm] { color: #cb4b16 } /* Name.Variable.Magic */
+    c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
+}
+</style>
+ <body class="h-entry">
+  <div class="head">
+   <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
+   <h1 class="p-name no-ref" id="title">Priority Hints</h1>
+   <h2 class="no-num no-toc no-ref heading settled" id="subtitle"><span class="content">Draft Community Group Report, <time class="dt-updated" datetime="1970-01-01">1 January 1970</time></span></h2>
+   <div data-fill-with="spec-metadata">
+    <dl>
+     <dt>This version:
+     <dd><a class="u-url" href="https://wicg.github.io/priority-hints">https://wicg.github.io/priority-hints</a>
+     <dt class="editor">Editors:
+     <dd class="editor p-author h-card vcard"><a class="p-name fn u-url url" href="https://blog.yoav.ws">Addy Osmani</a> (<span class="p-org org">Google Inc.</span>) <a class="u-email email" href="mailto:addyosmani@gmail.com">addyosmani@gmail.com</a>
+     <dd class="editor p-author h-card vcard" data-editor-id="58673"><a class="p-name fn u-url url" href="https://blog.yoav.ws">Yoav Weiss</a> (<span class="p-org org">Google Inc.</span>) <a class="u-email email" href="mailto:yoav@yoav.ws">yoav@yoav.ws</a>
+    </dl>
+   </div>
+   <div data-fill-with="warning"></div>
+   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 the Contributors to the Priority Hints Specification, published by the <a href="https://www.w3.org/community/wicg/">Web Platform Incubator Community Group</a> under the <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a>.
+A human-readable <a href="http://www.w3.org/community/about/agreements/cla-deed/">summary</a> is available. </p>
+   <hr title="Separator for header">
+  </div>
+  <div class="p-summary" data-fill-with="abstract">
+   <h2 class="no-num no-toc no-ref heading settled" id="abstract"><span class="content">Abstract</span></h2>
+   <p>Specification of the Priority Hints feature.</p>
+  </div>
+  <div data-fill-with="at-risk"></div>
+  <h2 class="no-num no-toc no-ref heading settled" id="status"><span class="content">Status of this document</span></h2>
+  <div data-fill-with="status">
+   <p> This specification was published by the <a href="https://www.w3.org/community/wicg/">Web Platform Incubator Community Group</a>.
+  It is not a W3C Standard nor is it on the W3C Standards Track.
+
+  Please note that under the <a href="https://www.w3.org/community/about/agreements/cla/">W3C Community Contributor License Agreement (CLA)</a> there is a limited opt-out and other conditions apply.
+
+  Learn more about <a href="http://www.w3.org/community/">W3C Community and Business Groups</a>. </p>
+   <p></p>
+  </div>
+  <div data-fill-with="at-risk"></div>
+  <nav data-fill-with="table-of-contents" id="toc">
+   <h2 class="no-num no-toc no-ref" id="contents">Table of Contents</h2>
+   <ol class="toc" role="directory">
+    <li><a href="#introduction"><span class="secno">1</span> <span class="content">Introduction</span></a>
+    <li><a href="#solution"><span class="secno">2</span> <span class="content">Solution</span></a>
+    <li><a href="#effects-of-priority-hints"><span class="secno">3</span> <span class="content">Effects of Priority Hints</span></a>
+    <li><a href="#examples"><span class="secno">4</span> <span class="content">Examples</span></a>
+    <li><a href="#adoptionpath"><span class="secno">5</span> <span class="content">Adoption path</span></a>
+    <li><a href="#outofscope"><span class="secno">6</span> <span class="content">Out of scope</span></a>
+    <li>
+     <a href="#use-cases"><span class="secno">7</span> <span class="content">Use Cases</span></a>
+     <ol class="toc">
+      <li><a href="#communicateresourceimportancetothebrowser"><span class="secno">7.1</span> <span class="content">Communicate resource importance to the browser</span></a>
+      <li><a href="#signalaresourceasnoncritical"><span class="secno">7.2</span> <span class="content">Signal a resource as non-critical</span></a>
+      <li><a href="#avoidbandwidthcontentioninmultipleoriginscenarios"><span class="secno">7.3</span> <span class="content">Avoid bandwidth contention in multiple origin scenarios</span></a>
+      <li><a href="#provideprioritysignalsformarkupbasedresources"><span class="secno">7.4</span> <span class="content">Provide priority signals for markup-based resources</span></a>
+      <li><a href="#provideprioritysignalsfordynamicallyloadedresources"><span class="secno">7.5</span> <span class="content">Provide priority signals for dynamically loaded resources</span></a>
+      <li><a href="#providetheabilitytoreprioritizearesourceinflight"><span class="secno">7.6</span> <span class="content">Provide the ability to re-prioritize a resource in-flight</span></a>
+      <li><a href="#downgradepriorityofaniframeanditssubresources"><span class="secno">7.7</span> <span class="content">Downgrade priority of an iframe and its subresources</span></a>
+     </ol>
+    <li><a href="#safe-usage"><span class="secno">8</span> <span class="content">Safe usage</span></a>
+    <li>
+     <a href="#security_privacy"><span class="secno">9</span> <span class="content">Security and Privacy Considerations</span></a>
+     <ol class="toc">
+      <li><a href="#fingerprintability"><span class="secno">9.1</span> <span class="content">Fingerprintability</span></a>
+      <li><a href="#ecosystem"><span class="secno">9.2</span> <span class="content">Negative ecosystem side-effects</span></a>
+     </ol>
+    <li>
+     <a href="#w3c-conformance"><span class="secno"></span> <span class="content">Conformance</span></a>
+     <ol class="toc">
+      <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content">Document conventions</span></a>
+      <li><a href="#w3c-conformant-algorithms"><span class="secno"></span> <span class="content">Conformant Algorithms</span></a>
+     </ol>
+    <li>
+     <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
+     <ol class="toc">
+      <li><a href="#index-defined-elsewhere"><span class="secno"></span> <span class="content">Terms defined by reference</span></a>
+     </ol>
+    <li>
+     <a href="#references"><span class="secno"></span> <span class="content">References</span></a>
+     <ol class="toc">
+      <li><a href="#normative"><span class="secno"></span> <span class="content">Normative References</span></a>
+      <li><a href="#informative"><span class="secno"></span> <span class="content">Informative References</span></a>
+     </ol>
+   </ol>
+  </nav>
+  <main>
+   <section>
+    <p> This specification describes a browser API enabling developers to signal the priority of each resource they need to download.
+      It introduces the <a href="#solution">importance</a> <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#enumerated-attribute" id="ref-for-enumerated-attribute">attribute</a> that may be used with elements such as <code>img</code>, <code>link</code>, <code>script</code> and <code>iframe</code>. </p>
+   </section>
+   <section id="sotd">
+    <p> This is an unofficial proposal. </p>
+   </section>
+   <section>
+    <h2 class="heading settled" data-level="1" id="introduction"><span class="secno">1. </span><span class="content">Introduction</span><a class="self-link" href="#introduction"></a></h2>
+    <p> <em>This section is non-normative.</em> </p>
+    <p>The browser’s resource loading process is a complex one. Browsers discover needed resources and download them according
+      to their heuristic priority. Browsers might also use this heuristic resource priority to delay sending certain requests
+      in order to avoid bandwidth contention of these resources with more critical ones.</p>
+    <p>Currently web developers have very little control over the heuristic importance of loaded resources, other than speeding
+      up their discovery using <code>&lt;link rel=preload></code>(<a data-link-type="biblio" href="#biblio-preload">[PRELOAD]</a>). Browsers mostly determine a request’s priority based on the
+      request’s <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination" id="ref-for-concept-request-destination">destination</a>, and location in the containing document if applicable.</p>
+    <p>This document details use cases and a markup that will provide developers control to indicate a resource’s
+      relative importance to the browser, enabling the browser to act on those indications to influence the request’s overall priority
+      in ways described in the <a href="#effects-of-priority-hints">Effects of Priority Hints</a> section. </p>
+   </section>
+   <section>
+    <h2 class="heading settled" data-level="2" id="solution"><span class="secno">2. </span><span class="content">Solution</span><a class="self-link" href="#solution"></a></h2>
+    <p>The <code>importance</code> <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#enumerated-attribute" id="ref-for-enumerated-attribute①">enumerated attribute</a> may be used with resource-requesting elements including <code>link</code>, <code>img</code>, <code>script</code> and <code>iframe</code>. This keyword hints to the browser the relative fetch priority
+      a developer intends for a resource to have.</p>
+    <ul>
+     <li>
+      The <code>importance</code> attribute will have three states: 
+      <ul>
+       <li> <code>high</code> - The developer considers the resource as being high priority.
+       <li> <code>low</code> - The developer considers the resource as being low priority. 
+       <li> <code>auto</code> - The developer does not indicate a preference. This also serves as the attribute’s <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#invalid-value-default" id="ref-for-invalid-value-default">invalid value default</a> and <a data-link-type="dfn" href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#missing-value-default" id="ref-for-missing-value-default">missing value default</a>. 
+      </ul>
+    </ul>
+    <p>With this attribute, the browser should make an effort to respect the developer’s preference for the importance of a
+      resource when fetching it. Note that this is intentionally weak language, allowing for a browser to apply its own preferences
+      for resource priority or heuristics if deemed important. See the below section for more information. </p>
+    <p></p>
+    <div class="note" role="note">
+     <p>Priority Hints complement existing browser loading primitives such as preload. Preload is a mandatory fetch for a resource
+          that is necessary for the current navigation. Priority Hints can hint that a resource’s priority should be lower or higher than
+          its default, and can also be used to provide more granular prioritization to preloads.</p>
+    </div>
+    <p></p>
+    <p>This is how we conceptually think about different resource types under the hood in browsers today. It may translate well
+      to user-space where different types of content share similar properties.</p>
+    <h2 class="heading settled" data-level="3" id="effects-of-priority-hints"><span class="secno">3. </span><span class="content">Effects of Priority Hints</span><a class="self-link" href="#effects-of-priority-hints"></a></h2>
+    <p>Since the user agents' resource loading pipeline is largely unspecified, this document doesn’t describe a specific mapping
+      between Priority Hints and request prioritization. However, it does describe ways in which implementations are encouraged to
+      influence a request’s overall fetch priority given a Priority Hint.</p>
+    <p><strong>HTTP/2 Relative Stream Priority</strong></p>
+    <p>Implementations are encouraged to use Priority Hints to influence the HTTP/2 stream priority assigned to a given request.
+      It is not the intention of the different <code>importance</code> states to directly map to existing browser priority values,
+      but instead act as a relative influencer among requests of a similar type.</p>
+    <div class="example" id="example-6e40dcfa">
+     <a class="self-link" href="#example-6e40dcfa"></a> 
+     <p> If requests for <code>image</code> <a data-link-type="dfn" href="https://fetch.spec.whatwg.org/#concept-request-destination" id="ref-for-concept-request-destination①">destinations</a> in a particular implementation are typically assigned a stream weight of <code>60</code>, a request for an image with <code>importance="low"</code> might be assigned a stream weight less than <code>60</code>. In other words, <code>importance="low"</code> on an image might lead to an entirely different resolved
+        HTTP/2 stream priority than <code>importance="low"</code> on something like a script, or an iframe. </p>
+    </div>
+    <p><strong>Queueing</strong></p>
+    <p>A user agent might choose to queue up certain low priority requests until higher priority requests are sent out or finished
+      in order to reduce bandwidth contention. Implementations are encouraged to use Priority Hints to determine whether a given
+      request is a candidate for such queueing so that more important resources are fetched and used earlier, in order to improve
+      the user’s experience.</p>
+    <h2 class="heading settled" data-level="4" id="examples"><span class="secno">4. </span><span class="content">Examples</span><a class="self-link" href="#examples"></a></h2>
+    <p><strong>Lower fetch priority when browser defaults are insufficient</strong></p>
+    <p>Browsers make a best-effort to assign a reasonable fetch priority to images so those in-viewport appear as soon as possible.
+      In many cases, this will not cause issues, however, what if some above-the-fold imagery is not as critical as others?
+      Priority Hints can assist here. </p>
+    <div class="example" id="example-d65d0bfc" title="Example 1">
+     <a class="self-link" href="#example-d65d0bfc"></a> 
+     <p>FastCorp Inc. have a carousel of images at the top of a page with the first image visible and the remaining images
+        images off screen. The markup of this carousel may look as follows:</p>
+<pre class="highlight"><c- p>&lt;</c-><c- f>ul</c-> <c- e>class</c-><c- o>=</c-><c- s>"carousel"</c-><c- p>></c->
+     <br> <c- c>&lt;!-- The first image is visible --></c->
+     <br> <c- p>&lt;</c-><c- f>img</c-> <c- e>src</c-><c- o>=</c-><c- s>"img/carousel-1.jpg"</c-><c- p>></c->
+     <br> <c- c>&lt;!-- The other carousel images are not --></c->
+     <br> <c- p>&lt;</c-><c- f>img</c-> <c- e>src</c-><c- o>=</c-><c- s>"img/carousel-2.jpg"</c-><c- p>></c->
+     <br> <c- p>&lt;</c-><c- f>img</c-> <c- e>src</c-><c- o>=</c-><c- s>"img/carousel-3.jpg"</c-><c- p>></c->
+     <br> <c- p>&lt;</c-><c- f>img</c-> <c- e>src</c-><c- o>=</c-><c- s>"img/carousel-4.jpg"</c-><c- p>></c->
+     <br><c- p>&lt;/</c-><c- f>ul</c-><c- p>></c->
+</pre>
+    </div>
+    <p>Browser heuristics may cause all four images to be fetched with a high priprity, despite three of them not initially being visible. This may cause these fetches to delay the first image from completing fetching or contend with fetches for other in-viewport resources.</p>
+    <p>A developer could use rel=preload to preload the first image in the carousel, however doing so may not provide the outcome one expects: rel=preload will effectively prioritize that image above everything else, and if that image is large, it may block rendering as even stylesheets may end up waiting for that image to complete downloading. Priority Hints may help here.</p>
+    <div class="example" id="example-a033861b" title="Example 1">
+     <a class="self-link" href="#example-a033861b"></a> 
+<pre class="highlight"><c- p>&lt;</c-><c- f>ul</c-> <c- e>class</c-><c- o>=</c-><c- s>"carousel"</c-><c- p>></c->
+     <br> <c- c>&lt;!-- The first image is visible --></c->
+     <br> <c- p>&lt;</c-><c- f>img</c-> <c- e>src</c-><c- o>=</c-><c- s>"img/carousel-1.jpg"</c-> <c- e>importance</c-><c- o>=</c-><c- s>"high"</c-><c- p>></c->
+     <br> <c- c>&lt;!-- The other carousel images are not --></c->
+     <br> <c- p>&lt;</c-><c- f>img</c-> <c- e>src</c-><c- o>=</c-><c- s>"img/carousel-2.jpg"</c-> <c- e>importance</c-><c- o>=</c-><c- s>"low"</c-><c- p>></c->
+     <br> <c- p>&lt;</c-><c- f>img</c-> <c- e>src</c-><c- o>=</c-><c- s>"img/carousel-3.jpg"</c-> <c- e>importance</c-><c- o>=</c-><c- s>"low"</c-><c- p>></c->
+     <br> <c- p>&lt;</c-><c- f>img</c-> <c- e>src</c-><c- o>=</c-><c- s>"img/carousel-4.jpg"</c-> <c- e>importance</c-><c- o>=</c-><c- s>"low"</c-><c- p>></c->
+     <br><c- p>&lt;/</c-><c- f>ul</c-><c- p>></c->
+</pre>
+    </div>
+    <p>When we assign the off-screen images low importance, this will create less contention between the remaining high priority
+      images and other high priority resources.</p>
+     <strong>Speed up resource loads without incurring the cost of rel=preload</strong> 
+    <p>Some UAs fetch scripts with medium priority. Using <code>importance=high</code> on them has the benefit of speeding this up without
+    incurring the cost of <code>rel=preload</code> contending with higher-up-the-page render blocking resources:</p>
+    <div class="example" id="example-38c08aa3" title="Example 1">
+     <a class="self-link" href="#example-38c08aa3"></a> 
+     <p>FastCorp Inc. have a web app with a mix of resources that are critical and non-critical to the initial experience.
+        They want to signify the importance of their primary script without using rel=preload, which would contend with their render blocking stylesheet: </p>
+<pre class="highlight"><c- p>&lt;</c-><c- f>link</c-> <c- e>rel</c-><c- o>=</c-><c- s>"stylesheet"</c-> <c- e>href</c-><c- o>=</c-><c- s>"https://foo.com/main.css"</c-><c- p>></c->
+<c- p>&lt;</c-><c- f>script</c-> <c- e>src</c-><c- o>=</c-><c- s>"main.js"</c-> <c- e>importance</c-><c- o>=</c-><c- s>"high"</c-><c- p>>&lt;/</c-><c- f>script</c-><c- p>></c->
+</pre>
+    </div>
+    <p>In the below example, using rel=preload, async styles may normally be loaded at the highest priority. Priority Hints can
+  help us here to ensure the loading of the stylesheet doesn’t contend with any render-blocking or more critical resources.</p>
+    <div class="example" id="example-e0df26fe" title="Preload">
+     <a class="self-link" href="#example-e0df26fe"></a> 
+<pre class="highlight"><c- p>&lt;</c-><c- f>link</c-> <c- e>rel</c-><c- o>=</c-><c- s>"preload"</c-> <c- e>as</c-><c- o>=</c-><c- s>"script"</c-> <c- e>href</c-><c- o>=</c-><c- s>"critical-script.js"</c-><c- p>></c->
+     <br><c- p>&lt;</c-><c- f>link</c-> <c- e>rel</c-><c- o>=</c-><c- s>"preload"</c-> <c- e>as</c-><c- o>=</c-><c- s>"style"</c-> <c- e>href</c-><c- o>=</c-><c- s>"theme.css"</c-> <c- e>importance</c-><c- o>=</c-><c- s>"low"</c-> 
+<c- e>onload</c-><c- o>=</c-><c- s>"this.rel=stylesheet"</c-><c- p>></c->
+</pre>
+    </div>
+     <strong>Reduce network contention from third-party resources</strong> 
+    <p>Third party resources (e.g scripts from ads) are often loaded with medium/high priority, but developers may wish to load
+      them all at low priority. Similarly, developers may wish to load all first-party resources that are critical with a
+      high priority. </p>
+    <div class="example" id="example-4f8eab9e" title="Example 2">
+     <a class="self-link" href="#example-4f8eab9e"></a> 
+     <p>FastCorp Inc. have a page that includes a number of <b>third party</b> resources which are not-critical to first paint. They would like to signify to the browser that the
+        importance of these resources is low so that requests for them don’t contend with network requests for more important
+        resources. They can accomplish this by annotating these requests with an <code>importance</code> of <code>low</code>: </p>
+<pre class="highlight"><c- p>&lt;</c-><c- f>script</c-> <c- e>src</c-><c- o>=</c-><c- s>"https://foo.com/non-critical.js"</c-> <c- e>importance</c-><c- o>=</c-><c- s>"low"</c-><c- p>>&lt;/</c-><c- f>script</c-><c- p>></c->
+
+<c- p>&lt;</c-><c- f>script</c-> <c- e>src</c-><c- o>=</c-><c- s>"https://foo.com/ads.js"</c-> <c- e>importance</c-><c- o>=</c-><c- s>"low"</c-><c- p>>&lt;/</c-><c- f>script</c-><c- p>></c->
+
+<c- p>&lt;</c-><c- f>link</c-> <c- e>rel</c-><c- o>=</c-><c- s>"stylesheet"</c-> <c- e>href</c-><c- o>=</c-><c- s>"https://foo.com/footer.css"</c-> <c- e>importance</c-><c- o>=</c-><c- s>"low"</c-><c- p>></c->
+</pre>
+    </div>
+    <p>Markup images are typically loaded with low priority, but may be critical to the user experience, so for certain images,
+      the developer may want to indicate that their importance only falls short of the page’s render blocking resources.
+      A prominent example of that is the page’s image in an image sharing site, where the image is the main content users
+      are looking for. Another example is a single-page-app where route fetches must run at highest priority.</p>
+    <div class="example" id="example-65985c0a" title="Example 3">
+     <a class="self-link" href="#example-65985c0a"></a> 
+     <p>FastCorp Inc. have an image sharing section of their site where individual images have their own dedicated pages. Although
+        there are several resources loaded for each of these pages, the image is the main content users are interested in.
+        Related images are the next most important. They want to indicate this importance to the browser: </p>
+<pre class="highlight"><c- p>&lt;</c-><c- f>main</c-><c- p>></c->
+  <c- p>&lt;</c-><c- f>img</c-> <c- e>src</c-><c- o>=</c-><c- s>"family.jpg"</c-> <c- e>importance</c-><c- o>=</c-><c- s>"high"</c-><c- p>></c->
+<c- p>&lt;/</c-><c- f>main</c-><c- p>></c->
+
+<c- p>&lt;</c-><c- f>section</c-> <c- e>id</c-><c- o>=</c-><c- s>"related"</c-><c- p>></c->
+  <c- p>&lt;</c-><c- f>img</c-> <c- e>src</c-><c- o>=</c-><c- s>"graduation.jpg"</c-> <c- e>importance</c-><c- o>=</c-><c- s>"high"</c-><c- p>></c->
+  <c- p>&lt;</c-><c- f>img</c-> <c- e>src</c-><c- o>=</c-><c- s>"wedding.jpg"</c-> <c- e>importance</c-><c- o>=</c-><c- s>"high"</c-><c- p>></c->
+<c- p>&lt;/</c-><c- f>section</c-><c- p>></c->
+<c- p>&lt;</c-><c- f>script</c-> <c- e>src</c-><c- o>=</c-><c- s>"social-buttons.js"</c-> <c- e>importance</c-><c- o>=</c-><c- s>"low"</c-><c- p>>&lt;/</c-><c- f>script</c-><c- p>></c->
+
+<c- p>&lt;</c-><c- f>script</c-> <c- e>src</c-><c- o>=</c-><c- s>"analytics.js"</c-> <c- e>importance</c-><c- o>=</c-><c- s>"low"</c-><c- p>>&lt;/</c-><c- f>script</c-><c- p>></c->
+</pre>
+    </div>
+    <ul>
+     <li>Blocking scripts are often of high priority (depends on their location in the page and other heuristics), yet sometimes
+        developers want to avoid them interfering with e.g., loading of viewport images.
+     <li>When developers download a group of resources as a result of user interaction, those resources' download priorities
+        don’t take into account the eventual usage and importance of those resources. Developers may wish to load these resources
+        with priorities and dependencies which better represent their usage and the user’s needs.
+     <li>Single-page applications can kick off multiple API requests to bootstrap the user experience. Developers may wish to
+        load critical API requests at a high priority and have better control over scheduling priority for the rest.
+    </ul>
+     <strong>Reduce network contention from non-critical Fetch API requests</strong> 
+    <p>Priority Hints can be used to lower the priority of non-critical Fetch API requests to avoid them contending with more
+      important ones. </p>
+    <p>A news site making a critical Fetch API request for article content might end up contending with requests for less important
+      resources like related content.</p>
+    <div class="example" id="example-f84cb255" title="Example 4">
+     <a class="self-link" href="#example-f84cb255"></a> 
+<pre class="highlight"><c- p>&lt;</c-><c- f>script</c-><c- p>></c->
+     <br> <c- c1>// Critical Fetch request for article content</c->
+     <br> fetch<c- p>(</c-><c- t>'/api/articles.json'</c-><c- p>).</c->then<c- p>(</c-><c- d>/*...*/</c-><c- p>)</c->
+     <br>
+     <br> <c- c1>// Request for related content contending with the above request</c->
+     <br> fetch<c- p>(</c-><c- t>'/api/related.json'</c-><c- p>).</c->then<c- p>(</c-><c- d>/*...*/</c-><c- p>)</c->
+     <br><c- p>&lt;/</c-><c- f>script</c-><c- p>></c->
+</pre>
+    </div>
+    <p>By using the <code>importance</code> attribute on the second Fetch request, we can hint that the priority of that request is <code>low</code>, reducing the chances of it contending with the Fetch request for article content. We can also explicitly state the
+      priority of the first request is <code>high</code> so that browsers where Fetch requests do not already have a high priority know that it is important to the page.</p>
+    <div class="example" id="example-9e5db22a" title="Example 5">
+     <a class="self-link" href="#example-9e5db22a"></a> 
+<pre class="highlight"><c- p>&lt;</c-><c- f>script</c-><c- p>></c->
+     <br> <c- c1>// Critical Fetch request for article content</c->
+     <br> fetch<c- p>(</c-><c- t>'/api/articles.json'</c-><c- p>,</c-> <c- p>{</c-> importance<c- o>:</c-> <c- t>'high'</c-> <c- p>}).</c->then<c- p>(</c-><c- d>/*...*/</c-><c- p>)</c->
+     <br>
+     <br> <c- c1>// Request for related content now reduced in priority</c->
+     <br> <c- c1>// reducing the opportunity for contention</c->
+     <br> fetch<c- p>(</c-><c- t>'/api/related.json'</c-><c- p>,</c-> <c- p>{</c-> importance<c- o>:</c-> <c- t>'low'</c-> <c- p>}).</c->then<c- p>(</c-><c- d>/*...*/</c-><c- p>)</c->
+     <br><c- p>&lt;/</c-><c- f>script</c-><c- p>></c->
+</pre>
+    </div>
+    <p>This might be more pronounced on HTTP 1.1 with the impact being more visible with HTTP/2 multiplexing if a large number
+      of Fetch requests are being made and are contending with one another. </p>
+    <p>The importance hint may be specified in the document markup, MAY be provided via JavaScript, MAY be provided via the
+      HTTP header, and MAY be dynamically added to the document.</p>
+    <div class="example" id="example-d1d97822" title="Example 5">
+     <a class="self-link" href="#example-d1d97822"></a> 
+<pre class="highlight">Link: &lt;/app/style.css>; importance=high     <br>Link: &lt;/app/script.js>; importance=low</pre>
+    </div>
+    <p>As above examples illustrate, importance can be specified via declarative markup, Link HTTP header (<a data-link-type="biblio" href="#biblio-rfc5988">[RFC5988]</a>), 
+      or scheduled via JavaScript.</p>
+    <h2 class="heading settled" data-level="5" id="adoptionpath"><span class="secno">5. </span><span class="content">Adoption path</span><a class="self-link" href="#adoptionpath"></a></h2>
+    <p>Markup-based signals should be added in a way such that non-supporting browsers will simply ignore them and load all
+      resources, potentially not with the intended priority and dependency. Script-based signaling APIs should be created
+      in a way that non-supporting browsers simply ignore the signals.</p>
+    <h2 class="heading settled" data-level="6" id="outofscope"><span class="secno">6. </span><span class="content">Out of scope</span><a class="self-link" href="#outofscope"></a></h2>
+    <ul>
+     <li>Signal that certain images should not block the load event.
+     <li>Signals relating the script execution order, script execution grouping, execution dependency, etc.
+    </ul>
+   </section>
+   <section>
+    <h2 class="heading settled" data-level="7" id="use-cases"><span class="secno">7. </span><span class="content">Use Cases</span><a class="self-link" href="#use-cases"></a></h2>
+    <p>This section outlines the different use-cases Priority Hints sets out to address. It is worth noting that priority in
+      these examples should not limit itself to network priority (i.e. request time and HTTP/2 dependencies and weights),
+      but also to processing priority, as the browser can use the same signals in order to avoid processing of low priority
+      resource in favor of higher priority ones.</p>
+    <h3 class="heading settled" data-level="7.1" id="communicateresourceimportancetothebrowser"><span class="secno">7.1. </span><span class="content">Communicate resource importance to the browser</span><a class="self-link" href="#communicateresourceimportancetothebrowser"></a></h3>
+    <p>The browser assigns priorities and certain dependencies to downloaded resources and uses them to determine:</p>
+    <ul>
+     <li>When the resource’s request is sent to the server.
+     <li>What HTTP/2 dependencies and weights are assigned to the resource’s request.
+    </ul>
+    <p>The browser uses various heuristics in order to do the above, which are based on the type of resource, its location in
+      the document, and more.</p>
+    <p>Occasionally, web developers are in a better position to know which resources are more impactful than others on their
+      users' loading experience, and need a way to communicate that to the browser.</p>
+    <h3 class="heading settled" data-level="7.2" id="signalaresourceasnoncritical"><span class="secno">7.2. </span><span class="content">Signal a resource as non-critical</span><a class="self-link" href="#signalaresourceasnoncritical"></a></h3>
+    <p>Using <code>&lt;link rel=preload></code> in order to get the browser to early-discover certain resources, especially in its header form, means that the browser
+      may discover these resources before other, more critical resources and send their request to the server first. That
+      can result in loading regressions as the server may start sending those non-critical resources before other, more critical
+      ones, which may fill up the TCP socket sending queues.</p>
+    <p>While better transport protocols (e.g. QUIC) may address that at a lower layer for the single origin case, developers
+      should be able to signal to the browser that a certain resource is not critical, and therefore should be queued until
+      such resources are discovered. Such marking as "non-critical" should be orthogonal to the signaling of the resource’s
+      "importance" (e.g. this could be applied to high priority resources that shouldn’t contend with rendering-critical
+      resources as well as low priority ones).</p>
+    <h3 class="heading settled" data-level="7.3" id="avoidbandwidthcontentioninmultipleoriginscenarios"><span class="secno">7.3. </span><span class="content">Avoid bandwidth contention in multiple origin scenarios</span><a class="self-link" href="#avoidbandwidthcontentioninmultipleoriginscenarios"></a></h3>
+    <p>When loading resources from multiple origins, setting HTTP/2 dependencies and weights do very little to avoid bandwidth
+      contention between the origins, as each origin tries to send down its most critical resource without knowing of more
+      critical resources in other origins. Signaling resource importance to the browser can enable it to defer sending of
+      non-critical third party requests while critical resources are still being downloaded.</p>
+    <h3 class="heading settled" data-level="7.4" id="provideprioritysignalsformarkupbasedresources"><span class="secno">7.4. </span><span class="content">Provide priority signals for markup-based resources</span><a class="self-link" href="#provideprioritysignalsformarkupbasedresources"></a></h3>
+    <p>Developers need a way to provide the above signals for resources that are loaded through markup (or through markup-equivalent
+      HTTP headers, e.g. <code>Link:</code>)</p>
+    <h3 class="heading settled" data-level="7.5" id="provideprioritysignalsfordynamicallyloadedresources"><span class="secno">7.5. </span><span class="content">Provide priority signals for dynamically loaded resources</span><a class="self-link" href="#provideprioritysignalsfordynamicallyloadedresources"></a></h3>
+    <p>Developers need a way to provide the above signals for resources that are fetched through JavaScript, e.g., using the <code>fetch()</code> API. That would enable them both to upgrade and downgrade those resource’s "importance". </p>
+    <h3 class="heading settled" data-level="7.6" id="providetheabilitytoreprioritizearesourceinflight"><span class="secno">7.6. </span><span class="content">Provide the ability to re-prioritize a resource in-flight</span><a class="self-link" href="#providetheabilitytoreprioritizearesourceinflight"></a></h3>
+    <ul>
+     <li>"Resource priority" is not always the right way of looking at it. For resources that are parsed on-the-fly (most notably
+        HTML and progressive images), their first buffer is often more important than their last. Developers can use the
+        ability to reprioritize resources to reflect this notion when downloading such resources.
+     <li>There are also cases where the priority of a resource changes due to user action or condition changes. One example
+        is the loading of images, where in-viewport images (or soon-to-be in-viewport images) are of higher priority than
+        images that are further away from the viewport and therefore less likely to be seen by the user.
+    </ul>
+    <h3 class="heading settled" data-level="7.7" id="downgradepriorityofaniframeanditssubresources"><span class="secno">7.7. </span><span class="content">Downgrade priority of an iframe and its subresources</span><a class="self-link" href="#downgradepriorityofaniframeanditssubresources"></a></h3>
+    <p>When developers load a third party iframe, they may wish to make sure that it does not contend on bandwidth and/or CPU
+      with the more important first party content of the page. Alternatively, they may wish to signal to the browser that a
+      certain third party iframe is as important as the main page content and should be given CPU and bandwidth resources
+      accordingly. </p>
+    <p>When such a signal is applied to an iframe, it should be equally applied to all the subresources that the iframe loads.</p>
+   </section>
+   <section>
+    <h2 class="heading settled" data-level="8" id="safe-usage"><span class="secno">8. </span><span class="content">Safe usage</span><a class="self-link" href="#safe-usage"></a></h2>
+    <div class="note" role="note">
+     <p>If the <code>importance</code> keyword is used as an optimization to initiate earlier fetch then no additional feature detection checks are necessary:
+        browsers that support <code>importance</code> may initiate earlier fetch, and those that do not will ignore it and fetch the resource as previously. Otherwise,
+        if the application intends to rely on <code>importance</code> to fetch the resource, then it can execute a feature detection check to verify that it is supported. </p>
+    </div>
+    <p>Applying <code>importance</code> to the resources in a page should never degrade performance. This should hold true for both browsers that support
+      Priority Hints as well as browsers that do not. UAs are free to apply other heuristics in addition to Priority Hints
+      to decide on how they load content.</p>
+    <p>With in-viewport images, a browser may automatically detect if the image is important and boost priority if it gets to
+      layout early enough. However, all browsers would benefit from knowing which images an author wants to load "earlier"
+      and which are safe to load "later", regardless of how they use this information.</p>
+    <p>This same logic applies for scripts. Browsers may have different heuristics that work differently across browsers for
+      scripts (e.g with <code>async</code>, <code>defer</code>) but a site could fix any misguesses across the board by being explicit using Priority Hints.</p>
+   </section>
+   <section>
+    <h2 class="heading settled" data-level="9" id="security_privacy"><span class="secno">9. </span><span class="content">Security and Privacy Considerations</span><a class="self-link" href="#security_privacy"></a></h2>
+    <h3 class="heading settled" data-level="9.1" id="fingerprintability"><span class="secno">9.1. </span><span class="content">Fingerprintability</span><a class="self-link" href="#fingerprintability"></a></h3>
+    <p>This specification does not expose any new information about the user and their preferences, so does not increase the risk of user fingerprinting.
+    At the same time, it does expose priority information to web servers that enables them to distinguish between browsers that support the feature and ones that do not support it.
+    This is not dissimilar to other web platform features, but with one important distinction:
+    this information is exposed at the HTTP layer, allowing the server implementation to discover discrepancies between the User-Agent string the request is sent with and the browser that sent the request.
+    It is not clear that this is a significant issue, but it is something for implementing user agents (and user agents which try to spoof others) to be aware of.
+    It is also possible that the network patterns that result from the use of the feature would be observable to passive network-based observers and will enable them to distinguish supporting and non-supporting browsers. </p>
+    <h3 class="heading settled" data-level="9.2" id="ecosystem"><span class="secno">9.2. </span><span class="content">Negative ecosystem side-effects</span><a class="self-link" href="#ecosystem"></a></h3>
+    <p> There’s a risk that monetizing third-party components, and ad networks in particular, will require publishers to use the feature in order to upgrade the priority of their resource requests.
+    While they certainly can do that, and enforce such a requirement by inspecting the HTTP/2 priorities of the resource requests they receive, the risk for that is rather small. </p>
+    <ul>
+     <li>
+      <p>Such "priority upgrade" is already available in the platform today, e.g., when switching scripts from blocking to deferred or async ones.
+            There’s no existing evidence that advertisers have required such hacks in order to make sure their resources load first.</p>
+     <li>
+      <p>Furthermore, monitoring that publishers complied with that requirement can be difficult for advertisers that run outside of the main frame, as it will require coordination between the their HTTP/2 termination point and the application layer.
+            Depending on their architecture, such coordination may not be trivial.</p>
+    </ul>
+    <p></p>
+    <p>If such a problem arise in the future, browsers will be able to find creative ways to fight against it.
+    For example, since Priority Hints are hints by their nature, browsers will be able to ignore those hints for third-party hosts that are known to abuse the feature.
+    In such a case, advertisers will not be able to distinguish such user agent intervention from lack of compliance with their Priority Hints requirements. </p>
+   </section>
+  </main>
+  <div data-fill-with="conformance">
+   <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content">Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
+   <h3 class="no-ref no-num heading settled" id="w3c-conventions"><span class="content">Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
+   <p>Conformance requirements are expressed
+    with a combination of descriptive assertions
+    and RFC 2119 terminology.
+    The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “MAY”, and “OPTIONAL”
+    in the normative parts of this document
+    are to be interpreted as described in RFC 2119.
+    However, for readability,
+    these words do not appear in all uppercase letters in this specification. </p>
+   <p>All of the text of this specification is normative
+    except sections explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a> </p>
+   <p>Examples in this specification are introduced with the words “for example”
+    or are set apart from the normative text
+    with <code>class="example"</code>,
+    like this: </p>
+   <div class="example" id="w3c-example">
+    <a class="self-link" href="#w3c-example"></a> 
+    <p>This is an example of an informative example. </p>
+   </div>
+   <p>Informative notes begin with the word “Note”
+    and are set apart from the normative text
+    with <code>class="note"</code>,
+    like this: </p>
+   <p class="note" role="note">Note, this is an informative note. </p>
+   <h3 class="no-ref no-num heading settled" id="w3c-conformant-algorithms"><span class="content">Conformant Algorithms</span><a class="self-link" href="#w3c-conformant-algorithms"></a></h3>
+   <p>Requirements phrased in the imperative as part of algorithms
+    (such as "strip any leading space characters"
+    or "return false and abort these steps")
+    are to be interpreted with the meaning of the key word
+    ("must", "should", "may", etc)
+    used in introducing the algorithm. </p>
+   <p>Conformance requirements phrased as algorithms or specific steps
+    can be implemented in any manner,
+    so long as the end result is equivalent.
+    In particular, the algorithms defined in this specification
+    are intended to be easy to understand
+    and are not intended to be performant.
+    Implementers are encouraged to optimize. </p>
+  </div>
+<script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script>
+  <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
+  <aside class="dfn-panel" data-for="term-for-concept-request-destination">
+   <a href="https://fetch.spec.whatwg.org/#concept-request-destination">https://fetch.spec.whatwg.org/#concept-request-destination</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-concept-request-destination">1. Introduction</a>
+    <li><a href="#ref-for-concept-request-destination①">3. Effects of Priority Hints</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-enumerated-attribute">
+   <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#enumerated-attribute">https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#enumerated-attribute</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-enumerated-attribute">Unnumbered Section</a>
+    <li><a href="#ref-for-enumerated-attribute①">2. Solution</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-invalid-value-default">
+   <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#invalid-value-default">https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#invalid-value-default</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-invalid-value-default">2. Solution</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-missing-value-default">
+   <a href="https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#missing-value-default">https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#missing-value-default</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-missing-value-default">2. Solution</a>
+   </ul>
+  </aside>
+  <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
+  <ul class="index">
+   <li>
+    <a data-link-type="biblio">[FETCH]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-concept-request-destination">destination</span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[HTML]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-enumerated-attribute">enumerated attributes</span>
+     <li><span class="dfn-paneled" id="term-for-invalid-value-default">invalid value default</span>
+     <li><span class="dfn-paneled" id="term-for-missing-value-default">missing value default</span>
+    </ul>
+  </ul>
+  <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
+  <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
+  <dl>
+   <dt id="biblio-fetch">[FETCH]
+   <dd>Anne van Kesteren. <a href="https://fetch.spec.whatwg.org/">Fetch Standard</a>. Living Standard. URL: <a href="https://fetch.spec.whatwg.org/">https://fetch.spec.whatwg.org/</a>
+   <dt id="biblio-html">[HTML]
+   <dd>Anne van Kesteren; et al. <a href="https://html.spec.whatwg.org/multipage/">HTML Standard</a>. Living Standard. URL: <a href="https://html.spec.whatwg.org/multipage/">https://html.spec.whatwg.org/multipage/</a>
+   <dt id="biblio-rfc2119">[RFC2119]
+   <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
+  </dl>
+  <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
+  <dl>
+   <dt id="biblio-preload">[PRELOAD]
+   <dd>Ilya Grigorik; Yoav Weiss. <a href="https://w3c.github.io/preload/">Preload</a>. URL: <a href="https://w3c.github.io/preload/">https://w3c.github.io/preload/</a>
+   <dt id="biblio-rfc5988">[RFC5988]
+   <dd>Mark Nottingham. <a href="https://tools.ietf.org/html/rfc5988">Web Linking</a>. URL: <a href="https://tools.ietf.org/html/rfc5988">https://tools.ietf.org/html/rfc5988</a>
+  </dl>
+<script>/* script-dfn-panel */
+
+document.body.addEventListener("click", function(e) {
+    var queryAll = function(sel) { return [].slice.call(document.querySelectorAll(sel)); }
+    // Find the dfn element or panel, if any, that was clicked on.
+    var el = e.target;
+    var target;
+    var hitALink = false;
+    while(el.parentElement) {
+        if(el.tagName == "A") {
+            // Clicking on a link in a <dfn> shouldn't summon the panel
+            hitALink = true;
+        }
+        if(el.classList.contains("dfn-paneled")) {
+            target = "dfn";
+            break;
+        }
+        if(el.classList.contains("dfn-panel")) {
+            target = "dfn-panel";
+            break;
+        }
+        el = el.parentElement;
+    }
+    if(target != "dfn-panel") {
+        // Turn off any currently "on" or "activated" panels.
+        queryAll(".dfn-panel.on, .dfn-panel.activated").forEach(function(el){
+            el.classList.remove("on");
+            el.classList.remove("activated");
+        });
+    }
+    if(target == "dfn" && !hitALink) {
+        // open the panel
+        var dfnPanel = document.querySelector(".dfn-panel[data-for='" + el.id + "']");
+        if(dfnPanel) {
+            dfnPanel.classList.add("on");
+            var rect = el.getBoundingClientRect();
+            dfnPanel.style.left = window.scrollX + rect.right + 5 + "px";
+            dfnPanel.style.top = window.scrollY + rect.top + "px";
+            var panelRect = dfnPanel.getBoundingClientRect();
+            var panelWidth = panelRect.right - panelRect.left;
+            if(panelRect.right > document.body.scrollWidth && (rect.left - (panelWidth + 5)) > 0) {
+                // Reposition, because the panel is overflowing
+                dfnPanel.style.left = window.scrollX + rect.left - (panelWidth + 5) + "px";
+            }
+        } else {
+            console.log("Couldn't find .dfn-panel[data-for='" + el.id + "']");
+        }
+    } else if(target == "dfn-panel") {
+        // Switch it to "activated" state, which pins it.
+        el.classList.add("activated");
+        el.style.left = null;
+        el.style.top = null;
+    }
+
+});
+</script>

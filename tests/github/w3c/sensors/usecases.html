@@ -7,95 +7,10 @@
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-NOTE" rel="stylesheet">
   <link href="https://www.w3.org/2008/site/images/favicon.ico" rel="icon">
   <link href="http://www.w3.org/TR/generic-sensor-usecases/" rel="canonical">
-<style>/* style-md-lists */
-
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}</style>
-<style>/* style-selflinks */
-
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: gray;
-    color: white;
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: black;
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
-<style>/* style-counters */
-
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}</style>
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
-    color: #005a9c;
+    color: var(--a-normal-text);
     font-size: inherit;
     font-family: inherit;
 }
@@ -154,8 +69,41 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
 <style>/* style-dfn-panel */
 
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
 .dfn-panel {
     position: absolute;
     z-index: 35;
@@ -167,14 +115,14 @@ pre .property::before, pre .property::after {
     overflow: auto;
     padding: 0.5em 0.75em;
     font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
     border: outset 0.2em;
 }
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
 .dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
+.dfn-panel a { color: var(--dfnpanel-text); }
 .dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
 .dfn-panel > b + b { margin-top: 0.25em; }
 .dfn-panel ul { padding: 0; }
@@ -191,11 +139,74 @@ pre .property::before, pre .property::after {
 
 .dfn-paneled { cursor: pointer; }
 </style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
 <style>/* style-syntax-highlighting */
 
-.highlight:not(.idl) { background: hsl(24, 20%, 95%); }
 code.highlight { padding: .1em; border-radius: .3em; }
 pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
 c-[a] { color: #990055 } /* Keyword.Declaration */
 c-[b] { color: #990055 } /* Keyword.Type */
 c-[c] { color: #708090 } /* Comment */
@@ -267,6 +278,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
      <dt>Feedback:
      <dd><span><a href="mailto:public-device-apis@w3.org?subject=%5Bgeneric-sensor-usecases%5D%20YOUR%20TOPIC%20HERE">public-device-apis@w3.org</a> with subject line “<kbd>[generic-sensor-usecases] <i data-lt>… message topic …</i></kbd>” (<a href="https://lists.w3.org/Archives/Public/public-device-apis/" rel="discussion">archives</a>)</span>
      <dt class="editor">Editors:
+     <dd class="editor p-author h-card vcard" data-editor-id="50572"><span class="p-name fn">Rick Waldron</span> (<span class="p-org org">Bocoup, formerly on behalf of JS Foundation</span>)
      <dd class="editor p-author h-card vcard" data-editor-id="78325"><a class="p-name fn u-url url" href="https://intel.com/">Mikhail Pozdnyakov</a> (<span class="p-org org">Intel Corporation</span>)
      <dd class="editor p-author h-card vcard" data-editor-id="78335"><a class="p-name fn u-url url" href="https://intel.com/">Alexander Shalamov</a> (<span class="p-org org">Intel Corporation</span>)
      <dt class="editor">Former Editor:
@@ -383,10 +395,10 @@ SimpleOrientation, FreeFall, Pedometer, Compass  or simple <a href="#trigger-sen
 of the base sensor interface might be the simplest solution.</p>
    <div class="example" id="example-92e5182d">
     <a class="self-link" href="#example-92e5182d"></a> In this example, we create a simple linear free fall detection sensor. 
-<pre class="highlight"><c- kr>class</c-> FreeFallSensor <c- kr>extends</c-> Accelerometer <c- p>{</c->
+<pre class="highlight"><c- a>class</c-> FreeFallSensor <c- k>extends</c-> Accelerometer <c- p>{</c->
     set onreading<c- p>(</c->func<c- p>)</c-> <c- p>{</c->
-        <c- kr>super</c-><c- p>.</c->onreading <c- o>=</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
-            <c- a>let</c-> isFalling <c- o>=</c-> Math<c- p>.</c->hypot<c- p>(</c-><c- kr>super</c-><c- p>.</c->x<c- p>,</c-> <c- kr>super</c-><c- p>.</c->y<c- p>,</c-> <c- kr>super</c-><c- p>.</c->z<c- p>)</c-> <c- o>&lt;</c-> <c- mf>0.5</c-><c- p>;</c->
+        <c- k>super</c-><c- p>.</c->onreading <c- o>=</c-> <c- p>()</c-> <c- p>=></c-> <c- p>{</c->
+            <c- a>let</c-> isFalling <c- o>=</c-> Math<c- p>.</c->hypot<c- p>(</c-><c- k>super</c-><c- p>.</c->x<c- p>,</c-> <c- k>super</c-><c- p>.</c->y<c- p>,</c-> <c- k>super</c-><c- p>.</c->z<c- p>)</c-> <c- o>&lt;</c-> <c- mf>0.5</c-><c- p>;</c->
             <c- k>if</c-> <c- p>(</c-><c- k>this</c-><c- p>.</c->inFreeFall_ <c- o>!=</c-> isFalling<c- p>)</c-> <c- p>{</c->
                 <c- k>this</c-><c- p>.</c->inFreeFall_ <c- o>=</c->  isFalling<c- p>;</c->
                 func<c- p>();</c->
@@ -405,7 +417,7 @@ simple aggregation pattern may be used.</p>
    <div class="example" id="example-8caf49fa">
     <a class="self-link" href="#example-8caf49fa"></a> In this simplified example, we define <code>FusionSensor</code> class that aggregates multiple
     sources and provides fused data. 
-<pre class="highlight"><c- kr>class</c-> FusionSensor <c- p>{</c->
+<pre class="highlight"><c- a>class</c-> FusionSensor <c- p>{</c->
     constructor<c- p>(</c->sensors<c- p>,</c-> algorithm<c- p>)</c-> <c- p>{</c->
         <c- k>this</c-><c- p>.</c->sensors_ <c- o>=</c-> sensors<c- p>;</c->
         <c- k>this</c-><c- p>.</c->algorithm_ <c- o>=</c-> algorithm<c- p>.</c->bind<c- p>(</c-><c- k>this</c-><c- p>);</c->
@@ -551,60 +563,60 @@ that will trigger hardware interrupt and provide one bit reading data (on / off)
    <li>
     <a data-link-type="biblio">[accelerometer]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-acceleration" style="color:initial">acceleration</span>
-     <li><span class="dfn-paneled" id="term-for-accelerometer-interface" style="color:initial">accelerometer</span>
-     <li><span class="dfn-paneled" id="term-for-gravitysensor-interface" style="color:initial">gravity sensor</span>
-     <li><span class="dfn-paneled" id="term-for-linearaccelerationsensor-interface" style="color:initial">linear acceleration sensor</span>
+     <li><span class="dfn-paneled" id="term-for-acceleration">acceleration</span>
+     <li><span class="dfn-paneled" id="term-for-accelerometer-interface">accelerometer</span>
+     <li><span class="dfn-paneled" id="term-for-gravitysensor-interface">gravity sensor</span>
+     <li><span class="dfn-paneled" id="term-for-linearaccelerationsensor-interface">linear acceleration sensor</span>
     </ul>
    <li>
     <a data-link-type="biblio">[ambient-light]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-usecases-requirements" style="color:initial">ambient light sensor</span>
+     <li><span class="dfn-paneled" id="term-for-usecases-requirements">ambient light sensor</span>
     </ul>
    <li>
     <a data-link-type="biblio">[gyroscope]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-gyroscope-interface" style="color:initial">gyroscope</span>
-     <li><span class="dfn-paneled" id="term-for-angular-velocity" style="color:initial">rotational rate</span>
+     <li><span class="dfn-paneled" id="term-for-gyroscope-interface">gyroscope</span>
+     <li><span class="dfn-paneled" id="term-for-angular-velocity">rotational rate</span>
     </ul>
    <li>
     <a data-link-type="biblio">[magnetometer]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-magnetometer-interface" style="color:initial">magnetometer</span>
-     <li><span class="dfn-paneled" id="term-for-usecases-and-requirements" style="color:initial">magnetometer use cases</span>
+     <li><span class="dfn-paneled" id="term-for-magnetometer-interface">magnetometer</span>
+     <li><span class="dfn-paneled" id="term-for-usecases-and-requirements">magnetometer use cases</span>
     </ul>
    <li>
     <a data-link-type="biblio">[motion-sensors]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-usecases-and-requirements①" style="color:initial">motion sensors explainer</span>
+     <li><span class="dfn-paneled" id="term-for-usecases-and-requirements①">motion sensors explainer</span>
     </ul>
    <li>
     <a data-link-type="biblio">[orientation-sensor]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-absoluteorientationsensor-interface" style="color:initial">absolute orientation sensor</span>
-     <li><span class="dfn-paneled" id="term-for-relativeorientationsensor-interface" style="color:initial">relative orientation sensor</span>
+     <li><span class="dfn-paneled" id="term-for-absoluteorientationsensor-interface">absolute orientation sensor</span>
+     <li><span class="dfn-paneled" id="term-for-relativeorientationsensor-interface">relative orientation sensor</span>
     </ul>
    <li>
     <a data-link-type="biblio">[proximity]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-proximity-sensor-interface" style="color:initial">proximity sensor</span>
+     <li><span class="dfn-paneled" id="term-for-proximity-sensor-interface">proximity sensor</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
    <dt id="biblio-accelerometer">[ACCELEROMETER]
-   <dd>Anssi Kostiainen. <a href="https://www.w3.org/TR/accelerometer/">Accelerometer</a>. 7 March 2019. WD. URL: <a href="https://www.w3.org/TR/accelerometer/">https://www.w3.org/TR/accelerometer/</a>
+   <dd>Anssi Kostiainen. <a href="https://www.w3.org/TR/accelerometer/">Accelerometer</a>. 12 December 2019. CR. URL: <a href="https://www.w3.org/TR/accelerometer/">https://www.w3.org/TR/accelerometer/</a>
    <dt id="biblio-ambient-light">[AMBIENT-LIGHT]
    <dd>Anssi Kostiainen. <a href="https://www.w3.org/TR/ambient-light/">Ambient Light Sensor</a>. 7 March 2019. WD. URL: <a href="https://www.w3.org/TR/ambient-light/">https://www.w3.org/TR/ambient-light/</a>
    <dt id="biblio-gyroscope">[GYROSCOPE]
-   <dd>Anssi Kostiainen. <a href="https://www.w3.org/TR/gyroscope/">Gyroscope</a>. 7 March 2019. WD. URL: <a href="https://www.w3.org/TR/gyroscope/">https://www.w3.org/TR/gyroscope/</a>
+   <dd>Anssi Kostiainen. <a href="https://www.w3.org/TR/gyroscope/">Gyroscope</a>. 12 December 2019. CR. URL: <a href="https://www.w3.org/TR/gyroscope/">https://www.w3.org/TR/gyroscope/</a>
    <dt id="biblio-magnetometer">[MAGNETOMETER]
    <dd>Anssi Kostiainen; Rijubrata Bhaumik. <a href="https://www.w3.org/TR/magnetometer/">Magnetometer</a>. 7 March 2019. WD. URL: <a href="https://www.w3.org/TR/magnetometer/">https://www.w3.org/TR/magnetometer/</a>
    <dt id="biblio-motion-sensors">[MOTION-SENSORS]
    <dd>Kenneth Christiansen; Alexander Shalamov. <a href="https://www.w3.org/TR/motion-sensors/">Motion Sensors Explainer</a>. 30 August 2017. NOTE. URL: <a href="https://www.w3.org/TR/motion-sensors/">https://www.w3.org/TR/motion-sensors/</a>
    <dt id="biblio-orientation-sensor">[ORIENTATION-SENSOR]
-   <dd>Kenneth Christiansen; Anssi Kostiainen. <a href="https://www.w3.org/TR/orientation-sensor/">Orientation Sensor</a>. 7 March 2019. WD. URL: <a href="https://www.w3.org/TR/orientation-sensor/">https://www.w3.org/TR/orientation-sensor/</a>
+   <dd>Kenneth Christiansen; Anssi Kostiainen. <a href="https://www.w3.org/TR/orientation-sensor/">Orientation Sensor</a>. 12 December 2019. CR. URL: <a href="https://www.w3.org/TR/orientation-sensor/">https://www.w3.org/TR/orientation-sensor/</a>
    <dt id="biblio-proximity">[PROXIMITY]
    <dd>Anssi Kostiainen; Rijubrata Bhaumik. <a href="https://www.w3.org/TR/proximity/">Proximity Sensor</a>. 5 March 2019. WD. URL: <a href="https://www.w3.org/TR/proximity/">https://www.w3.org/TR/proximity/</a>
   </dl>

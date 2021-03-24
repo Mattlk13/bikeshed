@@ -1,13 +1,13 @@
 <pre class='metadata'>
 Title: Fetch Metadata Request Headers
 Shortname: fetch-metadata
-Level: 1
-Status: ED
-TR: https://w3.org/TR/fetch-metadata/
-ED: https://github.com/w3c/webappsec-fetch-metadata/
-Editor: Mike West 56384, Google Inc., mkwst@google.com
+Level: None
 Group: webappsec
-!Explainer: https://github.com/w3c/webappsec-fetch-metadata
+Status: WD
+TR: https://www.w3.org/TR/fetch-metadata/
+ED: https://w3c.github.io/webappsec-fetch-metadata/
+Previous Version: from biblio
+Editor: Mike West 56384, Google Inc., mkwst@google.com
 Abstract:
     This document defines a set of Fetch metadata request headers that aim to provide servers with
     enough information to make <i lang="la">a priori</i> decisions about whether or not to service
@@ -15,9 +15,7 @@ Abstract:
 Markup Shorthands: markdown yes
 !Participate: <a href="https://github.com/w3c/webappsec-fetch-metadata/issues/new">File an issue</a> (<a href="https://github.com/w3c/webappsec-fetch-metadata/issues">open issues</a>)
 !Tests: <a href=https://github.com/web-platform-tests/wpt/tree/master/fetch/sec-metadata>web-platform-tests fetch/sec-metadata/</a>
-Version History: https://github.com/w3c/webappsec-fetch-metadata/commits/master/index.bs
-Shortname: fetch-metadata
-Level: None
+Version History: https://github.com/w3c/webappsec-fetch-metadata/commits/main/index.bs
 </pre>
 <pre class="biblio">
 {
@@ -42,8 +40,8 @@ urlPrefix: https://tools.ietf.org/html/draft-ietf-httpbis-header-structure; spec
         text: structured header; url: #
     for: structured header
         type: dfn
-            text: token; url: #section-3.9
-            text: boolean; url: #section-3.11
+            text: token; url: #section-3.7
+            text: boolean; url: #section-3.9
     type: abstract-op
         text: serialize Structured Header; url: #section-4.1
 </pre>
@@ -113,10 +111,6 @@ exposes an interesting [=request=] attribute to a server.
 The `Sec-Fetch-Dest` HTTP Request Header {#sec-fetch-dest-header}
 -----------------------------------------------------------------
 
-ISSUE(mikewest/sec-metadata#16): There are some concerns about the value this header would
-provide, particularly in the face of a Service Worker's ability to use cached responses in
-unexpected ways. It might be worth punting it to a future iteration.
-
 The <dfn http-header export>`Sec-Fetch-Dest`</dfn> HTTP request header exposes a [=request=]'s
 [=request/destination=] to a server. It is a [=Structured Header=] whose value MUST be a
 [=structured header/token=]. [[!I-D.ietf-httpbis-header-structure]] Its ABNF is:
@@ -126,9 +120,11 @@ Sec-Fetch-Dest = sh-token
 ```
 
 Valid `Sec-Fetch-Dest` values include "`audio`", "`audioworklet`", "`document`", "`embed`",
-"`empty`", "`font`", "`image`", "`manifest`", "`object`", "`paintworklet`", "`report`",
-"`script`", "`serviceworker`", "`sharedworker`", "`style`", "`track`", "`video`", "`worker`",
-"`xslt`", and "`nested-document`".
+"`empty`", "`font`", "`frame`", "`iframe`", "`image`", "`manifest`", "`object`", "`paintworklet`",
+"`report`", "`script`", "`serviceworker`", "`sharedworker`", "`style`", "`track`", "`video`",
+"`worker`", "`xslt`".
+
+ISSUE(whatwg/fetch#948): `frame` and `iframe` haven't landed in Fetch yet.
 
 In order to support forward-compatibility with as-yet-unknown request types, servers SHOULD ignore
 this header if it contains an invalid value.
@@ -146,8 +142,8 @@ Sec-Fetch-Dest: worker
 // Top-level navigations' destinations are "document"
 Sec-Fetch-Dest: document
 
-// `<iframe>` navigations' destinations are "document"
-Sec-Fetch-Dest: document
+// `<iframe>` navigations' destinations are "iframe"
+Sec-Fetch-Dest: iframe
 </pre>
 
 <div algorithm="set `Sec-Fetch-Dest`">
@@ -155,7 +151,7 @@ To <dfn abstract-op lt="set-dest">set the `Sec-Fetch-Dest` header</dfn> for a [=
 
 <ol class="algorithm">
     1.  Assert: |r|'s [=request/url=] is a [=potentially trustworthy URL=].
-    
+
     2.  Let |header| be a [=Structured Header=] whose value is a [=structured header/token=].
 
     3.  If |r|'s [=request/destination=] is the empty string, set |header|'s value to the string
@@ -164,11 +160,8 @@ To <dfn abstract-op lt="set-dest">set the `Sec-Fetch-Dest` header</dfn> for a [=
         Note: We map Fetch's empty string [=request/destination=] onto an explicit "`empty`"
         [=structured header/token=] in order to simplify processing.
 
-    4.  Let |value| be the result of [$serialize Structured Header|serializing$] |header|.
-
-    5.  [=header list/Set=] &#96;<a http-header>`Sec-Fetch-Dest`</a>&#96;/|value| in |r|'s
-        [=request/header list=].
-</ol>
+    4.  [=header list/Set a structured field value=]
+        &#96;<a http-header>`Sec-Fetch-Dest`</a>&#96;/|header| in |r|'s [=request/header list=].
 </div>
 
 
@@ -184,7 +177,7 @@ The <dfn http-header export>`Sec-Fetch-Mode`</dfn> HTTP request header exposes a
 Sec-Fetch-Mode = sh-token
 ```
 
-Valid `Sec-Fetch-Mode` values include "`cors`", "`navigate`", "`nested-navigate`", "`no-cors`", "`same-origin`",
+Valid `Sec-Fetch-Mode` values include "`cors`", "`navigate`", "`no-cors`", "`same-origin`",
 and "`websocket`". In order to support forward-compatibility with as-yet-unknown request types,
 servers SHOULD ignore this header if it contains an invalid value.
 
@@ -193,22 +186,13 @@ To <dfn abstract-op lt="set-mode">set the `Sec-Fetch-Mode` header</dfn> for a [=
 
 <ol class="algorithm">
     1.  Assert: |r|'s [=request/url=] is a [=potentially trustworthy URL=].
-    
+
     2.  Let |header| be a [=Structured Header=] whose value is a [=structured header/token=].
 
     3.  Set |header|'s value to |r|'s [=request/mode=].
 
-    4.  If |header|'s value is "`navigate`", and |r|'s [=request/reserved client=] is either `null`
-        or an [=environment=] whose [=target browsing context=] is a [=nested browsing context=],
-        set |header|'s to "`nested-navigate`".
-
-        NOTE: We're doing this work because Fetch does not currently define `nested-navigate`.
-        See [[#fetch-integration]].
-
-    4.  Let |value| be the result of [$serialize Structured Header|serializing$] |header|.
-
-    5.  [=header list/Set=] &#96;<a http-header>`Sec-Fetch-Mode`</a>&#96;/|value| in |r|'s
-        [=request/header list=].
+    4.  [=header list/Set a structured field value=]
+        &#96;<a http-header>`Sec-Fetch-Mode`</a>&#96;/|header| in |r|'s [=request/header list=].
 </ol>
 </div>
 
@@ -233,7 +217,7 @@ To <dfn abstract-op lt="set-site">set the `Sec-Fetch-Site` header</dfn> for a [=
 
 <ol class="algorithm">
     1.  Assert: |r|'s [=request/url=] is a [=potentially trustworthy URL=].
-    
+
     2.  Let |header| be a [=Structured Header=] whose value is a [=structured header/token=].
 
     3.  Set |header|'s value to `same-origin`.
@@ -248,18 +232,14 @@ To <dfn abstract-op lt="set-site">set the `Sec-Fetch-Site` header</dfn> for a [=
 
         1.  If |url| is [=same origin=] with |r|'s [=request/origin=], [=iteration/continue=].
 
-        2.  Set |header|'s value to `cross-site` and break if any of the following are true:
+        2.  Set |header|'s value to `cross-site`.
+        
+        3.  If |r|'s [=request/origin=] is not [=same site=] with |url|'s [=url/origin=], then [=iteration/break=].
 
-            *  |r|'s [=request/origin=] is an [=opaque origin=]
-            *  |r|'s [=request/origin=]'s [=origin/scheme=] is not the same as |url|'s [=url/scheme=]
-            *  |r|'s [=request/origin=]'s [=origin/host=] is not [=same site=] with |url|'s [=url/host=]
+        4.  Set |header|'s value to `same-site`.
 
-        3.  Set |header|'s value to `same-site`.
-
-    6.  Let |value| be the result of [$serialize Structured Header|serializing$] |header|.
-
-    7.  [=header list/Set=] &#96;<a http-header>`Sec-Fetch-Site`</a>&#96;/|value| in |r|'s
-        [=request/header list=].
+    6.  [=header list/Set a structured field value=]
+        &#96;<a http-header>`Sec-Fetch-Site`</a>&#96;/|header| in |r|'s [=request/header list=].
 </ol>
 </div>
 
@@ -268,7 +248,7 @@ The `Sec-Fetch-User` HTTP Request Header {#sec-fetch-user-header}
 -----------------------------------------------------------------
 
 The <dfn http-header export>`Sec-Fetch-User`</dfn> HTTP request header exposes whether or not a
-[=navigation request=] was [=triggered by user activation=]. It is a [=Structured Header=] whose
+[=navigation request=] was triggered by user activation. It is a [=Structured Header=] whose
 value is a [=structured header/boolean=]. [[!I-D.ietf-httpbis-header-structure]] Its ABNF is:
 
 ```
@@ -288,20 +268,15 @@ To <dfn abstract-op lt="set-user">set the `Sec-Fetch-User` header</dfn> for a [=
 <ol class="algorithm">
     1.  Assert: |r|'s [=request/url=] is a [=potentially trustworthy URL=].
 
-    2.  If |r| is not a [=navigation request=], or if |r|'s [=request/user activation flag=] is
+    2.  If |r| is not a [=navigation request=], or if |r|'s [=request/user activation=] is
         `false`, return.
 
     3.  Let |header| be a [=Structured Header=] whose value is a [=structured header/token=].
 
-    4.  Set |header|'s value to the value of |r|'s [=request/user activation flag=].
+    4.  Set |header|'s value to `true`.
 
-        ISSUE(whatwg/fetch#885): This flag is defined here, in [[#fetch-integration]]. Ideally,
-        we can move it to Fetch rather than monkey-patching.
-
-    4.  Let |value| be the result of [$serialize Structured Header|serializing$] |header|.
-
-    5.  [=header list/Set=] &#96;<a http-header>`Sec-Fetch-User`</a>&#96;/|value| in |r|'s
-        [=request/header list=].
+    5.  [=header list/Set a structured field value=]
+        &#96;<a http-header>`Sec-Fetch-User`</a>&#96;/|header| in |r|'s [=request/header list=].
 </ol>
 </div>
 
@@ -310,29 +285,29 @@ Integration with Fetch and HTML {#fetch-integration}
 ===========================================
 
 To support `Sec-Fetch-User`, [=request=] needs to be taught about requests which were
-[=triggered by user activation=]:
+triggered by user activation:
 
 >   <strong>Monkeypatching [[FETCH]]:</strong>
 >
->   A [=request=] has a boolean <dfn for="request">user activation flag</dfn>. Unless stated
+>   A [=request=] has a boolean <dfn for="request">user activation</dfn>. Unless stated
 >   otherwise, it is `false`.
 >
->   Note: This is only used for [=navigation requests=], and reflects whether a given navigation
->   was [=triggered by user activation=].
+>   Note: This is only used for [=navigation requests=].
+
+ISSUE(whatwg/fetch#993): This should be defined in Fetch.
 
 This flag could be populated from HTML's [=process a navigate fetch=] algorithm, perhaps by
 inserting the following step after the current algorithm's step 2:
 
 >   <strong>Monkeypatching [[HTML]]:</strong>
 >
->   3.  If this algorithm was [=triggered by user activation=], set <var ignore>request</var>'s
->       [=request/user activation flag=] to `true`.
+>   3.  If <var ignore>sourceBrowsingContext</var>'s {{WindowProxy}}'s `[[Window]]` value has
+>       [=transient activation=], then set <var ignore>request</var>'s [=request/user activation=] to true.
 
-We'll also want to resolve [whatwg/fetch#755](https://github.com/whatwg/fetch/issues/755) to
-add a "`nested-navigate`" mode to support `Sec-Fetch-Mode`.
+ISSUE(whatwg/html#5203): This should be defined in HTML.
 
-<div algorithm="set fetch metadata headers">
-To <dfn abstract-op export>set the Fetch metadata headers for a request</dfn>, given [=request=] |r|:
+<div algorithm="append fetch metadata headers">
+To <dfn abstract-op export>append the Fetch metadata headers for a request</dfn>, given [=request=] |r|:
 
 <ol class="algorithm">
     1.  If |r|'s [=request/url=] is not an [=potentially trustworthy URL=], return.
@@ -347,10 +322,10 @@ To <dfn abstract-op export>set the Fetch metadata headers for a request</dfn>, g
 </ol>
 </div>
 
-Fetch will call into the algorithm above from within its [=main fetch=] algorithm. Please consult
-that specification for integration details [[!FETCH]].
+Fetch will call into the algorithm above from within its "HTTP-network-or-cache fetch" algorithm.
+Please consult that specification for integration details [[!FETCH]].
 
-ISSUE(whatwg/fetch#885): Monkey patching!
+ISSUE(whatwg/fetch#993): This should be called from in Fetch.
 
 Security and Privacy Considerations {#sec-priv-considerations}
 ==============================================================

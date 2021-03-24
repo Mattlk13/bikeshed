@@ -1,7 +1,6 @@
-# -*- coding: utf-8 -*-
-from __future__ import division, unicode_literals
-
+from ..h import isElement, outerHTML
 from ..messages import printColor
+
 
 def printjson(x, indent=2, level=0):
     if isinstance(indent, int):
@@ -20,7 +19,7 @@ def printjson(x, indent=2, level=0):
     if level == 0 and ret.startswith("\n"):
         ret = ret[1:]
     return ret
-    #return json.dumps(obj, indent=2, default=lambda x:x.__json__())
+    # return json.dumps(obj, indent=2, default=lambda x:x.__json__())
 
 
 def getjson(x):
@@ -36,8 +35,13 @@ def printjsonobject(x, indent, level):
     maxKeyLength = 0
     for k in x.keys():
         maxKeyLength = max(maxKeyLength, len(k))
-    for k,v in x.items():
-        ret += "\n" + (indent * level) + printColor((k + ": ").ljust(maxKeyLength + 2), "cyan") + printjson(v, indent, level + 1)
+    for k, v in x.items():
+        ret += (
+            "\n"
+            + (indent * level)
+            + printColor((k + ": ").ljust(maxKeyLength + 2), "cyan")
+            + printjson(v, indent, level + 1)
+        )
     return ret
 
 
@@ -45,17 +49,17 @@ def printjsonobjectarray(x, indent, level):
     # Prints an array of objects
     x = getjson(x)
     ret = ""
-    for i,v in enumerate(x):
+    for i, v in enumerate(x):
         if i != 0:
             ret += "\n" + (indent * level) + printColor("=" * 10, "blue")
         ret += printjsonobject(v, indent, level)
     return ret
 
 
-def printjsonsimplearray(x, indent, level):
+def printjsonsimplearray(x, indent, level):  # pylint: disable=unused-argument
     x = getjson(x)
     ret = printColor("[", "blue")
-    for i,v in enumerate(x):
+    for i, v in enumerate(x):
         if i != 0:
             ret += printColor(", ", "blue")
         ret += printjsonprimitive(v)
@@ -66,11 +70,13 @@ def printjsonsimplearray(x, indent, level):
 def printjsonprimitive(x):
     x = getjson(x)
     if isinstance(x, int):
-        return unicode(x)
-    if isinstance(x, basestring):
+        return str(x)
+    if isinstance(x, str):
         return x
     if isinstance(x, bool):
-        return unicode(x)
+        return str(x)
     if x is None:
         return "null"
-    raise Exception(x)
+    if isElement(x):
+        return repr(x) + ":" + outerHTML(x)
+    raise ValueError(f"Could not print value: {x}")

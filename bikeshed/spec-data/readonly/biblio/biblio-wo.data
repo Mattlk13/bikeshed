@@ -238,8 +238,8 @@ Guus Schreiber
 -
 d:workers
 workers
-24 September 2015
-WD
+28 January 2021
+NOTE
 Web Workers
 https://www.w3.org/TR/workers/
 https://html.spec.whatwg.org/multipage/workers.html
@@ -356,9 +356,21 @@ https://www.w3.org/TR/2015/WD-workers-20150924/
 
 Ian Hickson
 -
+d:workers-20210128
+workers-20210128
+28 January 2021
+NOTE
+Web Workers
+https://www.w3.org/TR/2021/NOTE-workers-20210128/
+https://www.w3.org/TR/2021/NOTE-workers-20210128/
+
+
+
+Ian Hickson
+-
 d:worklets-1
 worklets-1
-7 June 2016
+8 September 2020
 WD
 Worklets Level 1
 https://www.w3.org/TR/worklets-1/
@@ -380,10 +392,22 @@ https://www.w3.org/TR/2016/WD-worklets-1-20160607/
 
 Ian Kilpatrick
 -
+d:worklets-1-20200908
+worklets-1-20200908
+8 September 2020
+WD
+Worklets Level 1
+https://www.w3.org/TR/2020/WD-worklets-1-20200908/
+https://www.w3.org/TR/2020/WD-worklets-1-20200908/
+
+
+
+Ian Kilpatrick
+-
 d:wot-architecture
 wot-architecture
-16 May 2019
-CR
+9 April 2020
+REC
 Web of Things (WoT) Architecture
 https://www.w3.org/TR/wot-architecture/
 https://w3c.github.io/wot-architecture/
@@ -428,17 +452,121 @@ Toru Kawaguchi
 Kunihiko Toumura
 Kazuo Kajimoto
 -
+d:wot-architecture-20191106
+wot-architecture-20191106
+6 November 2019
+CR
+Web of Things (WoT) Architecture
+https://www.w3.org/TR/2019/CR-wot-architecture-20191106/
+https://www.w3.org/TR/2019/CR-wot-architecture-20191106/
+
+
+
+Matthias Kovatsch
+Ryuichi Matsukura
+Michael Lagally
+Toru Kawaguchi
+Kunihiko Toumura
+-
+d:wot-architecture-20200130
+wot-architecture-20200130
+30 January 2020
+PR
+Web of Things (WoT) Architecture
+https://www.w3.org/TR/2020/PR-wot-architecture-20200130/
+https://www.w3.org/TR/2020/PR-wot-architecture-20200130/
+
+
+
+Matthias Kovatsch
+Ryuichi Matsukura
+Michael Lagally
+Toru Kawaguchi
+Kunihiko Toumura
+Kazuo Kajimoto
+-
+a:wot-architecture-20200409
+wot-architecture-20200409
+wot-architecture10-20200409
+-
+d:wot-architecture10
+wot-architecture10
+9 April 2020
+REC
+Web of Things (WoT) Architecture
+https://www.w3.org/TR/wot-architecture10/
+https://w3c.github.io/wot-architecture/
+
+
+
+Matthias Kovatsch
+Ryuichi Matsukura
+Michael Lagally
+Toru Kawaguchi
+Kunihiko Toumura
+Kazuo Kajimoto
+-
+d:wot-architecture10-20200409
+wot-architecture10-20200409
+9 April 2020
+REC
+Web of Things (WoT) Architecture
+https://www.w3.org/TR/2020/REC-wot-architecture-20200409/
+https://www.w3.org/TR/2020/REC-wot-architecture-20200409/
+
+
+
+Matthias Kovatsch
+Ryuichi Matsukura
+Michael Lagally
+Toru Kawaguchi
+Kunihiko Toumura
+Kazuo Kajimoto
+-
+d:wot-architecture11
+wot-architecture11
+24 November 2020
+WD
+Web of Things (WoT) Architecture 1.1
+https://www.w3.org/TR/wot-architecture11/
+https://w3c.github.io/wot-architecture/
+
+
+
+Michael Lagally
+Ryuichi Matsukura
+Toru Kawaguchi
+Kunihiko Toumura
+Kazuo Kajimoto
+-
+d:wot-architecture11-20201124
+wot-architecture11-20201124
+24 November 2020
+WD
+Web of Things (WoT) Architecture 1.1
+https://www.w3.org/TR/2020/WD-wot-architecture11-20201124/
+https://www.w3.org/TR/2020/WD-wot-architecture11-20201124/
+
+
+
+Michael Lagally
+Ryuichi Matsukura
+Toru Kawaguchi
+Kunihiko Toumura
+Kazuo Kajimoto
+-
 d:wot-binding-templates
 wot-binding-templates
-5 April 2018
+30 January 2020
 NOTE
-Web of Things (WoT) Protocol Binding Templates
+Web of Things (WoT) Binding Templates
 https://www.w3.org/TR/wot-binding-templates/
 https://w3c.github.io/wot-binding-templates/
 
 
 
 Michael Koster
+Ege Korkan
 -
 d:wot-binding-templates-20180405
 wot-binding-templates-20180405
@@ -452,10 +580,85 @@ https://www.w3.org/TR/2018/NOTE-wot-binding-templates-20180405/
 
 Michael Koster
 -
+d:wot-binding-templates-20200130
+wot-binding-templates-20200130
+30 January 2020
+NOTE
+Web of Things (WoT) Binding Templates
+https://www.w3.org/TR/2020/NOTE-wot-binding-templates-20200130/
+https://www.w3.org/TR/2020/NOTE-wot-binding-templates-20200130/
+
+
+
+Michael Koster
+Ege Korkan
+-
+d:wot-discovery
+wot-discovery
+24 November 2020
+WD
+Web of Things (WoT) Discovery
+https://www.w3.org/TR/wot-discovery/
+https://w3c.github.io/wot-discovery/
+
+
+
+Andrea Cimmino
+Michael McCool
+Farshid Tavakolizadeh
+Kunihiko Toumura
+-
+d:wot-discovery-20201124
+wot-discovery-20201124
+24 November 2020
+WD
+Web of Things (WoT) Discovery
+https://www.w3.org/TR/2020/WD-wot-discovery-20201124/
+https://www.w3.org/TR/2020/WD-wot-discovery-20201124/
+
+
+
+Andrea Cimmino
+Michael McCool
+Farshid Tavakolizadeh
+Kunihiko Toumura
+-
+d:wot-profile
+wot-profile
+24 November 2020
+WD
+Web of Things (WoT) Profile
+https://www.w3.org/TR/wot-profile/
+https://w3c.github.io/wot-profile/
+
+
+
+Michael Lagally
+Michael McCool
+Ryuichi Matsukura
+Sebastian Käbisch
+Tomoaki Mizushima
+-
+d:wot-profile-20201124
+wot-profile-20201124
+24 November 2020
+WD
+Web of Things (WoT) Profile
+https://www.w3.org/TR/2020/WD-wot-profile-20201124/
+https://www.w3.org/TR/2020/WD-wot-profile-20201124/
+
+
+
+Michael Lagally
+Michael McCool
+Ryuichi Matsukura
+Sebastian Käbisch
+Tomoaki Mizushima
+-
 d:wot-scripting-api
 wot-scripting-api
-29 November 2018
-WD
+24 November 2020
+NOTE
 Web of Things (WoT) Scripting API
 https://www.w3.org/TR/wot-scripting-api/
 https://w3c.github.io/wot-scripting-api/
@@ -463,9 +666,10 @@ https://w3c.github.io/wot-scripting-api/
 
 
 Zoltan Kis
-Kazuaki Nimura
 Daniel Peintner
+Cristiano Aguzzi
 Johannes Hund
+Kazuaki Nimura
 -
 d:wot-scripting-api-20170914
 wot-scripting-api-20170914
@@ -511,11 +715,42 @@ Kazuaki Nimura
 Daniel Peintner
 Johannes Hund
 -
+d:wot-scripting-api-20191028
+wot-scripting-api-20191028
+28 October 2019
+WD
+Web of Things (WoT) Scripting API
+https://www.w3.org/TR/2019/WD-wot-scripting-api-20191028/
+https://www.w3.org/TR/2019/WD-wot-scripting-api-20191028/
+
+
+
+Zoltan Kis
+Daniel Peintner
+Johannes Hund
+Kazuaki Nimura
+-
+d:wot-scripting-api-20201124
+wot-scripting-api-20201124
+24 November 2020
+NOTE
+Web of Things (WoT) Scripting API
+https://www.w3.org/TR/2020/NOTE-wot-scripting-api-20201124/
+https://www.w3.org/TR/2020/NOTE-wot-scripting-api-20201124/
+
+
+
+Zoltan Kis
+Daniel Peintner
+Cristiano Aguzzi
+Johannes Hund
+Kazuaki Nimura
+-
 d:wot-security
 wot-security
-3 December 2018
+6 November 2019
 NOTE
-Web of Things (WoT) Security and Privacy Considerations
+Web of Things (WoT) Security and Privacy Guidelines
 https://www.w3.org/TR/wot-security/
 https://w3c.github.io/wot-security/
 
@@ -550,10 +785,23 @@ https://www.w3.org/TR/2018/NOTE-wot-security-20181203/
 Elena Reshetova
 Michael McCool
 -
+d:wot-security-20191106
+wot-security-20191106
+6 November 2019
+NOTE
+Web of Things (WoT) Security and Privacy Guidelines
+https://www.w3.org/TR/2019/NOTE-wot-security-20191106/
+https://www.w3.org/TR/2019/NOTE-wot-security-20191106/
+
+
+
+Elena Reshetova
+Michael McCool
+-
 d:wot-thing-description
 wot-thing-description
-16 May 2019
-CR
+9 April 2020
+REC
 Web of Things (WoT) Thing Description
 https://www.w3.org/TR/wot-thing-description/
 https://w3c.github.io/wot-thing-description/
@@ -564,6 +812,7 @@ Sebastian Käbisch
 Takuki Kamiya
 Michael McCool
 Victor Charpenay
+Matthias Kovatsch
 -
 d:wot-thing-description-20170914
 wot-thing-description-20170914
@@ -611,6 +860,104 @@ CR
 Web of Things (WoT) Thing Description
 https://www.w3.org/TR/2019/CR-wot-thing-description-20190516/
 https://www.w3.org/TR/2019/CR-wot-thing-description-20190516/
+
+
+
+Sebastian Käbisch
+Takuki Kamiya
+Michael McCool
+Victor Charpenay
+-
+d:wot-thing-description-20191106
+wot-thing-description-20191106
+6 November 2019
+CR
+Web of Things (WoT) Thing Description
+https://www.w3.org/TR/2019/CR-wot-thing-description-20191106/
+https://www.w3.org/TR/2019/CR-wot-thing-description-20191106/
+
+
+
+Sebastian Käbisch
+Takuki Kamiya
+Michael McCool
+Victor Charpenay
+Matthias Kovatsch
+-
+d:wot-thing-description-20200130
+wot-thing-description-20200130
+30 January 2020
+PR
+Web of Things (WoT) Thing Description
+https://www.w3.org/TR/2020/PR-wot-thing-description-20200130/
+https://www.w3.org/TR/2020/PR-wot-thing-description-20200130/
+
+
+
+Sebastian Käbisch
+Takuki Kamiya
+Michael McCool
+Victor Charpenay
+Matthias Kovatsch
+-
+a:wot-thing-description-20200409
+wot-thing-description-20200409
+wot-thing-description10-20200409
+-
+d:wot-thing-description10
+wot-thing-description10
+9 April 2020
+REC
+Web of Things (WoT) Thing Description
+https://www.w3.org/TR/wot-thing-description10/
+https://w3c.github.io/wot-thing-description/
+
+
+
+Sebastian Käbisch
+Takuki Kamiya
+Michael McCool
+Victor Charpenay
+Matthias Kovatsch
+-
+d:wot-thing-description10-20200409
+wot-thing-description10-20200409
+9 April 2020
+REC
+Web of Things (WoT) Thing Description
+https://www.w3.org/TR/2020/REC-wot-thing-description-20200409/
+https://www.w3.org/TR/2020/REC-wot-thing-description-20200409/
+
+
+
+Sebastian Käbisch
+Takuki Kamiya
+Michael McCool
+Victor Charpenay
+Matthias Kovatsch
+-
+d:wot-thing-description11
+wot-thing-description11
+24 November 2020
+WD
+Web of Things (WoT) Thing Description 1.1
+https://www.w3.org/TR/wot-thing-description11/
+https://w3c.github.io/wot-thing-description/
+
+
+
+Sebastian Käbisch
+Takuki Kamiya
+Michael McCool
+Victor Charpenay
+-
+d:wot-thing-description11-20201124
+wot-thing-description11-20201124
+24 November 2020
+WD
+Web of Things (WoT) Thing Description 1.1
+https://www.w3.org/TR/2020/WD-wot-thing-description11-20201124/
+https://www.w3.org/TR/2020/WD-wot-thing-description11-20201124/
 
 
 

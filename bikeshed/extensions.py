@@ -1,12 +1,8 @@
-# -*- coding: utf-8 -*-
-
-from __future__ import division, unicode_literals
 from . import config
-from .htmlhelpers import *
-from .messages import *
+from .h import *  # noqa: F401
+from .messages import *  # noqa: F401
 
 
 def load(doc):
-    exec config.retrieveBoilerplateFile(doc, "bs-extensions")
-    globals()['BSPrepTR'] = BSPrepTR
-    globals()['BSPublishAdditionalFiles'] = BSPublishAdditionalFiles
+    code = config.retrieveBoilerplateFile(doc, "bs-extensions")
+    exec(code, globals())

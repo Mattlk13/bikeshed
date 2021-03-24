@@ -6,132 +6,10 @@
   <link href="../default.css" rel="stylesheet" type="text/css">
   <link href="https://www.w3.org/StyleSheets/TR/W3C-ED" rel="stylesheet" type="text/css">
   <link href="none" rel="canonical">
-<style>/* style-md-lists */
-
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}</style>
-<style>/* style-counters */
-
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}</style>
-<style>/* style-dfn-panel */
-
-.dfn-panel {
-    position: absolute;
-    z-index: 35;
-    height: auto;
-    width: -webkit-fit-content;
-    width: fit-content;
-    max-width: 300px;
-    max-height: 500px;
-    overflow: auto;
-    padding: 0.5em 0.75em;
-    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
-    border: outset 0.2em;
-}
-.dfn-panel:not(.on) { display: none; }
-.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
-.dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
-.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
-.dfn-panel > b + b { margin-top: 0.25em; }
-.dfn-panel ul { padding: 0; }
-.dfn-panel li { list-style: inside; }
-.dfn-panel.activated {
-    display: inline-block;
-    position: fixed;
-    left: .5em;
-    bottom: 2em;
-    margin: 0 auto;
-    max-width: calc(100vw - 1.5em - .4em - .5em);
-    max-height: 30vh;
-}
-
-.dfn-paneled { cursor: pointer; }
-</style>
-<style>/* style-selflinks */
-
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: gray;
-    color: white;
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: black;
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
-    color: #005a9c;
+    color: var(--a-normal-text);
     font-size: inherit;
     font-family: inherit;
 }
@@ -190,6 +68,374 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #707070;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #bbb;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
+<style>/* style-dfn-panel */
+
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    height: auto;
+    width: -webkit-fit-content;
+    width: fit-content;
+    max-width: 300px;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
+    border: outset 0.2em;
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0; }
+.dfn-panel li { list-style: inside; }
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: .5em;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+}
+
+.dfn-paneled { cursor: pointer; }
+</style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
@@ -206,7 +452,7 @@ pre .property::before, pre .property::after {
     </dl>
    </div>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="http://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="http://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="http://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="http://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="http://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="http://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="http://www.w3.org/Consortium/Legal/copyright-documents">document use</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -227,10 +473,10 @@ pre .property::before, pre .property::after {
    <p> This document has been produced by the <a href="http://www.w3.org/Graphics/SVG/WG">SVG Working Group</a> as part of the <a href="http://www.w3.org/Graphics/Activity">Graphics Activity</a> within the <a href="http://www.w3.org/Interaction/">W3C Interaction Domain</a>. The goals of the W3C SVG Working Group are discussed in the <a href="http://www.w3.org/2007/11/SVG_rechartering/SVG-WG-charter.html">W3C SVG Charter</a>. The W3C SVG Working Group maintains a
 	public Web page, <a href="http://www.w3.org/Graphics/SVG/">http://www.w3.org/Graphics/SVG/</a>, that contains further
 	background information. The authors of this document are the SVG Working Group participants. </p>
-   <p> This document was produced by a group operating under 
-	the <a href="http://www.w3.org/Consortium/Patent-Policy/">W3C Patent Policy</a>. 
-	W3C maintains a <a href="http://www.w3.org/2004/01/pp-impl/19480/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of each group; 
-	these pages also includes instructions for disclosing a patent. 
+   <p> This document was produced by a group operating under
+	the <a href="http://www.w3.org/Consortium/Patent-Policy/">W3C Patent Policy</a>.
+	W3C maintains a <a href="http://www.w3.org/2004/01/pp-impl/19480/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of each group;
+	these pages also includes instructions for disclosing a patent.
 	An individual who has actual knowledge of a patent which the individual believes contains <a href="http://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="http://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the W3C Patent Policy</a>. </p>
    <p> A list of current W3C Recommendations and other technical documents can be found at <a href="http://www.w3.org/TR/">http://www.w3.org/TR/</a>. W3C publications may be updated, replaced, or
 	obsoleted by other documents at any time. </p>
@@ -339,7 +585,7 @@ If ICC-based colors are provided,
 then the ICC-based color takes precedence over the sRGB color specification;
 otherwise, the sRGB fallback colors will be used.
 Note that, in this specification, by default color interpolation occurs in sRGB color space even if an
-ICC-based color specification is provided, but this can be changed (see <a data-link-type="dfn"><a class="property" data-link-type="propdesc" href="https://svgwg.org/svg2-draft/painting.html#ColorInterpolationProperty" id="ref-for-ColorInterpolationProperty">color-interpolation</a></a>).</p>
+ICC-based color specification is provided, but this can be changed (see <a class="property" data-link-type="propdesc" href="https://svgwg.org/svg2-draft/painting.html#ColorInterpolationProperty" id="ref-for-ColorInterpolationProperty">color-interpolation</a>).</p>
    <div class="ready-for-wider-review">
     <h2 class="heading settled" data-level="2" id="color-managed-images"><span class="secno">2. </span><span class="content">Color-managed images</span><a class="self-link" href="#color-managed-images"></a></h2>
     <p class="note" role="note"> New in SVG 2.</p>
@@ -429,7 +675,7 @@ ICC-based color specification is provided, but this can be changed (see <a data-
       name descriptor matches &lt;name> and uses the last matching entry that is found;
       painting shall be done using the given ICC color, where the comma-separated list
       (with optional white space) of <strong>&lt;icccolorvalue></strong>’s is a set
-      of ICC-profile-specific color values, expressed as <a class="css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#number-value" id="ref-for-number-value">&lt;number></a>s
+      of ICC-profile-specific color values, expressed as <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#number-value" id="ref-for-number-value">&lt;number></a>'s
       (see <a href="#icc-colors">ICC colors</a>). If no match is
       found, then the fallback sRGB color is used. </p>
     <div class="requirement" id="assert_ICCColorPrecedence">
@@ -523,13 +769,13 @@ ICC-based color specification is provided, but this can be changed (see <a data-
    <div class="ready-for-wider-review">
     <h2 class="heading settled" data-level="5" id="ColorProperty"><span class="secno">5. </span><span class="content">The effect of the <span class="property"><a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-color-4/#propdef-color" id="ref-for-propdef-color">color</a></span> property</span><a class="self-link" href="#ColorProperty"></a></h2>
     <p class="note" role="note">See the CSS Color Module Level 3 specification for the
-definition of <a data-link-type="dfn"><a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-color-4/#propdef-color" id="ref-for-propdef-color①">color</a></a>.
+definition of <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-color-4/#propdef-color" id="ref-for-propdef-color①">color</a>.
 [<a href="refs.html#ref-CSS3COLOR">CSS3COLOR</a>]</p>
-    <p>The <a data-link-type="dfn"><a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-color-4/#propdef-color" id="ref-for-propdef-color②">color</a></a> property is used to provide a potential indirect value, <span class="prop-value">currentColor</span>, for the <a data-link-type="dfn" href="https://svgwg.org/svg2-draft/painting.html#TermFill" id="ref-for-TermFill"><a class="property" data-link-type="propdesc" href="https://svgwg.org/svg2-draft/painting.html#FillProperty" id="ref-for-FillProperty">fill</a></a>, <a data-link-type="dfn" href="https://svgwg.org/svg2-draft/painting.html#TermStroke" id="ref-for-TermStroke"><a class="property" data-link-type="propdesc" href="https://svgwg.org/svg2-draft/painting.html#StrokeProperty" id="ref-for-StrokeProperty">stroke</a></a>, <a data-link-type="dfn"><a class="property" data-link-type="propdesc">solid-color</a></a>, <a data-link-type="dfn"><a class="property" data-link-type="propdesc" href="https://svgwg.org/svg2-draft/pservers.html#StopColorProperty" id="ref-for-StopColorProperty">stop-color</a></a>, <a data-link-type="dfn"><a class="property" data-link-type="propdesc" href="https://drafts.fxtf.org/filter-effects-1/#propdef-flood-color" id="ref-for-propdef-flood-color">flood-color</a></a> and <a data-link-type="dfn"><a class="property" data-link-type="propdesc" href="https://drafts.fxtf.org/filter-effects-1/#propdef-lighting-color" id="ref-for-propdef-lighting-color">lighting-color</a></a> properties.  The property has no other effect
+    <p>The <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-color-4/#propdef-color" id="ref-for-propdef-color②">color</a> property is used to provide a potential indirect value, <span class="prop-value">currentColor</span>, for the <a class="property" data-link-type="propdesc" href="https://drafts.fxtf.org/fill-stroke-3/#propdef-fill" id="ref-for-propdef-fill">fill</a>, <a class="property" data-link-type="propdesc" href="https://drafts.fxtf.org/fill-stroke-3/#propdef-stroke" id="ref-for-propdef-stroke">stroke</a>, <a class="property" data-link-type="propdesc">solid-color</a>, <a class="property" data-link-type="propdesc" href="https://svgwg.org/svg2-draft/pservers.html#StopColorProperty" id="ref-for-StopColorProperty">stop-color</a>, <a class="property" data-link-type="propdesc" href="https://drafts.fxtf.org/filter-effects-1/#propdef-flood-color" id="ref-for-propdef-flood-color">flood-color</a> and <a class="property" data-link-type="propdesc" href="https://drafts.fxtf.org/filter-effects-1/#propdef-lighting-color" id="ref-for-propdef-lighting-color">lighting-color</a> properties.  The property has no other effect
 on SVG elements.</p>
     <div class="example" id="example-39699348">
      <a class="self-link" href="#example-39699348"></a> 
-     <p>The following example shows how the inherited value of the <a data-link-type="dfn"><a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-color-4/#propdef-color" id="ref-for-propdef-color③">color</a></a> property from an HTML document can be used to
+     <p>The following example shows how the inherited value of the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-color-4/#propdef-color" id="ref-for-propdef-color③">color</a> property from an HTML document can be used to
   set the color of SVG text in an inline SVG fragment.</p>
 <pre>&lt;!DOCTYPE html>
 &lt;style>
@@ -557,7 +803,7 @@ svg { border: 1px solid #888; background-color: #eee }
        </svg>
       </div>
       <p class="caption">The text and arrow in the SVG fragment are filled
-    with the same color as the inherited <a data-link-type="dfn"><a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-color-4/#propdef-color" id="ref-for-propdef-color④">color</a></a> property.</p>
+    with the same color as the inherited <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-color-4/#propdef-color" id="ref-for-propdef-color④">color</a> property.</p>
      </div>
     </div>
    </div>
@@ -645,7 +891,7 @@ child elements.</p>
        <tbody>
         <tr>
          <td><em>Values:</em>
-         <td><a class="css" data-link-type="type">&lt;identifier></a>
+         <td><a class="css" data-link-type="type" href="https://drafts.csswg.org/css2/#value-def-identifier" id="ref-for-value-def-identifier">&lt;identifier></a>
         <tr>
          <td><em>Initial:</em>
          <td>undefined
@@ -656,8 +902,8 @@ child elements.</p>
     </dl>
    </div>
    <dl>
-    <dt><span class="prop-value"><a class="css" data-link-type="type">&lt;identifier></a></span>
-    <dd>The name which is used as the first parameter for <span class="prop-value">icc-color</span> specifications within <a data-link-type="dfn" href="https://svgwg.org/svg2-draft/painting.html#TermFill" id="ref-for-TermFill①"><a class="property" data-link-type="propdesc" href="https://svgwg.org/svg2-draft/painting.html#FillProperty" id="ref-for-FillProperty①">fill</a></a>, <a data-link-type="dfn" href="https://svgwg.org/svg2-draft/painting.html#TermStroke" id="ref-for-TermStroke①"><a class="property" data-link-type="propdesc" href="https://svgwg.org/svg2-draft/painting.html#StrokeProperty" id="ref-for-StrokeProperty①">stroke</a></a>, <a data-link-type="dfn"><a class="property" data-link-type="propdesc" href="https://svgwg.org/svg2-draft/pservers.html#StopColorProperty" id="ref-for-StopColorProperty①">stop-color</a></a>, <a data-link-type="dfn"><a class="property" data-link-type="propdesc" href="https://drafts.fxtf.org/filter-effects-1/#propdef-flood-color" id="ref-for-propdef-flood-color①">flood-color</a></a> and <a data-link-type="dfn"><a class="property" data-link-type="propdesc" href="https://drafts.fxtf.org/filter-effects-1/#propdef-lighting-color" id="ref-for-propdef-lighting-color①">lighting-color</a></a> property
+    <dt><span class="prop-value"><a class="css" data-link-type="type" href="https://drafts.csswg.org/css2/#value-def-identifier" id="ref-for-value-def-identifier①">&lt;identifier></a></span>
+    <dd>The name which is used as the first parameter for <span class="prop-value">icc-color</span> specifications within <a class="property" data-link-type="propdesc" href="https://drafts.fxtf.org/fill-stroke-3/#propdef-fill" id="ref-for-propdef-fill①">fill</a>, <a class="property" data-link-type="propdesc" href="https://drafts.fxtf.org/fill-stroke-3/#propdef-stroke" id="ref-for-propdef-stroke①">stroke</a>, <a class="property" data-link-type="propdesc" href="https://svgwg.org/svg2-draft/pservers.html#StopColorProperty" id="ref-for-StopColorProperty①">stop-color</a>, <a class="property" data-link-type="propdesc" href="https://drafts.fxtf.org/filter-effects-1/#propdef-flood-color" id="ref-for-propdef-flood-color①">flood-color</a> and <a class="property" data-link-type="propdesc" href="https://drafts.fxtf.org/filter-effects-1/#propdef-lighting-color" id="ref-for-propdef-lighting-color①">lighting-color</a> property
   values to identify the color profile to use for the ICC
   color specification.  Note that if <a class="property" data-link-type="propdesc">name</a> is not
   provided, it will be impossible to reference the given @color-profile
@@ -1031,6 +1277,26 @@ or when all rendering-intents are provided using the same table.</p>
     <li><a href="#ref-for-url-value">6.2. The CSS @color-profile rule</a> <a href="#ref-for-url-value①">(2)</a> <a href="#ref-for-url-value②">(3)</a> <a href="#ref-for-url-value③">(4)</a> <a href="#ref-for-url-value④">(5)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-value-def-identifier">
+   <a href="https://drafts.csswg.org/css2/#value-def-identifier">https://drafts.csswg.org/css2/#value-def-identifier</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-value-def-identifier">6.2. The CSS @color-profile rule</a> <a href="#ref-for-value-def-identifier①">(2)</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-propdef-fill">
+   <a href="https://drafts.fxtf.org/fill-stroke-3/#propdef-fill">https://drafts.fxtf.org/fill-stroke-3/#propdef-fill</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-propdef-fill">5. The effect of the color property</a>
+    <li><a href="#ref-for-propdef-fill①">6.2. The CSS @color-profile rule</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-propdef-stroke">
+   <a href="https://drafts.fxtf.org/fill-stroke-3/#propdef-stroke">https://drafts.fxtf.org/fill-stroke-3/#propdef-stroke</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-propdef-stroke">5. The effect of the color property</a>
+    <li><a href="#ref-for-propdef-stroke①">6.2. The CSS @color-profile rule</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-propdef-flood-color">
    <a href="https://drafts.fxtf.org/filter-effects-1/#propdef-flood-color">https://drafts.fxtf.org/filter-effects-1/#propdef-flood-color</a><b>Referenced in:</b>
    <ul>
@@ -1051,25 +1317,11 @@ or when all rendering-intents are provided using the same table.</p>
     <li><a href="#ref-for-ColorInterpolationProperty">1. Introduction</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-FillProperty">
-   <a href="https://svgwg.org/svg2-draft/painting.html#FillProperty">https://svgwg.org/svg2-draft/painting.html#FillProperty</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-FillProperty">5. The effect of the color property</a>
-    <li><a href="#ref-for-FillProperty①">6.2. The CSS @color-profile rule</a>
-   </ul>
-  </aside>
   <aside class="dfn-panel" data-for="term-for-StopColorProperty">
    <a href="https://svgwg.org/svg2-draft/pservers.html#StopColorProperty">https://svgwg.org/svg2-draft/pservers.html#StopColorProperty</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-StopColorProperty">5. The effect of the color property</a>
     <li><a href="#ref-for-StopColorProperty①">6.2. The CSS @color-profile rule</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-StrokeProperty">
-   <a href="https://svgwg.org/svg2-draft/painting.html#StrokeProperty">https://svgwg.org/svg2-draft/painting.html#StrokeProperty</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-StrokeProperty">5. The effect of the color property</a>
-    <li><a href="#ref-for-StrokeProperty①">6.2. The CSS @color-profile rule</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-TermURLReference">
@@ -1083,39 +1335,52 @@ or when all rendering-intents are provided using the same table.</p>
    <li>
     <a data-link-type="biblio">[css-color-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-color" style="color:initial">color</span>
-     <li><span class="dfn-paneled" id="term-for-descdef-color-profile-rendering-intent" style="color:initial">rendering-intent</span>
-     <li><span class="dfn-paneled" id="term-for-descdef-color-profile-src" style="color:initial">src</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-color">color</span>
+     <li><span class="dfn-paneled" id="term-for-descdef-color-profile-rendering-intent">rendering-intent</span>
+     <li><span class="dfn-paneled" id="term-for-descdef-color-profile-src">src</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-values-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-number-value" style="color:initial">&lt;number></span>
-     <li><span class="dfn-paneled" id="term-for-url-value" style="color:initial">&lt;url></span>
+     <li><span class="dfn-paneled" id="term-for-number-value">&lt;number></span>
+     <li><span class="dfn-paneled" id="term-for-url-value">&lt;url></span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[CSS21]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-value-def-identifier">&lt;identifier></span>
+    </ul>
+   <li>
+    <a data-link-type="biblio">[fill-stroke-3]</a> defines the following terms:
+    <ul>
+     <li><span class="dfn-paneled" id="term-for-propdef-fill">fill</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-stroke">stroke</span>
     </ul>
    <li>
     <a data-link-type="biblio">[filter-effects-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-flood-color" style="color:initial">flood-color</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-lighting-color" style="color:initial">lighting-color</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-flood-color">flood-color</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-lighting-color">lighting-color</span>
     </ul>
    <li>
     <a data-link-type="biblio">[SVG2]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-ColorInterpolationProperty" style="color:initial">color-interpolation</span>
-     <li><span class="dfn-paneled" id="term-for-FillProperty" style="color:initial">fill</span>
-     <li><span class="dfn-paneled" id="term-for-StopColorProperty" style="color:initial">stop-color</span>
-     <li><span class="dfn-paneled" id="term-for-StrokeProperty" style="color:initial">stroke</span>
-     <li><span class="dfn-paneled" id="term-for-TermURLReference" style="color:initial">url reference</span>
+     <li><span class="dfn-paneled" id="term-for-ColorInterpolationProperty">color-interpolation</span>
+     <li><span class="dfn-paneled" id="term-for-StopColorProperty">stop-color</span>
+     <li><span class="dfn-paneled" id="term-for-TermURLReference">url reference</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
    <dt id="biblio-css-color-4">[CSS-COLOR-4]
-   <dd>Tab Atkins Jr.; Chris Lilley. <a href="https://www.w3.org/TR/css-color-4/">CSS Color Module Level 4</a>. 5 March 2019. WD. URL: <a href="https://www.w3.org/TR/css-color-4/">https://www.w3.org/TR/css-color-4/</a>
+   <dd>Tab Atkins Jr.; Chris Lilley. <a href="https://www.w3.org/TR/css-color-4/">CSS Color Module Level 4</a>. 12 November 2020. WD. URL: <a href="https://www.w3.org/TR/css-color-4/">https://www.w3.org/TR/css-color-4/</a>
    <dt id="biblio-css-values-3">[CSS-VALUES-3]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 31 January 2019. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 6 June 2019. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
+   <dt id="biblio-css21">[CSS21]
+   <dd>Bert Bos; et al. <a href="https://www.w3.org/TR/CSS21/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. 7 June 2011. REC. URL: <a href="https://www.w3.org/TR/CSS21/">https://www.w3.org/TR/CSS21/</a>
+   <dt id="biblio-fill-stroke-3">[FILL-STROKE-3]
+   <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://www.w3.org/TR/fill-stroke-3/">CSS Fill and Stroke Module Level 3</a>. 13 April 2017. WD. URL: <a href="https://www.w3.org/TR/fill-stroke-3/">https://www.w3.org/TR/fill-stroke-3/</a>
    <dt id="biblio-filter-effects-1">[FILTER-EFFECTS-1]
    <dd>Dirk Schulze; Dean Jackson. <a href="https://www.w3.org/TR/filter-effects-1/">Filter Effects Module Level 1</a>. 18 December 2018. WD. URL: <a href="https://www.w3.org/TR/filter-effects-1/">https://www.w3.org/TR/filter-effects-1/</a>
    <dt id="biblio-rfc2119">[RFC2119]

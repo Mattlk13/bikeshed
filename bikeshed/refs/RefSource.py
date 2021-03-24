@@ -1,23 +1,33 @@
-# -*- coding: utf-8 -*-
-from __future__ import division, unicode_literals
-
 import copy
-import os
 import re
 from collections import defaultdict
 
-from .. import config
+from .. import config, constants
+from ..messages import linkerror
 from .RefWrapper import RefWrapper
 from .utils import *
 
-class RefSource(object):
 
-    __slots__ = ["dataFile", "source", "_refs", "methods", "fors", "specs", "ignoredSpecs", "replacedSpecs", "_loadedAnchorGroups"]
+class RefSource:
+
+    __slots__ = [
+        "dataFile",
+        "source",
+        "refs",
+        "methods",
+        "fors",
+        "specs",
+        "ignoredSpecs",
+        "replacedSpecs",
+        "_loadedAnchorGroups",
+    ]
 
     # Which sources use lazy-loading; other sources always have all their refs loaded immediately.
     lazyLoadedSources = ["foreign"]
 
-    def __init__(self, source, specs=None, ignored=None, replaced=None, fileRequester=None):
+    def __init__(
+        self, source, specs=None, ignored=None, replaced=None, fileRequester=None
+    ):
         if fileRequester is None:
             self.dataFile = config.defaultRequester
         else:
@@ -27,7 +37,7 @@ class RefSource(object):
         self.source = source
 
         # Dict of {linking text => [anchor data]}
-        self._refs = defaultdict(list)
+        self.refs = defaultdict(list)
 
         # Dict of {argless method signatures => {"argfull signature": {"args":[args], "for":[fors]}}}
         self.methods = defaultdict(dict)
@@ -41,10 +51,10 @@ class RefSource(object):
         self._loadedAnchorGroups = set()
 
     def fetchRefs(self, key):
-        '''Safe, lazy-loading version of self._refs[key]'''
+        """Safe, lazy-loading version of self.refs[key]"""
 
-        if key in self._refs:
-            return self._refs[key]
+        if key in self.refs:
+            return self.refs[key]
 
         if self.source not in self.lazyLoadedSources:
             return []
@@ -54,40 +64,58 @@ class RefSource(object):
             # Group was loaded, but previous check didn't find it, so it's just not here.
             return []
         # Otherwise, load the group file.
-        with self.dataFile.fetch("anchors", "anchors-{0}.data".format(group), okayToFail=True) as fh:
-            self._refs.update(decodeAnchors(fh))
+        with self.dataFile.fetch(
+            "anchors", f"anchors-{group}.data", okayToFail=True
+        ) as fh:
+            self.refs.update(decodeAnchors(fh))
             self._loadedAnchorGroups.add(group)
-        return self._refs.get(key, [])
+        return self.refs.get(key, [])
 
     def fetchAllRefs(self):
-        '''Nuts to lazy-loading, just load everything at once.'''
+        """Nuts to lazy-loading, just load everything at once."""
 
         if self.source not in self.lazyLoadedSources:
-            return self._refs.items()
+            return list(self.refs.items())
 
-        path = config.scriptPath("spec-data", "anchors")
         for file in self.dataFile.walkFiles("anchors"):
-            group = re.match("anchors-(.{2})", file).group(1)
+            group = re.match(r"anchors-(.{2})", file).group(1)
             if group in self._loadedAnchorGroups:
                 # Already loaded
                 continue
             with self.dataFile.fetch("anchors", file) as fh:
-                self._refs.update(decodeAnchors(fh))
+                self.refs.update(decodeAnchors(fh))
                 self._loadedAnchorGroups.add(group)
-        return self._refs.items()
+        return list(self.refs.items())
 
     def queryRefs(self, **kwargs):
         if "exact" in kwargs:
             return self._queryRefs(**kwargs)
         else:
             # First search for the exact term, and only if it fails fall back to conjugating.
-            results,error = self._queryRefs(exact=True, **kwargs)
+            results, error = self._queryRefs(exact=True, **kwargs)
             if error:
                 return self._queryRefs(exact=False, **kwargs)
             else:
-                return results,error
+                return results, error
 
-    def _queryRefs(self, text=None, spec=None, linkType=None, linkFor=None, explicitFor=False, linkForHint=None, status=None, statusHint=None, export=None, ignoreObsoletes=False, latestOnly=True, dedupURLs=True, exact=False, error=False, **kwargs):
+    def _queryRefs(
+        self,
+        text=None,
+        spec=None,
+        linkType=None,
+        linkFor=None,
+        explicitFor=False,
+        linkForHint=None,
+        status=None,
+        statusHint=None,
+        export=None,
+        ignoreObsoletes=False,
+        latestOnly=True,
+        dedupURLs=True,
+        exact=False,
+        error=False,
+        **kwargs,
+    ):  # pylint: disable=unused-argument
         # Query the ref database.
         # If it fails to find a ref, also returns the stage at which it finally ran out of possibilities.
         def allRefsIterator():
@@ -104,6 +132,8 @@ class RefSource(object):
 
         def forRefsIterator(targetFors):
             # Same as above, but only grabs those for certain values
+            if isinstance(targetFors, str):
+                targetFors = [targetFors]
             for for_ in targetFors:
                 for text in self.fors[for_]:
                     for ref in self.fetchRefs(text):
@@ -116,12 +146,14 @@ class RefSource(object):
             else:
                 textsToSearch = list(linkTextVariations(text, linkType))
                 if text.endswith("()") and text in self.methods:
-                    textsToSearch += self.methods[text].keys()
-                if (linkType is None or linkType in config.lowercaseTypes) and text.lower() != text:
+                    textsToSearch += list(self.methods[text].keys())
+                if (
+                    linkType is None or linkType in config.lowercaseTypes
+                ) and text.lower() != text:
                     textsToSearch += [t.lower() for t in textsToSearch]
                 refs = list(textRefsIterator(textsToSearch))
         elif linkFor:
-            refs = list(forRefsIterator([linkFor]))
+            refs = list(forRefsIterator(linkFor))
         else:
             refs = list(allRefsIterator())
         if not refs:
@@ -134,7 +166,7 @@ class RefSource(object):
                 linkTypes = list(config.linkTypeToDfnType[linkType])
             else:
                 if error:
-                    linkerror("Unknown link type '{0}'.",linkType)
+                    linkerror("Unknown link type '{0}'.", linkType)
                 return [], "type"
             refs = [x for x in refs if x.type in linkTypes]
         if not refs:
@@ -146,11 +178,11 @@ class RefSource(object):
             return refs, "export"
 
         if spec:
-            refs = [x for x in refs if x.spec == spec or x.shortname == spec]
+            refs = [x for x in refs if spec in (x.spec, x.shortname)]
         if not refs:
             return refs, "spec"
 
-        '''
+        """
         for=A | forHint=B | explicitFor
         ✘ | ✘ | ✘ = anything
         ✘ | ✘ | ✔ = /
@@ -160,12 +192,19 @@ class RefSource(object):
         ✔ | ✘ | ✔ = A/
         ✔ | ✔ | ✘ = A/
         ✔ | ✔ | ✔ = A/
-        '''
+        """
+
         def filterByFor(refs, linkFor):
-            if linkFor == "/":
-                return [x for x in refs if not x.for_]
-            elif linkFor:
-                return [x for x in refs if linkFor in x.for_]
+            return [x for x in refs if matchFor(x.for_, linkFor)]
+
+        def matchFor(forVals, forTest):
+            # forTest can be a string, either / for no for or the for value to match,
+            # or an array of strings, of which any can match
+            if forTest == "/":
+                return not bool(forVals)
+            if isinstance(forTest, str):
+                return forTest in forVals
+            return any(matchFor(forVals, ft) for ft in forTest)
 
         if linkFor:
             refs = filterByFor(refs, linkFor)
@@ -184,21 +223,35 @@ class RefSource(object):
             return refs, "for"
 
         def filterByStatus(refs, status):
-            if status in config.refStatus:
+            if status in constants.refStatus:
                 # If status is "current'", kill snapshot refs unless their spec *only* has a snapshot_url
-                if status == config.refStatus.current:
-                    return [ref for ref in refs if ref.status == "current" or (ref.status == "snapshot" and self.specs.get(ref.spec,{}).get('current_url') is None)]
+                if status == constants.refStatus.current:
+                    return [
+                        ref
+                        for ref in refs
+                        if ref.status == "current"
+                        or (
+                            ref.status == "snapshot"
+                            and self.specs.get(ref.spec, {}).get("current_url") is None
+                        )
+                    ]
                 # If status is "snapshot", kill current refs if there's a corresponding snapshot ref for the same spec.
-                elif status == config.refStatus.snapshot:
-                    snapshotSpecs = [ref.spec for ref in refs if ref.status == 'snapshot']
-                    return [ref for ref in refs if ref.status == "snapshot" or (ref.status == "current" and ref.spec not in snapshotSpecs)]
-                else:
-                    raise
+                elif status == constants.refStatus.snapshot:
+                    snapshotSpecs = [
+                        ref.spec for ref in refs if ref.status == "snapshot"
+                    ]
+                    return [
+                        ref
+                        for ref in refs
+                        if ref.status == "snapshot"
+                        or (ref.status == "current" and ref.spec not in snapshotSpecs)
+                    ]
             # Status is a non-refStatus, but is a valid linkStatus, like "local"
             elif status in config.linkStatuses:
                 return [x for x in refs if x.status == status]
-            else:
-                raise
+
+            raise Exception(f"Status value of '{status}' not handled")
+
         if status:
             refs = filterByStatus(refs, status)
         if not refs:
@@ -217,7 +270,9 @@ class RefSource(object):
         if ignoreObsoletes and not spec:
             # Remove any ignored or obsoleted specs
             # If you specified the spec, don't filter things - you know what you're doing.
-            refs = filterObsoletes(refs, replacedSpecs=self.replacedSpecs, ignoredSpecs=self.ignoredSpecs)
+            refs = filterObsoletes(
+                refs, replacedSpecs=self.replacedSpecs, ignoredSpecs=self.ignoredSpecs
+            )
         if not refs:
             return refs, "ignored-specs"
 
@@ -227,7 +282,7 @@ class RefSource(object):
             seenUrls = set()
             tempRefs = []
             # Sort the refs so the kept one doesn't depend on ordering in the RefSource dict.
-            for ref in sorted(copy.copy(refs), key=lambda x:x.text):
+            for ref in sorted(copy.copy(refs), key=lambda x: x.text):
                 if ref.url not in seenUrls:
                     tempRefs.append(ref)
                     seenUrls.add(ref.url)
@@ -254,7 +309,7 @@ class RefSource(object):
         variants = self.methods[arglessMethodSig]
         if methodSig not in variants:
             args = [x.strip() for x in args.split(",")]
-            variants[methodSig] = {"args":args, "for":[], "shortname": shortname}
+            variants[methodSig] = {"args": args, "for": [], "shortname": shortname}
         variants[methodSig]["for"].extend(forVals)
 
 
@@ -263,23 +318,23 @@ def decodeAnchors(linesIter):
     anchors = defaultdict(list)
     try:
         while True:
-            key = linesIter.next()[:-1]
+            key = next(linesIter)[:-1]
             a = {
-                "type": linesIter.next(),
-                "spec": linesIter.next(),
-                "shortname": linesIter.next(),
-                "level": linesIter.next(),
-                "status": linesIter.next(),
-                "url": linesIter.next(),
-                "export": linesIter.next() != "\n",
-                "normative": linesIter.next() != "\n",
-                "for": []
+                "type": next(linesIter),
+                "spec": next(linesIter),
+                "shortname": next(linesIter),
+                "level": next(linesIter),
+                "status": next(linesIter),
+                "url": next(linesIter),
+                "export": next(linesIter) != "\n",
+                "normative": next(linesIter) != "\n",
+                "for": [],
             }
             while True:
-                line = linesIter.next()
-                if line == b"-\n":
+                line = next(linesIter)
+                if line == "-\n":
                     break
-                a['for'].append(line)
+                a["for"].append(line)
             anchors[key].append(a)
     except StopIteration:
         return anchors

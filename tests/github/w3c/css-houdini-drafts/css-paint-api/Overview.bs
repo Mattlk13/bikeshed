@@ -36,6 +36,9 @@ Ignored Terms: PaintWorklet
 <pre class="link-defaults">
 spec:infra; type:dfn; text:list
 spec:webidl; type:dfn; text:converting
+spec:html; type:dfn;
+    text:set bitmap dimensions;
+    text:reset the rendering context to its default state
 </pre>
 
 <pre class="anchors">
@@ -71,6 +74,8 @@ which are related to painting.
 
 The {{paintWorklet}}'s [=worklet global scope type=] is {{PaintWorkletGlobalScope}}.
 
+The {{paintWorklet}}'s <a>worklet destination type</a> is <code>"paintworklet"</code>.
+
 <pre class='idl'>
 partial namespace CSS {
     [SameObject] readonly attribute Worklet paintWorklet;
@@ -85,7 +90,7 @@ identical to the Window.{{Window/devicePixelRatio}} property.
 <pre class='idl'>
 [Global=(Worklet,PaintWorklet),Exposed=PaintWorklet]
 interface PaintWorkletGlobalScope : WorkletGlobalScope {
-    void registerPaint(DOMString name, VoidFunction paintCtor);
+    undefined registerPaint(DOMString name, VoidFunction paintCtor);
     readonly attribute unrestricted double devicePixelRatio;
 };
 </pre>
@@ -198,7 +203,7 @@ called, the user agent <em>must</em> run the following steps:
 
     10. If |inputArgumentsIterable| is not undefined, then set |inputArguments| to the result of
         [=converting=] |inputArgumentsIterable| to a <code>sequence&lt;DOMString></code>. If an
-        execption is thrown, rethrow the execption and abort all these steps.
+        exception is thrown, rethrow the exception and abort all these steps.
 
     11. Let |inputArgumentSyntaxes| be an [=list/empty=] [=list=].
 
@@ -402,6 +407,7 @@ For interfaces which use the {{CanvasDrawImage}} mixin:
          {{CanvasDrawImage/drawImage}}.
 
 Note: This should eventually be moved to the canvas section of the HTML specification.
+See <a href="https://github.com/w3c/css-houdini-drafts/issues/819">Issue 819</a>.
 
 Drawing an image {#drawing-an-image}
 ====================================
@@ -435,12 +441,12 @@ boundaries. If it does, the user agent should adjust the |snappedConcreteObjectS
 proportional change from its original size such that the <<paint()>> function can adjust the drawing
 accordingly.
 
-For the purposes of the [=object size negotiation=] algorithm, the paint image has no
-[=intrinsic dimensions=].
+For the purposes of the [=object size negotiation=] algorithm,
+the paint image has no [=natural dimensions=].
 
-Note: In a future version of the spec, the author could have the ability to specify the [=intrinsic
+Note: In a future version of the spec, the author could have the ability to specify the [=natural
     dimensions=] of the paint image. This will probably be exposed as a callback allowing the
-    author to define static [=intrinsic dimensions=] or dynamically updating the [=intrinsic
+    author to define static [=natural dimensions=] or dynamically updating the [=natural
     dimensions=] based on computed style and size changes.
 
 The {{PaintSize}} object represents the size of the image that the author should draw. This is
@@ -530,11 +536,10 @@ with), given |snappedConcreteObjectSize| it <em>must</em> run the following step
             arguments.
         </div>
 
-    10. Let |workletGlobalScope| be a {{PaintWorkletGlobalScope}} from the list of [=worklet's
-        WorkletGlobalScopes=] from the paint {{Worklet}}, following the rules defined in
-        [[#global-scope-selection]].
+    10. Let |workletGlobalScope| be a {{PaintWorkletGlobalScope}} from the the paint {{Worklet}}'s
+        [=Worklet/global scopes=], following the rules defined in [[#global-scope-selection]].
 
-        The user agent <em>may</em> also [=create a WorkletGlobalScope=] at this time, given the
+        The user agent <em>may</em> also [=create a worklet global scope=] at this time, given the
         paint {{Worklet}}.
 
     11. Run [=invoke a paint callback=] given |name|, |inputArguments|, |snappedConcreteObjectSize|,
@@ -596,8 +601,8 @@ When the user agent wants to <dfn>invoke a paint callback</dfn> given |name|, |i
         [=computed value=]'s for properties listed in |inputProperties|.
 
     8. Let |renderingContext| be the result of [=create a PaintRenderingContext2D object=] given:
-            - "width" - The width given by |concreteObjectSize|.
-            - "height" - The height given by |concreteObjectSize|.
+            - "width" - The width given by |snappedConcreteObjectSize|.
+            - "height" - The height given by |snappedConcreteObjectSize|.
             - "paintRenderingContext2DSettings" - The
                 [=paint definition/PaintRenderingContext2DSettings object=] given by |definition|.
 
@@ -680,8 +685,8 @@ Note: The contents of the resulting image are not designed to be accessible. Aut
 Global Scope Selection {#global-scope-selection}
 ------------------------------------------------
 
-When the user agent needs to select a {{PaintWorkletGlobalScope}} from the paint [=worklet's
-WorkletGlobalScopes=] [=list=] it <em>must</em>:
+When the user agent needs to select a {{PaintWorkletGlobalScope}} from the paint {{Worklet}}'s
+[=Worklet/global scopes=] [=list=] it <em>must</em>:
 
     - Select from at <em>least</em> two {{PaintWorkletGlobalScope}}s, unless the user agent is under
         memory constraints.
@@ -692,7 +697,9 @@ WorkletGlobalScopes=] [=list=] it <em>must</em>:
             over time.
 
 Note: These rules exist to ensure that authors do not rely on being able to store state on the
-    global object or non-regeneratable state on the class. See [[worklets-1#code-idempotency]].
+    global object or non-regeneratable state on the class. See
+    <a href="https://html.spec.whatwg.org/multipage/worklets.html#worklets-idempotent">the
+    discussion in the worklets specification about code idempotence</a>.
 
 Examples {#examples}
 ====================
@@ -991,23 +998,26 @@ There are no known security issues introduced by these features.
 Privacy Considerations {#privacy-considerations}
 ================================================
 
-There are no known privacy issues introduced by these features.
+* The timing of paint callbacks can be used as a high-bandwidth channel for detecting "visited" state for links.
+    (<a href="https://github.com/w3c/css-houdini-drafts/issues/791">details</a>)
+    This is not a fundamentally new privacy leak,
+    as visited state leaks from many interactions,
+    but absent any further mitigations,
+    this is a particularly high-bandwidth channel of the information.
+
+    No official mitigations are planned at this time,
+    as this privacy leak needs to be addressed more directly
+    to fix all such channels.
 
 Changes {#changes}
 ==================
 
-Changes since the last publication:
-	<ul>
-		<li id="change-2018-paint-function-webidl">
-			Adding converting the paint function to the WebIDL Function type, instead of just a raw
-			javascript function.
-			(<a href="https://github.com/w3c/css-houdini-drafts/issues/743">Issue 743</a>)
+Changes since the <a href="https://www.w3.org/TR/2018/CR-css-paint-api-1-20180809/">9 August 2018 CR publication</a>:
 
-		<li id="change-2018-filter-input-properties">
-			Added a step to {{registerPaint()}} to filter out unsupported native CSS properties. These now
-do not appear in the {{StylePropertyMapReadOnly}} provided to the paint function.
-			(<a href="https://github.com/w3c/css-houdini-drafts/issues/523">Issue 523</a>)
-  </ul>
+* Filtered the list of input properties to a paint worklet to be only known or custom properties.
 
-A <a href="https://drafts.css-houdini.org/css-paint-api-1/issues-list-2018-04-10">Disposition of Comments</a> is available.
+* Added alpha flag to {{PaintRenderingContext2D}} to control whether the rendering surface is forced opaque or allows transparency.
 
+* Fix definition for the size of the output bitmap:
+
+    > The size of the output bitmap is the <ins>concrete object size of the object it is rendering to</ins> <del>size of the fragment it is rendering</del>.

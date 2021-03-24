@@ -8,138 +8,12 @@
   <meta content="This document describes floats that move to the top or bottom of content  passages. This feature has traditionally been used in print  publications in which figures and photos are moved to the top or bottom  of columns or pages, along with their captions.  This draft describes how to achieve this effects for floats within pages,  columns, regions and elements." name="abstract">
   <link href="../default.css" rel="stylesheet" type="text/css">
   <link href="../csslogo.ico" rel="shortcut icon" type="image/x-icon">
-<style>
-  body {
-    background: url("https://www.w3.org/StyleSheets/TR/logo-ED") top left no-repeat;
-  }
-  </style>
+  <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <link href="https://www.w3.org/TR/css-page-floats-3/" rel="canonical">
-<style>/* style-md-lists */
-
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}</style>
-<style>/* style-counters */
-
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}</style>
-<style>/* style-dfn-panel */
-
-.dfn-panel {
-    position: absolute;
-    z-index: 35;
-    height: auto;
-    width: -webkit-fit-content;
-    width: fit-content;
-    max-width: 300px;
-    max-height: 500px;
-    overflow: auto;
-    padding: 0.5em 0.75em;
-    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
-    border: outset 0.2em;
-}
-.dfn-panel:not(.on) { display: none; }
-.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
-.dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
-.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
-.dfn-panel > b + b { margin-top: 0.25em; }
-.dfn-panel ul { padding: 0; }
-.dfn-panel li { list-style: inside; }
-.dfn-panel.activated {
-    display: inline-block;
-    position: fixed;
-    left: .5em;
-    bottom: 2em;
-    margin: 0 auto;
-    max-width: calc(100vw - 1.5em - .4em - .5em);
-    max-height: 30vh;
-}
-
-.dfn-paneled { cursor: pointer; }
-</style>
-<style>/* style-selflinks */
-
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: gray;
-    color: white;
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: black;
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
-    color: #005a9c;
+    color: var(--a-normal-text);
     font-size: inherit;
     font-family: inherit;
 }
@@ -198,6 +72,374 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #707070;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #bbb;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
+<style>/* style-dfn-panel */
+
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    height: auto;
+    width: -webkit-fit-content;
+    width: fit-content;
+    max-width: 300px;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
+    border: outset 0.2em;
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0; }
+.dfn-panel li { list-style: inside; }
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: .5em;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+}
+
+.dfn-paneled { cursor: pointer; }
+</style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
@@ -213,6 +455,8 @@ pre .property::before, pre .property::after {
       <dd><a href="https://www.w3.org/TR/css-page-floats-3/">https://www.w3.org/TR/css-page-floats-3/</a>
       <dt>Previous Versions:
       <dd><a href="https://www.w3.org/TR/2015/WD-css-page-floats-3-20150915/" rel="prev">https://www.w3.org/TR/2015/WD-css-page-floats-3-20150915/</a>
+      <dt>Issue Tracking:
+      <dd><a href="https://github.com/w3c/csswg-drafts/labels/css-page-floats-3">CSSWG Issues Repository</a>
       <dt class="editor">Editors:
       <dd class="editor p-author h-card vcard" data-editor-id="76051"><a class="p-name fn u-email email" href="mailto:johanneswilm@vivliostyle.com">Johannes Wilm</a> (<span class="p-org org">Vivliostyle</span>)
       <dd class="editor p-author h-card vcard" data-editor-id="43241"><a class="p-name fn u-url url" href="https://florian.rivoal.net">Florian Rivoal</a> (<span class="p-org org">Invited Expert</span>)
@@ -221,13 +465,11 @@ pre .property::before, pre .property::after {
       <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:howcome@opera.com">Håkon Wium Lie</a> (<span class="p-org org">Opera Software</span>)
       <dt>Suggest an Edit for this Spec:
       <dd><a href="https://github.com/w3c/csswg-drafts/blob/master/css-page-floats-3/Overview.bs">GitHub Editor</a>
-      <dt>Issue Tracking:
-      <dd><a href="https://github.com/w3c/csswg-drafts/labels/css-page-floats-3">GitHub Issues</a>
      </dl>
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -249,19 +491,13 @@ on screen, on paper, etc.
 	It is provided for discussion only and may change at any moment.
 	Its publication here does not imply endorsement of its contents by W3C.
 	Don’t cite this document other than as work in progress. </p>
-   <p> <a href="https://github.com/w3c/csswg-drafts/issues">GitHub Issues</a> are preferred for discussion of this specification.
-	When filing an issue, please put the text “css-page-floats” in the title,
-	preferably like this:
-	“[css-page-floats] <i data-lt>…summary of comment…</i>”.
-	All issues and comments are <a href="https://lists.w3.org/Archives/Public/public-css-archive/">archived</a>,
-	and there is also a <a href="https://lists.w3.org/Archives/Public/www-style/">historical archive</a>. </p>
-   <p> This document was produced by the <a href="https://www.w3.org/Style/CSS/">CSS Working Group</a>. </p>
-   <p> This document was produced by a group operating under
-	the <a href="https://www.w3.org/Consortium/Patent-Policy/">W3C Patent Policy</a>.
-	W3C maintains a <a href="https://www.w3.org/2004/01/pp-impl/32061/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group;
-	that page also includes instructions for disclosing a patent.
-	An individual who has actual knowledge of a patent which the individual believes contains <a href="https://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="https://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the W3C Patent Policy</a>. </p>
-   <p> This document is governed by the <a href="https://www.w3.org/2019/Process-20190301/" id="w3c_process_revision">1 March 2019 W3C Process Document</a>. </p>
+   <p>Please send feedback
+	by <a href="https://github.com/w3c/csswg-drafts/issues">filing issues in GitHub</a> (preferred),
+	including the spec code “css-page-floats” in the title, like this:
+	“[css-page-floats] <i>…summary of comment…</i>”.
+	All issues and comments are <a href="https://lists.w3.org/Archives/Public/public-css-archive/">archived</a>.
+	Alternately, feedback can be sent to the (<a href="https://lists.w3.org/Archives/Public/www-style/">archived</a>) public mailing list <a href="mailto:www-style@w3.org?Subject=%5Bcss-page-floats%5D%20PUT%20SUBJECT%20HERE">www-style@w3.org</a>. </p>
+   <p>This document is governed by the <a href="https://www.w3.org/2020/Process-20200915/" id="w3c_process_revision">15 September 2020 W3C Process Document</a>. </p>
    <p></p>
    <p>Some of the features in this draft were previously published in <cite>CSS Generated Content for Paged Media Module</cite> <a data-link-type="biblio" href="#biblio-css3gcpm">[CSS3GCPM]</a>.</p>
   </div>
@@ -269,7 +505,11 @@ on screen, on paper, etc.
   <nav data-fill-with="table-of-contents" id="toc">
    <h2 class="no-num no-toc no-ref" id="contents">Table of Contents</h2>
    <ol class="toc" role="directory">
-    <li><a href="#overview"><span class="secno">1</span> <span class="content">Overview</span></a>
+    <li>
+     <a href="#overview"><span class="secno">1</span> <span class="content">Overview</span></a>
+     <ol class="toc">
+      <li><a href="#values"><span class="secno">1.1</span> <span class="content">Value Definitions</span></a>
+     </ol>
     <li><a href="#terms"><span class="secno">2</span> <span class="content"> Terminology</span></a>
     <li>
      <a href="#floating"><span class="secno">3</span> <span class="content"> Floating to the inline-start/inline-end and block-start/block-end</span></a>
@@ -299,17 +539,16 @@ on screen, on paper, etc.
     <li><a href="#overconstrained-page-floats"><span class="secno">10</span> <span class="content">Overconstrained floats</span></a>
     <li><a href="#acks"><span class="secno"></span> <span class="content"> Acknowledgments</span></a>
     <li>
-     <a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
+     <a href="#w3c-conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
      <ol class="toc">
-      <li><a href="#document-conventions"><span class="secno"></span> <span class="content"> Document conventions</span></a>
-      <li><a href="#conform-classes"><span class="secno"></span> <span class="content"> Conformance classes</span></a>
+      <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content"> Document conventions</span></a>
+      <li><a href="#w3c-conformance-classes"><span class="secno"></span> <span class="content"> Conformance classes</span></a>
       <li>
-       <a href="#conform-responsible"><span class="secno"></span> <span class="content"> Requirements for Responsible Implementation of CSS</span></a>
+       <a href="#w3c-partial"><span class="secno"></span> <span class="content"> Partial implementations</span></a>
        <ol class="toc">
-        <li><a href="#conform-partial"><span class="secno"></span> <span class="content"> Partial Implementations</span></a>
-        <li><a href="#conform-future-proofing"><span class="secno"></span> <span class="content"> Implementations of Unstable and Proprietary Features</span></a>
-        <li><a href="#conform-testing"><span class="secno"></span> <span class="content"> Implementations of CR-level Features</span></a>
+        <li><a href="#w3c-conform-future-proofing"><span class="secno"></span> <span class="content"> Implementations of Unstable and Proprietary Features</span></a>
        </ol>
+      <li><a href="#w3c-testing"><span class="secno"></span> <span class="content"> Non-experimental implementations</span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -344,6 +583,14 @@ on screen, on paper, etc.
     (or may not) be a good idea to separate the two entirely.
     Therefore, the name <em>CSS Page Floats</em> should probably be replaced with
     a more appropriate name. </p>
+   <h3 class="heading settled" data-level="1.1" id="values"><span class="secno">1.1. </span><span class="content">Value Definitions</span><a class="self-link" href="#values"></a></h3>
+   <p>This specification follows the <a href="https://www.w3.org/TR/CSS2/about.html#property-defs">CSS property definition conventions</a> from <a data-link-type="biblio" href="#biblio-css2">[CSS2]</a> using the <a href="https://www.w3.org/TR/css-values-3/#value-defs">value definition syntax</a> from <a data-link-type="biblio" href="#biblio-css-values-3">[CSS-VALUES-3]</a>.
+  Value types not defined in this specification are defined in CSS Values &amp; Units <span>[CSS-VALUES-3]</span>.
+  Combination with other CSS modules may expand the definitions of these value types.</p>
+   <p>In addition to the property-specific values listed in their definitions,
+  all properties defined in this specification
+  also accept the <a data-link-type="dfn" href="https://drafts.csswg.org/css-values-4/#css-wide-keywords" id="ref-for-css-wide-keywords">CSS-wide keywords</a> as their property value.
+  For readability they have not been repeated explicitly.</p>
    <h2 class="heading settled" data-level="2" id="terms"><span class="secno">2. </span><span class="content"> Terminology</span><a class="self-link" href="#terms"></a></h2>
    <dl>
     <dt><dfn class="dfn-paneled" data-dfn-type="dfn" data-export id="float">Float</dfn> 
@@ -381,28 +628,28 @@ on screen, on paper, etc.
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-float-reference">float-reference</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">inline <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one">|</a> column <span id="ref-for-comb-one①">|</span> region <span id="ref-for-comb-one②">|</span> page 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>inline 
      <tr>
       <th>Applies to:
       <td>all elements. 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>N/A 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <dl>
@@ -471,28 +718,28 @@ And some more text&lt;/p>
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-float">float</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">block-start <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one③">|</a> block-end <span id="ref-for-comb-one④">|</span> inline-start <span id="ref-for-comb-one⑤">|</span> inline-end <span id="ref-for-comb-one⑥">|</span> snap-block <span id="ref-for-comb-one⑦">|</span> <a class="production css" data-link-type="function" href="#funcdef-float-snap-block" id="ref-for-funcdef-float-snap-block">&lt;snap-block()></a> <span id="ref-for-comb-one⑧">|</span> snap-inline <span id="ref-for-comb-one⑨">|</span> <a class="production css" data-link-type="function" href="#funcdef-float-snap-inline" id="ref-for-funcdef-float-snap-inline">&lt;snap-inline()></a> <span id="ref-for-comb-one①⓪">|</span> left <span id="ref-for-comb-one①①">|</span> right <span id="ref-for-comb-one①②">|</span> top <span id="ref-for-comb-one①③">|</span> bottom <span id="ref-for-comb-one①④">|</span> none
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>none
      <tr>
       <th>Applies to:
       <td>all elements.
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>N/A
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>as specified
      <tr>
       <th>Canonical order:
       <td>per grammar
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>by computed value type
    </table>
    <dl>
@@ -552,7 +799,7 @@ And some more text&lt;/p>
     <dt><dfn class="dfn-paneled css" data-dfn-for="float" data-dfn-type="function" data-export id="funcdef-float-snap-block">snap-block()</dfn> 
     <dd>
       The <a class="css" data-link-type="maybe" href="#funcdef-float-snap-block" id="ref-for-funcdef-float-snap-block①">snap-block()</a> function is defined as: 
-<pre class="prod">snap-block() = snap-block( <a class="production" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" id="ref-for-length-value" title="Expands to: em | vb | ch | cm | vh | vi | in | ex | vw | ic | pt | px | lh | pc | rem | rlh | vmax | advance measure | vmin | mm | cap | q">&lt;length></a> <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-comma" id="ref-for-comb-comma">,</a> [ start <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①⑤">|</a> end <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①⑥">|</a> near ]<a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-opt" id="ref-for-mult-opt">?</a> )
+<pre class="prod">snap-block() = snap-block( <a class="production" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" id="ref-for-length-value" title="Expands to: advance measure | cap | ch | cm | em | ex | ic | in | lh | mm | pc | pt | px | q | rem | rlh | vb | vh | vi | vmax | vmin | vw">&lt;length></a> <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-comma" id="ref-for-comb-comma">,</a> [ start <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①⑤">|</a> end <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①⑥">|</a> near ]<a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-opt" id="ref-for-mult-opt">?</a> )
 </pre>
      <p>Has no effect if the element is an <a data-link-type="dfn" href="#inline-float" id="ref-for-inline-float①">inline float</a>.</p>
      <p>If the element is a <a data-link-type="dfn" href="#page-float" id="ref-for-page-float③">page float</a>, it makes the element float to the
@@ -570,7 +817,7 @@ And some more text&lt;/p>
     <dt><dfn class="dfn-paneled css" data-dfn-for="float" data-dfn-type="function" data-export id="funcdef-float-snap-inline">snap-inline()</dfn> 
     <dd>
       The <a class="css" data-link-type="maybe" href="#funcdef-float-snap-inline" id="ref-for-funcdef-float-snap-inline①">snap-inline()</a> function is defined as: 
-<pre class="prod">snap-inline() = snap-inline( <a class="production" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" id="ref-for-length-value①" title="Expands to: em | vb | ch | cm | vh | vi | in | ex | vw | ic | pt | px | lh | pc | rem | rlh | vmax | advance measure | vmin | mm | cap | q">&lt;length></a> <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-comma" id="ref-for-comb-comma①">,</a> [ left <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①⑦">|</a> right <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①⑧">|</a> near ]<a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-opt" id="ref-for-mult-opt①">?</a> )
+<pre class="prod">snap-inline() = snap-inline( <a class="production" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" id="ref-for-length-value①" title="Expands to: advance measure | cap | ch | cm | em | ex | ic | in | lh | mm | pc | pt | px | q | rem | rlh | vb | vh | vi | vmax | vmin | vw">&lt;length></a> <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-comma" id="ref-for-comb-comma①">,</a> [ left <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①⑦">|</a> right <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①⑧">|</a> near ]<a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#mult-opt" id="ref-for-mult-opt①">?</a> )
 </pre>
      <p>Has no effect if the element is an <a data-link-type="dfn" href="#inline-float" id="ref-for-inline-float②">inline float</a>.</p>
      <p>If the element is a <a data-link-type="dfn" href="#page-float" id="ref-for-page-float④">page float</a>, it makes the element float to the
@@ -656,28 +903,28 @@ table { float: snap-block(3em 2em, bottom) }
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-clear">clear</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">inline-start <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one①⑨">|</a> inline-end <span id="ref-for-comb-one②⓪">|</span> block-start <span id="ref-for-comb-one②①">|</span> block-end <span id="ref-for-comb-one②②">|</span> left <span id="ref-for-comb-one②③">|</span> right <span id="ref-for-comb-one②④">|</span> top <span id="ref-for-comb-one②⑤">|</span> bottom <span id="ref-for-comb-one②⑥">|</span> none 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>none 
      <tr>
       <th>Applies to:
       <td>block-level elements, floats, regions, pages 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>N/A 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <p>To prevent stacking of floats, the <a class="property" data-link-type="propdesc" href="#propdef-clear" id="ref-for-propdef-clear②">clear</a> property can be used:</p>
@@ -807,28 +1054,28 @@ table { float: snap-block(3em 2em, bottom) }
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-float-defer">float-defer</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
       <td class="prod">&lt;integer> <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one②⑦">|</a> last <span id="ref-for-comb-one②⑧">|</span> none 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>none 
      <tr>
       <th>Applies to:
       <td>floats 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>N/A 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>specified keyword or integer 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>discrete 
    </table>
    <p>This property specifies whether the <a data-link-type="dfn" href="#initial-float-reference" id="ref-for-initial-float-reference②">initial float reference</a> of a <a data-link-type="dfn" href="#page-float" id="ref-for-page-float⑧">page
@@ -859,7 +1106,7 @@ table { float: snap-block(3em 2em, bottom) }
         is interpreted as if it were zero.</p>
      <p class="note" role="note"> Negative float-defer values put the initial float reference a certain number
           to be a certain amount of fragmentation containers from the last fragmentation
-          container at the time of of the placement. Subsequent page float stacking
+          container at the time of the placement. Subsequent page float stacking
           can mean that a page float is being placed in a later fragmentation container
           (a page float with float-defer set to -3 can end up being placed in the
           last fragmentation container), and later page floats may mean that new
@@ -920,28 +1167,28 @@ table { float: snap-block(3em 2em, bottom) }
       <th>Name:
       <td><dfn class="dfn-paneled css" data-dfn-type="property" data-export id="propdef-float-offset">float-offset</dfn>
      <tr class="value">
-      <th><a href="https://drafts.csswg.org/css-values/#value-defs">Value:</a>
-      <td class="prod"><a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" id="ref-for-length-value②" title="Expands to: em | vb | ch | cm | vh | vi | in | ex | vw | ic | pt | px | lh | pc | rem | rlh | vmax | advance measure | vmin | mm | cap | q">&lt;length></a> <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one②⑨">|</a> <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#percentage-value" id="ref-for-percentage-value">&lt;percentage></a> 
+      <th><a href="https://www.w3.org/TR/css-values/#value-defs">Value:</a>
+      <td class="prod"><a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" id="ref-for-length-value②" title="Expands to: advance measure | cap | ch | cm | em | ex | ic | in | lh | mm | pc | pt | px | q | rem | rlh | vb | vh | vi | vmax | vmin | vw">&lt;length></a> <a data-link-type="grammar" href="https://drafts.csswg.org/css-values-4/#comb-one" id="ref-for-comb-one②⑨">|</a> <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#percentage-value" id="ref-for-percentage-value">&lt;percentage></a> 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#initial-values">Initial:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#initial-values">Initial:</a>
       <td>0 
      <tr>
       <th>Applies to:
       <td>floats 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#inherited-property">Inherited:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#inherited-property">Inherited:</a>
       <td>no 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-values/#percentages">Percentages:</a>
+      <th><a href="https://www.w3.org/TR/css-values/#percentages">Percentages:</a>
       <td>see prose 
      <tr>
-      <th><a href="https://drafts.csswg.org/css-cascade/#computed">Computed value:</a>
+      <th><a href="https://www.w3.org/TR/css-cascade/#computed">Computed value:</a>
       <td>computed <a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-4/#typedef-length-percentage" id="ref-for-typedef-length-percentage">&lt;length-percentage></a> value 
      <tr>
       <th>Canonical order:
       <td>per grammar 
      <tr>
-      <th><a href="https://drafts.csswg.org/web-animations/#animation-type">Animation type:</a>
+      <th><a href="https://www.w3.org/TR/web-animations/#animation-type">Animation type:</a>
       <td>by computed value type 
    </table>
    <p>This property pushes a <a data-link-type="dfn" href="#page-float" id="ref-for-page-float⑨">page float</a> in direction opposite of the where it has been
@@ -1241,95 +1488,89 @@ canvas {
   Tantek Çelik
   and the CSS Working Group members.</p>
   </main>
-  <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
-  <h3 class="heading settled" id="document-conventions"><span class="content"> Document conventions</span><a class="self-link" href="#document-conventions"></a></h3>
+  <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content"> Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
+  <h3 class="no-ref heading settled" id="w3c-conventions"><span class="content"> Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
   <p>Conformance requirements are expressed with a combination of
-	descriptive assertions and RFC 2119 terminology. The key words “MUST”,
-	“MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
-	“RECOMMENDED”, “MAY”, and “OPTIONAL” in the normative parts of this
-	document are to be interpreted as described in RFC 2119.
-	However, for readability, these words do not appear in all uppercase
-	letters in this specification. </p>
+    descriptive assertions and RFC 2119 terminology. The key words “MUST”,
+    “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
+    “RECOMMENDED”, “MAY”, and “OPTIONAL” in the normative parts of this
+    document are to be interpreted as described in RFC 2119.
+    However, for readability, these words do not appear in all uppercase
+    letters in this specification. </p>
   <p>All of the text of this specification is normative except sections
-	explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a> </p>
+    explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a></p>
   <p>Examples in this specification are introduced with the words “for example”
-	or are set apart from the normative text with <code>class="example"</code>,
-	like this: </p>
+    or are set apart from the normative text with <code>class="example"</code>,
+    like this: </p>
   <div class="example" id="example-ae2b6bc0">
    <a class="self-link" href="#example-ae2b6bc0"></a> 
-   <p>This is an example of an informative example. </p>
+   <p>This is an example of an informative example.</p>
   </div>
   <p>Informative notes begin with the word “Note” and are set apart from the
-	normative text with <code>class="note"</code>, like this: </p>
-  <p class="note" role="note">Note, this is an informative note. </p>
+    normative text with <code>class="note"</code>, like this: </p>
+  <p class="note" role="note">Note, this is an informative note.</p>
   <p>Advisements are normative sections styled to evoke special attention and are
-	set apart from other normative text with <code>&lt;strong class="advisement"></code>, like
-	this: <strong class="advisement"> UAs MUST provide an accessible alternative. </strong> </p>
-  <h3 class="heading settled" id="conform-classes"><span class="content"> Conformance classes</span><a class="self-link" href="#conform-classes"></a></h3>
+    set apart from other normative text with <code>&lt;strong class="advisement"></code>, like
+    this: <strong class="advisement"> UAs MUST provide an accessible alternative. </strong> </p>
+  <h3 class="no-ref heading settled" id="w3c-conformance-classes"><span class="content"> Conformance classes</span><a class="self-link" href="#w3c-conformance-classes"></a></h3>
   <p>Conformance to this specification
-	is defined for three conformance classes: </p>
+    is defined for three conformance classes: </p>
   <dl>
    <dt>style sheet 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#style-sheet">CSS
-			style sheet</a>. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#style-sheet">CSS
+            style sheet</a>. 
    <dt>renderer 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#user-agent">UA</a> that interprets the semantics of a style sheet and renders
-			documents that use them. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#user-agent">UA</a> that interprets the semantics of a style sheet and renders
+            documents that use them. 
    <dt>authoring tool 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#user-agent">UA</a> that writes a style sheet. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#user-agent">UA</a> that writes a style sheet. 
   </dl>
   <p>A style sheet is conformant to this specification
-	if all of its statements that use syntax defined in this module are valid
-	according to the generic CSS grammar and the individual grammars of each
-	feature defined in this module. </p>
+    if all of its statements that use syntax defined in this module are valid
+    according to the generic CSS grammar and the individual grammars of each
+    feature defined in this module. </p>
   <p>A renderer is conformant to this specification
-	if, in addition to interpreting the style sheet as defined by the
-	appropriate specifications, it supports all the features defined
-	by this specification by parsing them correctly
-	and rendering the document accordingly. However, the inability of a
-	UA to correctly render a document due to limitations of the device
-	does not make the UA non-conformant. (For example, a UA is not
-	required to render color on a monochrome monitor.) </p>
+    if, in addition to interpreting the style sheet as defined by the
+    appropriate specifications, it supports all the features defined
+    by this specification by parsing them correctly
+    and rendering the document accordingly. However, the inability of a
+    UA to correctly render a document due to limitations of the device
+    does not make the UA non-conformant. (For example, a UA is not
+    required to render color on a monochrome monitor.) </p>
   <p>An authoring tool is conformant to this specification
-	if it writes style sheets that are syntactically correct according to the
-	generic CSS grammar and the individual grammars of each feature in
-	this module, and meet all other conformance requirements of style sheets
-	as described in this module. </p>
-  <h3 class="heading settled" id="conform-responsible"><span class="content"> Requirements for Responsible Implementation of CSS</span><a class="self-link" href="#conform-responsible"></a></h3>
-  <p>The following sections define several conformance requirements
-		for implementing CSS responsibly,
-		in a way that promotes interoperability in the present and future. </p>
-  <h4 class="heading settled" id="conform-partial"><span class="content"> Partial Implementations</span><a class="self-link" href="#conform-partial"></a></h4>
-  <p>So that authors can exploit the forward-compatible parsing rules to assign fallback values, <strong>CSS renderers <em>must</em> treat as invalid
-		(and <a href="http://www.w3.org/TR/CSS2/conform.html#ignore">ignore as appropriate</a>)
-		any at-rules, properties, property values, keywords, and other syntactic constructs
-		for which they have no usable level of support</strong>.
-		In particular, user agents <em>must not</em> selectively ignore
-		unsupported property values and honor supported values in a single multi-value property declaration:
-		if any value is considered invalid (as unsupported values must be),
-		CSS requires that the entire declaration be ignored. </p>
-  <h4 class="heading settled" id="conform-future-proofing"><span class="content"> Implementations of Unstable and Proprietary Features</span><a class="self-link" href="#conform-future-proofing"></a></h4>
+    if it writes style sheets that are syntactically correct according to the
+    generic CSS grammar and the individual grammars of each feature in
+    this module, and meet all other conformance requirements of style sheets
+    as described in this module. </p>
+  <h3 class="no-ref heading settled" id="w3c-partial"><span class="content"> Partial implementations</span><a class="self-link" href="#w3c-partial"></a></h3>
+  <p>So that authors can exploit the forward-compatible parsing rules to
+    assign fallback values, CSS renderers <strong>must</strong> treat as invalid (and <a href="http://www.w3.org/TR/CSS21/conform.html#ignore">ignore
+    as appropriate</a>) any at-rules, properties, property values, keywords,
+    and other syntactic constructs for which they have no usable level of
+    support. In particular, user agents <strong>must not</strong> selectively
+    ignore unsupported component values and honor supported values in a single
+    multi-value property declaration: if any value is considered invalid
+    (as unsupported values must be), CSS requires that the entire declaration
+    be ignored.</p>
+  <h4 class="heading settled" id="w3c-conform-future-proofing"><span class="content"> Implementations of Unstable and Proprietary Features</span><a class="self-link" href="#w3c-conform-future-proofing"></a></h4>
   <p>To avoid clashes with future stable CSS features,
-		the CSSWG recommends <a href="http://www.w3.org/TR/CSS/#future-proofing">following best practices</a> for the implementation of <a href="http://www.w3.org/TR/CSS/#unstable">unstable</a> features and <a href="http://www.w3.org/TR/CSS/#proprietary-extension">proprietary extensions</a> to CSS. </p>
-  <h4 class="heading settled" id="conform-testing"><span class="content"> Implementations of CR-level Features</span><a class="self-link" href="#conform-testing"></a></h4>
+        the CSSWG recommends <a href="http://www.w3.org/TR/CSS/#future-proofing">following best practices</a> for the implementation of <a href="http://www.w3.org/TR/CSS/#unstable">unstable</a> features and <a href="http://www.w3.org/TR/CSS/#proprietary-extension">proprietary extensions</a> to CSS. </p>
+  <h3 class="no-ref heading settled" id="w3c-testing"><span class="content"> Non-experimental implementations</span><a class="self-link" href="#w3c-testing"></a></h3>
   <p>Once a specification reaches the Candidate Recommendation stage,
-		implementers should release an <a data-link-type="dfn" href="http://www.w3.org/TR/CSS/#vendor-prefix">unprefixed</a> implementation
-		of any CR-level feature they can demonstrate
-		to be correctly implemented according to spec,
-		and should avoid exposing a prefixed variant of that feature. </p>
+    non-experimental implementations are possible, and implementors should
+    release an unprefixed implementation of any CR-level feature they
+    can demonstrate to be correctly implemented according to spec. </p>
   <p>To establish and maintain the interoperability of CSS across
-		implementations, the CSS Working Group requests that non-experimental
-		CSS renderers submit an implementation report (and, if necessary, the
-		testcases used for that implementation report) to the W3C before
-		releasing an unprefixed implementation of any CSS features. Testcases
-		submitted to W3C are subject to review and correction by the CSS
-		Working Group. </p>
-  <p>
-   Further information on submitting testcases and implementation reports
-		can be found from on the CSS Working Group’s website at <a href="http://www.w3.org/Style/CSS/Test/">http://www.w3.org/Style/CSS/Test/</a>.
-		Questions should be directed to the <a href="http://lists.w3.org/Archives/Public/public-css-testsuite">public-css-testsuite@w3.org</a> mailing list. 
+    implementations, the CSS Working Group requests that non-experimental
+    CSS renderers submit an implementation report (and, if necessary, the
+    testcases used for that implementation report) to the W3C before
+    releasing an unprefixed implementation of any CSS features. Testcases
+    submitted to W3C are subject to review and correction by the CSS
+    Working Group. </p>
+  <p>Further information on submitting testcases and implementation reports
+    can be found from on the CSS Working Group’s website at <a href="http://www.w3.org/Style/CSS/Test/">http://www.w3.org/Style/CSS/Test/</a>.
+    Questions should be directed to the <a href="http://lists.w3.org/Archives/Public/public-css-testsuite">public-css-testsuite@w3.org</a> mailing list.</p>
 <script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script>
-  </p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
@@ -1357,15 +1598,15 @@ canvas {
     </ul>
    <li><a href="#propdef-clear">clear</a><span>, in §4</span>
    <li><a href="#valdef-float-reference-column">column</a><span>, in §3.1</span>
-   <li><a href="#propdef-float">float</a><span>, in §3.2</span>
    <li><a href="#float">Float</a><span>, in §2</span>
+   <li><a href="#propdef-float">float</a><span>, in §3.2</span>
    <li><a href="#float-anchor">Float anchor</a><span>, in §2</span>
    <li><a href="#float-block-formatting-context">Float block formatting context</a><span>, in §2</span>
    <li><a href="#float-containing-block-formatting-context">Float containing block formatting context</a><span>, in §2</span>
    <li><a href="#propdef-float-defer">float-defer</a><span>, in §5.1</span>
    <li><a href="#propdef-float-offset">float-offset</a><span>, in §7</span>
-   <li><a href="#propdef-float-reference">float-reference</a><span>, in §3.1</span>
    <li><a href="#float-reference">Float reference</a><span>, in §2</span>
+   <li><a href="#propdef-float-reference">float-reference</a><span>, in §3.1</span>
    <li><a href="#initial-float-reference">Initial float reference</a><span>, in §2</span>
    <li><a href="#valdef-float-reference-inline">inline</a><span>, in §3.1</span>
    <li>
@@ -1457,6 +1698,12 @@ canvas {
     <li><a href="#ref-for-mult-opt">3.2. The float property</a> <a href="#ref-for-mult-opt①">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-css-wide-keywords">
+   <a href="https://drafts.csswg.org/css-values-4/#css-wide-keywords">https://drafts.csswg.org/css-values-4/#css-wide-keywords</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-css-wide-keywords">1.1. Value Definitions</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-comb-one">
    <a href="https://drafts.csswg.org/css-values-4/#comb-one">https://drafts.csswg.org/css-values-4/#comb-one</a><b>Referenced in:</b>
    <ul>
@@ -1502,38 +1749,39 @@ The clear property</a> <a href="#ref-for-propdef-writing-mode⑤">(2)</a> <a hre
    <li>
     <a data-link-type="biblio">[css-break-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-fragmentation-container" style="color:initial">fragmentation container</span>
-     <li><span class="dfn-paneled" id="term-for-fragmentation-context" style="color:initial">fragmentation context</span>
+     <li><span class="dfn-paneled" id="term-for-fragmentation-container">fragmentation container</span>
+     <li><span class="dfn-paneled" id="term-for-fragmentation-context">fragmentation context</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[css-values-3]</a> defines the following terms:
+    <a data-link-type="biblio">[CSS-VALUES-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-length-value" style="color:initial">&lt;length></span>
-     <li><span class="dfn-paneled" id="term-for-percentage-value" style="color:initial">&lt;percentage></span>
+     <li><span class="dfn-paneled" id="term-for-length-value">&lt;length></span>
+     <li><span class="dfn-paneled" id="term-for-percentage-value">&lt;percentage></span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-values-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-comb-comma" style="color:initial">,</span>
-     <li><span class="dfn-paneled" id="term-for-typedef-length-percentage" style="color:initial">&lt;length-percentage></span>
-     <li><span class="dfn-paneled" id="term-for-mult-opt" style="color:initial">?</span>
-     <li><span class="dfn-paneled" id="term-for-comb-one" style="color:initial">|</span>
+     <li><span class="dfn-paneled" id="term-for-comb-comma">,</span>
+     <li><span class="dfn-paneled" id="term-for-typedef-length-percentage">&lt;length-percentage></span>
+     <li><span class="dfn-paneled" id="term-for-mult-opt">?</span>
+     <li><span class="dfn-paneled" id="term-for-css-wide-keywords">css-wide keywords</span>
+     <li><span class="dfn-paneled" id="term-for-comb-one">|</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-writing-modes-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-direction" style="color:initial">direction</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-direction">direction</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-writing-modes-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-inline-size" style="color:initial">inline size</span>
-     <li><span class="dfn-paneled" id="term-for-propdef-writing-mode" style="color:initial">writing-mode</span>
+     <li><span class="dfn-paneled" id="term-for-inline-size">inline size</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-writing-mode">writing-mode</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css3-exclusions]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-wrap-flow" style="color:initial">wrap-flow</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-wrap-flow">wrap-flow</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -1542,13 +1790,15 @@ The clear property</a> <a href="#ref-for-propdef-writing-mode⑤">(2)</a> <a hre
    <dt id="biblio-css-break-4">[CSS-BREAK-4]
    <dd>Rossen Atanassov; Elika Etemad. <a href="https://www.w3.org/TR/css-break-4/">CSS Fragmentation Module Level 4</a>. 18 December 2018. WD. URL: <a href="https://www.w3.org/TR/css-break-4/">https://www.w3.org/TR/css-break-4/</a>
    <dt id="biblio-css-values-3">[CSS-VALUES-3]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 31 January 2019. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 6 June 2019. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
    <dt id="biblio-css-values-4">[CSS-VALUES-4]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 31 January 2019. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 11 November 2020. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
    <dt id="biblio-css-writing-modes-3">[CSS-WRITING-MODES-3]
-   <dd>Elika Etemad; Koji Ishii. <a href="https://www.w3.org/TR/css-writing-modes-3/">CSS Writing Modes Level 3</a>. 24 May 2018. CR. URL: <a href="https://www.w3.org/TR/css-writing-modes-3/">https://www.w3.org/TR/css-writing-modes-3/</a>
+   <dd>Elika Etemad; Koji Ishii. <a href="https://www.w3.org/TR/css-writing-modes-3/">CSS Writing Modes Level 3</a>. 10 December 2019. REC. URL: <a href="https://www.w3.org/TR/css-writing-modes-3/">https://www.w3.org/TR/css-writing-modes-3/</a>
    <dt id="biblio-css-writing-modes-4">[CSS-WRITING-MODES-4]
-   <dd>Elika Etemad; Koji Ishii. <a href="https://www.w3.org/TR/css-writing-modes-4/">CSS Writing Modes Level 4</a>. 24 May 2018. CR. URL: <a href="https://www.w3.org/TR/css-writing-modes-4/">https://www.w3.org/TR/css-writing-modes-4/</a>
+   <dd>Elika Etemad; Koji Ishii. <a href="https://www.w3.org/TR/css-writing-modes-4/">CSS Writing Modes Level 4</a>. 30 July 2019. CR. URL: <a href="https://www.w3.org/TR/css-writing-modes-4/">https://www.w3.org/TR/css-writing-modes-4/</a>
+   <dt id="biblio-css2">[CSS2]
+   <dd>Bert Bos; et al. <a href="https://www.w3.org/TR/CSS21/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. 7 June 2011. REC. URL: <a href="https://www.w3.org/TR/CSS21/">https://www.w3.org/TR/CSS21/</a>
    <dt id="biblio-css3-exclusions">[CSS3-EXCLUSIONS]
    <dd>Rossen Atanassov; Vincent Hardy; Alan Stearns. <a href="https://www.w3.org/TR/css3-exclusions/">CSS Exclusions Module Level 1</a>. 15 January 2015. WD. URL: <a href="https://www.w3.org/TR/css3-exclusions/">https://www.w3.org/TR/css3-exclusions/</a>
    <dt id="biblio-rfc2119">[RFC2119]

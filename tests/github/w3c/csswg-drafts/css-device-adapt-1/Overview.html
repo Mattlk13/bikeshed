@@ -8,11 +8,7 @@
   <meta content="This specification provides a way for an author to specify, in CSS, the size, zoom factor, and orientation of the viewport that is used as the base for the initial containing block." name="abstract">
   <link href="../default.css" rel="stylesheet" type="text/css">
   <link href="../csslogo.ico" rel="shortcut icon" type="image/x-icon">
-<style>
-  body {
-    background: url("https://www.w3.org/StyleSheets/TR/logo-ED") top left no-repeat;
-  }
-  </style>
+  <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <link href="http://www.w3.org/TR/css-device-adapt-1/" rel="canonical">
 <style>
     /* Style for algorithm pseudo code. */
@@ -49,95 +45,10 @@
         font-weight: bold;
     }
 </style>
-<style>/* style-md-lists */
-
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}</style>
-<style>/* style-selflinks */
-
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: gray;
-    color: white;
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: black;
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
-<style>/* style-counters */
-
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}</style>
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
-    color: #005a9c;
+    color: var(--a-normal-text);
     font-size: inherit;
     font-family: inherit;
 }
@@ -196,8 +107,150 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #707070;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #bbb;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
 <style>/* style-dfn-panel */
 
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
 .dfn-panel {
     position: absolute;
     z-index: 35;
@@ -209,14 +262,14 @@ pre .property::before, pre .property::after {
     overflow: auto;
     padding: 0.5em 0.75em;
     font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
     border: outset 0.2em;
 }
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
 .dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
+.dfn-panel a { color: var(--dfnpanel-text); }
 .dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
 .dfn-panel > b + b { margin-top: 0.25em; }
 .dfn-panel ul { padding: 0; }
@@ -233,11 +286,134 @@ pre .property::before, pre .property::after {
 
 .dfn-paneled { cursor: pointer; }
 </style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-mdn-anno */
+
+            @media (max-width: 767px) { .mdn-anno { opacity: .1 } }
+            .mdn-anno { font: 1em sans-serif; padding: 0.3em; position: absolute; z-index: 8; right: 0.3em; background: #EEE; color: black; box-shadow: 0 0 3px #999; overflow: hidden; border-collapse: initial; border-spacing: initial; min-width: 9em; max-width: min-content; white-space: nowrap; word-wrap: normal; hyphens: none}
+            .mdn-anno:not(.wrapped) { opacity: 1}
+            .mdn-anno:hover { z-index: 9 }
+            .mdn-anno.wrapped { min-width: 0 }
+            .mdn-anno.wrapped > :not(button) { display: none; }
+            .mdn-anno > .mdn-anno-btn { cursor: pointer; border: none; color: #000; background: transparent; margin: -8px; float: right; padding: 10px 8px 8px 8px; outline: none; }
+            .mdn-anno > .mdn-anno-btn > .less-than-two-engines-flag { color: red; padding-right: 2px; }
+            .mdn-anno > .mdn-anno-btn > .all-engines-flag { color: green; padding-right: 2px; }
+            .mdn-anno > .mdn-anno-btn > span { color: #fff; background-color: #000; font-weight: normal; font-family: zillaslab, Palatino, "Palatino Linotype", serif; padding: 2px 3px 0px 3px; line-height: 1.3em; vertical-align: top; }
+            .mdn-anno > .feature { margin-top: 20px; }
+            .mdn-anno > .feature:not(:first-of-type) { border-top: 1px solid #999; margin-top: 6px; padding-top: 2px; }
+            .mdn-anno > .feature > .less-than-two-engines-text { color: red }
+            .mdn-anno > .feature > .all-engines-text { color: green }
+            .mdn-anno > .feature > p { font-size: .75em; margin-top: 6px; margin-bottom: 0; }
+            .mdn-anno > .feature > p + p { margin-top: 3px; }
+            .mdn-anno > .feature > .support { display: block; font-size: 0.6em; margin: 0; padding: 0; margin-top: 2px }
+            .mdn-anno > .feature > .support + div { padding-top: 0.5em; }
+            .mdn-anno > .feature > .support > hr { display: block; border: none; border-top: 1px dotted #999; padding: 3px 0px 0px 0px; margin: 2px 3px 0px 3px; }
+            .mdn-anno > .feature > .support > hr::before { content: ""; }
+            .mdn-anno > .feature > .support > span { padding: 0.2em 0; display: block; display: table; }
+            .mdn-anno > .feature > .support > span.no { color: #CCCCCC; filter: grayscale(100%); }
+            .mdn-anno > .feature > .support > span.no::before { opacity: 0.5; }
+            .mdn-anno > .feature > .support > span:first-of-type { padding-top: 0.5em; }
+            .mdn-anno > .feature > .support > span > span { padding: 0 0.5em; display: table-cell; }
+            .mdn-anno > .feature > .support > span > span:first-child { width: 100%; }
+            .mdn-anno > .feature > .support > span > span:last-child { width: 100%; white-space: pre; padding: 0; }
+            .mdn-anno > .feature > .support > span::before { content: ' '; display: table-cell; min-width: 1.5em; height: 1.5em; background: no-repeat center center; background-size: contain; text-align: right; font-size: 0.75em; font-weight: bold; }
+            .mdn-anno > .feature > .support > .chrome_android::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+            .mdn-anno > .feature > .support > .firefox_android::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+            .mdn-anno > .feature > .support > .chrome::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+            .mdn-anno > .feature > .support > .edge_blink::before { background-image: url(https://resources.whatwg.org/browser-logos/edge.svg); }
+            .mdn-anno > .feature > .support > .edge::before { background-image: url(https://resources.whatwg.org/browser-logos/edge_legacy.svg); }
+            .mdn-anno > .feature > .support > .firefox::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+            .mdn-anno > .feature > .support > .ie::before { background-image: url(https://resources.whatwg.org/browser-logos/ie.png); }
+            .mdn-anno > .feature > .support > .safari_ios::before { background-image: url(https://resources.whatwg.org/browser-logos/safari-ios.svg); }
+            .mdn-anno > .feature > .support > .nodejs::before { background-image: url(https://nodejs.org/static/images/favicons/favicon.ico); }
+            .mdn-anno > .feature > .support > .opera_android::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
+            .mdn-anno > .feature > .support > .opera::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
+            .mdn-anno > .feature > .support > .safari::before { background-image: url(https://resources.whatwg.org/browser-logos/safari.png); }
+            .mdn-anno > .feature > .support > .samsunginternet_android::before { background-image: url(https://resources.whatwg.org/browser-logos/samsung.svg); }
+            .mdn-anno > .feature > .support > .webview_android::before { background-image: url(https://resources.whatwg.org/browser-logos/android-webview.png); }
+            .name-slug-mismatch { color: red }
+            .caniuse-status:hover { z-index: 9; }
+
+            /* dt, li, .issue, .note, and .example are "position: relative", so to put annotation at right margin, must move to right of containing block */
+            .h-entry:not(.status-LS) dt > .mdn-anno, .h-entry:not(.status-LS) li > .mdn-anno, .h-entry:not(.status-LS) .issue > .mdn-anno, .h-entry:not(.status-LS) .note > .mdn-anno, .h-entry:not(.status-LS) .example > .mdn-anno { right: -6.7em; }
+            .h-entry p + .mdn-anno { margin-top: 0; }
+            h2 + .mdn-anno.after { margin: -48px 0 0 0; }
+            h3 + .mdn-anno.after { margin: -46px 0 0 0; }
+            h4 + .mdn-anno.after { margin: -42px 0 0 0; }
+            h5 + .mdn-anno.after { margin: -40px 0 0 0; }
+            h6 + .mdn-anno.after { margin: -40px 0 0 0; }
+            </style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
 <style>/* style-syntax-highlighting */
-pre.idl.highlight { color: #708090; }
-.highlight:not(.idl) { background: hsl(24, 20%, 95%); }
+
+            pre.idl.highlight {
+                background: var(--borderedblock-bg, var(--def-bg));
+            }
+            
 code.highlight { padding: .1em; border-radius: .3em; }
 pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
 c-[a] { color: #990055 } /* Keyword.Declaration */
 c-[b] { color: #990055 } /* Keyword.Type */
 c-[c] { color: #708090 } /* Comment */
@@ -291,6 +467,196 @@ c-[vg] { color: #0077aa } /* Name.Variable.Global */
 c-[vi] { color: #0077aa } /* Name.Variable.Instance */
 c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
+
+    c-[a] { color: #d33682 } /* Keyword.Declaration */
+    c-[b] { color: #d33682 } /* Keyword.Type */
+    c-[c] { color: #2aa198 } /* Comment */
+    c-[d] { color: #2aa198 } /* Comment.Multiline */
+    c-[e] { color: #268bd2 } /* Name.Attribute */
+    c-[f] { color: #b58900 } /* Name.Tag */
+    c-[g] { color: #cb4b16 } /* Name.Variable */
+    c-[k] { color: #d33682 } /* Keyword */
+    c-[l] { color: #657b83 } /* Literal */
+    c-[m] { color: #657b83 } /* Literal.Number */
+    c-[n] { color: #268bd2 } /* Name */
+    c-[o] { color: #657b83 } /* Operator */
+    c-[p] { color: #657b83 } /* Punctuation */
+    c-[s] { color: #6c71c4 } /* Literal.String */
+    c-[t] { color: #6c71c4 } /* Literal.String.Single */
+    c-[u] { color: #6c71c4 } /* Literal.String.Double */
+    c-[ch] { color: #2aa198 } /* Comment.Hashbang */
+    c-[cp] { color: #2aa198 } /* Comment.Preproc */
+    c-[cpf] { color: #2aa198 } /* Comment.PreprocFile */
+    c-[c1] { color: #2aa198 } /* Comment.Single */
+    c-[cs] { color: #2aa198 } /* Comment.Special */
+    c-[kc] { color: #d33682 } /* Keyword.Constant */
+    c-[kn] { color: #d33682 } /* Keyword.Namespace */
+    c-[kp] { color: #d33682 } /* Keyword.Pseudo */
+    c-[kr] { color: #d33682 } /* Keyword.Reserved */
+    c-[ld] { color: #657b83 } /* Literal.Date */
+    c-[nc] { color: #268bd2 } /* Name.Class */
+    c-[no] { color: #268bd2 } /* Name.Constant */
+    c-[nd] { color: #268bd2 } /* Name.Decorator */
+    c-[ni] { color: #268bd2 } /* Name.Entity */
+    c-[ne] { color: #268bd2 } /* Name.Exception */
+    c-[nf] { color: #268bd2 } /* Name.Function */
+    c-[nl] { color: #268bd2 } /* Name.Label */
+    c-[nn] { color: #268bd2 } /* Name.Namespace */
+    c-[py] { color: #268bd2 } /* Name.Property */
+    c-[ow] { color: #657b83 } /* Operator.Word */
+    c-[mb] { color: #657b83 } /* Literal.Number.Bin */
+    c-[mf] { color: #657b83 } /* Literal.Number.Float */
+    c-[mh] { color: #657b83 } /* Literal.Number.Hex */
+    c-[mi] { color: #657b83 } /* Literal.Number.Integer */
+    c-[mo] { color: #657b83 } /* Literal.Number.Oct */
+    c-[sa] { color: #6c71c4 } /* Literal.String.Affix */
+    c-[sb] { color: #6c71c4 } /* Literal.String.Backtick */
+    c-[sc] { color: #6c71c4 } /* Literal.String.Char */
+    c-[dl] { color: #6c71c4 } /* Literal.String.Delimiter */
+    c-[sd] { color: #6c71c4 } /* Literal.String.Doc */
+    c-[se] { color: #6c71c4 } /* Literal.String.Escape */
+    c-[sh] { color: #6c71c4 } /* Literal.String.Heredoc */
+    c-[si] { color: #6c71c4 } /* Literal.String.Interpol */
+    c-[sx] { color: #6c71c4 } /* Literal.String.Other */
+    c-[sr] { color: #6c71c4 } /* Literal.String.Regex */
+    c-[ss] { color: #6c71c4 } /* Literal.String.Symbol */
+    c-[fm] { color: #268bd2 } /* Name.Function.Magic */
+    c-[vc] { color: #cb4b16 } /* Name.Variable.Class */
+    c-[vg] { color: #cb4b16 } /* Name.Variable.Global */
+    c-[vi] { color: #cb4b16 } /* Name.Variable.Instance */
+    c-[vm] { color: #cb4b16 } /* Name.Variable.Magic */
+    c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
+}
+</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
@@ -307,8 +673,8 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <dt>Previous Versions:
       <dd><a href="http://www.w3.org/TR/2016/WD-css-device-adapt-1-20160329/" rel="prev">http://www.w3.org/TR/2016/WD-css-device-adapt-1-20160329/</a>
       <dt>Issue Tracking:
+      <dd><a href="https://github.com/w3c/csswg-drafts/labels/css-device-adapt-1">CSSWG Issues Repository</a>
       <dd><a href="https://www.w3.org/Bugs/Public/buglist.cgi?component=Device%20Adaptation&amp;list_id=52675&amp;product=CSS&amp;resolution=---">Bugzilla</a>
-      <dd><a href="https://github.com/w3c/csswg-drafts/labels/css-device-adapt-1">GitHub Issues</a>
       <dt class="editor">Editors:
       <dd class="editor p-author h-card vcard" data-editor-id="43241"><a class="p-name fn u-url url" href="https://florian.rivoal.net">Florian Rivoal</a> (<span class="p-org org">Invited Expert</span>)
       <dd class="editor p-author h-card vcard" data-editor-id="62267"><span class="p-name fn">Matt Rakow</span> (<span class="p-org org">Microsoft</span>)
@@ -322,7 +688,7 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -338,19 +704,13 @@ on screen, on paper, etc.
 	It is provided for discussion only and may change at any moment.
 	Its publication here does not imply endorsement of its contents by W3C.
 	Don’t cite this document other than as work in progress. </p>
-   <p> <a href="https://github.com/w3c/csswg-drafts/issues">GitHub Issues</a> are preferred for discussion of this specification.
-	When filing an issue, please put the text “css-device-adapt” in the title,
-	preferably like this:
-	“[css-device-adapt] <i data-lt>…summary of comment…</i>”.
-	All issues and comments are <a href="https://lists.w3.org/Archives/Public/public-css-archive/">archived</a>,
-	and there is also a <a href="https://lists.w3.org/Archives/Public/www-style/">historical archive</a>. </p>
-   <p> This document was produced by the <a href="https://www.w3.org/Style/CSS/">CSS Working Group</a>. </p>
-   <p> This document was produced by a group operating under
-	the <a href="https://www.w3.org/Consortium/Patent-Policy/">W3C Patent Policy</a>.
-	W3C maintains a <a href="https://www.w3.org/2004/01/pp-impl/32061/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group;
-	that page also includes instructions for disclosing a patent.
-	An individual who has actual knowledge of a patent which the individual believes contains <a href="https://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="https://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the W3C Patent Policy</a>. </p>
-   <p> This document is governed by the <a href="https://www.w3.org/2019/Process-20190301/" id="w3c_process_revision">1 March 2019 W3C Process Document</a>. </p>
+   <p>Please send feedback
+	by <a href="https://github.com/w3c/csswg-drafts/issues">filing issues in GitHub</a> (preferred),
+	including the spec code “css-device-adapt” in the title, like this:
+	“[css-device-adapt] <i>…summary of comment…</i>”.
+	All issues and comments are <a href="https://lists.w3.org/Archives/Public/public-css-archive/">archived</a>.
+	Alternately, feedback can be sent to the (<a href="https://lists.w3.org/Archives/Public/www-style/">archived</a>) public mailing list <a href="mailto:www-style@w3.org?Subject=%5Bcss-device-adapt%5D%20PUT%20SUBJECT%20HERE">www-style@w3.org</a>. </p>
+   <p>This document is governed by the <a href="https://www.w3.org/2020/Process-20200915/" id="w3c_process_revision">15 September 2020 W3C Process Document</a>. </p>
    <p></p>
   </div>
   <div data-fill-with="at-risk"></div>
@@ -409,17 +769,16 @@ on screen, on paper, etc.
      </ol>
     <li><a href="#changes"><span class="secno"></span> <span class="content">Appendix A. Changes</span></a>
     <li>
-     <a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
+     <a href="#w3c-conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
      <ol class="toc">
-      <li><a href="#document-conventions"><span class="secno"></span> <span class="content"> Document conventions</span></a>
-      <li><a href="#conform-classes"><span class="secno"></span> <span class="content"> Conformance classes</span></a>
+      <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content"> Document conventions</span></a>
+      <li><a href="#w3c-conformance-classes"><span class="secno"></span> <span class="content"> Conformance classes</span></a>
       <li>
-       <a href="#conform-responsible"><span class="secno"></span> <span class="content"> Requirements for Responsible Implementation of CSS</span></a>
+       <a href="#w3c-partial"><span class="secno"></span> <span class="content"> Partial implementations</span></a>
        <ol class="toc">
-        <li><a href="#conform-partial"><span class="secno"></span> <span class="content"> Partial Implementations</span></a>
-        <li><a href="#conform-future-proofing"><span class="secno"></span> <span class="content"> Implementations of Unstable and Proprietary Features</span></a>
-        <li><a href="#conform-testing"><span class="secno"></span> <span class="content"> Implementations of CR-level Features</span></a>
+        <li><a href="#w3c-conform-future-proofing"><span class="secno"></span> <span class="content"> Implementations of Unstable and Proprietary Features</span></a>
        </ol>
+      <li><a href="#w3c-testing"><span class="secno"></span> <span class="content"> Non-experimental implementations</span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -444,32 +803,34 @@ on screen, on paper, etc.
   </nav>
   <main>
    <h2 class="heading settled" data-level="1" id="intro"><span class="secno">1. </span><span class="content"> Introduction</span><a class="self-link" href="#intro"></a></h2>
-   <p><em>This section is not normative.</em></p>
-   <p>CSS 2.1 <a data-link-type="biblio" href="#biblio-css21">[CSS21]</a> specifies an <a href="https://www.w3.org/TR/CSS21/visudet.html#containing-block-details"> initial containing block</a> for continuous media that has the dimensions
+   <div class="non-normative">
+     <em>This section is not normative.</em> 
+    <p>CSS 2.1 <a data-link-type="biblio" href="#biblio-css21">[CSS21]</a> specifies an <a href="https://www.w3.org/TR/CSS21/visudet.html#containing-block-details"> initial containing block</a> for <a data-link-type="dfn" href="https://drafts.csswg.org/mediaqueries-5/#continuous-media" id="ref-for-continuous-media">continuous media</a> that has the dimensions
 of the <a href="https://www.w3.org/TR/CSS21/visuren.html#viewport"> viewport</a>. Since the viewport is generally no larger than the display,
 devices with smaller displays such as phones or tablets typically present
 a smaller viewport than larger devices like desktop or laptops.</p>
-   <p>Unfortunately, many documents have historically been designed against larger
+    <p>Unfortunately, many documents have historically been designed against larger
 viewports and exhibit a variety of bugs when viewed in smaller viewports.
 These include unintended layout wrapping, clipped content, awkward scrollable
 bounds, and script errors. To avoid these issues, mobile browsers generally
 use a fixed initial containing block width that mimics common desktop browser
 window size (typically 980-1024px). The resulting layout is then scaled down
 to fit in the available screen space.</p>
-   <p>Although this approach mitigates the issues mentioned above, the downscaling
+    <p>Although this approach mitigates the issues mentioned above, the downscaling
 means the CSS pixel size will be smaller than <a href="https://www.w3.org/TR/CSS21/syndata.html#length-units">recommended</a> by CSS 2.1. Users will likely need to zoom on the content to view it
 comfortably.</p>
-   <p>This mitigation is unnecessary for sites that have been designed to work
+    <p>This mitigation is unnecessary for sites that have been designed to work
 well on small viewports.  This specification describes the CSS <code class="css">@viewport</code> rule which allows authors to control and
 opt-out of this behavior.</p>
-   <p class="issue" id="issue-6c09d247"><a class="self-link" href="#issue-6c09d247"></a> This specification is written from an implementation-centric point of view,
+    <p class="issue" id="issue-6c09d247"><a class="self-link" href="#issue-6c09d247"></a> This specification is written from an implementation-centric point of view,
 making it arguably difficult to read.
 Significant editorial work may be needed
 to make it more understandable to different audiences.
 It also should clarify which viewport is referred to by various js APIs.
 See <a href="http://www.quirksmode.org/blog/archives/2015/09/a_new_device_ad.html">this blog post by ppk</a> for a good discussion of these issues.</p>
-   <p class="issue" id="issue-212a8da7"><a class="self-link" href="#issue-212a8da7"></a> Various issues about this specification and related specifications
+    <p class="issue" id="issue-212a8da7"><a class="self-link" href="#issue-212a8da7"></a> Various issues about this specification and related specifications
 are listed in <a href="https://www.w3.org/Graphics/SVG/WG/wiki/Proposals/Investigation_of_APIs_for_Level_of_detail#The_issues_on_existing_APIs">this report</a>.</p>
+   </div>
    <h2 class="heading settled" data-level="2" id="scenarios"><span class="secno">2. </span><span class="content"> Motivating Scenarios</span><a class="self-link" href="#scenarios"></a></h2>
    <div class="example" id="example-244c0de5">
     <a class="self-link" href="#example-244c0de5"></a> In this example, the document can be rendered without issue with any
@@ -526,11 +887,13 @@ the <a href="https://www.w3.org/TR/css3-syntax/#property-defs">CSS
 property definition conventions</a> from <a data-link-type="biblio" href="#biblio-css3syn">[CSS3SYN]</a>.</p>
    <p>Value types are defined in <a data-link-type="biblio" href="#biblio-css3val">[CSS3VAL]</a>.</p>
    <h2 class="heading settled" data-level="4" id="the-viewport"><span class="secno">4. </span><span class="content"> The viewport</span><a class="self-link" href="#the-viewport"></a></h2>
-   <p>In CSS 2.1 a <a href="https://www.w3.org/TR/CSS21/visuren.html#viewport">viewport</a> is a feature of a user agent for continuous media and used to
-establish the initial containing block for continuous media. For paged
-media, the initial containing block is based on the page area. The
-page area can be set through <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-page-3/#at-ruledef-page" id="ref-for-at-ruledef-page">@page</a> rules. Hence, <a class="css" data-link-type="maybe" href="#at-ruledef-viewport" id="ref-for-at-ruledef-viewport">@viewport</a> applies to continuous media, and <span class="css" id="ref-for-at-ruledef-page①">@page</span> to paged media, and they
-will not interact or conflict.</p>
+   <p>In CSS 2.1 a <a href="https://www.w3.org/TR/CSS21/visuren.html#viewport">viewport</a> is a feature of a user agent for <a data-link-type="dfn" href="https://drafts.csswg.org/mediaqueries-5/#continuous-media" id="ref-for-continuous-media①">continuous media</a> and used to
+establish the initial containing block for <span id="ref-for-continuous-media②">continuous media</span>.
+For <a data-link-type="dfn" href="https://drafts.csswg.org/mediaqueries-5/#paged-media" id="ref-for-paged-media">paged media</a>, the initial containing block is based on the page area.
+The page area can be set through <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-page-3/#at-ruledef-page" id="ref-for-at-ruledef-page">@page</a> rules.
+Hence, <a class="css" data-link-type="maybe" href="#at-ruledef-viewport" id="ref-for-at-ruledef-viewport">@viewport</a> applies to <span id="ref-for-continuous-media③">continuous media</span>,
+and <span class="css" id="ref-for-at-ruledef-page①">@page</span> to <span id="ref-for-paged-media①">paged media</span>,
+and they will not interact or conflict.</p>
    <p>This specification introduces a way of overriding the size of the viewport
 provided by the user agent (UA). Because of this, we need to introduce the
 difference between the <span class="css">initial viewport</span> and the <span class="css">actual viewport</span>.</p>
@@ -555,11 +918,11 @@ corners are aligned when the base direction is rtl. The base direction
 for a document is defined as the computed value of the <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/css-writing-modes-3/#propdef-direction" id="ref-for-propdef-direction">direction</a> property for the first <code class="html">&lt;BODY></code> element of
 an HTML or XHTML document. For other document types, it is the
 computed <span class="property" id="ref-for-propdef-direction①">direction</span> for the root element.</p>
-   <p class="issue" id="issue-3cd9f731"><a class="self-link" href="#issue-3cd9f731"></a>"dbaron: The question is, what does this do on the desktop
+   <p class="issue" id="issue-70dd6b42"><a class="self-link" href="#issue-70dd6b42"></a>"dbaron: The question is, what does this do on the desktop
 browser? (And what’s a desktop browser)". Need to say that a "desktop"
 browser typically have no UA styles, as opposed to the <a href="#ua-stylesheet">UA stylesheet</a> outlined for current mobile
-behaviour, and that no UA styles for <a class="css" data-link-type="maybe" href="#at-ruledef-viewport" id="ref-for-at-ruledef-viewport①">@viewport</a> will give "desktop"
-behaviour per default (actual viewport is initial viewport).</p>
+behavior, and that no UA styles for <a class="css" data-link-type="maybe" href="#at-ruledef-viewport" id="ref-for-at-ruledef-viewport①">@viewport</a> will give "desktop"
+behavior per default (actual viewport is initial viewport).</p>
    <h2 class="heading settled" data-level="5" id="atviewport-rule"><span class="secno">5. </span><span class="content"> The <dfn class="dfn-paneled css" data-dfn-type="at-rule" data-export id="at-ruledef-viewport">@viewport</dfn> rule</span><a class="self-link" href="#atviewport-rule"></a></h2>
    <div class="note" role="note">
      <strong class="advisement">UA vendors implementing this specification
@@ -570,12 +933,12 @@ However, if support is only available on mobile browsers for a significant time,
 there is a risk that authors would write <span class="css" id="ref-for-at-ruledef-viewport③">@viewport</span> rules that work on mobile
 but do the wrong if applied by a desktop browser.
 This would make it difficult to later add support for <span class="css" id="ref-for-at-ruledef-viewport④">@viewport</span> in desktop browsers.</strong> 
-    <p>An example of such misguided use would be to write <code class="highlight"><c- n>@viewport</c-> <c- p>{</c-> <c- k>width</c-><c- p>:</c-> <c- m>320</c-><c- l>px</c-><c- p>;</c-> <c- p>}</c-></code> instead of <code class="highlight"><c- n>@viewport</c-> <c- p>{</c-> <c- k>width</c-><c- p>:</c-> auto<c- p>;</c-> <c- p>}</c-></code> to make a document “mobile friendly”. </p>
+    <p>An example of such misguided use would be to write <code class="highlight"><c- n>@viewport</c-> <c- p>{</c-> <c- k>width</c-><c- p>:</c-> <c- m>320</c-><c- k>px</c-><c- p>;</c-> <c- p>}</c-></code> instead of <code class="highlight"><c- n>@viewport</c-> <c- p>{</c-> <c- k>width</c-><c- p>:</c-> auto<c- p>;</c-> <c- p>}</c-></code> to make a document “mobile friendly”. </p>
    </div>
    <p>The <a class="css" data-link-type="maybe" href="#at-ruledef-viewport" id="ref-for-at-ruledef-viewport⑤">@viewport</a> <a href="https://www.w3.org/TR/CSS21/syndata.html#at-rules">at-rule</a> consists of the @-keyword followed by a block of descriptors
 describing the viewport.</p>
    <p>The descriptors inside an <a class="css" data-link-type="maybe" href="#at-ruledef-viewport" id="ref-for-at-ruledef-viewport⑥">@viewport</a> rule are per document and
-there is no inheritance involved. Hence declarations using the <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-cascade-4/#valdef-all-inherit" id="ref-for-valdef-all-inherit">inherit</a> keyword will be dropped. They work similarly
+there is no inheritance involved. Hence declarations using the <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-cascade-5/#valdef-all-inherit" id="ref-for-valdef-all-inherit">inherit</a> keyword will be dropped. They work similarly
 to <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-page-3/#at-ruledef-page" id="ref-for-at-ruledef-page②">@page</a> descriptors and follow the cascading order of CSS. Hence,
 descriptors in <span class="css" id="ref-for-at-ruledef-viewport⑦">@viewport</span> rules will override descriptors from
 preceding rules. The declarations allow !important which will affect
@@ -612,7 +975,7 @@ W    w|\\0{0,4}(57|77)(\r\n|[ \t\r\n\f])?|\\w
     [ [ ruleset | media | page | viewport ] [ CDO S* | CDC S* ]* ]*
   ;
 </pre>
-   <p>It is also added to the <a data-link-type="dfn" href="https://www.w3.org/TR/css3-conditional/#nested_statement" id="ref-for-nested_statement">nested_statement</a> production defined in <a data-link-type="biblio" href="#biblio-css3-conditional">[CSS3-CONDITIONAL]</a> to allow <a class="css" data-link-type="maybe" href="#at-ruledef-viewport" id="ref-for-at-ruledef-viewport①⓪">@viewport</a> rules nested inside <a data-link-type="dfn" href="https://www.w3.org/TR/css3-conditional/#conditional-group-rules" id="ref-for-conditional-group-rules">conditional group rules</a> such as <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-conditional-3/#at-ruledef-media" id="ref-for-at-ruledef-media">@media</a> or <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports" id="ref-for-at-ruledef-supports">@supports</a>:</p>
+   <p>It is also added to the <a data-link-type="dfn">nested_statement</a> production defined in <a data-link-type="biblio" href="#biblio-css3-conditional">[CSS3-CONDITIONAL]</a> to allow <a class="css" data-link-type="maybe" href="#at-ruledef-viewport" id="ref-for-at-ruledef-viewport①⓪">@viewport</a> rules nested inside <a data-link-type="dfn" href="https://drafts.csswg.org/css-conditional-3/#conditional-group-rule" id="ref-for-conditional-group-rule">conditional group rules</a> such as <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-conditional-3/#at-ruledef-media" id="ref-for-at-ruledef-media">@media</a> or <a class="css" data-link-type="maybe" href="https://drafts.csswg.org/css-conditional-3/#at-ruledef-supports" id="ref-for-at-ruledef-supports">@supports</a>:</p>
 <pre>nested_statement
   : ruleset | media | page | font_face_rule | keyframes_rule |
     supports_rule | viewport
@@ -677,7 +1040,7 @@ the <a href="https://www.w3.org/TR/CSS21/visudet.html#containing-block-details">
     <dd> The used value is calculated from the other descriptors'
         values according to the <a href="#constraining-procedure">constraining procedure</a>. 
     <p class="issue" id="issue-7fbbd2b2"><a class="self-link" href="#issue-7fbbd2b2"></a>The user-agent stylesheets recommended in the informative section don’t adequately represent current implementation behaviors.  Should there be a more explicit mechanism for switching between UA default behavior and requesting the CSS pixel?</p>
-    <dt><dfn class="css" data-dfn-for="viewport-length" data-dfn-type="value" data-export id="valdef-viewport-length-length"><a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" id="ref-for-length-value" title="Expands to: em | vb | ch | cm | vh | vi | in | ex | vw | ic | pt | px | lh | pc | rem | rlh | vmax | advance measure | vmin | mm | cap | q">&lt;length></a><a class="self-link" href="#valdef-viewport-length-length"></a></dfn>
+    <dt><dfn class="css" data-dfn-for="viewport-length" data-dfn-type="value" data-export id="valdef-viewport-length-length"><a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#length-value" id="ref-for-length-value" title="Expands to: advance measure | cap | ch | cm | em | ex | ic | in | lh | mm | pc | pt | px | q | rem | rlh | vb | vh | vi | vmax | vmin | vw">&lt;length></a><a class="self-link" href="#valdef-viewport-length-length"></a></dfn>
     <dd> A non-negative absolute or relative length. 
     <dt><dfn class="css" data-dfn-for="viewport-length" data-dfn-type="value" data-export id="valdef-viewport-length-percentage"><a class="production css" data-link-type="type" href="https://drafts.csswg.org/css-values-3/#percentage-value" id="ref-for-percentage-value">&lt;percentage></a><a class="self-link" href="#valdef-viewport-length-percentage"></a></dfn>
     <dd> A percentage value relative to the width or height of the <span class="css">initial viewport</span> at zoom factor 1.0, for horizontal
@@ -1062,7 +1425,7 @@ media queries needs extra attention.</p>
     <p> “To avoid circular dependencies, it is never necessary
         to apply the style sheet in order to evaluate expressions. For example,
         the aspect ratio of a printed document may be influenced by a style sheet,
-        but expressions involving <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/mediaqueries-4/#descdef-media-device-aspect-ratio" id="ref-for-descdef-media-device-aspect-ratio">device-aspect-ratio</a> will be based
+        but expressions involving <a class="property" data-link-type="propdesc" href="https://drafts.csswg.org/mediaqueries-5/#descdef-media-device-aspect-ratio" id="ref-for-descdef-media-device-aspect-ratio">device-aspect-ratio</a> will be based
         on the default aspect ratio of the user agent.” </p>
    </blockquote>
    <p>The UA must however cascade <a class="css" data-link-type="maybe" href="#at-ruledef-viewport" id="ref-for-at-ruledef-viewport②④">@viewport</a> rules separately with the <span class="css">initial viewport</span> size used for evaluating media feature
@@ -1135,7 +1498,7 @@ query affected by the viewport descriptors.</p>
    </div>
    <p>It is recommended that authors do not write <a class="css" data-link-type="maybe" href="#at-ruledef-viewport" id="ref-for-at-ruledef-viewport③①">@viewport</a> rules that
 rely on media queries whose evaluation is affected by viewport
-descriptors. Is is also recommended that the <span class="css" id="ref-for-at-ruledef-viewport③②">@viewport</span> rule(s) is
+descriptors. It is also recommended that the <span class="css" id="ref-for-at-ruledef-viewport③②">@viewport</span> rule(s) is
 placed as early in the document as possible to avoid unnecessary
 re-evaluation of media queries or reflows.</p>
    <h2 class="heading settled" data-level="9" id="cssom"><span class="secno">9. </span><span class="content"> CSSOM</span><a class="self-link" href="#cssom"></a></h2>
@@ -1151,8 +1514,8 @@ interface.</p>
    <p>The <dfn class="dfn-paneled idl-code" data-dfn-type="interface" data-export id="cssviewportrule"><code>CSSViewportRule</code></dfn> interface represents the
 style rule for an <a class="css" data-link-type="maybe" href="#at-ruledef-viewport" id="ref-for-at-ruledef-viewport③④">@viewport</a> rule.</p>
 <pre class="idl highlight def">[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
-<c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="#cssviewportrule" id="ref-for-cssviewportrule"><c- g>CSSViewportRule</c-></a> : <a class="n" data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssrule" id="ref-for-cssrule①"><c- n>CSSRule</c-></a> {
-    <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssstyledeclaration" id="ref-for-cssstyledeclaration"><c- n>CSSStyleDeclaration</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="CSSStyleDeclaration" href="#dom-cssviewportrule-style" id="ref-for-dom-cssviewportrule-style"><c- g>style</c-></a>;
+<c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="#cssviewportrule" id="ref-for-cssviewportrule"><c- g>CSSViewportRule</c-></a> : <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssrule" id="ref-for-cssrule①"><c- n>CSSRule</c-></a> {
+    <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssstyledeclaration" id="ref-for-cssstyledeclaration"><c- n>CSSStyleDeclaration</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="CSSStyleDeclaration" href="#dom-cssviewportrule-style" id="ref-for-dom-cssviewportrule-style"><c- g>style</c-></a>;
 };
 </pre>
    <dl>
@@ -1161,6 +1524,22 @@ style rule for an <a class="css" data-link-type="maybe" href="#at-ruledef-viewpo
         with this <a class="css" data-link-type="maybe" href="#at-ruledef-viewport" id="ref-for-at-ruledef-viewport③⑤">@viewport</a> rule. 
    </dl>
    <h2 class="heading settled" data-level="10" id="viewport-meta"><span class="secno">10. </span><span class="content"> Viewport <code class="html">&lt;META></code> element</span><a class="self-link" href="#viewport-meta"></a></h2>
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta/name" title="The <meta> element can be used to provide document metadata in terms of name-value pairs, with the name attribute giving the metadata name, and the content attribute giving the value.">Element/meta/name</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>1+</span></span><span class="safari yes"><span>Safari</span><span>4+</span></span><span class="chrome yes"><span>Chrome</span><span>1+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>12.1+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge yes"><span>Edge (Legacy)</span><span>12+</span></span><span class="ie yes"><span>IE</span><span>6+</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>4+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>3+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>18+</span></span><span class="webview_android yes"><span>Android WebView</span><span>1+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>1.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>12.1+</span></span>
+     </div>
+    </div>
+   </div>
    <p><em>This section is not normative.</em></p>
    <p>This section describes a mapping from the content attribute of the
 viewport <code class="html">&lt;META></code> element, first
@@ -1503,95 +1882,89 @@ part of a recommended UA stylesheet.</p>
     <li>Extend <a data-link-type="biblio" href="#biblio-css3-conditional">[CSS3-CONDITIONAL]</a> rather than CSS21 for nesting in @media. 
    </ul>
   </main>
-  <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
-  <h3 class="heading settled" id="document-conventions"><span class="content"> Document conventions</span><a class="self-link" href="#document-conventions"></a></h3>
+  <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content"> Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
+  <h3 class="no-ref heading settled" id="w3c-conventions"><span class="content"> Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
   <p>Conformance requirements are expressed with a combination of
-	descriptive assertions and RFC 2119 terminology. The key words “MUST”,
-	“MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
-	“RECOMMENDED”, “MAY”, and “OPTIONAL” in the normative parts of this
-	document are to be interpreted as described in RFC 2119.
-	However, for readability, these words do not appear in all uppercase
-	letters in this specification. </p>
+    descriptive assertions and RFC 2119 terminology. The key words “MUST”,
+    “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
+    “RECOMMENDED”, “MAY”, and “OPTIONAL” in the normative parts of this
+    document are to be interpreted as described in RFC 2119.
+    However, for readability, these words do not appear in all uppercase
+    letters in this specification. </p>
   <p>All of the text of this specification is normative except sections
-	explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a> </p>
+    explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a></p>
   <p>Examples in this specification are introduced with the words “for example”
-	or are set apart from the normative text with <code>class="example"</code>,
-	like this: </p>
+    or are set apart from the normative text with <code>class="example"</code>,
+    like this: </p>
   <div class="example" id="example-ae2b6bc0">
    <a class="self-link" href="#example-ae2b6bc0"></a> 
-   <p>This is an example of an informative example. </p>
+   <p>This is an example of an informative example.</p>
   </div>
   <p>Informative notes begin with the word “Note” and are set apart from the
-	normative text with <code>class="note"</code>, like this: </p>
-  <p class="note" role="note">Note, this is an informative note. </p>
+    normative text with <code>class="note"</code>, like this: </p>
+  <p class="note" role="note">Note, this is an informative note.</p>
   <p>Advisements are normative sections styled to evoke special attention and are
-	set apart from other normative text with <code>&lt;strong class="advisement"></code>, like
-	this: <strong class="advisement"> UAs MUST provide an accessible alternative. </strong> </p>
-  <h3 class="heading settled" id="conform-classes"><span class="content"> Conformance classes</span><a class="self-link" href="#conform-classes"></a></h3>
+    set apart from other normative text with <code>&lt;strong class="advisement"></code>, like
+    this: <strong class="advisement"> UAs MUST provide an accessible alternative. </strong> </p>
+  <h3 class="no-ref heading settled" id="w3c-conformance-classes"><span class="content"> Conformance classes</span><a class="self-link" href="#w3c-conformance-classes"></a></h3>
   <p>Conformance to this specification
-	is defined for three conformance classes: </p>
+    is defined for three conformance classes: </p>
   <dl>
    <dt>style sheet 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#style-sheet">CSS
-			style sheet</a>. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#style-sheet">CSS
+            style sheet</a>. 
    <dt>renderer 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#user-agent">UA</a> that interprets the semantics of a style sheet and renders
-			documents that use them. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#user-agent">UA</a> that interprets the semantics of a style sheet and renders
+            documents that use them. 
    <dt>authoring tool 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#user-agent">UA</a> that writes a style sheet. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#user-agent">UA</a> that writes a style sheet. 
   </dl>
   <p>A style sheet is conformant to this specification
-	if all of its statements that use syntax defined in this module are valid
-	according to the generic CSS grammar and the individual grammars of each
-	feature defined in this module. </p>
+    if all of its statements that use syntax defined in this module are valid
+    according to the generic CSS grammar and the individual grammars of each
+    feature defined in this module. </p>
   <p>A renderer is conformant to this specification
-	if, in addition to interpreting the style sheet as defined by the
-	appropriate specifications, it supports all the features defined
-	by this specification by parsing them correctly
-	and rendering the document accordingly. However, the inability of a
-	UA to correctly render a document due to limitations of the device
-	does not make the UA non-conformant. (For example, a UA is not
-	required to render color on a monochrome monitor.) </p>
+    if, in addition to interpreting the style sheet as defined by the
+    appropriate specifications, it supports all the features defined
+    by this specification by parsing them correctly
+    and rendering the document accordingly. However, the inability of a
+    UA to correctly render a document due to limitations of the device
+    does not make the UA non-conformant. (For example, a UA is not
+    required to render color on a monochrome monitor.) </p>
   <p>An authoring tool is conformant to this specification
-	if it writes style sheets that are syntactically correct according to the
-	generic CSS grammar and the individual grammars of each feature in
-	this module, and meet all other conformance requirements of style sheets
-	as described in this module. </p>
-  <h3 class="heading settled" id="conform-responsible"><span class="content"> Requirements for Responsible Implementation of CSS</span><a class="self-link" href="#conform-responsible"></a></h3>
-  <p>The following sections define several conformance requirements
-		for implementing CSS responsibly,
-		in a way that promotes interoperability in the present and future. </p>
-  <h4 class="heading settled" id="conform-partial"><span class="content"> Partial Implementations</span><a class="self-link" href="#conform-partial"></a></h4>
-  <p>So that authors can exploit the forward-compatible parsing rules to assign fallback values, <strong>CSS renderers <em>must</em> treat as invalid
-		(and <a href="http://www.w3.org/TR/CSS2/conform.html#ignore">ignore as appropriate</a>)
-		any at-rules, properties, property values, keywords, and other syntactic constructs
-		for which they have no usable level of support</strong>.
-		In particular, user agents <em>must not</em> selectively ignore
-		unsupported property values and honor supported values in a single multi-value property declaration:
-		if any value is considered invalid (as unsupported values must be),
-		CSS requires that the entire declaration be ignored. </p>
-  <h4 class="heading settled" id="conform-future-proofing"><span class="content"> Implementations of Unstable and Proprietary Features</span><a class="self-link" href="#conform-future-proofing"></a></h4>
+    if it writes style sheets that are syntactically correct according to the
+    generic CSS grammar and the individual grammars of each feature in
+    this module, and meet all other conformance requirements of style sheets
+    as described in this module. </p>
+  <h3 class="no-ref heading settled" id="w3c-partial"><span class="content"> Partial implementations</span><a class="self-link" href="#w3c-partial"></a></h3>
+  <p>So that authors can exploit the forward-compatible parsing rules to
+    assign fallback values, CSS renderers <strong>must</strong> treat as invalid (and <a href="http://www.w3.org/TR/CSS21/conform.html#ignore">ignore
+    as appropriate</a>) any at-rules, properties, property values, keywords,
+    and other syntactic constructs for which they have no usable level of
+    support. In particular, user agents <strong>must not</strong> selectively
+    ignore unsupported component values and honor supported values in a single
+    multi-value property declaration: if any value is considered invalid
+    (as unsupported values must be), CSS requires that the entire declaration
+    be ignored.</p>
+  <h4 class="heading settled" id="w3c-conform-future-proofing"><span class="content"> Implementations of Unstable and Proprietary Features</span><a class="self-link" href="#w3c-conform-future-proofing"></a></h4>
   <p>To avoid clashes with future stable CSS features,
-		the CSSWG recommends <a href="http://www.w3.org/TR/CSS/#future-proofing">following best practices</a> for the implementation of <a href="http://www.w3.org/TR/CSS/#unstable">unstable</a> features and <a href="http://www.w3.org/TR/CSS/#proprietary-extension">proprietary extensions</a> to CSS. </p>
-  <h4 class="heading settled" id="conform-testing"><span class="content"> Implementations of CR-level Features</span><a class="self-link" href="#conform-testing"></a></h4>
+        the CSSWG recommends <a href="http://www.w3.org/TR/CSS/#future-proofing">following best practices</a> for the implementation of <a href="http://www.w3.org/TR/CSS/#unstable">unstable</a> features and <a href="http://www.w3.org/TR/CSS/#proprietary-extension">proprietary extensions</a> to CSS. </p>
+  <h3 class="no-ref heading settled" id="w3c-testing"><span class="content"> Non-experimental implementations</span><a class="self-link" href="#w3c-testing"></a></h3>
   <p>Once a specification reaches the Candidate Recommendation stage,
-		implementers should release an <a data-link-type="dfn" href="http://www.w3.org/TR/CSS/#vendor-prefix">unprefixed</a> implementation
-		of any CR-level feature they can demonstrate
-		to be correctly implemented according to spec,
-		and should avoid exposing a prefixed variant of that feature. </p>
+    non-experimental implementations are possible, and implementors should
+    release an unprefixed implementation of any CR-level feature they
+    can demonstrate to be correctly implemented according to spec. </p>
   <p>To establish and maintain the interoperability of CSS across
-		implementations, the CSS Working Group requests that non-experimental
-		CSS renderers submit an implementation report (and, if necessary, the
-		testcases used for that implementation report) to the W3C before
-		releasing an unprefixed implementation of any CSS features. Testcases
-		submitted to W3C are subject to review and correction by the CSS
-		Working Group. </p>
-  <p>
-   Further information on submitting testcases and implementation reports
-		can be found from on the CSS Working Group’s website at <a href="http://www.w3.org/Style/CSS/Test/">http://www.w3.org/Style/CSS/Test/</a>.
-		Questions should be directed to the <a href="http://lists.w3.org/Archives/Public/public-css-testsuite">public-css-testsuite@w3.org</a> mailing list. 
+    implementations, the CSS Working Group requests that non-experimental
+    CSS renderers submit an implementation report (and, if necessary, the
+    testcases used for that implementation report) to the W3C before
+    releasing an unprefixed implementation of any CSS features. Testcases
+    submitted to W3C are subject to review and correction by the CSS
+    Working Group. </p>
+  <p>Further information on submitting testcases and implementation reports
+    can be found from on the CSS Working Group’s website at <a href="http://www.w3.org/Style/CSS/Test/">http://www.w3.org/Style/CSS/Test/</a>.
+    Questions should be directed to the <a href="http://lists.w3.org/Archives/Public/public-css-testsuite">public-css-testsuite@w3.org</a> mailing list.</p>
 <script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script>
-  </p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
@@ -1645,7 +2018,7 @@ part of a recommended UA stylesheet.</p>
     </ul>
   </ul>
   <aside class="dfn-panel" data-for="term-for-valdef-all-inherit">
-   <a href="https://drafts.csswg.org/css-cascade-4/#valdef-all-inherit">https://drafts.csswg.org/css-cascade-4/#valdef-all-inherit</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/css-cascade-5/#valdef-all-inherit">https://drafts.csswg.org/css-cascade-5/#valdef-all-inherit</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-valdef-all-inherit">5. 
 The @viewport rule</a>
@@ -1742,17 +2115,10 @@ Syntax</a>
 Syntax</a>
    </ul>
   </aside>
-  <aside class="dfn-panel" data-for="term-for-conditional-group-rules">
-   <a href="https://www.w3.org/TR/css3-conditional/#conditional-group-rules">https://www.w3.org/TR/css3-conditional/#conditional-group-rules</a><b>Referenced in:</b>
+  <aside class="dfn-panel" data-for="term-for-conditional-group-rule">
+   <a href="https://drafts.csswg.org/css-conditional-3/#conditional-group-rule">https://drafts.csswg.org/css-conditional-3/#conditional-group-rule</a><b>Referenced in:</b>
    <ul>
-    <li><a href="#ref-for-conditional-group-rules">5.1. 
-Syntax</a>
-   </ul>
-  </aside>
-  <aside class="dfn-panel" data-for="term-for-nested_statement">
-   <a href="https://www.w3.org/TR/css3-conditional/#nested_statement">https://www.w3.org/TR/css3-conditional/#nested_statement</a><b>Referenced in:</b>
-   <ul>
-    <li><a href="#ref-for-nested_statement">5.1. 
+    <li><a href="#ref-for-conditional-group-rule">5.1. 
 Syntax</a>
    </ul>
   </aside>
@@ -1803,11 +2169,27 @@ Interface CSSViewportRule</a>
 Interface CSSViewportRule</a> <a href="#ref-for-cssstyledeclaration①">(2)</a>
    </ul>
   </aside>
+  <aside class="dfn-panel" data-for="term-for-continuous-media">
+   <a href="https://drafts.csswg.org/mediaqueries-5/#continuous-media">https://drafts.csswg.org/mediaqueries-5/#continuous-media</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-continuous-media">1. 
+Introduction</a>
+    <li><a href="#ref-for-continuous-media①">4. 
+The viewport</a> <a href="#ref-for-continuous-media②">(2)</a> <a href="#ref-for-continuous-media③">(3)</a>
+   </ul>
+  </aside>
   <aside class="dfn-panel" data-for="term-for-descdef-media-device-aspect-ratio">
-   <a href="https://drafts.csswg.org/mediaqueries-4/#descdef-media-device-aspect-ratio">https://drafts.csswg.org/mediaqueries-4/#descdef-media-device-aspect-ratio</a><b>Referenced in:</b>
+   <a href="https://drafts.csswg.org/mediaqueries-5/#descdef-media-device-aspect-ratio">https://drafts.csswg.org/mediaqueries-5/#descdef-media-device-aspect-ratio</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-descdef-media-device-aspect-ratio">8. 
 Media Queries</a>
+   </ul>
+  </aside>
+  <aside class="dfn-panel" data-for="term-for-paged-media">
+   <a href="https://drafts.csswg.org/mediaqueries-5/#paged-media">https://drafts.csswg.org/mediaqueries-5/#paged-media</a><b>Referenced in:</b>
+   <ul>
+    <li><a href="#ref-for-paged-media">4. 
+The viewport</a> <a href="#ref-for-paged-media①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-Exposed">
@@ -1827,93 +2209,96 @@ Interface CSSRule</a>
   <h3 class="no-num no-ref heading settled" id="index-defined-elsewhere"><span class="content">Terms defined by reference</span><a class="self-link" href="#index-defined-elsewhere"></a></h3>
   <ul class="index">
    <li>
-    <a data-link-type="biblio">[css-cascade-4]</a> defines the following terms:
+    <a data-link-type="biblio">[css-cascade-5]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-valdef-all-inherit" style="color:initial">inherit</span>
+     <li><span class="dfn-paneled" id="term-for-valdef-all-inherit">inherit</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-fonts-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-font-size" style="color:initial">font-size</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-font-size">font-size</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-page-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-at-ruledef-page" style="color:initial">@page</span>
+     <li><span class="dfn-paneled" id="term-for-at-ruledef-page">@page</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-values-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-vh" style="color:initial">vh</span>
-     <li><span class="dfn-paneled" id="term-for-vmax" style="color:initial">vmax</span>
-     <li><span class="dfn-paneled" id="term-for-vmin" style="color:initial">vmin</span>
-     <li><span class="dfn-paneled" id="term-for-vw" style="color:initial">vw</span>
-     <li><span class="dfn-paneled" id="term-for-mult-num-range" style="color:initial">{a,b}</span>
-     <li><span class="dfn-paneled" id="term-for-comb-one" style="color:initial">|</span>
+     <li><span class="dfn-paneled" id="term-for-vh">vh</span>
+     <li><span class="dfn-paneled" id="term-for-vmax">vmax</span>
+     <li><span class="dfn-paneled" id="term-for-vmin">vmin</span>
+     <li><span class="dfn-paneled" id="term-for-vw">vw</span>
+     <li><span class="dfn-paneled" id="term-for-mult-num-range">{a,b}</span>
+     <li><span class="dfn-paneled" id="term-for-comb-one">|</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-writing-modes-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-propdef-direction" style="color:initial">direction</span>
+     <li><span class="dfn-paneled" id="term-for-propdef-direction">direction</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS3-CONDITIONAL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-at-ruledef-media" style="color:initial">@media</span>
-     <li><span class="dfn-paneled" id="term-for-at-ruledef-supports" style="color:initial">@supports</span>
-     <li><span class="dfn-paneled" id="term-for-conditional-group-rules" style="color:initial">conditional group rules</span>
-     <li><span class="dfn-paneled" id="term-for-nested_statement" style="color:initial">nested_statement</span>
+     <li><span class="dfn-paneled" id="term-for-at-ruledef-media">@media</span>
+     <li><span class="dfn-paneled" id="term-for-at-ruledef-supports">@supports</span>
+     <li><span class="dfn-paneled" id="term-for-conditional-group-rule">conditional group rule</span>
     </ul>
    <li>
     <a data-link-type="biblio">[CSS3VAL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-length-value" style="color:initial">&lt;length></span>
-     <li><span class="dfn-paneled" id="term-for-number-value" style="color:initial">&lt;number></span>
-     <li><span class="dfn-paneled" id="term-for-percentage-value" style="color:initial">&lt;percentage></span>
+     <li><span class="dfn-paneled" id="term-for-length-value">&lt;length></span>
+     <li><span class="dfn-paneled" id="term-for-number-value">&lt;number></span>
+     <li><span class="dfn-paneled" id="term-for-percentage-value">&lt;percentage></span>
     </ul>
    <li>
     <a data-link-type="biblio">[cssom-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-cssrule" style="color:initial">CSSRule</span>
-     <li><span class="dfn-paneled" id="term-for-cssstyledeclaration" style="color:initial">CSSStyleDeclaration</span>
+     <li><span class="dfn-paneled" id="term-for-cssrule">CSSRule</span>
+     <li><span class="dfn-paneled" id="term-for-cssstyledeclaration">CSSStyleDeclaration</span>
     </ul>
    <li>
-    <a data-link-type="biblio">[MEDIAQ]</a> defines the following terms:
+    <a data-link-type="biblio">[mediaqueries-5]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-descdef-media-device-aspect-ratio" style="color:initial">device-aspect-ratio</span>
+     <li><span class="dfn-paneled" id="term-for-continuous-media">continuous media</span>
+     <li><span class="dfn-paneled" id="term-for-descdef-media-device-aspect-ratio">device-aspect-ratio</span>
+     <li><span class="dfn-paneled" id="term-for-paged-media">paged media</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-Exposed" style="color:initial">Exposed</span>
-     <li><span class="dfn-paneled" id="term-for-idl-unsigned-short" style="color:initial">unsigned short</span>
+     <li><span class="dfn-paneled" id="term-for-Exposed">Exposed</span>
+     <li><span class="dfn-paneled" id="term-for-idl-unsigned-short">unsigned short</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
-   <dt id="biblio-css-cascade-4">[CSS-CASCADE-4]
-   <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://www.w3.org/TR/css-cascade-4/">CSS Cascading and Inheritance Level 4</a>. 28 August 2018. CR. URL: <a href="https://www.w3.org/TR/css-cascade-4/">https://www.w3.org/TR/css-cascade-4/</a>
+   <dt id="biblio-css-cascade-5">[CSS-CASCADE-5]
+   <dd>Elika Etemad; Miriam Suzanne; Tab Atkins Jr.. <a href="https://www.w3.org/TR/css-cascade-5/">CSS Cascading and Inheritance Level 5</a>. 19 January 2021. WD. URL: <a href="https://www.w3.org/TR/css-cascade-5/">https://www.w3.org/TR/css-cascade-5/</a>
    <dt id="biblio-css-fonts-3">[CSS-FONTS-3]
    <dd>John Daggett; Myles Maxfield; Chris Lilley. <a href="https://www.w3.org/TR/css-fonts-3/">CSS Fonts Module Level 3</a>. 20 September 2018. REC. URL: <a href="https://www.w3.org/TR/css-fonts-3/">https://www.w3.org/TR/css-fonts-3/</a>
    <dt id="biblio-css-page-3">[CSS-PAGE-3]
    <dd>Elika Etemad; Simon Sapin. <a href="https://www.w3.org/TR/css-page-3/">CSS Paged Media Module Level 3</a>. 18 October 2018. WD. URL: <a href="https://www.w3.org/TR/css-page-3/">https://www.w3.org/TR/css-page-3/</a>
    <dt id="biblio-css-values-4">[CSS-VALUES-4]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 31 January 2019. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 11 November 2020. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
    <dt id="biblio-css-writing-modes-3">[CSS-WRITING-MODES-3]
-   <dd>Elika Etemad; Koji Ishii. <a href="https://www.w3.org/TR/css-writing-modes-3/">CSS Writing Modes Level 3</a>. 24 May 2018. CR. URL: <a href="https://www.w3.org/TR/css-writing-modes-3/">https://www.w3.org/TR/css-writing-modes-3/</a>
+   <dd>Elika Etemad; Koji Ishii. <a href="https://www.w3.org/TR/css-writing-modes-3/">CSS Writing Modes Level 3</a>. 10 December 2019. REC. URL: <a href="https://www.w3.org/TR/css-writing-modes-3/">https://www.w3.org/TR/css-writing-modes-3/</a>
    <dt id="biblio-css21">[CSS21]
-   <dd>Bert Bos; et al. <a href="https://www.w3.org/TR/CSS2/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. 7 June 2011. REC. URL: <a href="https://www.w3.org/TR/CSS2/">https://www.w3.org/TR/CSS2/</a>
+   <dd>Bert Bos; et al. <a href="https://www.w3.org/TR/CSS21/">Cascading Style Sheets Level 2 Revision 1 (CSS 2.1) Specification</a>. 7 June 2011. REC. URL: <a href="https://www.w3.org/TR/CSS21/">https://www.w3.org/TR/CSS21/</a>
    <dt id="biblio-css3-conditional">[CSS3-CONDITIONAL]
-   <dd>David Baron. <a href="https://www.w3.org/TR/css3-conditional/">CSS Conditional Rules Module Level 3</a>. 4 April 2013. CR. URL: <a href="https://www.w3.org/TR/css3-conditional/">https://www.w3.org/TR/css3-conditional/</a>
+   <dd>David Baron; Elika Etemad; Chris Lilley. <a href="https://www.w3.org/TR/css-conditional-3/">CSS Conditional Rules Module Level 3</a>. 8 December 2020. CR. URL: <a href="https://www.w3.org/TR/css-conditional-3/">https://www.w3.org/TR/css-conditional-3/</a>
    <dt id="biblio-css3syn">[CSS3SYN]
-   <dd>Tab Atkins Jr.; Simon Sapin. <a href="https://www.w3.org/TR/css-syntax-3/">CSS Syntax Module Level 3</a>. 20 February 2014. CR. URL: <a href="https://www.w3.org/TR/css-syntax-3/">https://www.w3.org/TR/css-syntax-3/</a>
+   <dd>Tab Atkins Jr.; Simon Sapin. <a href="https://www.w3.org/TR/css-syntax-3/">CSS Syntax Module Level 3</a>. 16 July 2019. CR. URL: <a href="https://www.w3.org/TR/css-syntax-3/">https://www.w3.org/TR/css-syntax-3/</a>
    <dt id="biblio-css3val">[CSS3VAL]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 31 January 2019. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a>. 6 June 2019. CR. URL: <a href="https://www.w3.org/TR/css-values-3/">https://www.w3.org/TR/css-values-3/</a>
    <dt id="biblio-cssom-1">[CSSOM-1]
    <dd>Simon Pieters; Glenn Adams. <a href="https://www.w3.org/TR/cssom-1/">CSS Object Model (CSSOM)</a>. 17 March 2016. WD. URL: <a href="https://www.w3.org/TR/cssom-1/">https://www.w3.org/TR/cssom-1/</a>
    <dt id="biblio-mediaq">[MEDIAQ]
-   <dd>Florian Rivoal; Tab Atkins Jr.. <a href="https://www.w3.org/TR/mediaqueries-4/">Media Queries Level 4</a>. 5 September 2017. CR. URL: <a href="https://www.w3.org/TR/mediaqueries-4/">https://www.w3.org/TR/mediaqueries-4/</a>
+   <dd>Florian Rivoal; Tab Atkins Jr.. <a href="https://www.w3.org/TR/mediaqueries-4/">Media Queries Level 4</a>. 21 July 2020. CR. URL: <a href="https://www.w3.org/TR/mediaqueries-4/">https://www.w3.org/TR/mediaqueries-4/</a>
+   <dt id="biblio-mediaqueries-5">[MEDIAQUERIES-5]
+   <dd>Dean Jackson; Florian Rivoal; Tab Atkins Jr.. <a href="https://www.w3.org/TR/mediaqueries-5/">Media Queries Level 5</a>. 31 July 2020. WD. URL: <a href="https://www.w3.org/TR/mediaqueries-5/">https://www.w3.org/TR/mediaqueries-5/</a>
    <dt id="biblio-rfc2119">[RFC2119]
    <dd>S. Bradner. <a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>. March 1997. Best Current Practice. URL: <a href="https://tools.ietf.org/html/rfc2119">https://tools.ietf.org/html/rfc2119</a>
    <dt id="biblio-webidl">[WebIDL]
@@ -2006,13 +2391,13 @@ Interface CSSRule</a>
    </table>
   </div>
   <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
-<pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://drafts.csswg.org/cssom-1/#cssrule" id="ref-for-cssrule②"><c- g>CSSRule</c-></a> {
-    <c- b>const</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-short" id="ref-for-idl-unsigned-short①"><c- b>unsigned</c-> <c- b>short</c-></a> <a href="#dom-cssrule-viewport_rule"><code><c- g>VIEWPORT_RULE</c-></code></a> = 15;
+<pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://drafts.csswg.org/cssom-1/#cssrule"><c- g>CSSRule</c-></a> {
+    <c- b>const</c-> <a class="idl-code" data-link-type="interface" href="https://heycam.github.io/webidl/#idl-unsigned-short"><c- b>unsigned</c-> <c- b>short</c-></a> <a href="#dom-cssrule-viewport_rule"><code><c- g>VIEWPORT_RULE</c-></code></a> = 15;
 };
 
-[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed" id="ref-for-Exposed①"><c- g>Exposed</c-></a>=<c- n>Window</c->]
-<c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="#cssviewportrule" id="ref-for-cssviewportrule①"><c- g>CSSViewportRule</c-></a> : <a class="n" data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssrule" id="ref-for-cssrule①①"><c- n>CSSRule</c-></a> {
-    <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssstyledeclaration" id="ref-for-cssstyledeclaration②"><c- n>CSSStyleDeclaration</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="CSSStyleDeclaration" href="#dom-cssviewportrule-style" id="ref-for-dom-cssviewportrule-style①"><c- g>style</c-></a>;
+[<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#Exposed"><c- g>Exposed</c-></a>=<c- n>Window</c->]
+<c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="#cssviewportrule"><c- g>CSSViewportRule</c-></a> : <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssrule"><c- n>CSSRule</c-></a> {
+    <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="https://drafts.csswg.org/cssom-1/#cssstyledeclaration"><c- n>CSSStyleDeclaration</c-></a> <a class="idl-code" data-link-type="attribute" data-readonly data-type="CSSStyleDeclaration" href="#dom-cssviewportrule-style"><c- g>style</c-></a>;
 };
 
 </pre>
@@ -2029,8 +2414,8 @@ are listed in <a href="https://www.w3.org/Graphics/SVG/WG/wiki/Proposals/Investi
    <div class="issue">"dbaron: The question is, what does this do on the desktop
 browser? (And what’s a desktop browser)". Need to say that a "desktop"
 browser typically have no UA styles, as opposed to the <a href="#ua-stylesheet">UA stylesheet</a> outlined for current mobile
-behaviour, and that no UA styles for <a class="css" data-link-type="maybe" href="#at-ruledef-viewport">@viewport</a> will give "desktop"
-behaviour per default (actual viewport is initial viewport).<a href="#issue-3cd9f731"> ↵ </a></div>
+behavior, and that no UA styles for <a class="css" data-link-type="maybe" href="#at-ruledef-viewport">@viewport</a> will give "desktop"
+behavior per default (actual viewport is initial viewport).<a href="#issue-70dd6b42"> ↵ </a></div>
    <div class="issue">min- and max- functionality can be achieved with media queries, should these be removed?<a href="#issue-081c4ec9"> ↵ </a></div>
    <div class="issue">The user-agent stylesheets recommended in the informative section don’t adequately represent current implementation behaviors.  Should there be a more explicit mechanism for switching between UA default behavior and requesting the CSS pixel?<a href="#issue-7fbbd2b2"> ↵ </a></div>
   </div>
@@ -2270,3 +2655,11 @@ document.body.addEventListener("click", function(e) {
 
 });
 </script>
+<script>/* script-mdn-anno */
+
+            document.body.addEventListener("click", (e) => {
+                if(e.target.closest(".mdn-anno-btn")) {
+                    e.target.closest(".mdn-anno").classList.toggle("wrapped");
+                }
+            });
+            </script>

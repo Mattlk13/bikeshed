@@ -1,8 +1,5 @@
-# -*- coding: utf-8 -*-
-from __future__ import division, unicode_literals
-
-class Nil(object):
-    '''Super-None, falsey and returns itself from every method/attribute/etc'''
+class Nil:
+    """Super-None, falsey and returns itself from every method/attribute/etc"""
 
     def __repr__(self):
         return "Nil()"
@@ -10,7 +7,7 @@ class Nil(object):
     def __str__(self):
         return "Nil"
 
-    def __nonzero__(self):
+    def __bool__(self):
         return False
 
     def __call__(self, *args, **kwargs):
@@ -22,7 +19,7 @@ class Nil(object):
     def __setitem__(self, key, val):
         return self
 
-    def __delitem__(self, key, val):
+    def __delitem__(self, key):
         return self
 
     def __getattr__(self, name):
@@ -31,7 +28,7 @@ class Nil(object):
     def __setattr__(self, name, value):
         return self
 
-    def __delattr__(self, name, value):
+    def __delattr__(self, name):
         return self
 
     def __eq__(self, other):

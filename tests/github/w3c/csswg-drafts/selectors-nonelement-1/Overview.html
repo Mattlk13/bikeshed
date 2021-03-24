@@ -10,132 +10,10 @@
   <link href="../csslogo.ico" rel="shortcut icon" type="image/x-icon">
   <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-WG-NOTE" rel="stylesheet" type="text/css">
   <link href="https://www.w3.org/TR/selectors-nonelement-1/" rel="canonical">
-<style>/* style-md-lists */
-
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}</style>
-<style>/* style-counters */
-
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}</style>
-<style>/* style-dfn-panel */
-
-.dfn-panel {
-    position: absolute;
-    z-index: 35;
-    height: auto;
-    width: -webkit-fit-content;
-    width: fit-content;
-    max-width: 300px;
-    max-height: 500px;
-    overflow: auto;
-    padding: 0.5em 0.75em;
-    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
-    border: outset 0.2em;
-}
-.dfn-panel:not(.on) { display: none; }
-.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
-.dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
-.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
-.dfn-panel > b + b { margin-top: 0.25em; }
-.dfn-panel ul { padding: 0; }
-.dfn-panel li { list-style: inside; }
-.dfn-panel.activated {
-    display: inline-block;
-    position: fixed;
-    left: .5em;
-    bottom: 2em;
-    margin: 0 auto;
-    max-width: calc(100vw - 1.5em - .4em - .5em);
-    max-height: 30vh;
-}
-
-.dfn-paneled { cursor: pointer; }
-</style>
-<style>/* style-selflinks */
-
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: gray;
-    color: white;
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: black;
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
-    color: #005a9c;
+    color: var(--a-normal-text);
     font-size: inherit;
     font-family: inherit;
 }
@@ -194,6 +72,138 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
+<style>/* style-dfn-panel */
+
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
+.dfn-panel {
+    position: absolute;
+    z-index: 35;
+    height: auto;
+    width: -webkit-fit-content;
+    width: fit-content;
+    max-width: 300px;
+    max-height: 500px;
+    overflow: auto;
+    padding: 0.5em 0.75em;
+    font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
+    border: outset 0.2em;
+}
+.dfn-panel:not(.on) { display: none; }
+.dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
+.dfn-panel > b { display: block; }
+.dfn-panel a { color: var(--dfnpanel-text); }
+.dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
+.dfn-panel > b + b { margin-top: 0.25em; }
+.dfn-panel ul { padding: 0; }
+.dfn-panel li { list-style: inside; }
+.dfn-panel.activated {
+    display: inline-block;
+    position: fixed;
+    left: .5em;
+    bottom: 2em;
+    margin: 0 auto;
+    max-width: calc(100vw - 1.5em - .4em - .5em);
+    max-height: 30vh;
+}
+
+.dfn-paneled { cursor: pointer; }
+</style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
@@ -209,17 +219,17 @@ pre .property::before, pre .property::after {
      <dd><a href="https://drafts.csswg.org/selectors-nonelement/">https://drafts.csswg.org/selectors-nonelement/</a>
      <dt>Previous Versions:
      <dd><a href="https://www.w3.org/TR/2014/WD-selectors-nonelement-1-20140603/" rel="prev">https://www.w3.org/TR/2014/WD-selectors-nonelement-1-20140603/</a>
+     <dt>Issue Tracking:
+     <dd><a href="https://github.com/w3c/csswg-drafts/labels/selectors-nonelement-1">CSSWG Issues Repository</a>
      <dt class="editor">Editors:
      <dd class="editor p-author h-card vcard" data-editor-id="40111"><a class="p-name fn u-email email" href="mailto:jirka@kosek.cz">Jirka Kosek</a> (<span class="p-org org">Invited Expert</span>)
      <dd class="editor p-author h-card vcard" data-editor-id="42199"><a class="p-name fn u-url url" href="http://xanthir.com/contact/">Tab Atkins Jr.</a> (<span class="p-org org">Google</span>)
      <dt>Suggest an Edit for this Spec:
      <dd><a href="https://github.com/w3c/csswg-drafts/blob/master/selectors-nonelement-1/Overview.bs">GitHub Editor</a>
-     <dt>Issue Tracking:
-     <dd><a href="https://github.com/w3c/csswg-drafts/labels/selectors-nonelement-1">GitHub Issues</a>
     </dl>
    </div>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -233,24 +243,23 @@ on screen, on paper, etc.
   </div>
   <h2 class="no-num no-toc no-ref heading settled" id="status"><span class="content">Status of this document</span></h2>
   <div data-fill-with="status">
-   <p><em>This section describes the status of this document at the time of
-   its publication. Other documents may supersede this document. A list of
-   current W3C publications and the latest revision of this technical report
-   can be found in the <a href="https://www.w3.org/TR/">W3C technical reports
-   index at https://www.w3.org/TR/.</a></em> </p>
-   <p>Publication as a Working Group Note does not imply endorsement by the 
-    W3C Membership. This is a draft document and may be updated, replaced or 
-    obsoleted by other documents at any time. It is inappropriate to cite this 
-    document as other than work in progress. </p>
-   <p><a href="https://github.com/w3c/csswg-drafts/issues">GitHub Issues</a> are preferred for discussion of this specification.
-    When filing an issue, please put the text “selectors-nonelement” in the title,
-    preferably like this:
-    “[selectors-nonelement] <i data-lt>…summary of comment…</i>”.
-    All issues and comments are <a href="https://lists.w3.org/Archives/Public/public-css-archive/">archived</a>,
-    and there is also a <a href="https://lists.w3.org/Archives/Public/www-style/">historical archive</a>. </p>
-   <p data-deliverer="32061">This document was produced by the <a href="https://www.w3.org/Style/CSS/">CSS Working Group</a>. </p>
-   <p>This document was produced by a group operating under the <a href="https://www.w3.org/Consortium/Patent-Policy/">W3C Patent Policy</a>. </p>
-   <p>This document is governed by the <a href="https://www.w3.org/2019/Process-20190301/" id="w3c_process_revision">1 March 2019 W3C Process Document</a>.</p>
+   <p><em>This section describes the status of this document at the time of its publication.
+	Other documents may supersede this document.
+	A list of current W3C publications
+	and the latest revision of this technical report
+	can be found in the <a href="https://www.w3.org/TR/">W3C technical reports index at https://www.w3.org/TR/.</a></em> </p>
+   <p>Please send feedback
+	by <a href="https://github.com/w3c/csswg-drafts/issues">filing issues in GitHub</a> (preferred),
+	including the spec code “selectors-nonelement” in the title, like this:
+	“[selectors-nonelement] <i>…summary of comment…</i>”.
+	All issues and comments are <a href="https://lists.w3.org/Archives/Public/public-css-archive/">archived</a>.
+	Alternately, feedback can be sent to the (<a href="https://lists.w3.org/Archives/Public/www-style/">archived</a>) public mailing list <a href="mailto:www-style@w3.org?Subject=%5Bselectors-nonelement%5D%20PUT%20SUBJECT%20HERE">www-style@w3.org</a>. </p>
+   <p>This document is governed by the <a href="https://www.w3.org/2020/Process-20200915/" id="w3c_process_revision">15 September 2020 W3C Process Document</a>. </p>
+   <p>This document was produced by a group operating under the <a href="https://www.w3.org/Consortium/Patent-Policy-20200915/">W3C Patent Policy</a>.
+	W3C maintains a <a href="https://www.w3.org/2004/01/pp-impl/32061/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group;
+	that page also includes instructions for disclosing a patent.
+	An individual who has actual knowledge of a patent which the individual believes
+	contains <a href="https://www.w3.org/Consortium/Patent-Policy-20200915/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="https://www.w3.org/Consortium/Patent-Policy-20200915/#sec-Disclosure">section 6 of the W3C Patent Policy</a>. </p>
    <p></p>
   </div>
   <div data-fill-with="at-risk"></div>
@@ -316,9 +325,9 @@ on screen, on paper, etc.
 	the selector matches attributes with any name.</p>
    <p>If the <a class="production css" data-link-type="type" href="#typedef-namespace-attr" id="ref-for-typedef-namespace-attr③">&lt;namespace-attr></a> is omitted entirely,
 	the selector matches any attribute in any namespace.</p>
-   <p>The selector matches an attribute node with the given namespace and name on the <a data-link-type="dfn" href="https://www.w3.org/TR/selectors4/#originating-element" id="ref-for-originating-element">originating element</a>,
+   <p>The selector matches an attribute node with the given namespace and name on the <a data-link-type="dfn" href="https://www.w3.org/TR/selectors-4/#originating-element" id="ref-for-originating-element">originating element</a>,
 	if such an attribute exists.</p>
-   <p>The selector uses <a data-link-type="dfn" href="https://www.w3.org/TR/selectors4/#pseudo-element" id="ref-for-pseudo-element">pseudo-element</a> syntax.</p>
+   <p>The selector uses <a data-link-type="dfn" href="https://www.w3.org/TR/selectors-4/#pseudo-element" id="ref-for-pseudo-element">pseudo-element</a> syntax.</p>
    <div class="example" id="example-18ff9212">
     <a class="self-link" href="#example-18ff9212"></a> The following ITS rules use an attribute node selector
 		to switch off translatability of <code>title</code> attribute on <code>abbr</code> elements. 
@@ -370,14 +379,14 @@ Attribute node selector</a> <a href="#ref-for-comb-one①">(2)</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-originating-element">
-   <a href="https://www.w3.org/TR/selectors4/#originating-element">https://www.w3.org/TR/selectors4/#originating-element</a><b>Referenced in:</b>
+   <a href="https://www.w3.org/TR/selectors-4/#originating-element">https://www.w3.org/TR/selectors-4/#originating-element</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-originating-element">2.1. 
 Attribute node selector</a>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-pseudo-element">
-   <a href="https://www.w3.org/TR/selectors4/#pseudo-element">https://www.w3.org/TR/selectors4/#pseudo-element</a><b>Referenced in:</b>
+   <a href="https://www.w3.org/TR/selectors-4/#pseudo-element">https://www.w3.org/TR/selectors-4/#pseudo-element</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-pseudo-element">2.1. 
 Attribute node selector</a>
@@ -388,20 +397,20 @@ Attribute node selector</a>
    <li>
     <a data-link-type="biblio">[css-namespaces-3]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-namespace-prefix" style="color:initial">namespace prefix</span>
+     <li><span class="dfn-paneled" id="term-for-namespace-prefix">namespace prefix</span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-values-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-typedef-ident" style="color:initial">&lt;ident></span>
-     <li><span class="dfn-paneled" id="term-for-mult-opt" style="color:initial">?</span>
-     <li><span class="dfn-paneled" id="term-for-comb-one" style="color:initial">|</span>
+     <li><span class="dfn-paneled" id="term-for-typedef-ident">&lt;ident></span>
+     <li><span class="dfn-paneled" id="term-for-mult-opt">?</span>
+     <li><span class="dfn-paneled" id="term-for-comb-one">|</span>
     </ul>
    <li>
     <a data-link-type="biblio">[SELECTORS4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-originating-element" style="color:initial">originating element</span>
-     <li><span class="dfn-paneled" id="term-for-pseudo-element" style="color:initial">pseudo-element</span>
+     <li><span class="dfn-paneled" id="term-for-originating-element">originating element</span>
+     <li><span class="dfn-paneled" id="term-for-pseudo-element">pseudo-element</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
@@ -410,16 +419,16 @@ Attribute node selector</a>
    <dt id="biblio-css-namespaces-3">[CSS-NAMESPACES-3]
    <dd>Elika Etemad. <a href="https://www.w3.org/TR/css-namespaces-3/">CSS Namespaces Module Level 3</a>. 20 March 2014. REC. URL: <a href="https://www.w3.org/TR/css-namespaces-3/">https://www.w3.org/TR/css-namespaces-3/</a>
    <dt id="biblio-css-values-4">[CSS-VALUES-4]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 31 January 2019. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 11 November 2020. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
    <dt id="biblio-selectors4">[SELECTORS4]
    <dd>Elika Etemad; Tab Atkins Jr.. <a href="https://www.w3.org/TR/selectors-4/">Selectors Level 4</a>. 21 November 2018. WD. URL: <a href="https://www.w3.org/TR/selectors-4/">https://www.w3.org/TR/selectors-4/</a>
   </dl>
   <h3 class="no-num no-ref heading settled" id="informative"><span class="content">Informative References</span><a class="self-link" href="#informative"></a></h3>
   <dl>
    <dt id="biblio-css3syn">[CSS3SYN]
-   <dd>Tab Atkins Jr.; Simon Sapin. <a href="https://www.w3.org/TR/css-syntax-3/">CSS Syntax Module Level 3</a>. 20 February 2014. CR. URL: <a href="https://www.w3.org/TR/css-syntax-3/">https://www.w3.org/TR/css-syntax-3/</a>
+   <dd>Tab Atkins Jr.; Simon Sapin. <a href="https://www.w3.org/TR/css-syntax-3/">CSS Syntax Module Level 3</a>. 16 July 2019. CR. URL: <a href="https://www.w3.org/TR/css-syntax-3/">https://www.w3.org/TR/css-syntax-3/</a>
    <dt id="biblio-selectors-api">[SELECTORS-API]
-   <dd>Anne van Kesteren; Lachlan Hunt. <a href="https://www.w3.org/TR/selectors-api/">Selectors API Level 1</a>. 21 February 2013. REC. URL: <a href="https://www.w3.org/TR/selectors-api/">https://www.w3.org/TR/selectors-api/</a>
+   <dd>Anne van Kesteren. <a href="https://dom.spec.whatwg.org/">DOM Standard</a>. Living Standard. URL: <a href="https://dom.spec.whatwg.org/">https://dom.spec.whatwg.org/</a>
   </dl>
   <aside class="dfn-panel" data-for="attribute-node-selector">
    <b><a href="#attribute-node-selector">#attribute-node-selector</a></b><b>Referenced in:</b>

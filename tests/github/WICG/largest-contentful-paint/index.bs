@@ -1,10 +1,11 @@
 <pre class=metadata>
 Title: Largest Contentful Paint
-Status: ED
+Status: CG-DRAFT
 Shortname: largest-contentful-paint
 Group: WICG
 Level: 1
 Editor: Yoav Weiss, Google https://google.com, yoavweiss@chromium.org
+Editor: Nicolás Peña Moreno, Google https://google.com, npm@chromium.org
 URL: https://wicg.github.io/largest-contentful-paint
 Repository: https://github.com/WICG/largest-contentful-paint
 Test Suite: https://github.com/web-platform-tests/wpt/tree/master/largest-contentful-paint
@@ -54,7 +55,7 @@ Introduction {#sec-intro}
 <em>This section is non-normative.</em>
 The LargestContentfulPaint API enables developers to gain visibility into the loading and rendering process of the web pages, in order for them to be able to optimize it.
 
-Developers today don't have a reliable metric that correlated with their user's visual rendering experience. Existing metrics such as First Paint and First Contentful Paint focus on initial rendering, but don't take into account the importance of the painted content, and therefore may indicate times in which the user still does not consider the page useful.
+Developers today don't have a reliable metric that correlates with their user's visual rendering experience. Existing metrics such as First Paint and First Contentful Paint focus on initial rendering, but don't take into account the importance of the painted content, and therefore may indicate times in which the user still does not consider the page useful.
 
 Largest Contentful Paint (LCP) aims to be a new page-load metric that:
 * better correlates with user experience than the existing page-load metrics
@@ -69,7 +70,12 @@ The API relies heavily on [[ELEMENT-TIMING]], which can be thought of as the low
 Elements exposed {#sec-elements-exposed}
 ------------------------
 
-The Largest Contentful Paint API will only expose element types that are already <a>exposed</a> by the Element Timing API.
+The Largest Contentful Paint API will only expose element types that are already <a>exposed</a> by the Element Timing API. In this case, there is no need to annotate them with the <code>elementtiming</code> attribute.
+
+Largest content {#sec-largest-content}
+------------------------
+
+The algorithm used for this API keeps track of the content seen so far. Whenever a new largest content is found, a new entry is created for it. Content that is removed is still considered by the algorithm. In particular, if the content removed was the largest, then a new entry is created only if larger content is ever added. The algorithm terminates whenever scroll or input events occur, since those are likely to introduce new content into the website.
 
 Usage example {#sec-example}
 ------------------------
@@ -89,6 +95,15 @@ The following example shows an image and a large body of text. The developer the
     observer.observe({entryTypes: ['largest-contentful-paint']});
     </script>
 </xmp>
+
+Limitations {#limitations}
+------------------------
+
+The LargestContentfulPaint API is based on heuristics. As such, it is error prone. It has the following problems:
+
+* The algorithm halts when it detects certain types of user inputs. However, this means that the algorithm will not capture the main content if the user input occurs before the main content is displayed. In fact, the algorithm may produce meaningless results or no results at all if user input occurs very early.
+
+* To account for image carousels, content is still considered as the largest even if it's removed. This presents problems for websites with splash screens that use large content as placeholders.
 
 Largest Contentful Paint {#sec-largest-contentful-paint}
 =======================================
@@ -121,7 +136,7 @@ Each {{LargestContentfulPaint}} object has these associated concepts:
 
 The {{PerformanceEntry/entryType}} attribute's getter must return the {{DOMString}} <code>"largest-contentful-paint"</code>.
 
-The {{PerformanceEntry/name}} attribute's getter must return the value it was initialized to.
+The {{PerformanceEntry/name}} attribute's getter must return the empty string.
 
 The {{PerformanceEntry/startTime}} attribute's getter must return the value of the <a>context object</a>'s <a>renderTime</a> if it is not 0, and the value of the <a>context object</a>'s <a>loadTime</a> otherwise.
 
@@ -141,16 +156,22 @@ The {{LargestContentfulPaint/element}} attribute's getter must return the value 
 
 Note: The above algorithm defines that an element that is no longer <a>descendant</a> of the {{Document}} will no longer be returned by {{LargestContentfulPaint/element}}'s attribute getter, including elements that are inside a shadow DOM.
 
-This specification also extends {{Document}} by adding it a <dfn>largestContentfulPaintSize</dfn> concept, initially set to 0.
+This specification also extends {{Document}} by adding to it a <dfn>largest contentful paint size</dfn> concept, initially set to 0.
+It also adds an associated <dfn>content set</dfn>, which is initially an empty <a spec=infra for=/>set</a>. The [=content set=] will be filled with <a>pairs</a> with an {{Element}} as the first item and a {{Request}} as the second item. This is used for performance, to enable the algorithm to only consider each content once.
+
+Note: The user agent needs to maintain the [=content set=] so that removed content does not introduce memory leaks. In particular, it can tie the lifetime of the <a>pairs</a> to weak pointers to the {{Element|Elements}} so that it can be cleaned up sometime after the {{Element|Elements}} are removed. Since the <a spec=infra for=/>set</a> is not exposed to web developers, this does not expose garbage collection timing.
 
 Processing model {#sec-processing-model}
 ========================================
+
+Potentially add LargestContentfulPaint entry {#sec-add-lcp-entry}
+--------------------------------------------------------
 
 Note: A user agent implementing the Largest Contentful Paint API would need to include <code>"largest-contentful-paint"</code> in {{PerformanceObserver/supportedEntryTypes}} for {{Window}} contexts.
 This allows developers to detect support for the API.
 
 In order to <dfn export>potentially add a {{LargestContentfulPaint}} entry</dfn>, the user agent must run the following steps:
-<div algorithm="LargestContentfulPaint add-image-entry">
+<div algorithm="LargestContentfulPaint potentially-add-entry">
     : Input
     ::  |intersectionRect|, a {{DOMRectReadOnly}}
     ::  |imageRequest|, a {{Request}}
@@ -160,10 +181,11 @@ In order to <dfn export>potentially add a {{LargestContentfulPaint}} entry</dfn>
     ::  |document|, a <a>Document</a>
     : Output
     ::  None
+        1. Let |contentIdentifier| be the <a>pair</a> (|element|, |imageRequest|).
+        1. If |document|'s [=content set=] <a for=set>contains</a> |contentIdentifier|, return.
+        1. <a for=set>Append</a> |contentIdentifier| to |document|'s [=content set=]
         1. Let |window| be |document|’s [=relevant global object=].
         1. If either of |window|'s [=has dispatched scroll event=] or [=has dispatched input event=] is true, return.
-
-        1. Let |largest| be |document|'s [=largestContentfulPaintSize=].
         1. Let |url| be the empty string.
         1. If |imageRequest| is not null, set |url| to be |imageRequest|'s [=request URL=].
         1. Let |id| be |element|'s <a attribute for=Element>element id</a>.
@@ -177,15 +199,30 @@ In order to <dfn export>potentially add a {{LargestContentfulPaint}} entry</dfn>
             1. Let |displaySize| be <code>|displayWidth| * |displayHeight|</code>.
             1. Let |penaltyFactor| be <code>min(|displaySize|, |naturalSize|) / |displaySize|</code>.
             1. Multiply |size| by |penaltyFactor|.
-        1. If |size| is smaller or equals |largest|, return.
-        1. Set |document|'s [=largestContentfulPaintSize=] to |size|.
-        1. Let |entry| be a new {{LargestContentfulPaint}} entry, with it's
-               {{LargestContentfulPaint/size}} set to |size|,
-               {{LargestContentfulPaint/url}} set to |url|,
-               {{LargestContentfulPaint/id}} set to |id|,
-               {{LargestContentfulPaint/renderTime}} set to |renderTime|,
-               {{LargestContentfulPaint/loadTime}} set to |loadTime|,
-               and its {{LargestContentfulPaint/element}} set to |element|.
+        1. If |size| is less than or equal to |document|'s [=largest contentful paint size=], return.
+        1. Let |contentInfo| be a <a>map</a> with |contentInfo|["size"] = |size|, |contentInfo|["url"] = |url|, |contentInfo|["id"] = |id|, |contentInfo|["renderTime"] = |renderTime|, |contentInfo|["loadTime"] = |loadTime|, and contentInfo["element"] = |element|.
+        1. <a>Create a LargestContentfulPaint entry</a> with |contentInfo|, and |document| as inputs.
+</div>
+
+Create a LargestContentfulPaint entry {#sec-create-entry}
+--------------------------------------------------------
+
+In order to <dfn>create a {{LargestContentfulPaint}} entry</dfn>, the user agent must run the following steps:
+
+<div algorithm="LargestContentfulPaint create-entry">
+    : Input
+    ::  |contentInfo|, a <a>map</a>
+    ::  |document|, a {{Document}}
+    : Output
+    ::  None
+        1. Set |document|'s [=largest contentful paint size=] to |contentInfo|["size"].
+        1. Let |entry| be a new {{LargestContentfulPaint}} entry with |document|'s [=relevant realm=], with its
+            * {{LargestContentfulPaint/size}} set to |contentInfo|["size"],
+            * {{LargestContentfulPaint/url}} set to |contentInfo|["url"],
+            * {{LargestContentfulPaint/id}} set to |contentInfo|["id"],
+            * {{LargestContentfulPaint/renderTime}} set to |contentInfo|["renderTime"],
+            * {{LargestContentfulPaint/loadTime}} set to |contentInfo|["loadTime"],
+            * and {{LargestContentfulPaint/element}} set to |contentInfo|["element"].
         1. [=Queue the PerformanceEntry=] |entry|.
 </div>
 

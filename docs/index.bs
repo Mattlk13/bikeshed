@@ -34,224 +34,212 @@ spec:html; type:element;
 Installing {#installing}
 ========================
 
-If you use Bikeshed frequently in different environments, it may be helpful to run Bikeshed from a docker image
-as this avoids having to install Bikeshed's dependencies. In this case, skip directly down to [[#install-docker]].
+Using Bikeshed Without A Local Install {#install-no}
+----------------------------------------------------
 
 If you use Bikeshed infrequently,
 or are okay with requiring a network roundtrip every time you invoke Bikeshed,
 you probably want to use [the Bikeshed API instead](https://api.csswg.org/bikeshed/).
 In return, the API version is always up-to-date,
 so you don't have to remember to update things yourself.
+See [[#remote]] for options.
 
-If you want to run a local copy of Bikeshed rather than use the cgi version, it’s pretty easy to install.
+Installing The Right Py3 {#install-py3}
+---------------------------------------
 
-You need to install Python 2.7, PIP, and a few other support libraries before installing Bikeshed itself.
-Here is how to do this on [[#install-linux|Debian-based Linuxen]] (anything using `apt`),
-[[#install-osx|OS X]], [[#install-windows|Windows 7/8/10]],
-or the [[#install-termux|Termux terminal emulator]] for Android.
+Your OS should already be shipping with some version of Python 3.
+However, Bikeshed requires Python 3.7,
+and that's not always the version installed by default.
 
-If you already have [Virtualenv](https://virtualenv.pypa.io) set up, you can skip directly down to [[#install-common]].
+You can tell which you're running with:
 
-Note: For any of these installation methods,
-make sure that the directory PIP installs to
-(usually <code>/usr/local/bin/</code> by default,
-or perhaps <code>~/.local/bin/</code>)
-is in your <code>$PATH</code> variable
-(or equivalent for your platform),
-or else things'll get confusing.
-
-Linux steps {#install-linux}
-----------------------------
-
-```
-$ sudo apt-get install python2.7 python-dev python-pip python-wheel libxslt1-dev libxml2-dev
+```bash
+python3 --version
 ```
 
-The `apt-get` command works on Debian-based systems like Ubuntu; if you work on some other type of system, and can figure out how to get things working on your own, let me know and I'll add instructions for your system.
+If it reports 3.7 or later, you're fine.
+If it gives 3.5, 3.6, or some lesser version,
+you'll need to install 3.7.
+This can be a little complicated if you do it directly
+(building from source?),
+but luckily `pyenv` is now a mature and easy way to do this.
 
-Then, we'll need to install lxml and Pygments.
+### Installing Pyenv ### {#install-pyenv}
 
-```
-$ sudo pip install pygments
-$ sudo pip install lxml
-```
+<a href="https://github.com/pyenv/pyenv#installation">https://github.com/pyenv/pyenv#installation</a> gives instructions for installing pyenv on various environments.
+It also links to the auto-installer, which can make things even easier.
+Windows users have slightly different instructions,
+but it links to a windows fork as well.
 
-**Important**: If this command reports that you already have lxml, instead run:
+Note that the final install step currently installs 3.7.8;
+that's fine, go ahead and follow it.
 
-```
-$ sudo pip install lxml --upgrade
-```
+If you know your way around pyenv already,
+feel free to do what you're used to here.
+Otherwise, it's usually easiest to set up 3.7 as your "default" Python:
 
-That'll spew a lot of console trash, but don't worry about it.
-
-In some installations you'll need to also upgrade `setuptools` for `html5lib`'s entertainment:
-
-```
-$ sudo pip install lxml setuptools --upgrade
-```
-
-From here, you can proceed to [[#install-common]].
-
-
-OS X steps {#install-osx}
--------------------------
-
-Note: If you're on a relatively modern Mac you should be able to proceed directly to [[#install-common]].
-
-These instructions assume that you have [Mac Ports](https://www.macports.org/) or [Homebrew](https://brew.sh/) installed. If you successfully install Bikeshed using some other method, please contribute to this documentation.
-
-
-### Mac ports ### {#install-macports}
-
-First, get the right packages installed onto your system:
-
-```
-sudo port install python27 py27-pip py27-lxml py27-html5lib py27-cssselect py27-libxslt py27-libxml2 py27-pygments
+```bash
+pyenv versions
 ```
 
-Then, activate the python version you just installed as the one the system should use:
+will list what versions exist, and then
 
-```
-sudo port select --set python python27
-```
-
-(If you get `ImportError: No module named six` when you first run Bikeshed, additionally run `sudo port install py27-six`.)
-
-
-### Homebrew ### {#install-homebrew}
-
-Install the Homebrew version of Python and Pip:
-
-```
-brew install python@2
+```bash
+pyenv global 3.7.0
 ```
 
-Install the XCode command-line tools:
+will set 3.7.0 as your "global" version, used by default.
+(Substitute in whatever the name of the version you saw in `versions` was.)
 
+Installing Bikeshed Itself {#install-final}
+-------------------------------------------
+
+Once your environment is set up for Python 3.7,
+installation is a breeze.
+Run the following command:
+
+```bash
+pip3 install bikeshed && bikeshed update
 ```
-xcode-select --install
+
+When this is completed, Bikeshed should be installed,
+and the `bikeshed` command should work in your shell.
+
+Note: Depending on your system and python/pip install,
+you might instead need to run `pip`, `python -m pip`, or `python3 -m pip`,
+instead of the plain `pip`.
+
+Note: If you'd prefer a user-local install rather than a global,
+add a `--user` flag to the `pip3 install` invocation.
+If you haven't done a user-local install before,
+`pip` will warn you about having to add new things to your `$PATH`
+before `bikeshed` becomes available to use as a command.
+
+Note: If you're on a Mac,
+`bikeshed update` might fail with some errors about certificates.
+This is a known issue with the version of Python 3.7 shipped with XCode,
+which might be the default on your system.
+To fix this, install Python 3.7 with [Brew](https://brew.sh/) instead.
+
+### Installing Bikeshed for Development ### {#install-dev}
+
+If you're installing Bikeshed so you can work on it,
+or want to ensure you have the bleeding-edge tip-of-tree version,
+the instructions are just a tiny bit more complex.
+
+First, clone the Bikeshed repository:
+
+```bash
+git clone https://github.com/tabatkins/bikeshed.git
 ```
 
-Install or update lxml and Pygments.
+Then navigate to that folder
+(by default, it'll be a folder called "bikeshed"
+in the current folder you're in)
+and run:
 
+```bash
+pip3 install -e .
 ```
-$ pip install pygments lxml --upgrade
+
+This will spam your console with a bunch of install progress.
+When it successfully completes,
+the `bikeshed` module should be globally available for import in Python,
+and a `bikeshed` command should now work in your shell.
+
+Finally,
+run the following command to update your data files to the latest version:
+
+```bash
+bikeshed update
 ```
-
-That'll spew a lot of console trash, but don't worry about it.
-
-### All Macs ### {#install-macs-common}
-
-After doing the previous commands specific to your subsystem,
-you can proceed to [[#install-common]].
 
 <div class=advisement>
-	Some people on Macs have reported problems with the `six` library
-	upon first running Bikeshed.
-
-	If you get the error <nobr>`ImportError: cannot import name viewkeys`</nobr>
-	when you try to run Bikeshed the first time,
-	run <nobr>`sudo pip install --ignore-installed six`</nobr>
-	to upgrade it to the latest version.
+	These install instructions are new,
+	and it's possible they may not work on all systems.
+	If something doesn't work for you,
+	please <a href="https://github.com/tabatkins/bikeshed/issues/new">open an issue</a>
+	and let me know what system you're on,
+	what you've done so far,
+	and what errors you've gotten.
 </div>
 
+### Installing With Pipenv ### {#install-pipenv}
 
-Windows steps {#install-windows}
---------------------------------
+If you're a user of `pipenv`,
+Bikeshed's folder contains a `Pipfile` and `Pipfile.lock` for you.
 
-Tested on Windows 7, 8/8.1, and 10.
+Follow the same instructions as above,
+but instead of running `pip3 install`,
+run:
 
-1. Install the latest [Python 2.7](https://www.python.org/downloads/release/python-2713/).
-2. Run the following in an elevated command prompt
-	(change the path if your location is different)
-
-	```
-	setx /m PATH "%PATH%;C:\Python27;C:\Python27\Scripts"
-	```
-3. If using Python 2.7.8 or older, install \[PIP](https://pip.pypa.io/en/latest/installing.html)
-	by saving [get-pip.py](https://bootstrap.pypa.io/get-pip.py)
-	and just double clicking the file.
-
-From here, you can proceed to [[#install-common]].
-
-
-Android + Termux steps {#install-termux}
-----------------------------------------
-
-This is how to set up bikeshed on your android phone or tablet using <a href="https://termux.com/">Termux</a>.
-
-1. Install Termux from <a href="https://play.google.com/store/apps/details?id=com.termux">Google Play</a> or <a href="https://f-droid.org/repository/browse/?fdid=com.termux">F-Droid</a>.
-2. Install python, git, a c compiler, and the native dependencies:
-	```
-	$ apt install python2 python2-dev clang libxml2-dev libxslt-dev git
-	```
-3. Install the Python dependencies:
-	```
-	$ pip2 install pygments lxml --upgrade
-	```
-
-From here, you can proceed to [[#install-common]].
-
-
-Common steps {#install-common}
-------------------------------
-
-With the dependencies in place,
-you can now install the Bikeshed repository itself.
-Run the following in your favorite command line:
-
-```
-$ git clone https://github.com/tabatkins/bikeshed.git
+```bash
+pipenv install -e .
+pipenv run bikeshed update
 ```
 
-(This’ll download bikeshed to a `bikeshed` folder,
-created wherever you’re currently at.
-If you think you might want to commit back to Bikeshed,
-instead download it over SSH.
-I won’t explain how to do that here.)
+This will *not* install a `bikeshed` command by default;
+instead, you run Bikeshed with `pipenv run bikeshed`.
+If you'd like `bikeshed` to work by itself,
+either start a pipenv shell with `pipenv shell`,
+or add an alias to your machine like:
 
-Finally, depending on your environment, run:
+```bash
+bikeshed=pipenv run bikeshed
+```
 
-: In a Virtualenv environment:
-::
-    ```
-    (venv) $ pip install --editable /path/to/cloned/bikeshed
-    (venv) $ bikeshed update
-    ```
 
-: For Linux/OSX (Omit the `sudo` for OSX under Homebrew):
-::
-    ```
-    $ sudo pip install --editable /path/to/cloned/bikeshed
-    $ bikeshed update
-    ```
+Updating Bikeshed {#updating-bikeshed}
+--------------------------------------
 
-: On Windows:
-::
-    ```
-    $ python -m pip install --editable /path/to/cloned/bikeshed
-    $ bikeshed update
-    ```
+To update bikeshed to its latest version at any time,
+just run:
 
-: On Termux:
-::
-    ```
-    $ pip2 install --editable /path/to/cloned/bikeshed
-    $ bikeshed update
-    ```
+```
+pip3 install --upgrade bikeshed && bikeshed update
+```
 
-This’ll install Bikeshed,
-making it available to your Python environment as the `bikeshed` package,
-automatically add a `bikeshed` command to your path,
-and then update your data files to the latest versions.
+This’ll pull the latest version of Bikeshed,
+and ensure that you’re looking at the latest version of the data files,
+rather than whatever stale version is currently sitting in the repo.
 
-(If anything doesn’t work in here, let me know and I’ll fix it.
-These instructions have worked for a lot of people on all OSes,
-but it's possible that you'll run into a new error,
-because computers are terrible.)
+Note: If you did a user-local install up above,
+by passing the `--user` flag to `pip3 install`,
+pass it here as well to update your local copy;
+otherwise this command will install it globally.
+
+Note: If you did an "editable" install up above,
+to update it you just run the install command again;
+no `--upgrade` flag required.
+
+
+Travis CI steps {#travis-ci}
+----------------------------
+
+To use bikeshed on [Travis CI](https://travis-ci.org/)'s github integration, you'll need the following `.travis.yml` commands:
+
+```
+language: python
+python:
+  - "3.8"
+install:
+  - pip install bikeshed
+  - bikeshed update
+script:
+  # Invoke bikeshed here, at your own leisure. E.g.:
+  - bikeshed spec
+```
+
+[Raymond Toy has written a very thoro guide on the full setup you need to auto-build and -publish the generated files to GitHub via Travis, so you only need to check in the source files themselves.](https://github.com/rtoy/auto-deploy-spec)
+
 
 Building a Bikeshed docker image {#install-docker}
 --------------------------------------------------
+
+Note: I don't actually understand Docker or know how to use it,
+so this guide is based on one community member's efforts.
+If something is wrong or outdated, uh, figure out how to fix it
+and tell me so I can fix the docs.
 
 - If needed, download and install [docker community engine](https://hub.docker.com/search/?type=edition&offering=community)
 
@@ -261,12 +249,21 @@ Building a Bikeshed docker image {#install-docker}
     docker build --tag=bikeshed:latest .
     ```
 
+    The above command will cache Bikeshed's datafiles in the Docker layer cache,
+    in order to speed up rebuilds.
+    If you want to be sure you get the latest datafiles,
+    run `bikeshed update` in the container or add the `--no-cache` flag when building the image:
+
+    ```
+    docker build --tag=bikeshed:latest --no-cache .
+    ```
+
 - Optionally, deploy the Bikeshed image to a docker registry
 
     For example, on a unix system (for Windows, consider the Windows Subsystem for Linux):
 
     ```
-    TAG=$(docker iamge inspect --format='{{.Id}}' bikeshed:latest)
+    TAG=$(docker image inspect --format='{{.Id}}' bikeshed:latest)
     DATE=$(date '+%Y.%m.%d')
     ```
 
@@ -293,42 +290,6 @@ Building a Bikeshed docker image {#install-docker}
     See [[#cli-docker]]
 
 
-Updating Bikeshed {#updating-bikeshed}
---------------------------------------
-
-To update bikeshed to its latest version at any time,
-just enter Bikeshed’s folder and run:
-
-```
-$ git pull --rebase
-$ bikeshed update
-```
-
-This’ll pull the latest version of Bikeshed,
-and ensure that you’re looking at the latest version of the data files,
-rather than whatever stale version is currently sitting in the repo.
-
-Travis CI steps {#travis-ci}
-----------------------------
-
-To use bikeshed on [Travis CI](https://travis-ci.org/)'s github integration, you'll need the following `.travis.yml` commands:
-
-```
-sudo: false
-language: python
-python:
-  - "2.7"
-install:
-  - git clone https://github.com/tabatkins/bikeshed.git
-  - pip install --editable bikeshed
-  - bikeshed update
-script:
-  # Invoke bikeshed here, at your own leisure. E.g.:
-  - bikeshed spec
-```
-
-[Raymond Toy has written a very thoro guide on the full setup you need to auto-build and -publish the generated files to GitHub via Travis, so you only need to check in the source files themselves.](https://github.com/rtoy/auto-deploy-spec)
-
 <!--
  ██████  ██     ██ ████████  ██
 ██    ██ ██     ██ ██     ██ ██
@@ -353,42 +314,64 @@ Using Curl {#curl}
 These instructions assume use of the `curl` command,
 but you can use any equivalent "talk HTTP at a server" command you might have access to.
 
+<div class=example>
+	<pre highlight=bash>
+	curl https://api.csswg.org/bikeshed/ -F file=@index.bs -F force=1 > index.html
+	</pre>
 
-```
-curl https://api.csswg.org/bikeshed/ -F file=@index.bs -F force=1 > index.html
-```
+	Simplest possible usage:
 
-This illustrates the basic, most common usage.
-Swap out `index.bs` and `index.html` for the input/output filenames you're using.
+	* passing the source as `-F file=@index.bs`
+	* forcing output even if there are errors with `-F force=1`
+	* piping the output to the desired filename with `> index.html`.
 
----
+	Additional possible arguments:
+	* `-F output=err` to just receive errors, if any
+	* `-F md-Foo=bar` to pass a `Foo: bar` metadata to the spec
+		(same as passing `--md-Foo=bar` locally)
+	* `-F die-on=[nothing, fatal, link-error, warning, everything]`,
+		(same as the `--die-on` local flag)
+</div>
 
-```
-curl https://api.csswg.org/bikeshed/ -F file=@index.bs -F output=err
-```
+<div class=example>
+	If your source file is online,
+	such as in a git repository,
+	you can pass the url directly instead:
 
-This command, instead, just outputs the error messages, if any.
-It's usually good to run this first,
-to see if you're doing things correctly.
+	<pre highlight=bash>
+	curl http://api.csswg.org/bikeshed/ -F url=http://dev.w3.org/csswg/css-syntax/Overview.bs -F force=1 > Overview.html
+	</pre>
 
----
+	If you are using additional files beyond your plain source file--
+	local boilerplate files,
+	[[#including|sub-document includes]],
+	[[#custom-dfns|custom definition files]],
+	etc--
+	this is the *only* way to make those still work
+	via the curl API;
+	Bikeshed will look for the additional files
+	relative to the source document's url.
 
-```
-curl https://api.csswg.org/bikeshed/ -F url=http://example.com/my-spec/index.bs -F force=1 > index.html
-```
+	(Any additional files that get included *implicitly*,
+	such as local boilerplates,
+	must be listed in the [=Local Boilerplate=]
+	or [=External Infotrees=] metadatas
+	to get picked up.
+	Files explicitly listed in the source file,
+	such as in a `<pre class=include>`,
+	will be picked up automatically.)
+</div>
 
-And if your spec is hosted online already,
-this command invokes the processor on it.
-It's otherwise identical to the first command.
+<div class=example>
+	The separate `bikeshed issues-list` command
+	(for generating issues lists for a W3C Disposition of Comments)
+	can also be invoked via curl:
 
----
+	<pre highlight=bash>
+	curl http://api.csswg.org/bikeshed/ -F file=@Issues.txt -F input=issues > Issues.html
+	</pre>
+</div>
 
-```
-curl https://api.csswg.org/bikeshed/ -F file=@Issues.txt -F input=issues > Issues.html
-```
-
-And if you're using Bikeshed to maintain a W3C Disposition of Comments,
-this command invokes the `issues-list` command from [[#cli-issues-list]].
 
 Using the Web Form {#web}
 -------------------------
@@ -407,7 +390,7 @@ Automatically When You Commit {#commit}
 
 See [[#travis-ci]] for a guide on setting up Bikeshed, GitHub, Travis CI
 so that you can just commit the source files
-and have the processed HTML automatically generated and commited to your GitHub repository.
+and have the processed HTML automatically generated and committed to your GitHub repository.
 
 <!--
  ██████  ██       ████
@@ -426,8 +409,21 @@ Locally-installed Bikeshed is invoked via the command-line.
 There's a bunch of options,
 but you'll only use a few in day-to-day use.
 
+If you've installed Bikeshed via one of the standard local installs above,
+you can typically just type `bikeshed` in the folder where your `.bs` file lives
+and it'll do its thing,
+automatically invoking the `spec` subcommand.
+
+However, Bikeshed has a number of different subcommands,
+and both global and subcommand-specific flags that can be invoked.
+
 Invoking Bikeshed using a docker image {#cli-docker}
 ----------------------------------------------------
+
+Note: As stated up in [[#install-docker]],
+I don't know how Docker works
+and this guide is based on a community member's experience,
+so use at your own risk.
 
 Typically, this requires login to the docker registry and pulling a Bikeshed image.
 
@@ -533,7 +529,7 @@ so they're specified before the individual commands:
 	which outputs colored text using console color codes.
 	"plain" outputs the same text as "console",
 	but without any color codes
-	(which look like gibberish if you're not ouputting to a console).
+	(which look like gibberish if you're not outputting to a console).
 	"markup" outputs the text in a light markup structure
 	(suitable for parsing as HTML),
 	for easier parsing of the output by tools.
@@ -618,7 +614,7 @@ On a Linux-like command line,
 it should be used like:
 
 ```
-$ bikeshed template > index.bs
+bikeshed template > index.bs
 ```
 
 `bikeshed echidna` {#cli-echidna}
@@ -843,7 +839,7 @@ typically located at the top of a file.
 A metadata block is just a <code>&lt;pre class='metadata'></code> element, with contents like:
 
 ```html
-Status: ED
+Status: UD
 TR: http://www.w3.org/TR/css-variables/
 ED: http://dev.w3.org/csswg/css-variables/
 Shortname: css-variables
@@ -938,7 +934,7 @@ Several keys are required information, and will cause the processor to flag an e
 			* NP-AMD: "New Proposal Amendment"
 			* AWI-AMD: "Approved new Work Item Amendment"
 			* WD-AMD: "Working Draft Amendment"
-			* CD-AMD: "Committe Draft Amendment"
+			* CD-AMD: "Committee Draft Amendment"
 			* PD-AMD: "Proposed Draft Amendment"
 			* FPD-AMD: "Final Proposed Draft Amendment"
 			* D-AMD: "Draft Amendment"
@@ -999,13 +995,29 @@ There are several additional optional keys:
 	* <dfn>Warning</dfn> must contain either "Obsolete", "Not Ready", "New Version XXX", "Replaced by XXX", "Commit deadb33f http://example.com/url/to/deadb33f replaced by XXX", "Branch XXX http://example.com/url/to/XXX replaced by YYY", or "Custom", which triggers the appropriate warning message in the boilerplate.
 
 		If set to "Custom", the metadata keys <a>Custom Warning Title</a> and <a>Custom Warning Text</a> control what the warning contains.
-	* <dfn>Previous Version</dfn> must contain a link that points to a previous (snapshot) version on /TR.  You can specify this key more than once for multiple entries.
+	* <dfn>Previous Version</dfn> can contain either a URL to a previously-published version (such as versions published on w3.org/TR),
+		or the value `from biblio` or `from biblio my-spec-1`.
+
+		Links get displayed literally in the spec's metadata section. "from biblio" entries instead auto-generate a link to the latest dated version of the given versioned shortname that appears in the biblio database. (If omitted, the spec's own versioned shortname is implicitly used.)
 	* <dfn>At Risk</dfn> must contain an at-risk feature.  You can specify this key more than once for multiple entries.
 	* <dfn>Group</dfn> must contain the name of the group the spec is being generated for.  This is used by the boilerplate generation to select the correct file.  If omitted, it defaults to a generic set of boilerplate.
 	* <dfn>Status Text</dfn> allows adding an additional customized sentence that can be used in the document status section.
 	* <dfn>Ignored Terms</dfn> accepts a comma-separated list of terms and makes Bikeshed not emit warnings or errors when attempting to autolink those terms.  Use this to quiet spurious preprocessor warnings caused by you inventing terms (for example, the Variables spec invents custom properties like 'var-foo'), or as a temporary patch when the spec you want to link to doesn't set up its definitions correctly.
 	* <dfn>Date</dfn> must contain a date in YYYY-MM-DD format, which is used instead of today's date for all the date-related stuff in the spec. Alternately it can contain the string `now`, which explicitly indicates a date of precisely when the output is generated.
 	* <dfn>Deadline</dfn> is also a YYYY-MM-DD date, which is used for things like the LCWD Status section, to indicate deadlines.
+	* <dfn>Expires</dfn> is also a YYYY-MM-DD date,
+		or can be the string `now` to indicate today's date,
+		or can be an "ISO Duration" like `P1Y` to indicate "+1 year"
+		from the [=Date=] metadata
+		(or the spec's generation date if that's not specified),
+		and indicates when the document should be considered "expired"--
+		before the expiration date an (initially closed) warning about the upcoming expiration is automatically included in the document;
+		afterwards the warning defaults to being open and annoying.
+
+		It can also take a [=boolish=] false value or `never` to indicate it never expires;
+		this is just the default value,
+		so these values are only useful for turning off a default expiration
+		established by your default metadata.
 	* <dfn>Test Suite</dfn> must contain a link to the test suite (like <code>https://test.csswg.org/suites/css-flexbox-1_dev/nightly-unstable/</code>).
 
 		Note: This merely displays a "Test Suite" item in the spec's header-list,
@@ -1054,6 +1066,11 @@ There are several additional optional keys:
 		and selects which URL you want to default to
 		for bibliography and autolinks entries that have both "current" and "snapshot" URLs.
 		(You can also specify this per-biblio entry or per-autolink.)
+	* <dfn>Default Biblio Display</dfn> takes the values "index" (default) or "inline",
+		and selects whether biblio autolinks default to
+		displaying as their shortname and linking to the bibliography index,
+		or displaying as their title and linking straight to the referenced document.
+		(You can also specify this per-biblio entry.)
 	* <dfn>Markup Shorthands</dfn> lets you specify which categories of markup shorthands you want to use; for example, you can turn off CSS shorthands and reclaim use of single quotes in your spec.  You can still link to things with explicit markup even if the shorthand is turned off.  Its value is a comma-separated list of markup categories and <a>boolish</a> values, like `css no, biblio yes`.  The currently-recognized categories are:
 
 		* `algorithm`, covering the special <{var}> shorthand (the `|foo|` shorthand)
@@ -1109,6 +1126,8 @@ There are several additional optional keys:
 	* <dfn>Line Numbers</dfn> is a <a>boolish</a> specifying whether, by default, code blocks (<{pre}> and <{xmp}>) should get line numbers. Defaults to off.
 	* <dfn>Toggle Diffs</dfn> is a <a>boolish</a> that specifies whether Bikeshed should include a 'Hide deleted text' button to toggle hiding <{del}> elements in your spec header. Defaults to off.
 	* <dfn>Boilerplate</dfn> toggles the generation of individual [boilerplate sections](#bp-sections). Its value is a comma-separated list of section name and <a>boolish</a> value, e.g. `Boilerplate: issues-index no` to disable the list of issues.
+	* <dfn>Local Boilerplate</dfn> tells Bikeshed which boilerplate include files to look for relative to the specification (as opposed to inside the Bikeshed source). Its value is a comma-separated list of include file basename and <a>boolish</a> value, e.g. `Local Boilerplate: footer yes` to look for `footer.include` and `footer-[STATUS].include` next to the specification. This also works for default includes that aren't quite boilerplate like [defaults.include](#default-metadata), [computed-metadata.include](#computed-metadata), and [bs-extensions.include](#echidna-hooks).
+	* <dfn>External Infotrees</dfn> lists which of [anchors.bsdata](#custom-dfns) and [link-defaults.infotree](#link-defaults) should be found in files adjacent to the specification instead of in `<pre>` blocks inside it.
 	* <dfn>Complain About</dfn> indicates what nits you'd like Bikeshed to complain about, that are normally too noisy to be turned on by default. Its value is a <a>boolish</a> list like <a>Markup Shorthands</a>. Accepted values are:
 
 		: `accidental-2119`
@@ -1141,6 +1160,24 @@ There are several additional optional keys:
 		even when it's not necessary to disambiguate things,
 		so it's off by default.
 	* <dfn>Max ToC Depth</dfn> specifies the maximum depth you want the ToC to generate to. It can be the value "none", meaning generate the ToC normally, or an integer between 1 and 5. It defaults to "none".
+	* <dfn>Include MDN Panels</dfn> is a <a>soft boolish</a> that specifies whether to include \[MDN](https://developer.mozilla.org/en-US/docs/Web) panels or not.
+		If it's turned on, MDN panels will be added automatically in output,
+		positioned to line up with the elements which define the features the panels annotate.
+		Each MDN panel includes a hyperlink to the MDN article for the feature it annotates,
+		as well as browser-support details for the feature
+		(similar to what's shown in the panels added when [=Include Can I Use Panels=] is enabled).
+
+		Because this examines MDN links for the IDs to use,
+		no configuration is necessary beyond turning the feature on;
+		the panels will automatically be added to the definitions or headings
+		with the associated IDs.
+
+		If your spec is not *yet* in MDN,
+		but you'd like the panels to be added when it shows up,
+		you can pass one of the "maybe" values of a [=soft boolish=]
+		to allow it to silently upgrade when possible;
+		otherwise, if directly turned on,
+		it will emit a fatal error if it can't find your spec.
 	* Several keys relate to the [Can I Use](https://caniuse.com/) project:
 		* <dfn>Include Can I Use Panels</dfn> is a <a>boolish</a> that specifies whether to include [Can I Use](https://caniuse.com/) usage-data panels or not. If it's turned on, elements can take a `caniuse="featureID"` attribute, where the `featureID` is the value specified in the url like `https://caniuse.com/#feat=FEATUREIDHERE`, and the panel will be positioned to line up with that element.
 			(When possible, put this on the corresponding <{dfn}>,
@@ -1203,11 +1240,24 @@ There are several additional optional keys:
 		that specifies a common path prefix for all of the tests in your <{wpt}> elements.
 	* <dfn>WPT Display</dfn> takes the values "none" or "inline",
 		and specifies whether or not <{wpt}> elements display anything in the output document.
+	* <dfn>Tracking Vector Class</dfn> is the HTML `class` attribute value used on the link inserted in elements annotated with the `tracking-vector` attribute.
+	* <dfn>Tracking Vector Image</dfn> is an image URL that can be used to represent tracking vectors with an external image.
+		Otherwise an inline SVG is used. The image is a child of the aforementioned link.
+	* <dfn>Tracking Vector Image Width</dfn> is the width of the external image, if any.
+	* <dfn>Tracking Vector Image Height</dfn> is the height of the external image, if any.
+	* <dfn>Tracking Vector Alt Text</dfn> is the replacement text for the inline SVG or external image.
+	* <dfn>Tracking Vector Title</dfn> is the title for the inline SVG or external image.
 </ul>
 
-Note: A <dfn>boolish</dfn> value is a string representing a boolean value (true or false).
-The string "yes", "on", "true", and "y" all represent true values,
-while the strings "no", "off", "false", and "n" all represent false values.
+<div class=note>
+	A <dfn>boolish</dfn> value is a string representing a boolean value (true or false).
+	The string "yes", "on", "true", and "y" all represent true values,
+	while the strings "no", "off", "false", and "n" all represent false values.
+
+	A <dfn>soft boolish</dfn> value is either a [=boolish=] value,
+	or one of the strings "maybe", "if possible", or "if needed",
+	indicating an intermediate intention between something being turned on and off.
+</div>
 
 You can also provide custom keys with whatever values you want,
 by prefixing the key with `!`,
@@ -1660,7 +1710,7 @@ If you would like to use your own color scheme,
 turn off the automatic styles with a `Boilerplate: style-syntax-highlighting off` metadata,
 then supply your own.
 
-Note: If you use `hightlight=html`,
+Note: If you use `highlight=html`,
 <{script}> and <{style}> elements are automatically highlighted with JS and CSS rules.
 Normative WebIDL blocks (`class=idl`) are automatically highlighted,
 but you can use `highlight=idl` to highlight non-normative ones.
@@ -1737,57 +1787,6 @@ In particular,
 if any line being wrapped in a multi-line "line" element
 is highlighted,
 the entire "line" element gets highlighted.
-
-
-Property/descriptor/element definition table expansion {#table-expansion}
-------------------------------------------------------
-
-Propdef tables are rather large, even when correctly formatted.
-Instead, you can write the table in a simple text format similar to the spec's metadata block,
-and let the processor automatically generate a <{table}> from it:
-
-<xmp highlight=html>
-	<pre class='propdef'>
-	Name: flex-basis
-	Value: content | <<'width'>>
-	Initial: auto
-	Applies to: <a>flex items</a>
-	Inherited: no
-	Computed value: as specified, with lengths made absolute
-	Percentages: relative to the <a>flex container's</a> inner <a>main size</a>
-	Animation type: length
-	</pre>
-</xmp>
-
-The data block is parsed as a series of lines,
-with each line composed of one of the propdef headings, a colon, then the value.
-
-The property name will automatically be wrapped in a <{dfn}> element.
-Within the `Value` line, things that look like grammar nonterminals (anything like `<foo>`) will be automatically escaped and wrapped in <{var}> elements.
-
-This also works for descdef tables, describing the syntax of descriptors.
-When writing a descdef table, you should additionally add a `For` line containing the name of the at-rule the descriptor is for.
-
-If you're defining a *partial* propdef or descdef
-(for example, just defining a few new values for an existing property),
-you can indicate this by adding a "partial" class to the <{pre}>.
-(This will prevent Bikeshed from complaining about lots of missing propdef/descdef lines.)
-
-The format of an elementdef table is a little different.  It can contain the following lines:
-
-* **Name** - the element name(s)
-* **Categories** - what "categories" the element is classified in, such as "flow content" or "graphics element".
-	These must be defined terms, as Bikeshed will attempt to link them.
-* **Contexts** - what contexts the element can be used in
-* **Content Model** - what kind of elements and other nodes can validly appear inside the element
-* **Attributes** - what attributes are defined for the element.
-	These must be defined (as `element-attr` definitions), as Bikeshed will attempt to link to them.
-* **Attribute Groups** - optional. If some attributes commonly appear on lots of elements, you can classify them into groups and list them here.
-	The group name must be defined as a `dfn` type definition,
-	with the attributes in the group defined as `element-attr` definitions with a `for` value of the group name.
-	Bikeshed will expand the group into a `<details>` element for you and automatically link the attributes.
-* **DOM Interfaces** - list the IDL interfaces that correspond to the elements defined in the block.
-	These must be defined (as `interface` definitions), as Bikeshed will attempt to link to them.
 
 
 Automatic ID Generation {#id-gen}
@@ -2018,6 +2017,24 @@ and so will work in include-raw substitutions,
 but that will change in the future.
 
 
+Tracking Vectors {#tracking-vectors}
+----------------
+
+A <a>tracking vector</a> can be annotated with the `tracking-vector` attribute on the enclosing element.
+This will result in a link containing an image being prepended to the element.
+
+<div class=example id=example-tracking-vector>
+  <xmp highlight=html>
+    <p tracking-vector>This is an example of an element annotated with that attribute.
+  </xmp>
+
+  <p tracking-vector>This is an example of an element annotated with that attribute.
+</div>
+
+The various "Tracking Vector *" metadata keys can be used to customize the appearance of this annotation,
+though it's encouraged to leave those in their default state for a consistent appearance across standards.
+
+
 
 
 <!--
@@ -2056,7 +2073,8 @@ singular and present tense.
 Use `lt='...'` if necessary to set up the correct "base" linking text,
 if your visible text needs to be in a conjugated form due to the surrounding text.
 
-These variations only work for the *last* word in a phrase.
+These variations only work for the *first* or the *last* word in a phrase,
+so it can conjugate "activate the widget" into "activating the widget", "activate the widgets", or "activating the widgets".
 If you have a longer phrase where it's a middle word that conjugates differently,
 you do still have to manually handle that,
 either by defining multiple linking texts on the <{dfn}>,
@@ -2064,7 +2082,7 @@ or by manually specifying the linking text on the <{a}>.
 
 In addition to English variations,
 these "conjugations" handle some IDL variations as well.
-For example, IDL terms that match an IDL keyword must be defined in IDL with a trailing underscore,
+For example, IDL terms that match an IDL keyword must be defined in IDL with a leading underscore,
 to avoid grammatical ambiguities,
 but actually define the term without the underscore.
 You can link to the term with either syntax.
@@ -2238,6 +2256,26 @@ To force a link to be exported, add an `export` boolean attribute to it.
 To force a link *not* to be exported, add a `noexport` boolean attribute instead.
 Like the other attributes, you can instead add this to a container to have it be a default for the definitions inside.
 
+Link Attributes On Ancestors {#dfn-ancestors}
+----------------------------
+
+All of the dfn attributes
+can be specified on an ancestor of the dfn instead,
+if you have a group of dfns that all share a particular attribute.
+
+They can be spelled out fully
+(like `data-dfn-type`),
+or without the `data-` prefix,
+like `dfn-type` or `dfn-for`.
+As there's no overlap with a similar `data-link-*` attribute,
+`dfn-force`
+can omit `dfn-` as well,
+being spelled as merely `force` and `spec`.
+
+A link will take the "closest" version of each attribute it can find,
+so specifying an attribute directly on the link
+will override anything coming from an ancestor.
+
 Providing Custom Definitions {#custom-dfns}
 ----------------------------
 
@@ -2303,13 +2341,17 @@ and how to properly expose it.
 	provide multiple linking texts, a [`lt` attribute](#changing-lt) containing one or more
 	pipe-separated linking texts will override the text content. See also [[#local-lt]]
 4. `data-dfn-type` MUST be provided, and set [one of the accepted values](#dfn-types).
-	(The <{dfn}> element, specifically, actually allows
-	this to be omitted, and defaults to the "dfn" type. But headings require a
-	type, and <{dfn}>s are clearer with it specified.)
+
+	(In an actual Bikeshed document, this can be omitted from <{dfn}> elements
+	and it will be inferred from context,
+	usually defaulting to "dfn" type.
+	But non-Bikeshed documents must specify this,
+	or else they'll get their dfn type inferred heuristically,
+	which may or may not be correct.)
 5. Either <a href="#dfn-export">`data-export` or `data-noexport`</a> MAY be
-	 provided (both boolean attributes).  If neither is provided, "dfn" type
-	 definitions default to noexport, while all others default to export.
-	 Unexported definitions aren't linkable by default.
+	provided (both boolean attributes).  If neither is provided, "dfn" type
+	definitions default to noexport, while all others default to export.
+	Unexported definitions aren't linkable by default.
 6. [Several types](#dfn-for) of definitions are namespaced to another
 	construct; for example, attribute names are namespaced to an interface.
 	These definitions MUST contain a `data-dfn-for` attribute, containing a
@@ -2392,7 +2434,7 @@ The **markup (HTML/SVG/etc)** varieties (controlled by `Markup Shorthands: marku
 
 The **CSS** varieties (controlled by `Markup Shorthands: css yes`):
 
-* `'foo'` (apostophes/straight quotes) is an autolink to a property or descriptor named "foo". If there is both a property and a descriptor of a given name, this defaults to linking to the property if used in its bare (`'foo'`) form.
+* `'foo'` (apostrophes/straight quotes) is an autolink to a property or descriptor named "foo". If there is both a property and a descriptor of a given name, this defaults to linking to the property if used in its bare (`'foo'`) form.
 * `''foo''` (double apostrophes) is an autolink to any of the CSS definition types except property and descriptor
 * `<<foo>>` is an autolink to a type/production named "&lt;foo>"
 	* Bikeshed supports [the numeric-range restriction](https://drafts.csswg.org/css-values/#numeric-ranges) on type autolinks, such as `<<length [0,10px]>>`. Infinities in the range can be written as a literal `∞` character, an `&infin;` HTML character reference, or the literal string `Infinity`.
@@ -2616,6 +2658,27 @@ but it's not marked for export
 using the `spec` attribute (defined above) will override the lack of an export declaration,
 and go ahead and link to it anyway.
 
+Link Attributes On Ancestors {#link-ancestors}
+----------------------------
+
+All of the autolinking attributes
+can be specified on an ancestor of the autolink instead,
+if you have a group of links that all share a particular attribute.
+
+They can be spelled out fully
+(like `data-link-type`),
+or without the `data-` prefix,
+like `link-type`.
+As there's no overlap with a similar `data-dfn-*` attribute,
+`link-spec` and `link-status`
+can omit `link-` as well,
+being spelled as merely `status` and `spec`.
+
+A link will take the "closest" version of each attribute it can find,
+so specifying an attribute directly on the link
+will override anything coming from an ancestor.
+
+
 
 Configuring Linking Defaults {#link-defaults}
 ----------------------------
@@ -2779,16 +2842,6 @@ An "informative" reference is anything else.
 Informative references might be to normative documents,
 if your feature doesn't actually *depend* on the referenced document.)
 
-Some biblio entries come with multiple sets of urls;
-at present, Bikeshed tracks a single "current" url and a single "snapshot" url.
-In the W3C, for example, this maps to Editors Drafts and things in /TR space, respectively.
-You can specify which url to use by specifying "current" or "snapshot" within the biblio shorthand,
-like `[[FOO current]]`,
-or specify the default url to choose for all your biblio refs with the <a>Default Ref Status</a>.
-
-If, for whatever reason, you need to craft a bibliography link manually,
-add `data-link-type=biblio`, `data-biblio-type=[normative | informative]`, and `data-biblio-status=[current | snapshot]` attributes to the link.
-
 Unlike regular autolinks,
 which link to <{dfn}> elements,
 biblio autolinks cause the spec to generate entries in its "References" section,
@@ -2800,17 +2853,95 @@ The default data comes from the [SpecRef project](https://github.com/tobie/specr
 and [the CSSWG's own biblio file](http://dev.w3.org/csswg/biblio.ref)
 (preferring SpecRef's information when the same name appears in both).
 
+Biblio Link Modifiers {#biblio-mods}
+---------------------
+
+Several aspects of how bibliography autolinks work can be controlled by adding keywords to the autolink,
+after the biblio name.
+
+* Some biblio entries come with multiple sets of urls;
+	at present, Bikeshed tracks a single "current" url and a single "snapshot" url.
+	In the W3C, for example, this maps to Editors Drafts and things in /TR space, respectively.
+
+	You can specify which url to use by specifying `current` or `snapshot` within the biblio shorthand,
+	like `[[FOO current]]`,
+	or specify the default url to choose for all your biblio refs with the <a>Default Ref Status</a>.
+
+* By default, biblio autolinks are formatted like you typed, just with a single set of square brackets:
+	`[[FOO]]` will produce a link with the text "\[FOO]",
+	which links to the bibliography.
+	Alternately, you can force them to display "inline",
+	where the link text is the actual title of the referenced document,
+	and the link goes straight to that document,
+	rather than going to the bibliography first.
+	(It still adds an entry to the bibliography index.)
+
+	You can control this by setting `inline` or `index` in the shorthand,
+	like `[[FOO inline]]`,
+	or change the default for all biblio links in the document
+	by setting the [=metadata/Default Biblio Display=] metadata.
+
+* The bibliography database tracks whether certain documents have been obsoleted by newer documents,
+	and if you attempt to link to the the now-obsolete document,
+	Bikeshed defaults to linking to the newer document instead
+	and asking you to update the reference.
+
+	If you do intentionally need to link to a now-obsolete document
+	(for example, if you're talking about a feature in the old document
+	that's since been replaced),
+	you can tell Bikeshed you do intend to link to that by setting `obsolete` in the shorthand,
+	like `[[FOO obsolete]]`.
+
+All of these keywords can be combined, in any order,
+such as `[[FOO inline obsolete]]` or `[[FOO index current]]`.
+
+
+Autolinking and Automatic Bibliography Entries {#biblio-auto}
+---------------------------------------------------
+
+Whenever you autolink to a term from another spec
+using a standard dfn autolink,
+Bikeshed automatically adds a bibliography entry for that document
+if one doesn't already exist.
+
+By default, it assumes these are normative references.
+However, if the link is in a "non-normative" element,
+Bikeshed doesn't put it in the bibliography.
+This includes any notes (`class=note`), examples (`class=example`),
+or sections manually marked with `class=non-normative`.
+(You can override this and get a normative reference
+by adding a `class=normative` to the link or an ancestor.)
+
+
+Manual Biblio Links {#biblio-manual}
+-------------------
+
+If, for whatever reason, you need to craft a bibliography link manually,
+just create an <{a}> element with `data-link-type=biblio`
+and the biblio tag either in the text content of the link or in a `data-lt` attribute,
+similar to a manually-crafted autolink.
+
+If you need one of the biblio link modifiers,
+add `data-biblio-type=[normative | informative]`,
+`data-biblio-status=[current | snapshot]`,
+`data-biblio-display=[index | inline]`,
+and/or `data-biblio-obsolete=""` to the link as well.
+
+
+Custom Biblio Entries {#biblio-custom}
+---------------------
+
 You can also add your own bibliography data,
-following the SpecRef JSON format:
+following the [SpecRef JSON format](https://github.com/tobie/specref):
 
 ```json
 {
 	"foo-bar": {
 		"authors": [
 			"Tab Atkins",
-			"Dirk Schultze"
+			"Bat Snikta"
 		],
-		"href": "http://www.w3.org/TR/foo-bar/",
+		"href": "http://www.example.com/foo-bar/",
 		"title": "Foo Bar Level 1",
 		"status": "CR",
 		"publisher": "W3C",
@@ -2821,28 +2952,258 @@ following the SpecRef JSON format:
 }
 ```
 
-Only the "title" field is strictly necessary;
+This would allow you to write `[[FOO-BAR]]` into your document,
+and have it be recognized as a valid autolink,
+with a bibliography entry generated in the index
+just like any of the predefined biblio references.
+
+Note: Only the "title" field is strictly necessary;
 the rest can be omitted if desired.
 
-This JSON should be inline, in a `<pre class=biblio>` block.  It can
-also be in a `biblio.json` file in the same folder as the spec file,
-but this is incompatible with
-[the web service](https://api.csswg.org/bikeshed/).
+This JSON should be inline, in a `<pre class=biblio>` block.
+It can also be in a `biblio.json` file in the same folder as the Bikeshed file,
+but this is incompatible with [[#install-no|the web service]].
+
+If you find yourself adding this to more than one document,
+it might be worth adding to SpecRef itself
+so others can benefit from it as well;
+file an issue on that project if you're interested.
 
 
-Linking and Automatic Biblio Entries {#auto-biblio}
----------------------------------------------------
+<!--
+████████  ████████ ████████ ████████  ██        ███████   ██████  ██    ██  ██████
+██     ██ ██       ██       ██     ██ ██       ██     ██ ██    ██ ██   ██  ██    ██
+██     ██ ██       ██       ██     ██ ██       ██     ██ ██       ██  ██   ██
+██     ██ ██████   ██████   ████████  ██       ██     ██ ██       █████     ██████
+██     ██ ██       ██       ██     ██ ██       ██     ██ ██       ██  ██         ██
+██     ██ ██       ██       ██     ██ ██       ██     ██ ██    ██ ██   ██  ██    ██
+████████  ████████ ██       ████████  ████████  ███████   ██████  ██    ██  ██████
+-->
 
-Whenever you autolink to another spec,
-Bikeshed automatically assumes this is a significant, normative reference,
-and adds a bibliography entry for the spec automatically.
+Definition Tables {#def-blocks}
+=================
 
-However, if the link is in a "non-normative" element,
-Bikeshed doesn't put it in the bibliography.
-This includes any notes (`class=note`), examples (`class=example`),
-or sections manually marked with `class=non-normative`.
-(You can override this and get a normative reference
-by adding a `class=normative` to the link or an ancestor.)
+Several types of definitions have well-established presentations,
+as a simple "key/value" table providing all of the details
+in a standardized format.
+
+Bikeshed handles these specially,
+with a dedicated set of `<pre class=xxxdef>` blocks.
+The information in the block is presented in a simple line-based `Key: value` format,
+similar to `<pre class=metadata>`,
+and this is transformed into a standardized <{table}>.
+
+All of the def tables look like this:
+
+<xmp highlight=html>
+	<pre class='propdef'>
+	Name: flex-basis
+	Value: content | <<'width'>>
+	Initial: auto
+	Inherited: no
+	Applies to: <a>flex items</a>
+	Computed value: as specified, with lengths made absolute
+	Percentages: relative to the <a>flex container's</a> inner <a>main size</a>
+	Animation type: length
+	Canonical Order: per grammar
+	</pre>
+</xmp>
+
+CSS Property Tables {#propdef-block}
+-------------------
+
+CSS properties are defined with a `<pre class="propdef">` block.
+
+`Name`, `Value`, `Initial`, and `Inherited` are all required.
+
+* `Name` gives the property name.
+	It will be automatically wrapped in a <{dfn}> by Bikeshed,
+	so there's no need to do anything manually.
+	Multiple comma-separated property names can be given,
+	if several properties share identical propdef blocks.
+* `Value` gives the grammar for the property,
+	written in CSS's [[css-values-4#value-defs|Value Definition Syntax]].
+	Anything that looks like a grammar non-terminal (like `<foo>`)
+	will automatically be escaped and linked appropriately,
+	so you don't need to manually autolink it.
+* `Initial` gives the initial value of the property.
+* `Inherited` must be "yes" or "no".
+
+All the other keys listed in the block above are optional.
+If left unspecified,
+they'll be given a usually-reasonable default value:
+
+* `Applies to` defaults to "all elements".
+	It specifies what subset of elements the property has meaning for.
+* `Percentages` defaults to "n/a".
+	It specifies what value percentages are resolved against,
+	if the property takes percentage values at all.
+* `Computed Value` defaults to "as specified".
+	It specifies what, if any, canonicalization occurs
+	when transforming specified values to computed values.
+	(Complex values should use "see prose" and define it in prose instead.)
+* `Canonical Order` defaults to "per grammar".
+	It specifies what order values are serialized in,
+	if values are rearranged when parsing.
+	(The default is almost always correct;
+	usually only properties with unusual legacy constraints on their serialization
+	will need to specify anything for this.)
+* `Animation Type` defaults to "discrete".
+	It specifies the [=Animation Type=] of the values.
+
+All values are placed directly into the output HTML as written,
+so HTML tags, Bikeshed autolinks, etc can all be used as normal.
+
+If defining a shorthand property,
+put a `"shorthand"` class on the block.
+This will change the block to only require `Name` and `Value`;
+`Canonical Order` is still allowed,
+but continues to default to "per grammar" as usual.
+All other keys will default to "see individual properties",
+which is usually all you need.
+
+If adding some values to a property,
+rather than defining the property itself,
+put a `"partial"` class on the block.
+It will now require a `New Values` key,
+rather than `Value`,
+but is otherwise normal.
+
+Additional keys beyond what is described here can be provided;
+they're placed after all the built-in keys.
+
+The end result looks like:
+
+<pre class='propdef'>
+Name: flex-basis
+Value: content | <<'width'>>
+Initial: auto
+Inherited: no
+Applies to: <a>flex items</a>
+Computed value: as specified, with lengths made absolute
+Percentages: relative to the <a>flex container's</a> inner <a>main size</a>
+Animation type: length
+Canonical Order: per grammar
+</pre>
+
+
+CSS Descriptor Tables {#descdef-block}
+---------------------
+
+CSS descriptors
+(like properties, but for at-rules)
+have def blocks similar to,
+but simpler than,
+propdef blocks.
+
+`Name`, `Value`, and `Initial` are required keys,
+just like propdef blocks.
+Additionally, `For` is required,
+giving the name of the at-rule the descriptor is for,
+like `For: @counter-style`.
+The rest of the propdef keys are not meaningful for descriptors.
+
+Like propdef blocks,
+a `"partial"` class can be put on the block
+to indicate that you're adding values to an existing definition;
+`Name`, `For`, and `New Values` must be provided.
+
+While not technically descriptors,
+media features can be defined with this block as well,
+if an `"mq"` class is put on the block.
+It then only requires `Name`, `For`, and `Value`.
+
+Additional keys beyond what is described here can be provided;
+they're placed after all the built-in keys.
+
+
+HTML Element Tables {#elementdef-block}
+-------------------
+
+HTML/SVG/etc elements can use a `<pre class="elementdef">` block.
+(The content and presentation of this block is similar to that in the HTML standard,
+but is closer to that in the SVG standard.)
+
+* **Name** - required.
+	Gives the element name.
+	Can provide multiple element names, comma-separated.
+	The names will automatically be wrapped in a <{dfn}> for you.
+* **Categories** - required.
+	What [[html#kinds-of-content|element categories]] the element is part of.
+	Can provide multiple values, comma-separated.
+	The names will automatically be wrapped in links for you,
+	of `dfn` type.
+* **Contexts** - required.
+	The [[html#element-definitions|contexts in which the element can be used]].
+	This is freeform HTML.
+* **Content model** - required.
+	The [[html#element-definitions|types of contents the element can contain]].
+	This is freeform HTML.
+* **Attributes** and/or **Attribute Groups** - at least one is required.
+	A comma-separated list of attribute names
+	and/or attribute groups
+	that this element can have.
+	These will be automatically be wrapped in links for you--
+	`element-attr` type for attributes,
+	and `dfn` type for attribute groups
+	(like "core attributes" in SVG).
+* **DOM interfaces** - required.
+	A comma-separated list of WebIDL interface names
+	corresponding to the elements being defined.
+	The names will automatically be wrapped in links for you,
+	of `interface` type.
+
+Additional keys beyond what is described here can be provided;
+they're placed after all the built-in keys.
+
+
+IDL Method Argument Tables {#argumentdef-block}
+--------------------------
+
+IDL methods can have their arguments defined & documented in a `<pre class="argumentdef">` block:
+
+<xmp highlight=html>
+	<pre class=idl>
+		interface Foo {
+			undefined bar(long arg1, DOMString? arg2);
+		};
+	</pre>
+
+	<pre class=argumentdef for="Foo/bar()">
+	arg1: here's the first arg
+	arg2: the second arg is different!
+	</pre>
+</xmp>
+
+The `argumentdef` block must specify what method the arguments are for
+in a `for` attribute on the `<pre>`.
+The contents of the element must then,
+on each line,
+list the argument name,
+a colon,
+then a description of that argument.
+
+It will produce a table listing each argument,
+its description,
+and automatically contain its type, nullability, and optionality
+(determined from the IDL block),
+like:
+
+<pre class=idl style="display:none">
+	interface Foo {
+		undefined bar(long arg1, DOMString? arg2);
+	};
+</pre>
+
+<pre class=argumentdef for="Foo/bar()">
+arg1: here's the first arg
+arg2: the second arg is different!
+</pre>
+
+Note: This automatically wraps the argument names in a `<dfn>`;
+this is meant to be the canonical location of the argument's definition.
+
+
 
 <!--
 ████ ████████  ██
@@ -2913,7 +3274,7 @@ For example, take the following example IDL:
 
 ```
 interface Foo {
-	void bar(DOMString baz, optional long qux);
+	undefined bar(DOMString baz, optional long qux);
 };
 ```
 
@@ -2998,7 +3359,7 @@ like `<dfn stringifier for=MyInterface>foo(bar)</dfn>`.
 (Note that it's a "stringifier" type definition,
 not "method".)
 
-If you use the "*anonymous* stringifer method" form,
+If you use the "*anonymous* stringifier method" form,
 like `stringifier DOMString(long bar)`,
 you can still technically link/dfn it as a stringifier method.
 It doesn't have a name, so we invent one -
@@ -3311,6 +3672,75 @@ This is sometimes necessary when code examples in your doc (such as a regex)
 accidentally look like text macros.
 
 
+Conditional Inclusion {#conditional}
+---------------------
+
+If you have multiple boilerplate files for publishing with different document statuses
+(like WD vs CR),
+but the only difference is that some sections are added/omitted between them,
+you can greatly simplify things by instead making a generic boilerplate for everything,
+and then adding/removing the variant bits with a *conditional inclusion*.
+
+To mark an element as "conditionally included",
+put an <dfn element-attr for=global>include-if</dfn> and/or <dfn element-attr for=global>exclude-if</dfn> attribute on it,
+each of which takes a comma-separated list of inclusion conditions.
+
+* If an element has <{global/include-if}>, it will included only if it matches at least one of the conditions.
+* If an element has <{global/exclude-if}>, it will be included only it matches *none* of the conditions.
+* If an element has both, it will be included only if it passes the inclusion criteria for both.
+
+An element that fails will be removed from the output entirely, along with its contents.
+
+Inclusion conditions can be:
+* A [=metadata/Status=] value, like `w3c/ED` or `LS`,
+	so you can include/exclude text for certain publication statuses only.
+* The existence of a custom text macro (defined by the [=metadata/Text Macro=] metadata),
+	keyed by the text macro name,
+	like `text macro: FOO` to match a `Text Macro: FOO here's a custom text macro` metadata,
+	so you can include text that uses a custom text macro only if that macro is defined.
+
+	Note: For technical reasons, text macros are substituted *before* conditionals can be evaluated.
+	If you're conditioning an element on the existence of a text macro
+	so you can use that macro only when it is defined,
+	make sure the text macro is marked as *optional* when you use it
+	(written as `[FOO?]` rather than just `[FOO]`),
+	so it doesn't trigger an "unknown text macro" error
+	before throwing away the element anyway.
+
+* The existence of a [[#overriding-boilerplate|custom boilerplate element]] in the document,
+	keyed by the boilerplate name,
+	like `boilerplate: FOO` to match a `<div boilerplate=FOO>...</div>` element,
+	so you can include text that pulls in a custom boilerplate only if that boilerplate is present.
+
+
+-----
+
+Normally the conditional attributes go on an existing element in your page,
+which'll show up in the output assuming it passes the tests.
+If there's not a natural wrapper element,
+or adding such an element would mess with the semantics or styling of the page,
+you can instead wrap the conditional content in an <dfn element>if-wrapper</dfn> element.
+
+The <{if-wrapper}> element is a standard block-level element that can contain any flow markup.
+It **must** have one of the conditional attributes.
+If it fails the conditions, it and its contents are removed from the document, as normal;
+if it *passes* the conditions, *it* is still removed from the document,
+but its children are left behind in its place.
+
+<div class=note>
+	<{if-wrapper}> is still parsed as a standard unknown "custom" element by the HTML parser,
+	and so can only appear in places where such elements are allowed;
+	it cannot, for example, be used in the <{head}> of a document,
+	or as a child of <{table}>.
+
+	It's also considered "block level" by the Markdown parser.
+	It *can* be used inline in text
+	(tho you probably want to instead make the entire block conditional,
+	for readability/editability),
+	but it won't parse as intended if it's the very first content in a paragraph.
+</div>
+
+
 Boilerplate Sections {#bp-sections}
 --------------------
 
@@ -3358,18 +3788,23 @@ use the <a>Boilerplate</a> metadata, like:
   </pre>
 </xmp>
 
-### Overriding Boilerplate ### {#overriding-boilerplate}
+### Custom/Overriding Boilerplate ### {#overriding-boilerplate}
 
 Sometimes a file-based boilerplate (see below) that is appropriate for most of the specs in your group
 isn't quite right for your specific spec.
 Any boilerplate, file-based or Bikeshed-generated,
-can be overriden by custom text of your choosing.
+can be overridden by custom text of your choosing.
 Just add an element to your source document with the content you'd like to show up in place of the offending boilerplate,
 and add a `boilerplate="foo"` attribute to the container,
 specifying which boilerplate section is being replaced.
 
-Bikeshed will automatically remove that element from you document,
+Bikeshed will automatically remove that element from your document,
 and instead inject its contents in place of the boilerplate that it would normally provide.
+
+The `boilerplate` attribute isn't limited to just the predefined boilerplate section names;
+you can supply whatever section name you want,
+and if there's a `data-fill-with` attribute somewhere in the document with the same name,
+the element's contents will be moved there.
 
 
 Table of Contents {#table-of-contents}
@@ -3544,7 +3979,7 @@ The containers hold other elements, and modify their semantics:
 
 <ul dfn-for=railroad export>
 	* <dfn>Sequence</dfn> (<dfn>And</dfn>, <dfn>Seq</dfn>) - used for sequences of elements which must all be selected in order.  Like concatenation in regexes. Takes 1 or more children.
-	* <dfn>Stack</dfn> - A sequence that arranges its children vertically. Useful for preventing diagrams from becomming excessively wide. Takes 1 or more children.
+	* <dfn>Stack</dfn> - A sequence that arranges its children vertically. Useful for preventing diagrams from becoming excessively wide. Takes 1 or more children.
 	* <dfn>Choice</dfn> (<dfn>Or</dfn>) - used for a choice between elements.  Like the `|` character in regexes.  Takes 1 or more children.  Optionally, the "default" index may be provided in the prelude (defaulting to 0).
 	* <dfn>Optional</dfn> (<dfn>Opt</dfn>)- used for an element that's optional.  Like the `?` character in regexes.  Takes 1 child.  Optionally, the word `skip` may be provided in the prelude to indicate that this term is skipped by default.
 	* <dfn>OneOrMore</dfn> (<dfn>Plus</dfn>)- used for an element that can be chosen one or more times.  Like the `+` character in regexes.
@@ -3646,7 +4081,7 @@ with a colon between the key and the value.
 The InfoTree format,
 used by several things in Bikeshed,
 is similar.
-It's used when you need to specify data consistenting of multiple key/value pairs,
+It's used when you need to specify data consisting of multiple key/value pairs,
 where it's common that multiple entries share some of that data.
 The InfoTree format makes this easy to read, write, and maintain.
 

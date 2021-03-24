@@ -1,15 +1,15 @@
-# -*- coding: utf-8 -*-
-from __future__ import division, unicode_literals
-
 import re
 from collections import defaultdict
 
-from . import attr
-from .htmlhelpers import *
+import attr
+
+from . import constants
+from .h import *
 from .messages import *
 
+
 @attr.s(slots=True)
-class BiblioEntry(object):
+class BiblioEntry:
     linkText = attr.ib(default=None)
     originalLinkText = attr.ib(default=None)
     title = attr.ib(default=None)
@@ -28,17 +28,17 @@ class BiblioEntry(object):
 
     def __attrs_post_init__(self):
         if self.preferredURL is None:
-            self.preferredURL = config.refStatus.snapshot
+            self.preferredURL = constants.refStatus.snapshot
         else:
-            self.preferredURL = config.refStatus[self.preferredURL]
-        if self.preferredURL == config.refStatus.snapshot:
+            self.preferredURL = constants.refStatus[self.preferredURL]
+        if self.preferredURL == constants.refStatus.snapshot:
             self.url = self.snapshot_url or self.current_url
-        elif self.preferredURL == config.refStatus.current:
+        elif self.preferredURL == constants.refStatus.current:
             self.url = self.current_url or self.snapshot_url
         else:
-            raise
+            raise ValueError(f"Invalid preferredURL value: {self.preferredURL}")
 
-        if isinstance(self.authors, basestring):
+        if isinstance(self.authors, str):
             self.authors = [self.authors]
 
     def __str__(self):
@@ -57,9 +57,9 @@ class BiblioEntry(object):
             str += "; et al. " if etAl else ". "
 
         if self.url:
-            str += "<a href='{0}'>{1}</a>. ".format(self.url, self.title)
+            str += f"<a href='{self.url}'>{self.title}</a>. "
         else:
-            str += "{0}. ".format(self.title)
+            str += f"{self.title}. "
 
         if self.preferredURL == "current" and self.current_url:
             pass
@@ -95,7 +95,7 @@ class BiblioEntry(object):
         ret.append(str)
 
         if self.url:
-            ret.append(E.a({"href":self.url}, self.title))
+            ret.append(E.a({"href": self.url}, self.title))
             ret.append(". ")
         else:
             ret.append(self.title + ". ")
@@ -114,7 +114,7 @@ class BiblioEntry(object):
 
         if self.url:
             ret.append("URL: ")
-            ret.append(E.a({"href":self.url}, self.url))
+            ret.append(E.a({"href": self.url}, self.url))
 
         return ret
 
@@ -125,25 +125,25 @@ class BiblioEntry(object):
 
 
 class SpecBasedBiblioEntry(BiblioEntry):
-    '''
+    """
     Generates a "fake" biblio entry from a spec reference,
     for when we don't have "real" bibliography data for a reference.
-    '''
+    """
 
     def __init__(self, spec, preferredURL=None):
-        super(SpecBasedBiblioEntry, self).__init__()
+        super().__init__()
         if preferredURL is None:
-            preferredURL = config.refStatus.snapshot
+            preferredURL = constants.refStatus.snapshot
         self.spec = spec
-        self.linkText = spec['vshortname']
+        self.linkText = spec["vshortname"]
         self._valid = True
-        preferredURL = config.refStatus[preferredURL]
-        if preferredURL == config.refStatus.snapshot:
-            self.url = spec['snapshot_url'] or spec['current_url']
-        elif preferredURL == config.refStatus.current:
-            self.url = spec['current_url'] or spec['snapshot_url']
+        preferredURL = constants.refStatus[preferredURL]
+        if preferredURL == constants.refStatus.snapshot:
+            self.url = spec["snapshot_url"] or spec["current_url"]
+        elif preferredURL == constants.refStatus.current:
+            self.url = spec["current_url"] or spec["snapshot_url"]
         else:
-            raise
+            raise ValueError(f"Invalid preferredURL value: {preferredURL}")
         if not self.url:
             self._valid = False
         assert self.url
@@ -152,20 +152,16 @@ class SpecBasedBiblioEntry(BiblioEntry):
         return self._valid
 
     def toHTML(self):
-        return [
-            self.spec['description'],
-            " URL: ",
-            E.a({"href":self.url}, self.url)
-        ]
+        return [self.spec["description"], " URL: ", E.a({"href": self.url}, self.url)]
 
 
 @attr.s(slots=True)
 class StringBiblioEntry(BiblioEntry):
-    '''
+    """
     Generates a barebones biblio entry from a preformatted biblio string.
     This only exists because SpecRef still has a few of them;
     don't use it on purpose for real things in the future.
-    '''
+    """
 
     data = attr.ib(default="")
     linkText = attr.ib(default="")
@@ -196,22 +192,22 @@ def processReferBiblioFile(lines, storage, order):
     unusedReferCodes = set("BCIJNPRVX")
 
     biblio = None
-    for i,line in enumerate(lines):
+    for _, line in enumerate(lines):
         line = line.strip()
         if line == "":
             # Empty line
             if biblio is not None:
-                storage[biblio['linkText'].lower()].append(biblio)
+                storage[biblio["linkText"].lower()].append(biblio)
                 biblio = None
             continue
-        elif line.startswith("#") or line.startswith("%#"):
+        if line.startswith("#") or line.startswith("%#"):
             # Comment
             continue
-        else:
-            if biblio is None:
-                biblio = defaultdict(list)
-                biblio['order'] = order
-                biblio['biblioFormat'] = "dict"
+
+        if biblio is None:
+            biblio = defaultdict(list)
+            biblio["order"] = order
+            biblio["biblioFormat"] = "dict"
 
         match = re.match(r"%(\w)\s+(.*)", line)
         if match:
@@ -229,12 +225,12 @@ def processReferBiblioFile(lines, storage, order):
         else:
             die("Unknown line type ")
     if biblio is not None:
-        storage[biblio['linkText'].lower()] = biblio
+        storage[biblio["linkText"].lower()] = biblio
     return storage
 
 
 def processSpecrefBiblioFile(text, storage, order):
-    '''
+    r"""
     A SpecRef file is a JSON object, where keys are ids
     and values are either <alias>, <legacyRef>, or <ref>.
 
@@ -265,8 +261,9 @@ def processSpecrefBiblioFile(text, storage, order):
     <date>: /^([1-3]?\d\s)?((?:January|February|March|April|May|June|July|August|September|October|November|December)\s)?\d+$/
 
     <wg>: {*url:<url>, *shortname:<string>}
-    '''
+    """
     import json
+
     try:
         datas = json.loads(text)
     except Exception as e:
@@ -281,16 +278,16 @@ def processSpecrefBiblioFile(text, storage, order):
         "edDraft": "current_url",
         "title": "title",
         "date": "date",
-        "status": "status"
+        "status": "status",
     }
 
     obsoletedBy = {}
     for biblioKey, data in datas.items():
         biblio = {"linkText": biblioKey, "order": order}
-        if isinstance(data, basestring):
+        if isinstance(data, str):
             # Handle <legacyRef>
-            biblio['biblioFormat'] = "string"
-            biblio['data'] = data.replace("\n", " ")
+            biblio["biblioFormat"] = "string"
+            biblio["data"] = data.replace("\n", " ")
         elif "aliasOf" in data:
             # Handle <alias>
             if biblioKey.lower() == data["aliasOf"].lower():
@@ -301,7 +298,7 @@ def processSpecrefBiblioFile(text, storage, order):
             biblio["aliasOf"] = data["aliasOf"].lower()
         else:
             # Handle <ref>
-            biblio['biblioFormat'] = "dict"
+            biblio["biblioFormat"] = "dict"
             for jsonField, biblioField in fields.items():
                 if jsonField in data:
                     biblio[biblioField] = data[jsonField]
@@ -316,7 +313,7 @@ def processSpecrefBiblioFile(text, storage, order):
                 for v in data["obsoletes"]:
                     obsoletedBy[v.lower()] = biblioKey.lower()
         storage[biblioKey.lower()].append(biblio)
-    for old,new in obsoletedBy.items():
+    for old, new in obsoletedBy.items():
         if old in storage:
             for biblio in storage[old]:
                 biblio["obsoletedBy"] = new
@@ -326,44 +323,44 @@ def processSpecrefBiblioFile(text, storage, order):
 def loadBiblioDataFile(lines, storage):
     try:
         while True:
-            fullKey = lines.next()
+            fullKey = next(lines)
             prefix, key = fullKey[0], fullKey[2:].strip()
             if prefix == "d":
                 b = {
-                    "linkText": lines.next(),
-                    "date": lines.next(),
-                    "status": lines.next(),
-                    "title": lines.next(),
-                    "snapshot_url": lines.next(),
-                    "current_url": lines.next(),
-                    "obsoletedBy": lines.next(),
-                    "other": lines.next(),
-                    "etAl": lines.next() != "\n",
+                    "linkText": next(lines),
+                    "date": next(lines),
+                    "status": next(lines),
+                    "title": next(lines),
+                    "snapshot_url": next(lines),
+                    "current_url": next(lines),
+                    "obsoletedBy": next(lines),
+                    "other": next(lines),
+                    "etAl": next(lines) != "\n",
                     "order": 3,
                     "biblioFormat": "dict",
-                    "authors": []
+                    "authors": [],
                 }
                 while True:
-                    line = lines.next()
-                    if line == b"-\n":
+                    line = next(lines)
+                    if line == "-\n":
                         break
-                    b['authors'].append(line)
+                    b["authors"].append(line)
             elif prefix == "s":
                 b = {
-                    "linkText": lines.next(),
-                    "data": lines.next(),
+                    "linkText": next(lines),
+                    "data": next(lines),
                     "biblioFormat": "string",
-                    "order": 3
+                    "order": 3,
                 }
-                line = lines.next()  # Eat the -
+                line = next(lines)  # Eat the -
             elif prefix == "a":
                 b = {
-                    "linkText": lines.next(),
-                    "aliasOf": lines.next(),
+                    "linkText": next(lines),
+                    "aliasOf": next(lines),
                     "biblioFormat": "alias",
-                    "order": 3
+                    "order": 3,
                 }
-                line = lines.next()  # Eat the -
+                line = next(lines)  # Eat the -
             else:
                 die("Unknown biblio prefix '{0}' on key '{1}'", prefix, fullKey)
                 continue
@@ -372,18 +369,18 @@ def loadBiblioDataFile(lines, storage):
         pass
 
 
-def levenshtein(a,b):
+def levenshtein(a, b):
     "Calculates the Levenshtein distance between a and b."
     n, m = len(a), len(b)
     if n > m:
         # Make sure n <= m, to use O(min(n,m)) space
-        a,b = b,a
-        n,m = m,n
+        a, b = b, a
+        n, m = m, n
 
-    current = range(n + 1)
-    for i in range(1,m + 1):
+    current = list(range(n + 1))
+    for i in range(1, m + 1):
         previous, current = current, [i] + [0] * n
-        for j in range(1,n + 1):
+        for j in range(1, n + 1):
             add, delete = previous[j] + 1, current[j - 1] + 1
             change = previous[j - 1]
             if a[j - 1] != b[i - 1]:
@@ -394,11 +391,11 @@ def levenshtein(a,b):
 
 
 def findCloseBiblios(biblioKeys, target, n=5):
-    '''
+    """
     Finds biblio entries close to the target.
     Returns all biblios with target as the substring,
     plus the 5 closest ones per levenshtein distance.
-    '''
+    """
     target = target.lower()
     names = []
     superStrings = []
@@ -407,7 +404,7 @@ def findCloseBiblios(biblioKeys, target, n=5):
         tuple = (name, distance)
         if len(names) < n:
             names.append(tuple)
-            names.sort(key=lambda x:x[1])
+            names.sort(key=lambda x: x[1])
         elif distance >= names[-1][1]:
             pass
         else:
@@ -417,16 +414,17 @@ def findCloseBiblios(biblioKeys, target, n=5):
                     names.pop()
                     break
         return names
+
     for name in biblioKeys:
         if target in name:
             superStrings.append(name)
         else:
             addName(name, levenshtein(name, target))
-    return sorted(s.strip() for s in superStrings) + [name.strip() for name,d in names]
+    return sorted(s.strip() for s in superStrings) + [name.strip() for name, d in names]
 
 
 def dedupBiblioReferences(doc):
-    '''
+    """
     SpecRef has checks in its database preventing multiple references from having the same URL.
     Shepherd, while it doesn't have an explicit check for this,
     should also generally have unique URLs.
@@ -438,10 +436,10 @@ def dedupBiblioReferences(doc):
     This code checks for this,
     and deletes Shepherd biblio if there's a SpecRef biblio with the same URL.
     It then adjusts doc.externalRefsUsed to point to the SpecRef biblio.
-    '''
+    """
 
     def isShepherdRef(ref):
-        return type(ref) == SpecBasedBiblioEntry
+        return isinstance(ref, SpecBasedBiblioEntry)
 
     normSpecRefRefs = {}
     normShepherdRefs = {}
@@ -457,14 +455,12 @@ def dedupBiblioReferences(doc):
             informShepherdRefs[ref.url] = ref
         else:
             informSpecRefRefs[ref.url] = ref
-    normSpecRefUrls    = set(normSpecRefRefs.keys())
-    normShepherdUrls   = set(normShepherdRefs.keys())
-    informSpecRefUrls  = set(informSpecRefRefs.keys())
+    normSpecRefUrls = set(normSpecRefRefs.keys())
+    normShepherdUrls = set(normShepherdRefs.keys())
+    informSpecRefUrls = set(informSpecRefRefs.keys())
     informShepherdUrls = set(informShepherdRefs.keys())
     specRefUrls = normSpecRefUrls | informSpecRefUrls
     shepherdUrls = normShepherdUrls | informShepherdUrls
-    normativeUrls = normShepherdUrls | normSpecRefUrls
-    informativeUrls = informShepherdUrls | informSpecRefUrls
     dupedUrls = shepherdUrls & specRefUrls
 
     if not dupedUrls:
@@ -475,12 +471,14 @@ def dedupBiblioReferences(doc):
     # mark it for "upgrading", so the SpecRef becomes normative.
     upgradeUrls = dupedUrls & informSpecRefUrls & normShepherdUrls
     upgradeRefs = {}
-    for key,ref in doc.informativeRefs.items():
+    popInformatives = []
+    for key, ref in doc.informativeRefs.items():
         if ref.url in upgradeUrls and not isShepherdRef(ref):
             upgradeRefs[ref.url] = ref
-            doc.informativeRefs.pop(key)
-
-    for key,ref in doc.normativeRefs.items():
+            popInformatives.append(key)
+    for key in popInformatives:
+        doc.informativeRefs.pop(key)
+    for key, ref in doc.normativeRefs.items():
         if ref.url in upgradeUrls:
             doc.normativeRefs[key] = upgradeRefs[ref.url]
 
@@ -490,20 +488,18 @@ def dedupBiblioReferences(doc):
         normSpecRefUrls.add(url)
     shepherdUrls = normShepherdUrls | informShepherdUrls
     specRefUrls = normSpecRefUrls | informSpecRefUrls
-    normativeUrls = normShepherdUrls | normSpecRefUrls
-    informativeUrls = informShepherdUrls | informSpecRefUrls
     dupedUrls = shepherdUrls & specRefUrls
 
     # Remove all the Shepherd refs that are left in duped
     poppedKeys = defaultdict(dict)
-    for key,ref in doc.informativeRefs.items():
+    for key, ref in list(doc.informativeRefs.items()):
         if ref.url in dupedUrls:
             if isShepherdRef(ref):
                 doc.informativeRefs.pop(key)
                 poppedKeys[ref.url]["shepherd"] = key
             else:
                 poppedKeys[ref.url]["specref"] = key
-    for key,ref in doc.normativeRefs.items():
+    for key, ref in list(doc.normativeRefs.items()):
         if ref.url in dupedUrls:
             if isShepherdRef(ref):
                 doc.normativeRefs.pop(key)
@@ -517,6 +513,6 @@ def dedupBiblioReferences(doc):
         if "shepherd" not in keys or "specref" not in keys:
             continue
         if keys["shepherd"] in doc.externalRefsUsed:
-            for k,v in doc.externalRefsUsed[keys["shepherd"]].items():
+            for k, v in list(doc.externalRefsUsed[keys["shepherd"]].items()):
                 doc.externalRefsUsed[keys["specref"]][k] = v
         del doc.externalRefsUsed[keys["shepherd"]]

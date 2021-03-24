@@ -8,112 +8,12 @@
   <meta content="This specification defines the &apos;&apos;::part()&apos;&apos; pseudo-element on <a>shadow hosts</a>, allowing <a>shadow hosts</a> to selectively expose chosen elements from their <a>shadow tree</a> to the outside page for styling purposes." name="abstract">
   <link href="../default.css" rel="stylesheet" type="text/css">
   <link href="../csslogo.ico" rel="shortcut icon" type="image/x-icon">
-<style>
-  body {
-    background: url("https://www.w3.org/StyleSheets/TR/logo-ED") top left no-repeat;
-  }
-  </style>
+  <link href="https://www.w3.org/StyleSheets/TR/2016/W3C-ED" rel="stylesheet" type="text/css">
   <link href="https://www.w3.org/TR/css-shadow-parts-1/" rel="canonical">
-<style>/* style-md-lists */
-
-/* This is a weird hack for me not yet following the commonmark spec
-   regarding paragraph and lists. */
-[data-md] > :first-child {
-    margin-top: 0;
-}
-[data-md] > :last-child {
-    margin-bottom: 0;
-}</style>
-<style>/* style-selflinks */
-
-.heading, .issue, .note, .example, li, dt {
-    position: relative;
-}
-a.self-link {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * (3.5rem - 26px));
-    width: calc(3.5rem - 26px);
-    height: 2em;
-    text-align: center;
-    border: none;
-    transition: opacity .2s;
-    opacity: .5;
-}
-a.self-link:hover {
-    opacity: 1;
-}
-.heading > a.self-link {
-    font-size: 83%;
-}
-li > a.self-link {
-    left: calc(-1 * (3.5rem - 26px) - 2em);
-}
-dfn > a.self-link {
-    top: auto;
-    left: auto;
-    opacity: 0;
-    width: 1.5em;
-    height: 1.5em;
-    background: gray;
-    color: white;
-    font-style: normal;
-    transition: opacity .2s, background-color .2s, color .2s;
-}
-dfn:hover > a.self-link {
-    opacity: 1;
-}
-dfn > a.self-link:hover {
-    color: black;
-}
-
-a.self-link::before            { content: "¶"; }
-.heading > a.self-link::before { content: "§"; }
-dfn > a.self-link::before      { content: "#"; }</style>
-<style>/* style-counters */
-
-body {
-    counter-reset: example figure issue;
-}
-.issue {
-    counter-increment: issue;
-}
-.issue:not(.no-marker)::before {
-    content: "Issue " counter(issue);
-}
-
-.example {
-    counter-increment: example;
-}
-.example:not(.no-marker)::before {
-    content: "Example " counter(example);
-}
-.invalid.example:not(.no-marker)::before,
-.illegal.example:not(.no-marker)::before {
-    content: "Invalid Example" counter(example);
-}
-
-figcaption {
-    counter-increment: figure;
-}
-figcaption:not(.no-marker)::before {
-    content: "Figure " counter(figure) " ";
-}</style>
-<style>/* style-var-click-highlighting */
-
-    var { cursor: pointer; }
-    var.selected0 { background-color: #F4D200; box-shadow: 0 0 0 2px #F4D200; }
-    var.selected1 { background-color: #FF87A2; box-shadow: 0 0 0 2px #FF87A2; }
-    var.selected2 { background-color: #96E885; box-shadow: 0 0 0 2px #96E885; }
-    var.selected3 { background-color: #3EEED2; box-shadow: 0 0 0 2px #3EEED2; }
-    var.selected4 { background-color: #EACFB6; box-shadow: 0 0 0 2px #EACFB6; }
-    var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
-    var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
-    </style>
 <style>/* style-autolinks */
 
 .css.css, .property.property, .descriptor.descriptor {
-    color: #005a9c;
+    color: var(--a-normal-text);
     font-size: inherit;
     font-family: inherit;
 }
@@ -172,8 +72,150 @@ pre .property::before, pre .property::after {
 [data-link-type=biblio] {
     white-space: pre;
 }</style>
+<style>/* style-colors */
+
+/* Any --*-text not paired with a --*-bg is assumed to have a transparent bg */
+:root {
+    color-scheme: light dark;
+
+    --text: black;
+    --bg: white;
+
+    --unofficial-watermark: url(https://www.w3.org/StyleSheets/TR/2016/logos/UD-watermark);
+
+    --logo-bg: #1a5e9a;
+    --logo-active-bg: #c00;
+    --logo-text: white;
+
+    --tocnav-normal-text: #707070;
+    --tocnav-normal-bg: var(--bg);
+    --tocnav-hover-text: var(--tocnav-normal-text);
+    --tocnav-hover-bg: #f8f8f8;
+    --tocnav-active-text: #c00;
+    --tocnav-active-bg: var(--tocnav-normal-bg);
+
+    --tocsidebar-text: var(--text);
+    --tocsidebar-bg: #f7f8f9;
+    --tocsidebar-shadow: rgba(0,0,0,.1);
+    --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+    --toclink-text: var(--text);
+    --toclink-underline: #3980b5;
+    --toclink-visited-text: var(--toclink-text);
+    --toclink-visited-underline: #054572;
+
+    --heading-text: #005a9c;
+
+    --hr-text: var(--text);
+
+    --algo-border: #def;
+
+    --del-text: red;
+    --del-bg: transparent;
+    --ins-text: #080;
+    --ins-bg: transparent;
+
+    --a-normal-text: #034575;
+    --a-normal-underline: #707070;
+    --a-visited-text: var(--a-normal-text);
+    --a-visited-underline: #bbb;
+    --a-hover-bg: rgba(75%, 75%, 75%, .25);
+    --a-active-text: #c00;
+    --a-active-underline: #c00;
+
+    --blockquote-border: silver;
+    --blockquote-bg: transparent;
+    --blockquote-text: currentcolor;
+
+    --issue-border: #e05252;
+    --issue-bg: #fbe9e9;
+    --issue-text: var(--text);
+    --issueheading-text: #831616;
+
+    --example-border: #e0cb52;
+    --example-bg: #fcfaee;
+    --example-text: var(--text);
+    --exampleheading-text: #574b0f;
+
+    --note-border: #52e052;
+    --note-bg: #e9fbe9;
+    --note-text: var(--text);
+    --noteheading-text: hsl(120, 70%, 30%);
+    --notesummary-underline: silver;
+
+    --assertion-border: #aaa;
+    --assertion-bg: #eee;
+    --assertion-text: black;
+
+    --advisement-border: orange;
+    --advisement-bg: #fec;
+    --advisement-text: var(--text);
+    --advisementheading-text: #b35f00;
+
+    --warning-border: red;
+    --warning-bg: hsla(40,100%,50%,0.95);
+    --warning-text: var(--text);
+
+    --amendment-border: #330099;
+    --amendment-bg: #F5F0FF;
+    --amendment-text: var(--text);
+    --amendmentheading-text: #220066;
+
+    --def-border: #8ccbf2;
+    --def-bg: #def;
+    --def-text: var(--text);
+    --defrow-border: #bbd7e9;
+
+    --datacell-border: silver;
+
+    --indexinfo-text: #707070;
+
+    --indextable-hover-text: black;
+    --indextable-hover-bg: #f7f8f9;
+
+    --outdatedspec-bg: rgba(0, 0, 0, .5);
+    --outdatedspec-text: black;
+    --outdated-bg: maroon;
+    --outdated-text: white;
+    --outdated-shadow: red;
+
+    --editedrec-bg: darkorange;
+}</style>
+<style>/* style-counters */
+
+body {
+    counter-reset: example figure issue;
+}
+.issue {
+    counter-increment: issue;
+}
+.issue:not(.no-marker)::before {
+    content: "Issue " counter(issue);
+}
+
+.example {
+    counter-increment: example;
+}
+.example:not(.no-marker)::before {
+    content: "Example " counter(example);
+}
+.invalid.example:not(.no-marker)::before,
+.illegal.example:not(.no-marker)::before {
+    content: "Invalid Example" counter(example);
+}
+
+figcaption {
+    counter-increment: figure;
+}
+figcaption:not(.no-marker)::before {
+    content: "Figure " counter(figure) " ";
+}</style>
 <style>/* style-dfn-panel */
 
+:root {
+    --dfnpanel-bg: #ddd;
+    --dfnpanel-text: var(--text);
+}
 .dfn-panel {
     position: absolute;
     z-index: 35;
@@ -185,14 +227,14 @@ pre .property::before, pre .property::after {
     overflow: auto;
     padding: 0.5em 0.75em;
     font: small Helvetica Neue, sans-serif, Droid Sans Fallback;
-    background: #DDDDDD;
-    color: black;
+    background: var(--dfnpanel-bg);
+    color: var(--dfnpanel-text);
     border: outset 0.2em;
 }
 .dfn-panel:not(.on) { display: none; }
 .dfn-panel * { margin: 0; padding: 0; text-indent: 0; }
 .dfn-panel > b { display: block; }
-.dfn-panel a { color: black; }
+.dfn-panel a { color: var(--dfnpanel-text); }
 .dfn-panel a:not(:hover) { text-decoration: none !important; border-bottom: none !important; }
 .dfn-panel > b + b { margin-top: 0.25em; }
 .dfn-panel ul { padding: 0; }
@@ -209,11 +251,134 @@ pre .property::before, pre .property::after {
 
 .dfn-paneled { cursor: pointer; }
 </style>
+<style>/* style-md-lists */
+
+/* This is a weird hack for me not yet following the commonmark spec
+   regarding paragraph and lists. */
+[data-md] > :first-child {
+    margin-top: 0;
+}
+[data-md] > :last-child {
+    margin-bottom: 0;
+}</style>
+<style>/* style-mdn-anno */
+
+            @media (max-width: 767px) { .mdn-anno { opacity: .1 } }
+            .mdn-anno { font: 1em sans-serif; padding: 0.3em; position: absolute; z-index: 8; right: 0.3em; background: #EEE; color: black; box-shadow: 0 0 3px #999; overflow: hidden; border-collapse: initial; border-spacing: initial; min-width: 9em; max-width: min-content; white-space: nowrap; word-wrap: normal; hyphens: none}
+            .mdn-anno:not(.wrapped) { opacity: 1}
+            .mdn-anno:hover { z-index: 9 }
+            .mdn-anno.wrapped { min-width: 0 }
+            .mdn-anno.wrapped > :not(button) { display: none; }
+            .mdn-anno > .mdn-anno-btn { cursor: pointer; border: none; color: #000; background: transparent; margin: -8px; float: right; padding: 10px 8px 8px 8px; outline: none; }
+            .mdn-anno > .mdn-anno-btn > .less-than-two-engines-flag { color: red; padding-right: 2px; }
+            .mdn-anno > .mdn-anno-btn > .all-engines-flag { color: green; padding-right: 2px; }
+            .mdn-anno > .mdn-anno-btn > span { color: #fff; background-color: #000; font-weight: normal; font-family: zillaslab, Palatino, "Palatino Linotype", serif; padding: 2px 3px 0px 3px; line-height: 1.3em; vertical-align: top; }
+            .mdn-anno > .feature { margin-top: 20px; }
+            .mdn-anno > .feature:not(:first-of-type) { border-top: 1px solid #999; margin-top: 6px; padding-top: 2px; }
+            .mdn-anno > .feature > .less-than-two-engines-text { color: red }
+            .mdn-anno > .feature > .all-engines-text { color: green }
+            .mdn-anno > .feature > p { font-size: .75em; margin-top: 6px; margin-bottom: 0; }
+            .mdn-anno > .feature > p + p { margin-top: 3px; }
+            .mdn-anno > .feature > .support { display: block; font-size: 0.6em; margin: 0; padding: 0; margin-top: 2px }
+            .mdn-anno > .feature > .support + div { padding-top: 0.5em; }
+            .mdn-anno > .feature > .support > hr { display: block; border: none; border-top: 1px dotted #999; padding: 3px 0px 0px 0px; margin: 2px 3px 0px 3px; }
+            .mdn-anno > .feature > .support > hr::before { content: ""; }
+            .mdn-anno > .feature > .support > span { padding: 0.2em 0; display: block; display: table; }
+            .mdn-anno > .feature > .support > span.no { color: #CCCCCC; filter: grayscale(100%); }
+            .mdn-anno > .feature > .support > span.no::before { opacity: 0.5; }
+            .mdn-anno > .feature > .support > span:first-of-type { padding-top: 0.5em; }
+            .mdn-anno > .feature > .support > span > span { padding: 0 0.5em; display: table-cell; }
+            .mdn-anno > .feature > .support > span > span:first-child { width: 100%; }
+            .mdn-anno > .feature > .support > span > span:last-child { width: 100%; white-space: pre; padding: 0; }
+            .mdn-anno > .feature > .support > span::before { content: ' '; display: table-cell; min-width: 1.5em; height: 1.5em; background: no-repeat center center; background-size: contain; text-align: right; font-size: 0.75em; font-weight: bold; }
+            .mdn-anno > .feature > .support > .chrome_android::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+            .mdn-anno > .feature > .support > .firefox_android::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+            .mdn-anno > .feature > .support > .chrome::before { background-image: url(https://resources.whatwg.org/browser-logos/chrome.svg); }
+            .mdn-anno > .feature > .support > .edge_blink::before { background-image: url(https://resources.whatwg.org/browser-logos/edge.svg); }
+            .mdn-anno > .feature > .support > .edge::before { background-image: url(https://resources.whatwg.org/browser-logos/edge_legacy.svg); }
+            .mdn-anno > .feature > .support > .firefox::before { background-image: url(https://resources.whatwg.org/browser-logos/firefox.png); }
+            .mdn-anno > .feature > .support > .ie::before { background-image: url(https://resources.whatwg.org/browser-logos/ie.png); }
+            .mdn-anno > .feature > .support > .safari_ios::before { background-image: url(https://resources.whatwg.org/browser-logos/safari-ios.svg); }
+            .mdn-anno > .feature > .support > .nodejs::before { background-image: url(https://nodejs.org/static/images/favicons/favicon.ico); }
+            .mdn-anno > .feature > .support > .opera_android::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
+            .mdn-anno > .feature > .support > .opera::before { background-image: url(https://resources.whatwg.org/browser-logos/opera.svg); }
+            .mdn-anno > .feature > .support > .safari::before { background-image: url(https://resources.whatwg.org/browser-logos/safari.png); }
+            .mdn-anno > .feature > .support > .samsunginternet_android::before { background-image: url(https://resources.whatwg.org/browser-logos/samsung.svg); }
+            .mdn-anno > .feature > .support > .webview_android::before { background-image: url(https://resources.whatwg.org/browser-logos/android-webview.png); }
+            .name-slug-mismatch { color: red }
+            .caniuse-status:hover { z-index: 9; }
+
+            /* dt, li, .issue, .note, and .example are "position: relative", so to put annotation at right margin, must move to right of containing block */
+            .h-entry:not(.status-LS) dt > .mdn-anno, .h-entry:not(.status-LS) li > .mdn-anno, .h-entry:not(.status-LS) .issue > .mdn-anno, .h-entry:not(.status-LS) .note > .mdn-anno, .h-entry:not(.status-LS) .example > .mdn-anno { right: -6.7em; }
+            .h-entry p + .mdn-anno { margin-top: 0; }
+            h2 + .mdn-anno.after { margin: -48px 0 0 0; }
+            h3 + .mdn-anno.after { margin: -46px 0 0 0; }
+            h4 + .mdn-anno.after { margin: -42px 0 0 0; }
+            h5 + .mdn-anno.after { margin: -40px 0 0 0; }
+            h6 + .mdn-anno.after { margin: -40px 0 0 0; }
+            </style>
+<style>/* style-selflinks */
+
+:root {
+    --selflink-text: white;
+    --selflink-bg: gray;
+    --selflink-hover-text: black;
+}
+.heading, .issue, .note, .example, li, dt {
+    position: relative;
+}
+a.self-link {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * (3.5rem - 26px));
+    width: calc(3.5rem - 26px);
+    height: 2em;
+    text-align: center;
+    border: none;
+    transition: opacity .2s;
+    opacity: .5;
+}
+a.self-link:hover {
+    opacity: 1;
+}
+.heading > a.self-link {
+    font-size: 83%;
+}
+li > a.self-link {
+    left: calc(-1 * (3.5rem - 26px) - 2em);
+}
+dfn > a.self-link {
+    top: auto;
+    left: auto;
+    opacity: 0;
+    width: 1.5em;
+    height: 1.5em;
+    background: var(--selflink-bg);
+    color: var(--selflink-text);
+    font-style: normal;
+    transition: opacity .2s, background-color .2s, color .2s;
+}
+dfn:hover > a.self-link {
+    opacity: 1;
+}
+dfn > a.self-link:hover {
+    color: var(--selflink-hover-text);
+}
+
+a.self-link::before            { content: "¶"; }
+.heading > a.self-link::before { content: "§"; }
+dfn > a.self-link::before      { content: "#"; }
+</style>
 <style>/* style-syntax-highlighting */
-pre.idl.highlight { color: #708090; }
-.highlight:not(.idl) { background: hsl(24, 20%, 95%); }
+
+            pre.idl.highlight {
+                background: var(--borderedblock-bg, var(--def-bg));
+            }
+            
 code.highlight { padding: .1em; border-radius: .3em; }
 pre.highlight, pre > code.highlight { display: block; padding: 1em; margin: .5em 0; overflow: auto; border-radius: 0; }
+
+.highlight:not(.idl) { background: rgba(0, 0, 0, .03); }
 c-[a] { color: #990055 } /* Keyword.Declaration */
 c-[b] { color: #990055 } /* Keyword.Type */
 c-[c] { color: #708090 } /* Comment */
@@ -267,6 +432,207 @@ c-[vg] { color: #0077aa } /* Name.Variable.Global */
 c-[vi] { color: #0077aa } /* Name.Variable.Instance */
 c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
 </style>
+<style>/* style-var-click-highlighting */
+
+    var { cursor: pointer; }
+    var.selected0 { background-color: #F4D200; box-shadow: 0 0 0 2px #F4D200; }
+    var.selected1 { background-color: #FF87A2; box-shadow: 0 0 0 2px #FF87A2; }
+    var.selected2 { background-color: #96E885; box-shadow: 0 0 0 2px #96E885; }
+    var.selected3 { background-color: #3EEED2; box-shadow: 0 0 0 2px #3EEED2; }
+    var.selected4 { background-color: #EACFB6; box-shadow: 0 0 0 2px #EACFB6; }
+    var.selected5 { background-color: #82DDFF; box-shadow: 0 0 0 2px #82DDFF; }
+    var.selected6 { background-color: #FFBCF2; box-shadow: 0 0 0 2px #FFBCF2; }
+    </style>
+<style>/* style-darkmode */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --text: #ddd;
+        --bg: black;
+
+        --unofficial-watermark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cg fill='%23100808' transform='translate(200 200) rotate(-45) translate(-200 -200)' stroke='%23100808' stroke-width='3'%3E%3Ctext x='50%25' y='220' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EUNOFFICIAL%3C/text%3E%3Ctext x='50%25' y='305' style='font: bold 70px sans-serif; text-anchor: middle; letter-spacing: 6px;'%3EDRAFT%3C/text%3E%3C/g%3E%3C/svg%3E");
+
+        --logo-bg: #1a5e9a;
+        --logo-active-bg: #c00;
+        --logo-text: white;
+
+        --tocnav-normal-text: #999;
+        --tocnav-normal-bg: var(--bg);
+        --tocnav-hover-text: var(--tocnav-normal-text);
+        --tocnav-hover-bg: #080808;
+        --tocnav-active-text: #f44;
+        --tocnav-active-bg: var(--tocnav-normal-bg);
+
+        --tocsidebar-text: var(--text);
+        --tocsidebar-bg: #080808;
+        --tocsidebar-shadow: rgba(255,255,255,.1);
+        --tocsidebar-heading-text: hsla(203,20%,40%,.7);
+
+        --toclink-text: var(--text);
+        --toclink-underline: #6af;
+        --toclink-visited-text: var(--toclink-text);
+        --toclink-visited-underline: #054572;
+
+        --heading-text: #8af;
+
+        --hr-text: var(--text);
+
+        --algo-border: #456;
+
+        --del-text: #f44;
+        --del-bg: transparent;
+        --ins-text: #4a4;
+        --ins-bg: transparent;
+
+        --a-normal-text: #6af;
+        --a-normal-underline: #555;
+        --a-visited-text: var(--a-normal-text);
+        --a-visited-underline: var(--a-normal-underline);
+        --a-hover-bg: rgba(25%, 25%, 25%, .2);
+        --a-active-text: #f44;
+        --a-active-underline: var(--a-active-text);
+
+        --borderedblock-bg: rgba(255, 255, 255, .05);
+
+        --blockquote-border: silver;
+        --blockquote-bg: var(--borderedblock-bg);
+        --blockquote-text: currentcolor;
+
+        --issue-border: #e05252;
+        --issue-bg: var(--borderedblock-bg);
+        --issue-text: var(--text);
+        --issueheading-text: hsl(0deg, 70%, 70%);
+
+        --example-border: hsl(50deg, 90%, 60%);
+        --example-bg: var(--borderedblock-bg);
+        --example-text: var(--text);
+        --exampleheading-text: hsl(50deg, 70%, 70%);
+
+        --note-border: hsl(120deg, 100%, 35%);
+        --note-bg: var(--borderedblock-bg);
+        --note-text: var(--text);
+        --noteheading-text: hsl(120, 70%, 70%);
+        --notesummary-underline: silver;
+
+        --assertion-border: #444;
+        --assertion-bg: var(--borderedblock-bg);
+        --assertion-text: var(--text);
+
+        --advisement-border: orange;
+        --advisement-bg: #222218;
+        --advisement-text: var(--text);
+        --advisementheading-text: #f84;
+
+        --warning-border: red;
+        --warning-bg: hsla(40,100%,20%,0.95);
+        --warning-text: var(--text);
+
+        --amendment-border: #330099;
+        --amendment-bg: #080010;
+        --amendment-text: var(--text);
+        --amendmentheading-text: #cc00ff;
+
+        --def-border: #8ccbf2;
+        --def-bg: #080818;
+        --def-text: var(--text);
+        --defrow-border: #136;
+
+        --datacell-border: silver;
+
+        --indexinfo-text: #aaa;
+
+        --indextable-hover-text: var(--text);
+        --indextable-hover-bg: #181818;
+
+        --outdatedspec-bg: rgba(255, 255, 255, .5);
+        --outdatedspec-text: black;
+        --outdated-bg: maroon;
+        --outdated-text: white;
+        --outdated-shadow: red;
+
+        --editedrec-bg: darkorange;
+    }
+    /* In case a transparent-bg image doesn't expect to be on a dark bg,
+       which is quite common in practice... */
+    img { background: white; }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --selflink-text: black;
+        --selflink-bg: silver;
+        --selflink-hover-text: white;
+    }
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --dfnpanel-bg: #222;
+        --dfnpanel-text: var(--text);
+    }
+}
+@media (prefers-color-scheme: dark) {
+    .highlight:not(.idl) { background: rgba(255, 255, 255, .05); }
+
+    c-[a] { color: #d33682 } /* Keyword.Declaration */
+    c-[b] { color: #d33682 } /* Keyword.Type */
+    c-[c] { color: #2aa198 } /* Comment */
+    c-[d] { color: #2aa198 } /* Comment.Multiline */
+    c-[e] { color: #268bd2 } /* Name.Attribute */
+    c-[f] { color: #b58900 } /* Name.Tag */
+    c-[g] { color: #cb4b16 } /* Name.Variable */
+    c-[k] { color: #d33682 } /* Keyword */
+    c-[l] { color: #657b83 } /* Literal */
+    c-[m] { color: #657b83 } /* Literal.Number */
+    c-[n] { color: #268bd2 } /* Name */
+    c-[o] { color: #657b83 } /* Operator */
+    c-[p] { color: #657b83 } /* Punctuation */
+    c-[s] { color: #6c71c4 } /* Literal.String */
+    c-[t] { color: #6c71c4 } /* Literal.String.Single */
+    c-[u] { color: #6c71c4 } /* Literal.String.Double */
+    c-[ch] { color: #2aa198 } /* Comment.Hashbang */
+    c-[cp] { color: #2aa198 } /* Comment.Preproc */
+    c-[cpf] { color: #2aa198 } /* Comment.PreprocFile */
+    c-[c1] { color: #2aa198 } /* Comment.Single */
+    c-[cs] { color: #2aa198 } /* Comment.Special */
+    c-[kc] { color: #d33682 } /* Keyword.Constant */
+    c-[kn] { color: #d33682 } /* Keyword.Namespace */
+    c-[kp] { color: #d33682 } /* Keyword.Pseudo */
+    c-[kr] { color: #d33682 } /* Keyword.Reserved */
+    c-[ld] { color: #657b83 } /* Literal.Date */
+    c-[nc] { color: #268bd2 } /* Name.Class */
+    c-[no] { color: #268bd2 } /* Name.Constant */
+    c-[nd] { color: #268bd2 } /* Name.Decorator */
+    c-[ni] { color: #268bd2 } /* Name.Entity */
+    c-[ne] { color: #268bd2 } /* Name.Exception */
+    c-[nf] { color: #268bd2 } /* Name.Function */
+    c-[nl] { color: #268bd2 } /* Name.Label */
+    c-[nn] { color: #268bd2 } /* Name.Namespace */
+    c-[py] { color: #268bd2 } /* Name.Property */
+    c-[ow] { color: #657b83 } /* Operator.Word */
+    c-[mb] { color: #657b83 } /* Literal.Number.Bin */
+    c-[mf] { color: #657b83 } /* Literal.Number.Float */
+    c-[mh] { color: #657b83 } /* Literal.Number.Hex */
+    c-[mi] { color: #657b83 } /* Literal.Number.Integer */
+    c-[mo] { color: #657b83 } /* Literal.Number.Oct */
+    c-[sa] { color: #6c71c4 } /* Literal.String.Affix */
+    c-[sb] { color: #6c71c4 } /* Literal.String.Backtick */
+    c-[sc] { color: #6c71c4 } /* Literal.String.Char */
+    c-[dl] { color: #6c71c4 } /* Literal.String.Delimiter */
+    c-[sd] { color: #6c71c4 } /* Literal.String.Doc */
+    c-[se] { color: #6c71c4 } /* Literal.String.Escape */
+    c-[sh] { color: #6c71c4 } /* Literal.String.Heredoc */
+    c-[si] { color: #6c71c4 } /* Literal.String.Interpol */
+    c-[sx] { color: #6c71c4 } /* Literal.String.Other */
+    c-[sr] { color: #6c71c4 } /* Literal.String.Regex */
+    c-[ss] { color: #6c71c4 } /* Literal.String.Symbol */
+    c-[fm] { color: #268bd2 } /* Name.Function.Magic */
+    c-[vc] { color: #cb4b16 } /* Name.Variable.Class */
+    c-[vg] { color: #cb4b16 } /* Name.Variable.Global */
+    c-[vi] { color: #cb4b16 } /* Name.Variable.Instance */
+    c-[vm] { color: #cb4b16 } /* Name.Variable.Magic */
+    c-[il] { color: #657b83 } /* Literal.Number.Integer.Long */
+}
+</style>
  <body class="h-entry">
   <div class="head">
    <p data-fill-with="logo"><a class="logo" href="https://www.w3.org/"> <img alt="W3C" height="48" src="https://www.w3.org/StyleSheets/TR/2016/logos/W3C" width="72"> </a> </p>
@@ -280,18 +646,18 @@ c-[il] { color: #000000 } /* Literal.Number.Integer.Long */
       <dd><a class="u-url" href="http://drafts.csswg.org/css-shadow-parts/">http://drafts.csswg.org/css-shadow-parts/</a>
       <dt>Latest published version:
       <dd><a href="https://www.w3.org/TR/css-shadow-parts-1/">https://www.w3.org/TR/css-shadow-parts-1/</a>
+      <dt>Issue Tracking:
+      <dd><a href="https://github.com/w3c/csswg-drafts/labels/css-shadow-parts-1">CSSWG Issues Repository</a>
       <dt class="editor">Editors:
       <dd class="editor p-author h-card vcard" data-editor-id="42199"><a class="p-name fn u-url url" href="http://xanthir.com/contact/">Tab Atkins-Bittner</a> (<span class="p-org org">Google</span>)
       <dd class="editor p-author h-card vcard"><a class="p-name fn u-email email" href="mailto:fergal@chromium.org">Fergal Daly</a> (<span class="p-org org">Google</span>)
       <dt>Suggest an Edit for this Spec:
       <dd><a href="https://github.com/w3c/csswg-drafts/blob/master/css-shadow-parts-1/Overview.bs">GitHub Editor</a>
-      <dt>Issue Tracking:
-      <dd><a href="https://github.com/w3c/csswg-drafts/labels/css-shadow-parts-1">GitHub Issues</a>
      </dl>
     </div>
    </details>
    <div data-fill-with="warning"></div>
-   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="https://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document">permissive document license</a> rules apply. </p>
+   <p class="copyright" data-fill-with="copyright"><a href="https://www.w3.org/Consortium/Legal/ipr-notice#Copyright">Copyright</a> © 1970 <a href="https://www.w3.org/"><abbr title="World Wide Web Consortium">W3C</abbr></a><sup>®</sup> (<a href="https://www.csail.mit.edu/"><abbr title="Massachusetts Institute of Technology">MIT</abbr></a>, <a href="https://www.ercim.eu/"><abbr title="European Research Consortium for Informatics and Mathematics">ERCIM</abbr></a>, <a href="https://www.keio.ac.jp/">Keio</a>, <a href="https://ev.buaa.edu.cn/">Beihang</a>). W3C <a href="http://www.w3.org/Consortium/Legal/ipr-notice#Legal_Disclaimer">liability</a>, <a href="https://www.w3.org/Consortium/Legal/ipr-notice#W3C_Trademarks">trademark</a> and <a href="https://www.w3.org/Consortium/Legal/2015/copyright-software-and-document" rel="license">permissive document license</a> rules apply. </p>
    <hr title="Separator for header">
   </div>
   <div class="p-summary" data-fill-with="abstract">
@@ -307,19 +673,13 @@ on screen, on paper, etc.
 	It is provided for discussion only and may change at any moment.
 	Its publication here does not imply endorsement of its contents by W3C.
 	Don’t cite this document other than as work in progress. </p>
-   <p> <a href="https://github.com/w3c/csswg-drafts/issues">GitHub Issues</a> are preferred for discussion of this specification.
-	When filing an issue, please put the text “css-shadow-parts” in the title,
-	preferably like this:
-	“[css-shadow-parts] <i data-lt>…summary of comment…</i>”.
-	All issues and comments are <a href="https://lists.w3.org/Archives/Public/public-css-archive/">archived</a>,
-	and there is also a <a href="https://lists.w3.org/Archives/Public/www-style/">historical archive</a>. </p>
-   <p> This document was produced by the <a href="https://www.w3.org/Style/CSS/">CSS Working Group</a>. </p>
-   <p> This document was produced by a group operating under
-	the <a href="https://www.w3.org/Consortium/Patent-Policy/">W3C Patent Policy</a>.
-	W3C maintains a <a href="https://www.w3.org/2004/01/pp-impl/32061/status" rel="disclosure">public list of any patent disclosures</a> made in connection with the deliverables of the group;
-	that page also includes instructions for disclosing a patent.
-	An individual who has actual knowledge of a patent which the individual believes contains <a href="https://www.w3.org/Consortium/Patent-Policy/#def-essential">Essential Claim(s)</a> must disclose the information in accordance with <a href="https://www.w3.org/Consortium/Patent-Policy/#sec-Disclosure">section 6 of the W3C Patent Policy</a>. </p>
-   <p> This document is governed by the <a href="https://www.w3.org/2019/Process-20190301/" id="w3c_process_revision">1 March 2019 W3C Process Document</a>. </p>
+   <p>Please send feedback
+	by <a href="https://github.com/w3c/csswg-drafts/issues">filing issues in GitHub</a> (preferred),
+	including the spec code “css-shadow-parts” in the title, like this:
+	“[css-shadow-parts] <i>…summary of comment…</i>”.
+	All issues and comments are <a href="https://lists.w3.org/Archives/Public/public-css-archive/">archived</a>.
+	Alternately, feedback can be sent to the (<a href="https://lists.w3.org/Archives/Public/www-style/">archived</a>) public mailing list <a href="mailto:www-style@w3.org?Subject=%5Bcss-shadow-parts%5D%20PUT%20SUBJECT%20HERE">www-style@w3.org</a>. </p>
+   <p>This document is governed by the <a href="https://www.w3.org/2020/Process-20200915/" id="w3c_process_revision">15 September 2020 W3C Process Document</a>. </p>
    <p></p>
   </div>
   <div data-fill-with="at-risk"></div>
@@ -346,17 +706,16 @@ on screen, on paper, etc.
       <li><a href="#parsing-mapping-list"><span class="secno">5.2</span> <span class="content">Rules for parsing a list of part mappings</span></a>
      </ol>
     <li>
-     <a href="#conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
+     <a href="#w3c-conformance"><span class="secno"></span> <span class="content"> Conformance</span></a>
      <ol class="toc">
-      <li><a href="#document-conventions"><span class="secno"></span> <span class="content"> Document conventions</span></a>
-      <li><a href="#conform-classes"><span class="secno"></span> <span class="content"> Conformance classes</span></a>
+      <li><a href="#w3c-conventions"><span class="secno"></span> <span class="content"> Document conventions</span></a>
+      <li><a href="#w3c-conformance-classes"><span class="secno"></span> <span class="content"> Conformance classes</span></a>
       <li>
-       <a href="#conform-responsible"><span class="secno"></span> <span class="content"> Requirements for Responsible Implementation of CSS</span></a>
+       <a href="#w3c-partial"><span class="secno"></span> <span class="content"> Partial implementations</span></a>
        <ol class="toc">
-        <li><a href="#conform-partial"><span class="secno"></span> <span class="content"> Partial Implementations</span></a>
-        <li><a href="#conform-future-proofing"><span class="secno"></span> <span class="content"> Implementations of Unstable and Proprietary Features</span></a>
-        <li><a href="#conform-testing"><span class="secno"></span> <span class="content"> Implementations of CR-level Features</span></a>
+        <li><a href="#w3c-conform-future-proofing"><span class="secno"></span> <span class="content"> Implementations of Unstable and Proprietary Features</span></a>
        </ol>
+      <li><a href="#w3c-testing"><span class="secno"></span> <span class="content"> Non-experimental implementations</span></a>
      </ol>
     <li>
      <a href="#index"><span class="secno"></span> <span class="content">Index</span></a>
@@ -408,7 +767,7 @@ it exposed too much of a component’s internal structure to scrutiny,
 defeating some of the encapsulation benefits that using Shadow DOM brings.
 For this,
 and other performance-related reasons,
-the >>> combinator was eventually removed from the <a data-link-type="dfn" href="https://drafts.csswg.org/selectors-4/#live-profile" id="ref-for-live-profile">live profile</a>.</p>
+the >>> combinator was eventually removed from the <a data-link-type="dfn" href="https://www.w3.org/TR/selectors-4/#live-profile" id="ref-for-live-profile">live profile</a>.</p>
    <p>This left us with using <a data-link-type="dfn" href="https://drafts.csswg.org/css-variables-1/#custom-property" id="ref-for-custom-property①">custom properties</a> as the only way to style into a shadow tree:
 the component would advertise that it uses certain <span id="ref-for-custom-property②">custom properties</span> to style its internals,
 and the outer page could then set those properties as it wished on the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#element-shadow-host" id="ref-for-element-shadow-host②">shadow host</a>,
@@ -483,6 +842,22 @@ then let <var>innerRoot</var> be its shadow root.</p>
     </ol>
    </div>
    <h3 class="heading settled" data-level="2.1" id="part-attr"><span class="secno">2.1. </span><span class="content">Naming a Shadow Element: the <code><a data-link-type="element-sub" href="#element-attrdef-html-global-part" id="ref-for-element-attrdef-html-global-part">part</a></code> attribute</span><a class="self-link" href="#part-attr"></a></h3>
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/part" title="The part global attribute contains a space-separated list of the part names of the element. Part names allows CSS to select and style specific elements in a shadow tree via the ::part pseudo-element.">Global_attributes/part</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>72+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome yes"><span>Chrome</span><span>73+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>60+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+      <hr>
+      <span class="firefox_android no"><span>Firefox for Android</span><span>None</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>73+</span></span><span class="webview_android yes"><span>Android WebView</span><span>73+</span></span><span class="samsunginternet_android no"><span>Samsung Internet</span><span>None</span></span>
+     </div>
+    </div>
+   </div>
    <p>Any element in a shadow tree can have a <dfn class="dfn-paneled" data-dfn-for="html-global" data-dfn-type="element-attr" data-export id="element-attrdef-html-global-part"><code>part</code></dfn> attribute.
 This is used to expose the element outside of the <a data-link-type="dfn" href="https://dom.spec.whatwg.org/#concept-shadow-tree" id="ref-for-concept-shadow-tree③">shadow tree</a>.</p>
    <p>The part attribute is parsed as a space-separated list of tokens representing the part names of this element.</p>
@@ -550,6 +925,22 @@ Each part mapping is one of:</p>
 &lt;/script>
 </pre>
    <h2 class="heading settled" data-level="3" id="part"><span class="secno">3. </span><span class="content">Selecting a Shadow Element: the <a class="css" data-link-type="maybe" href="#selectordef-part" id="ref-for-selectordef-part⑤">::part()</a> pseudo-element</span><a class="self-link" href="#part"></a></h2>
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/CSS/::part" title="The ::part CSS pseudo-element represents any element within a shadow tree that has a matching part attribute.">::part</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>72+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome yes"><span>Chrome</span><span>73+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>60+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+      <hr>
+      <span class="firefox_android no"><span>Firefox for Android</span><span>None</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>73+</span></span><span class="webview_android yes"><span>Android WebView</span><span>73+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>11.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>52+</span></span>
+     </div>
+    </div>
+   </div>
    <p>The <dfn class="dfn-paneled css" data-dfn-type="selector" data-export id="selectordef-part">::part()</dfn> pseudo-element
 allows you to select elements that have been exposed via a <code><a data-link-type="element-sub" href="#element-attrdef-html-global-part" id="ref-for-element-attrdef-html-global-part①">part</a></code> attribute.
 The syntax is:</p>
@@ -590,8 +981,24 @@ but never match additional <span class="css" id="ref-for-selectordef-part①⓪"
     ignoring any other labels.</p>
    </div>
    <h2 class="heading settled" data-level="4" id="idl"><span class="secno">4. </span><span class="content">Extensions to the <code class="idl"><a data-link-type="idl" href="https://dom.spec.whatwg.org/#element" id="ref-for-element">Element</a></code> Interface</span><a class="self-link" href="#idl"></a></h2>
+   <div class="mdn-anno wrapped after">
+    <button class="mdn-anno-btn"><b class="all-engines-flag" title="This feature is in all current engines.">✔</b><span>MDN</span></button>
+    <div class="feature">
+     <p><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/part" title="The part property of the Element interface represents the part identifier(s) of the element (i.e. set using the part attribute), returned as a DOMTokenList. These can be used to style parts of a shadow DOM, via the ::part pseudo-element.">Element/part</a></p>
+     <p class="all-engines-text">In all current engines.</p>
+     <div class="support">
+      <span class="firefox yes"><span>Firefox</span><span>72+</span></span><span class="safari yes"><span>Safari</span><span>13.1+</span></span><span class="chrome yes"><span>Chrome</span><span>73+</span></span>
+      <hr>
+      <span class="opera yes"><span>Opera</span><span>60+</span></span><span class="edge_blink yes"><span>Edge</span><span>79+</span></span>
+      <hr>
+      <span class="edge no"><span>Edge (Legacy)</span><span>None</span></span><span class="ie no"><span>IE</span><span>None</span></span>
+      <hr>
+      <span class="firefox_android yes"><span>Firefox for Android</span><span>79+</span></span><span class="safari_ios yes"><span>iOS Safari</span><span>13.4+</span></span><span class="chrome_android yes"><span>Chrome for Android</span><span>73+</span></span><span class="webview_android yes"><span>Android WebView</span><span>73+</span></span><span class="samsunginternet_android yes"><span>Samsung Internet</span><span>11.0+</span></span><span class="opera_android yes"><span>Opera Mobile</span><span>52+</span></span>
+     </div>
+    </div>
+   </div>
 <pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://dom.spec.whatwg.org/#element" id="ref-for-element①"><c- g>Element</c-></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject"><c- g>SameObject</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#PutForwards" id="ref-for-PutForwards"><c- g>PutForwards</c-></a>=<a class="idl-code" data-link-type="attribute" href="https://dom.spec.whatwg.org/#dom-domtokenlist-value" id="ref-for-dom-domtokenlist-value"><c- n>value</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist"><c- n>DOMTokenList</c-></a> <dfn class="idl-code" data-dfn-for="Element" data-dfn-type="attribute" data-export data-readonly data-type="DOMTokenList" id="dom-element-part"><code><c- g>part</c-></code><a class="self-link" href="#dom-element-part"></a></dfn>;
+  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject"><c- g>SameObject</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#PutForwards" id="ref-for-PutForwards"><c- g>PutForwards</c-></a>=<a class="idl-code" data-link-type="attribute" href="https://dom.spec.whatwg.org/#dom-domtokenlist-value" id="ref-for-dom-domtokenlist-value"><c- n>value</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist"><c- n>DOMTokenList</c-></a> <dfn class="idl-code" data-dfn-for="Element" data-dfn-type="attribute" data-export data-readonly data-type="DOMTokenList" id="dom-element-part"><code><c- g>part</c-></code><a class="self-link" href="#dom-element-part"></a></dfn>;
 };
 </pre>
    <p>The part attribute’s getter must return a DOMTokenList object
@@ -602,7 +1009,7 @@ The token set of this particular DOMTokenList object are also known as the eleme
    <h2 class="heading settled" data-level="5" id="parsing"><span class="secno">5. </span><span class="content">Microsyntaxes for parsing</span><a class="self-link" href="#parsing"></a></h2>
    <h3 class="heading settled" data-level="5.1" id="parsing-mapping"><span class="secno">5.1. </span><span class="content">Rules for parsing part mappings</span><a class="self-link" href="#parsing-mapping"></a></h3>
    <p>A <dfn data-dfn-type="dfn" data-export id="valid-part-mapping">valid part mapping<a class="self-link" href="#valid-part-mapping"></a></dfn> is a <a data-link-type="dfn" href="https://infra.spec.whatwg.org/#pair" id="ref-for-pair①">pair</a> of tokens
-separated by a U+003A COLON charater
+separated by a U+003A COLON character
 and any number of space characters before or after the U+003A COLON
 The tokens must not contain U+003A COLON or U+002C COMMA characters.</p>
    <p>The rules for parsing a part mapping are as follows:</p>
@@ -642,7 +1049,7 @@ and let <var>second token</var> be the result.</p>
    </ol>
    <h3 class="heading settled" data-level="5.2" id="parsing-mapping-list"><span class="secno">5.2. </span><span class="content">Rules for parsing a list of part mappings</span><a class="self-link" href="#parsing-mapping-list"></a></h3>
    <p>A <dfn data-dfn-type="dfn" data-export id="valid-list-of-part-mappings">valid list of part mappings<a class="self-link" href="#valid-list-of-part-mappings"></a></dfn> is a number of valid part mappings
-separated by a U+002C COMMA charater
+separated by a U+002C COMMA character
 and any number of space characters before or after the U+002C COMMA</p>
    <p>The rules for parsing a list of part mappings are as follow:</p>
    <ol>
@@ -671,95 +1078,89 @@ This allows clients to skip over new syntax that is not understood.</p>
      </ol>
    </ol>
   </main>
-  <h2 class="no-ref no-num heading settled" id="conformance"><span class="content"> Conformance</span><a class="self-link" href="#conformance"></a></h2>
-  <h3 class="heading settled" id="document-conventions"><span class="content"> Document conventions</span><a class="self-link" href="#document-conventions"></a></h3>
+  <h2 class="no-ref no-num heading settled" id="w3c-conformance"><span class="content"> Conformance</span><a class="self-link" href="#w3c-conformance"></a></h2>
+  <h3 class="no-ref heading settled" id="w3c-conventions"><span class="content"> Document conventions</span><a class="self-link" href="#w3c-conventions"></a></h3>
   <p>Conformance requirements are expressed with a combination of
-	descriptive assertions and RFC 2119 terminology. The key words “MUST”,
-	“MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
-	“RECOMMENDED”, “MAY”, and “OPTIONAL” in the normative parts of this
-	document are to be interpreted as described in RFC 2119.
-	However, for readability, these words do not appear in all uppercase
-	letters in this specification. </p>
+    descriptive assertions and RFC 2119 terminology. The key words “MUST”,
+    “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”,
+    “RECOMMENDED”, “MAY”, and “OPTIONAL” in the normative parts of this
+    document are to be interpreted as described in RFC 2119.
+    However, for readability, these words do not appear in all uppercase
+    letters in this specification. </p>
   <p>All of the text of this specification is normative except sections
-	explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a> </p>
+    explicitly marked as non-normative, examples, and notes. <a data-link-type="biblio" href="#biblio-rfc2119">[RFC2119]</a></p>
   <p>Examples in this specification are introduced with the words “for example”
-	or are set apart from the normative text with <code>class="example"</code>,
-	like this: </p>
+    or are set apart from the normative text with <code>class="example"</code>,
+    like this: </p>
   <div class="example" id="example-ae2b6bc0">
    <a class="self-link" href="#example-ae2b6bc0"></a> 
-   <p>This is an example of an informative example. </p>
+   <p>This is an example of an informative example.</p>
   </div>
   <p>Informative notes begin with the word “Note” and are set apart from the
-	normative text with <code>class="note"</code>, like this: </p>
-  <p class="note" role="note">Note, this is an informative note. </p>
+    normative text with <code>class="note"</code>, like this: </p>
+  <p class="note" role="note">Note, this is an informative note.</p>
   <p>Advisements are normative sections styled to evoke special attention and are
-	set apart from other normative text with <code>&lt;strong class="advisement"></code>, like
-	this: <strong class="advisement"> UAs MUST provide an accessible alternative. </strong> </p>
-  <h3 class="heading settled" id="conform-classes"><span class="content"> Conformance classes</span><a class="self-link" href="#conform-classes"></a></h3>
+    set apart from other normative text with <code>&lt;strong class="advisement"></code>, like
+    this: <strong class="advisement"> UAs MUST provide an accessible alternative. </strong> </p>
+  <h3 class="no-ref heading settled" id="w3c-conformance-classes"><span class="content"> Conformance classes</span><a class="self-link" href="#w3c-conformance-classes"></a></h3>
   <p>Conformance to this specification
-	is defined for three conformance classes: </p>
+    is defined for three conformance classes: </p>
   <dl>
    <dt>style sheet 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#style-sheet">CSS
-			style sheet</a>. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#style-sheet">CSS
+            style sheet</a>. 
    <dt>renderer 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#user-agent">UA</a> that interprets the semantics of a style sheet and renders
-			documents that use them. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#user-agent">UA</a> that interprets the semantics of a style sheet and renders
+            documents that use them. 
    <dt>authoring tool 
-   <dd>A <a href="http://www.w3.org/TR/CSS2/conform.html#user-agent">UA</a> that writes a style sheet. 
+   <dd>A <a href="http://www.w3.org/TR/CSS21/conform.html#user-agent">UA</a> that writes a style sheet. 
   </dl>
   <p>A style sheet is conformant to this specification
-	if all of its statements that use syntax defined in this module are valid
-	according to the generic CSS grammar and the individual grammars of each
-	feature defined in this module. </p>
+    if all of its statements that use syntax defined in this module are valid
+    according to the generic CSS grammar and the individual grammars of each
+    feature defined in this module. </p>
   <p>A renderer is conformant to this specification
-	if, in addition to interpreting the style sheet as defined by the
-	appropriate specifications, it supports all the features defined
-	by this specification by parsing them correctly
-	and rendering the document accordingly. However, the inability of a
-	UA to correctly render a document due to limitations of the device
-	does not make the UA non-conformant. (For example, a UA is not
-	required to render color on a monochrome monitor.) </p>
+    if, in addition to interpreting the style sheet as defined by the
+    appropriate specifications, it supports all the features defined
+    by this specification by parsing them correctly
+    and rendering the document accordingly. However, the inability of a
+    UA to correctly render a document due to limitations of the device
+    does not make the UA non-conformant. (For example, a UA is not
+    required to render color on a monochrome monitor.) </p>
   <p>An authoring tool is conformant to this specification
-	if it writes style sheets that are syntactically correct according to the
-	generic CSS grammar and the individual grammars of each feature in
-	this module, and meet all other conformance requirements of style sheets
-	as described in this module. </p>
-  <h3 class="heading settled" id="conform-responsible"><span class="content"> Requirements for Responsible Implementation of CSS</span><a class="self-link" href="#conform-responsible"></a></h3>
-  <p>The following sections define several conformance requirements
-		for implementing CSS responsibly,
-		in a way that promotes interoperability in the present and future. </p>
-  <h4 class="heading settled" id="conform-partial"><span class="content"> Partial Implementations</span><a class="self-link" href="#conform-partial"></a></h4>
-  <p>So that authors can exploit the forward-compatible parsing rules to assign fallback values, <strong>CSS renderers <em>must</em> treat as invalid
-		(and <a href="http://www.w3.org/TR/CSS2/conform.html#ignore">ignore as appropriate</a>)
-		any at-rules, properties, property values, keywords, and other syntactic constructs
-		for which they have no usable level of support</strong>.
-		In particular, user agents <em>must not</em> selectively ignore
-		unsupported property values and honor supported values in a single multi-value property declaration:
-		if any value is considered invalid (as unsupported values must be),
-		CSS requires that the entire declaration be ignored. </p>
-  <h4 class="heading settled" id="conform-future-proofing"><span class="content"> Implementations of Unstable and Proprietary Features</span><a class="self-link" href="#conform-future-proofing"></a></h4>
+    if it writes style sheets that are syntactically correct according to the
+    generic CSS grammar and the individual grammars of each feature in
+    this module, and meet all other conformance requirements of style sheets
+    as described in this module. </p>
+  <h3 class="no-ref heading settled" id="w3c-partial"><span class="content"> Partial implementations</span><a class="self-link" href="#w3c-partial"></a></h3>
+  <p>So that authors can exploit the forward-compatible parsing rules to
+    assign fallback values, CSS renderers <strong>must</strong> treat as invalid (and <a href="http://www.w3.org/TR/CSS21/conform.html#ignore">ignore
+    as appropriate</a>) any at-rules, properties, property values, keywords,
+    and other syntactic constructs for which they have no usable level of
+    support. In particular, user agents <strong>must not</strong> selectively
+    ignore unsupported component values and honor supported values in a single
+    multi-value property declaration: if any value is considered invalid
+    (as unsupported values must be), CSS requires that the entire declaration
+    be ignored.</p>
+  <h4 class="heading settled" id="w3c-conform-future-proofing"><span class="content"> Implementations of Unstable and Proprietary Features</span><a class="self-link" href="#w3c-conform-future-proofing"></a></h4>
   <p>To avoid clashes with future stable CSS features,
-		the CSSWG recommends <a href="http://www.w3.org/TR/CSS/#future-proofing">following best practices</a> for the implementation of <a href="http://www.w3.org/TR/CSS/#unstable">unstable</a> features and <a href="http://www.w3.org/TR/CSS/#proprietary-extension">proprietary extensions</a> to CSS. </p>
-  <h4 class="heading settled" id="conform-testing"><span class="content"> Implementations of CR-level Features</span><a class="self-link" href="#conform-testing"></a></h4>
+        the CSSWG recommends <a href="http://www.w3.org/TR/CSS/#future-proofing">following best practices</a> for the implementation of <a href="http://www.w3.org/TR/CSS/#unstable">unstable</a> features and <a href="http://www.w3.org/TR/CSS/#proprietary-extension">proprietary extensions</a> to CSS. </p>
+  <h3 class="no-ref heading settled" id="w3c-testing"><span class="content"> Non-experimental implementations</span><a class="self-link" href="#w3c-testing"></a></h3>
   <p>Once a specification reaches the Candidate Recommendation stage,
-		implementers should release an <a data-link-type="dfn" href="http://www.w3.org/TR/CSS/#vendor-prefix">unprefixed</a> implementation
-		of any CR-level feature they can demonstrate
-		to be correctly implemented according to spec,
-		and should avoid exposing a prefixed variant of that feature. </p>
+    non-experimental implementations are possible, and implementors should
+    release an unprefixed implementation of any CR-level feature they
+    can demonstrate to be correctly implemented according to spec. </p>
   <p>To establish and maintain the interoperability of CSS across
-		implementations, the CSS Working Group requests that non-experimental
-		CSS renderers submit an implementation report (and, if necessary, the
-		testcases used for that implementation report) to the W3C before
-		releasing an unprefixed implementation of any CSS features. Testcases
-		submitted to W3C are subject to review and correction by the CSS
-		Working Group. </p>
-  <p>
-   Further information on submitting testcases and implementation reports
-		can be found from on the CSS Working Group’s website at <a href="http://www.w3.org/Style/CSS/Test/">http://www.w3.org/Style/CSS/Test/</a>.
-		Questions should be directed to the <a href="http://lists.w3.org/Archives/Public/public-css-testsuite">public-css-testsuite@w3.org</a> mailing list. 
+    implementations, the CSS Working Group requests that non-experimental
+    CSS renderers submit an implementation report (and, if necessary, the
+    testcases used for that implementation report) to the W3C before
+    releasing an unprefixed implementation of any CSS features. Testcases
+    submitted to W3C are subject to review and correction by the CSS
+    Working Group. </p>
+  <p>Further information on submitting testcases and implementation reports
+    can be found from on the CSS Working Group’s website at <a href="http://www.w3.org/Style/CSS/Test/">http://www.w3.org/Style/CSS/Test/</a>.
+    Questions should be directed to the <a href="http://lists.w3.org/Archives/Public/public-css-testsuite">public-css-testsuite@w3.org</a> mailing list.</p>
 <script src="https://www.w3.org/scripts/TR/2016/fixup.js"></script>
-  </p>
   <h2 class="no-num no-ref heading settled" id="index"><span class="content">Index</span><a class="self-link" href="#index"></a></h2>
   <h3 class="no-num no-ref heading settled" id="index-defined-here"><span class="content">Terms defined by this specification</span><a class="self-link" href="#index-defined-here"></a></h3>
   <ul class="index">
@@ -818,6 +1219,7 @@ This allows clients to skip over new syntax that is not understood.</p>
   <aside class="dfn-panel" data-for="term-for-element-shadow-host">
    <a href="https://dom.spec.whatwg.org/#element-shadow-host">https://dom.spec.whatwg.org/#element-shadow-host</a><b>Referenced in:</b>
    <ul>
+    <li><a href="#ref-for-element-shadow-host">Unnumbered Section</a> <a href="#ref-for-element-shadow-host①">(2)</a>
     <li><a href="#ref-for-element-shadow-host②">1.1. Motivation</a>
     <li><a href="#ref-for-element-shadow-host③">2. Exposing a Shadow Element:</a>
     <li><a href="#ref-for-element-shadow-host④">3. Selecting a Shadow Element: the ::part() pseudo-element</a>
@@ -833,6 +1235,7 @@ This allows clients to skip over new syntax that is not understood.</p>
   <aside class="dfn-panel" data-for="term-for-concept-shadow-tree">
    <a href="https://dom.spec.whatwg.org/#concept-shadow-tree">https://dom.spec.whatwg.org/#concept-shadow-tree</a><b>Referenced in:</b>
    <ul>
+    <li><a href="#ref-for-concept-shadow-tree">Unnumbered Section</a>
     <li><a href="#ref-for-concept-shadow-tree①">1. Introduction</a>
     <li><a href="#ref-for-concept-shadow-tree②">2. Exposing a Shadow Element:</a>
     <li><a href="#ref-for-concept-shadow-tree③">2.1. Naming a Shadow Element: the part attribute</a>
@@ -897,7 +1300,7 @@ This allows clients to skip over new syntax that is not understood.</p>
    </ul>
   </aside>
   <aside class="dfn-panel" data-for="term-for-live-profile">
-   <a href="https://drafts.csswg.org/selectors-4/#live-profile">https://drafts.csswg.org/selectors-4/#live-profile</a><b>Referenced in:</b>
+   <a href="https://www.w3.org/TR/selectors-4/#live-profile">https://www.w3.org/TR/selectors-4/#live-profile</a><b>Referenced in:</b>
    <ul>
     <li><a href="#ref-for-live-profile">1.1. Motivation</a>
    </ul>
@@ -931,56 +1334,56 @@ This allows clients to skip over new syntax that is not understood.</p>
    <li>
     <a data-link-type="biblio">[css-values-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-mult-one-plus" style="color:initial">+</span>
-     <li><span class="dfn-paneled" id="term-for-typedef-ident" style="color:initial">&lt;ident></span>
+     <li><span class="dfn-paneled" id="term-for-mult-one-plus">+</span>
+     <li><span class="dfn-paneled" id="term-for-typedef-ident">&lt;ident></span>
     </ul>
    <li>
     <a data-link-type="biblio">[css-variables-1]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-custom-property" style="color:initial">custom property</span>
+     <li><span class="dfn-paneled" id="term-for-custom-property">custom property</span>
     </ul>
    <li>
     <a data-link-type="biblio">[DOM]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-domtokenlist" style="color:initial">DOMTokenList</span>
-     <li><span class="dfn-paneled" id="term-for-element" style="color:initial">Element</span>
-     <li><span class="dfn-paneled" id="term-for-concept-tree-descendant" style="color:initial">descendant</span>
-     <li><span class="dfn-paneled" id="term-for-element-shadow-host" style="color:initial">shadow host</span>
-     <li><span class="dfn-paneled" id="term-for-concept-shadow-root" style="color:initial">shadow root</span>
-     <li><span class="dfn-paneled" id="term-for-concept-shadow-tree" style="color:initial">shadow tree</span>
-     <li><span class="dfn-paneled" id="term-for-dom-domtokenlist-value" style="color:initial">value</span>
+     <li><span class="dfn-paneled" id="term-for-domtokenlist">DOMTokenList</span>
+     <li><span class="dfn-paneled" id="term-for-element">Element</span>
+     <li><span class="dfn-paneled" id="term-for-concept-tree-descendant">descendant</span>
+     <li><span class="dfn-paneled" id="term-for-element-shadow-host">shadow host</span>
+     <li><span class="dfn-paneled" id="term-for-concept-shadow-root">shadow root</span>
+     <li><span class="dfn-paneled" id="term-for-concept-shadow-tree">shadow tree</span>
+     <li><span class="dfn-paneled" id="term-for-dom-domtokenlist-value">value</span>
     </ul>
    <li>
     <a data-link-type="biblio">[INFRA]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-list-append" style="color:initial">append</span>
-     <li><span class="dfn-paneled" id="term-for-collect-a-sequence-of-code-points" style="color:initial">collect a sequence of code points</span>
-     <li><span class="dfn-paneled" id="term-for-map-exists" style="color:initial">contain</span>
-     <li><span class="dfn-paneled" id="term-for-list" style="color:initial">list</span>
-     <li><span class="dfn-paneled" id="term-for-ordered-set" style="color:initial">ordered set</span>
-     <li><span class="dfn-paneled" id="term-for-pair" style="color:initial">pair</span>
-     <li><span class="dfn-paneled" id="term-for-string" style="color:initial">string</span>
+     <li><span class="dfn-paneled" id="term-for-list-append">append</span>
+     <li><span class="dfn-paneled" id="term-for-collect-a-sequence-of-code-points">collect a sequence of code points</span>
+     <li><span class="dfn-paneled" id="term-for-map-exists">contain</span>
+     <li><span class="dfn-paneled" id="term-for-list">list</span>
+     <li><span class="dfn-paneled" id="term-for-ordered-set">ordered set</span>
+     <li><span class="dfn-paneled" id="term-for-pair">pair</span>
+     <li><span class="dfn-paneled" id="term-for-string">string</span>
     </ul>
    <li>
     <a data-link-type="biblio">[selectors-4]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-hover-pseudo" style="color:initial">:hover</span>
-     <li><span class="dfn-paneled" id="term-for-live-profile" style="color:initial">live profile</span>
-     <li><span class="dfn-paneled" id="term-for-originating-element" style="color:initial">originating element</span>
-     <li><span class="dfn-paneled" id="term-for-structural-pseudo-classes" style="color:initial">structural pseudo-classes</span>
+     <li><span class="dfn-paneled" id="term-for-hover-pseudo">:hover</span>
+     <li><span class="dfn-paneled" id="term-for-live-profile">live profile</span>
+     <li><span class="dfn-paneled" id="term-for-originating-element">originating element</span>
+     <li><span class="dfn-paneled" id="term-for-structural-pseudo-classes">structural pseudo-classes</span>
     </ul>
    <li>
     <a data-link-type="biblio">[WebIDL]</a> defines the following terms:
     <ul>
-     <li><span class="dfn-paneled" id="term-for-PutForwards" style="color:initial">PutForwards</span>
-     <li><span class="dfn-paneled" id="term-for-SameObject" style="color:initial">SameObject</span>
+     <li><span class="dfn-paneled" id="term-for-PutForwards">PutForwards</span>
+     <li><span class="dfn-paneled" id="term-for-SameObject">SameObject</span>
     </ul>
   </ul>
   <h2 class="no-num no-ref heading settled" id="references"><span class="content">References</span><a class="self-link" href="#references"></a></h2>
   <h3 class="no-num no-ref heading settled" id="normative"><span class="content">Normative References</span><a class="self-link" href="#normative"></a></h3>
   <dl>
    <dt id="biblio-css-values-4">[CSS-VALUES-4]
-   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 31 January 2019. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
+   <dd>Tab Atkins Jr.; Elika Etemad. <a href="https://www.w3.org/TR/css-values-4/">CSS Values and Units Module Level 4</a>. 11 November 2020. WD. URL: <a href="https://www.w3.org/TR/css-values-4/">https://www.w3.org/TR/css-values-4/</a>
    <dt id="biblio-css-variables-1">[CSS-VARIABLES-1]
    <dd>Tab Atkins Jr.. <a href="https://www.w3.org/TR/css-variables-1/">CSS Custom Properties for Cascading Variables Module Level 1</a>. 3 December 2015. CR. URL: <a href="https://www.w3.org/TR/css-variables-1/">https://www.w3.org/TR/css-variables-1/</a>
    <dt id="biblio-dom">[DOM]
@@ -995,8 +1398,8 @@ This allows clients to skip over new syntax that is not understood.</p>
    <dd>Boris Zbarsky. <a href="https://heycam.github.io/webidl/">Web IDL</a>. 15 December 2016. ED. URL: <a href="https://heycam.github.io/webidl/">https://heycam.github.io/webidl/</a>
   </dl>
   <h2 class="no-num no-ref heading settled" id="idl-index"><span class="content">IDL Index</span><a class="self-link" href="#idl-index"></a></h2>
-<pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://dom.spec.whatwg.org/#element" id="ref-for-element①①"><c- g>Element</c-></a> {
-  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject" id="ref-for-SameObject①"><c- g>SameObject</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#PutForwards" id="ref-for-PutForwards①"><c- g>PutForwards</c-></a>=<a class="idl-code" data-link-type="attribute" href="https://dom.spec.whatwg.org/#dom-domtokenlist-value" id="ref-for-dom-domtokenlist-value①"><c- n>value</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a class="n" data-link-type="idl-name" href="https://dom.spec.whatwg.org/#domtokenlist" id="ref-for-domtokenlist①"><c- n>DOMTokenList</c-></a> <a data-readonly data-type="DOMTokenList" href="#dom-element-part"><code><c- g>part</c-></code></a>;
+<pre class="idl highlight def"><c- b>partial</c-> <c- b>interface</c-> <a class="idl-code" data-link-type="interface" href="https://dom.spec.whatwg.org/#element"><c- g>Element</c-></a> {
+  [<a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#SameObject"><c- g>SameObject</c-></a>, <a class="idl-code" data-link-type="extended-attribute" href="https://heycam.github.io/webidl/#PutForwards"><c- g>PutForwards</c-></a>=<a class="idl-code" data-link-type="attribute" href="https://dom.spec.whatwg.org/#dom-domtokenlist-value"><c- n>value</c-></a>] <c- b>readonly</c-> <c- b>attribute</c-> <a data-link-type="idl-name" href="https://dom.spec.whatwg.org/#domtokenlist"><c- n>DOMTokenList</c-></a> <a data-readonly data-type="DOMTokenList" href="#dom-element-part"><code><c- g>part</c-></code></a>;
 };
 
 </pre>
@@ -1052,90 +1455,6 @@ This allows clients to skip over new syntax that is not understood.</p>
     <li><a href="#ref-for-selectordef-part⑤">3. Selecting a Shadow Element: the ::part() pseudo-element</a> <a href="#ref-for-selectordef-part⑥">(2)</a> <a href="#ref-for-selectordef-part⑦">(3)</a> <a href="#ref-for-selectordef-part⑧">(4)</a> <a href="#ref-for-selectordef-part⑨">(5)</a> <a href="#ref-for-selectordef-part①⓪">(6)</a>
    </ul>
   </aside>
-<script>/* script-var-click-highlighting */
-
-    document.addEventListener("click", e=>{
-        if(e.target.nodeName == "VAR") {
-            highlightSameAlgoVars(e.target);
-        }
-    });
-    {
-        const indexCounts = new Map();
-        const indexNames = new Map();
-        function highlightSameAlgoVars(v) {
-            // Find the algorithm container.
-            let algoContainer = null;
-            let searchEl = v;
-            while(algoContainer == null && searchEl != document.body) {
-                searchEl = searchEl.parentNode;
-                if(searchEl.hasAttribute("data-algorithm")) {
-                    algoContainer = searchEl;
-                }
-            }
-
-            // Not highlighting document-global vars,
-            // too likely to be unrelated.
-            if(algoContainer == null) return;
-
-            const algoName = algoContainer.getAttribute("data-algorithm");
-            const varName = getVarName(v);
-            const addClass = !v.classList.contains("selected");
-            let highlightClass = null;
-            if(addClass) {
-                const index = chooseHighlightIndex(algoName, varName);
-                indexCounts.get(algoName)[index] += 1;
-                indexNames.set(algoName+"///"+varName, index);
-                highlightClass = nameFromIndex(index);
-            } else {
-                const index = previousHighlightIndex(algoName, varName);
-                indexCounts.get(algoName)[index] -= 1;
-                highlightClass = nameFromIndex(index);
-            }
-
-            // Find all same-name vars, and toggle their class appropriately.
-            for(const el of algoContainer.querySelectorAll("var")) {
-                if(getVarName(el) == varName) {
-                    el.classList.toggle("selected", addClass);
-                    el.classList.toggle(highlightClass, addClass);
-                }
-            }
-        }
-        function getVarName(el) {
-            return el.textContent.replace(/(\s| )+/, " ").trim();
-        }
-        function chooseHighlightIndex(algoName, varName) {
-            let indexes = null;
-            if(indexCounts.has(algoName)) {
-                indexes = indexCounts.get(algoName);
-            } else {
-                // 7 classes right now
-                indexes = [0,0,0,0,0,0,0];
-                indexCounts.set(algoName, indexes);
-            }
-
-            // If the element was recently unclicked,
-            // *and* that color is still unclaimed,
-            // give it back the same color.
-            const lastIndex = previousHighlightIndex(algoName, varName);
-            if(indexes[lastIndex] === 0) return lastIndex;
-
-            // Find the earliest index with the lowest count.
-            const minCount = Math.min.apply(null, indexes);
-            let index = null;
-            for(var i = 0; i < indexes.length; i++) {
-                if(indexes[i] == minCount) {
-                    return i;
-                }
-            }
-        }
-        function previousHighlightIndex(algoName, varName) {
-            return indexNames.get(algoName+"///"+varName);
-        }
-        function nameFromIndex(index) {
-            return "selected" + index;
-        }
-    }
-    </script>
 <script>/* script-dfn-panel */
 
 document.body.addEventListener("click", function(e) {
@@ -1192,3 +1511,95 @@ document.body.addEventListener("click", function(e) {
 
 });
 </script>
+<script>/* script-mdn-anno */
+
+            document.body.addEventListener("click", (e) => {
+                if(e.target.closest(".mdn-anno-btn")) {
+                    e.target.closest(".mdn-anno").classList.toggle("wrapped");
+                }
+            });
+            </script>
+<script>/* script-var-click-highlighting */
+
+    document.addEventListener("click", e=>{
+        if(e.target.nodeName == "VAR") {
+            highlightSameAlgoVars(e.target);
+        }
+    });
+    {
+        const indexCounts = new Map();
+        const indexNames = new Map();
+        function highlightSameAlgoVars(v) {
+            // Find the algorithm container.
+            let algoContainer = null;
+            let searchEl = v;
+            while(algoContainer == null && searchEl != document.body) {
+                searchEl = searchEl.parentNode;
+                if(searchEl.hasAttribute("data-algorithm")) {
+                    algoContainer = searchEl;
+                }
+            }
+
+            // Not highlighting document-global vars,
+            // too likely to be unrelated.
+            if(algoContainer == null) return;
+
+            const algoName = algoContainer.getAttribute("data-algorithm");
+            const varName = getVarName(v);
+            const addClass = !v.classList.contains("selected");
+            let highlightClass = null;
+            if(addClass) {
+                const index = chooseHighlightIndex(algoName, varName);
+                indexCounts.get(algoName)[index] += 1;
+                indexNames.set(algoName+"///"+varName, index);
+                highlightClass = nameFromIndex(index);
+            } else {
+                const index = previousHighlightIndex(algoName, varName);
+                indexCounts.get(algoName)[index] -= 1;
+                highlightClass = nameFromIndex(index);
+            }
+
+            // Find all same-name vars, and toggle their class appropriately.
+            for(const el of algoContainer.querySelectorAll("var")) {
+                if(getVarName(el) == varName) {
+                    el.classList.toggle("selected", addClass);
+                    el.classList.toggle(highlightClass, addClass);
+                }
+            }
+        }
+        function getVarName(el) {
+            return el.textContent.replace(/(\s|\xa0)+/, " ").trim();
+        }
+        function chooseHighlightIndex(algoName, varName) {
+            let indexes = null;
+            if(indexCounts.has(algoName)) {
+                indexes = indexCounts.get(algoName);
+            } else {
+                // 7 classes right now
+                indexes = [0,0,0,0,0,0,0];
+                indexCounts.set(algoName, indexes);
+            }
+
+            // If the element was recently unclicked,
+            // *and* that color is still unclaimed,
+            // give it back the same color.
+            const lastIndex = previousHighlightIndex(algoName, varName);
+            if(indexes[lastIndex] === 0) return lastIndex;
+
+            // Find the earliest index with the lowest count.
+            const minCount = Math.min.apply(null, indexes);
+            let index = null;
+            for(var i = 0; i < indexes.length; i++) {
+                if(indexes[i] == minCount) {
+                    return i;
+                }
+            }
+        }
+        function previousHighlightIndex(algoName, varName) {
+            return indexNames.get(algoName+"///"+varName);
+        }
+        function nameFromIndex(index) {
+            return "selected" + index;
+        }
+    }
+    </script>
