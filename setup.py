@@ -7,7 +7,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'pygments>=2.3.0,<2.4',
-        'lxml>=4.2.5,<4.3',
+        'lxml>=4.2.5,<5.4',
         'html5lib>=1.0.1,<1.1',
         'cssselect>=1.0.3,<1.1',
     ],
